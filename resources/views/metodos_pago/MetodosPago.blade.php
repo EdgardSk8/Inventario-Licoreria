@@ -1,0 +1,1 @@
+<h1>Metodos de pago</h1>
