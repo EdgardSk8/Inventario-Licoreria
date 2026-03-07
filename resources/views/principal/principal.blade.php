@@ -245,19 +245,13 @@
 </div>
 
 
-<!-- CONTENIDO -->
+<!-- ╔═════════ CONTENIDO ═════════╗ -->
+<!-- ╚═════════════════════════════╝ -->
 
 <div class="content flex-grow-1">
 
-<div class="topbar">
-Panel de administración
-</div>
-
-<div id="contenido-dinamico" class="p-4">
-    @yield('contenido')
-</div>
-
-</div>
+    <div class="topbar">Panel de administración</div>
+    <div id="contenido-dinamico" class="p-4">@yield('contenido')</div>
 
 </div>
 
