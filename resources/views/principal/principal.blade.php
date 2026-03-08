@@ -9,6 +9,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 @vite(['resources/css/principal/principal.css'])
+@vite(['resources/css/principal/footer.css'])
 
 @vite(['resources/js/principal/cargavistahijo.js'])
 @vite(['resources/js/principal/cerrar_acordeon.js'])
@@ -242,6 +243,7 @@
 
     </div>
 
+
 </div>
 
 
@@ -251,9 +253,13 @@
 <div class="content flex-grow-1">
 
     <div class="topbar">Panel de administración</div>
-    <div id="contenido-dinamico" class="p-4">@yield('contenido')</div>
+    <div id="contenido-dinamico" class="p-3">@yield('contenido')</div>
+    
+    @include('principal.footer')
 
 </div>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

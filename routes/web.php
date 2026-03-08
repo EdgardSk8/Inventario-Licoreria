@@ -6,13 +6,11 @@ Route::get('/', function () {
     return view('/principal/principal');
 });
 
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\RolController;
 
 
-
-
-
-
-
+/* VISTAS DINAMICAS */
 
 Route::view('/dashboard', 'dashboard')->name('dashboard'); 
 Route::view('/usuarios', 'usuarios.Usuario')->name('usuarios'); 
@@ -38,3 +36,19 @@ Route::view('/inventario/movimientos', 'inventario.MovimientosInventario')->name
 Route::view('/gastos', 'gastos.Gastos')->name('gastos'); 
 Route::view('/tipos-gasto', 'tipos_gasto.TiposGasto')->name('tipos.gasto'); 
 Route::view('/metodos-pago', 'metodos_pago.MetodosPago')->name('metodos.pago'); 
+
+/* CONTROLADORES */
+
+/*  ╔════════════ Endpoint Usuario ══════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::post('/usuarios/crear', [UsuarioController::class, 'CrearUsuario']);
+Route::get('/usuarios/{id}/editar', [UsuarioController::class, 'EditarUsuario']);
+Route::put('/usuarios/{id}', [UsuarioController::class, 'ActualizarUsuario']);
+Route::get('/usuarios/mostrar', [UsuarioController::class, 'MostrarUsuarios']);
+Route::post('/usuarios/cambiar-estado/{id}', [UsuarioController::class, 'cambiarEstadoUsuario']);
+
+/*  ╔══════════════ Endpoint roles ══════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/roles/mostrar', [RolController::class, 'MostrarRoles']);

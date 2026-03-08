@@ -1,0 +1,30 @@
+/* FOOTER POS */
+
+.footer-pos{
+    background: #1f2937;
+    color: #cbd5e1;
+    border-top: 1px solid #374151;
+    padding: 10px 20px;
+    font-size: 13px;
+}
+
+.footer-pos i{
+    color: #6199f5;
+    margin-right: 6px;
+}
+
+.footer-pos .footer-left,
+.footer-pos .footer-center,
+.footer-pos .footer-right{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.footer-pos .footer-center{
+    opacity: 0.8;
+}
+
+.footer-pos .footer-right{
+    font-size: 12px;
+}

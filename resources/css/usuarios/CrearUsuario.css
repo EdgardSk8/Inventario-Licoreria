@@ -1,0 +1,10 @@
+.modal-header{ background-color: #111827; color: #cbd5e1; }
+.modal-body .modal-footer{ background-color: #f4f6f9; }
+
+/* BOTÓN GUARDAR */
+#btnGuardarUsuario { background-color: #6199f5; transition: background-color 0.2s ease; }
+#btnGuardarUsuario:hover { background-color: #3b82f6; color: white; }
+
+/* BOTÓN CANCELAR */
+.cancelar { background-color: #fa7777; transition: background-color 0.2s ease; }
+.cancelar:hover { background-color: #f74242; color: white; }
