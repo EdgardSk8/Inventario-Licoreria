@@ -1,73 +1,183 @@
 $(document).ready(function () {
 
-    $('#tablaUsuarios').DataTable({
-
+    // Inicializar DataTable
+    const tabla = $('#tablaUsuarios').DataTable({
         processing: true,
-
         ajax: {
             url: '/usuarios/mostrar',
             type: 'GET',
             dataSrc: 'usuarios'
         },
-
         columns: [
-
             { data: 'nombre_completo_usuario' },
             { data: 'cedula_identidad_usuario' },
             { data: 'nombre_usuario' },
             { data: 'nombre_rol' },
-
             { 
                 data: 'estado_usuario',
                 render: function(data){
-
-                    if(data == 1){
-                        return '<span class="estado estado-activo">Activo</span>';
-                    } else{
-                        return '<span class="estado estado-inactivo">Inactivo</span>';
-                    }
-
+                    return data == 1 
+                        ? '<span class="estado estado-activo">Activo</span>'
+                        : '<span class="estado estado-inactivo">Inactivo</span>';
                 }
             },
-
             {
                 data: 'id_usuario',
                 orderable: false,
                 searchable: false,
-
                 render: function(data, type, row){
-
-                    let botonEstado = '';
-
-                    if(row.estado_usuario == 1){
-                        botonEstado = `<button class="btn-baja bajaUsuario" data-id="${data}" style="background:#dc3545;color:white;">Dar Baja</button>`;
-                    }else{
-                        botonEstado = `<button class="btn-baja bajaUsuario" data-id="${data}" style="background:#0d6efd;color:white;">Activar</button>`;
-                    }
+                    let botonEstado = row.estado_usuario == 1 
+                        ? `<button class="btn-baja bajaUsuario" data-id="${data}" style="background:#dc3545;color:white;">Dar Baja</button>` 
+                        : `<button class="btn-baja bajaUsuario" data-id="${data}" style="background:#0d6efd;color:white;">Activar</button>`;
 
                     return `
                         <button class="btn-editar editarUsuario" data-id="${data}">Editar</button>
                         ${botonEstado}
                     `;
-
                 }
             }
         ],
-
-        language: 
-        {
+        language: {
             search: "Buscar:",
             lengthMenu: "Mostrar _MENU_ registros",
             info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-
+            infoEmpty: "Mostrando 0 a 0 de 0 registros",
+            infoFiltered: "(filtrado de _MAX_ registros totales)",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "No hay datos disponibles",
             paginate: {
                 first: "Primero",
-                last: "Último",
+                previous: "Anterior",
                 next: "Siguiente",
-                previous: "Anterior"
+                last: "Último"
             }
         }
+    });
 
+    // Click en botón Editar
+    $('#tablaUsuarios').on('click', '.editarUsuario', function(){
+        const id = $(this).data('id');
+        abrirModalEditar(id);
+    });
+
+    // Abrir modal y llenar datos
+    function abrirModalEditar(id) {
+        $.get(`/usuarios/${id}/editar`, function(res){
+            const usuario = res.usuario;
+
+            $('#editar_id_usuario').val(usuario.id_usuario);
+            $('#editar_nombre_completo_usuario').val(usuario.nombre_completo_usuario);
+            $('#editar_cedula_usuario').val(usuario.cedula_identidad_usuario);
+            $('#editar_nombre_usuario').val(usuario.nombre_usuario);
+            $('#editar_estado_usuario').val(usuario.estado_usuario);
+            $('#editar_fecha_creacion').val(usuario.fecha_creacion_usuario);
+
+            cargarRolesEditar(usuario.id_rol_usuario);
+
+            const modal = new bootstrap.Modal(document.getElementById("modalEditarUsuario"));
+            modal.show();
+        });
+    }
+
+    // Cargar roles
+    function cargarRolesEditar(rolSeleccionado){
+        const select = $('#editar_rol_usuario');
+        fetch('/roles/mostrar')
+            .then(response => response.json())
+            .then(data => {
+                select.empty();
+                data.data.forEach(rol => {
+                    const selected = Number(rol.id_rol) === Number(rolSeleccionado) ? "selected" : "";
+                    select.append(`<option value="${rol.id_rol}" ${selected}>${rol.nombre_rol}</option>`);
+                });
+            });
+    }
+
+    function formatearCedula(inputId) {
+        const cedula = document.getElementById(inputId);
+        if (!cedula) return;
+
+        cedula.addEventListener("input", function () {
+            let valor = this.value.replace(/[^0-9a-zA-Z]/g, "");
+
+            let numeros = valor.slice(0, 13).replace(/[^0-9]/g, "");
+            let letra = valor.slice(13, 14).replace(/[^a-zA-Z]/g, "").toUpperCase();
+
+            valor = numeros + letra;
+
+            if (valor.length > 3) valor = valor.slice(0, 3) + "-" + valor.slice(3);
+            if (valor.length > 10) valor = valor.slice(0, 10) + "-" + valor.slice(10);
+
+            this.value = valor;
+        });
+    }
+    formatearCedula("editar_cedula_usuario")
+
+    // Actualizar usuario
+    $('#btnActualizarUsuario').click(function() {
+        const nombre = $('#editar_nombre_completo_usuario').val().trim();
+        const cedula = $('#editar_cedula_usuario').val().trim();
+        const usuario = $('#editar_nombre_usuario').val().trim();
+        const rol = $('#editar_rol_usuario').val();
+        const estado = $('#editar_estado_usuario').val();
+        const password = $('#editar_password_usuario').val().trim();
+        const id = $('#editar_id_usuario').val();
+
+        if(nombre === '' || cedula === '' || usuario === '' || !rol){
+            mostrarToast('Todos los campos son obligatorios (excepto contraseña)', 'danger');
+            return;
+        }
+
+        const datos = {
+            nombre_completo_usuario: nombre,
+            cedula_identidad_usuario: cedula,
+            nombre_usuario: usuario,
+            id_rol_usuario: rol,
+            estado_usuario: estado,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        };
+
+        if(password.length >= 6){
+            datos.password_usuario = password;
+        }
+
+        $.ajax({
+            url: `/usuarios/${id}/actualizar/`,
+            type: 'PUT',
+            data: datos,
+            success: function(res){
+                mostrarToast('Usuario actualizado correctamente', 'success');tabla.ajax.reload();
+                // Después (BS5)
+                const modalElement = document.getElementById("modalEditarUsuario");
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                modalInstance.hide();
+                
+            },
+            error: function(err){
+
+                console.error(err);
+                if(err.status === 422){
+                    const errores = err.responseJSON.errors;
+                    let mensaje = '';
+                    for(let campo in errores){
+                        mensaje = errores[campo][0];
+                        break;
+                    }
+                    mostrarToast(mensaje, 'danger');
+                } 
+                else if(err.responseJSON && err.responseJSON.mensaje){
+                    mostrarToast(err.responseJSON.mensaje, 'danger');
+                } 
+                else {
+                    mostrarToast('Error inesperado del servidor', 'danger');
+                }
+            }
+        });
+    });
+
+    // Recargar tabla al cancelar
+    $('#modalEditarUsuario').on('hidden.bs.modal', function () {
+        tabla.ajax.reload();
     });
 
 });

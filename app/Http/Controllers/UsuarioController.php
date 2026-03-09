@@ -255,6 +255,7 @@ class UsuarioController extends Controller
                     'usuarios.nombre_completo_usuario',
                     'usuarios.cedula_identidad_usuario',
                     'usuarios.nombre_usuario',
+                    'usuarios.id_rol_usuario',
                     'usuarios.estado_usuario',
                     'usuarios.fecha_creacion_usuario',
                     'roles.nombre_rol'

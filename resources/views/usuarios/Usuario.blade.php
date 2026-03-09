@@ -9,12 +9,13 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<link rel="stylesheet" href="{{ Vite::asset('resources/css/usuarios/Usuario.css') }}">
-<link rel="stylesheet" href="{{ Vite::asset('resources/css/usuarios/CrearUsuario.css') }}">
+<link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}">
 <link rel="stylesheet" href="{{ Vite::asset('resources/css/usuarios/TablaUsuarios.css') }}">
 
 <script src="{{ Vite::asset('resources/js/usuarios/MostrarUsuarios.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/usuarios/BajaUsuario.js') }}"></script>
+<script src="{{ Vite::asset('resources/js/usuarios/MensajeToast.js') }}"></script>
+<script src="{{ Vite::asset('resources/js/usuarios/CrearUsuario.js') }}"></script>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
@@ -51,6 +52,7 @@
 <button  type="button" class="btn btn-sm btn-agregar_usuario" style="background:#1f2937; color: white;" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario"> + Agregar Usuario </button>
 
 @include('usuarios.CrearUsuario') {{-- MODAL CREAR USUARIO --}}
+@include('usuarios.EditarUsuario') {{-- MODAL EDITAR USUARIO --}}
 
 <table id="tablaUsuarios" class="table table-striped table-bordered">
 

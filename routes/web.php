@@ -44,7 +44,7 @@ Route::view('/metodos-pago', 'metodos_pago.MetodosPago')->name('metodos.pago');
 
 Route::post('/usuarios/crear', [UsuarioController::class, 'CrearUsuario']);
 Route::get('/usuarios/{id}/editar', [UsuarioController::class, 'EditarUsuario']);
-Route::put('/usuarios/{id}', [UsuarioController::class, 'ActualizarUsuario']);
+Route::put('/usuarios/{id}/actualizar', [UsuarioController::class, 'ActualizarUsuario']);
 Route::get('/usuarios/mostrar', [UsuarioController::class, 'MostrarUsuarios']);
 Route::post('/usuarios/cambiar-estado/{id}', [UsuarioController::class, 'cambiarEstadoUsuario']);
 

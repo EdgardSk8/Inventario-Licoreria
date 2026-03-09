@@ -14,6 +14,7 @@
 @vite(['resources/js/principal/cargavistahijo.js'])
 @vite(['resources/js/principal/cerrar_acordeon.js'])
 
+
 </head>
 
 <!----------------------------------->
@@ -262,6 +263,32 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+function iniciarDateTimePickers() {
+
+    document.querySelectorAll('input[type="datetime-local"]').forEach(input => {
+
+        if (input.dataset.flatpickr) return;
+
+        flatpickr(input, {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            time_24hr: true,
+            locale: "es",
+            allowInput: true
+        });
+
+        input.dataset.flatpickr = true;
+
+    });
+
+}
+
+document.addEventListener("DOMContentLoaded", iniciarDateTimePickers);
+
+</script>
 
 </body>
 </html>

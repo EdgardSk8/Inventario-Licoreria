@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Click en los enlaces
+    // Click en los enlacesa
     links.forEach(link => {
         link.addEventListener('click', e => {
             e.preventDefault();

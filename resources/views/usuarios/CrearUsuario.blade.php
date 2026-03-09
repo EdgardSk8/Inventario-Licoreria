@@ -56,7 +56,7 @@
         <div>
 
           <button class="btn cancelar" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn" id="btnGuardarUsuario">Guardar</button>
+          <button type="button" class="btn guardar" id="btnGuardarUsuario">Guardar</button>
 
         </div>
 
@@ -81,4 +81,4 @@
 
 </div>
 
-<script src="{{ Vite::asset('resources/js/usuarios/CrearUsuario.js') }}"></script>
+
