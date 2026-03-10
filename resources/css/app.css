@@ -13,3 +13,73 @@
 /* BOTÓN CANCELAR */
 .cancelar { background-color: #fa7777; transition: background-color 0.2s ease; }
 .cancelar:hover { background-color: #f74242; color: white; }
+
+/* BOTON EDITAR */
+.btn-editar{
+background:#22c55e;
+color:white;
+border:none;
+padding:4px 10px;
+cursor:pointer;
+border-radius:4px;
+font-size:13px;
+transition: background 0.3s ease;
+}
+
+.btn-editar:hover{
+background:#16a34a;
+}
+
+/* BOTON DAR DE BAJA */
+.btn-baja{
+background:#ef4444;
+color:white;
+border:none;
+padding:4px 10px;
+cursor:pointer;
+border-radius:4px;
+font-size:13px;
+}
+
+.btn-baja:hover{
+background:#dc2626;
+}
+
+/* ESTADOS */
+.estado{
+padding:3px 8px;
+border-radius:4px;
+font-size:12px;
+font-weight:500;
+}
+
+/* ACTIVO */
+.estado-activo{
+background:#22c55e;
+color:white;
+}
+
+/* INACTIVO */
+.estado-inactivo{
+background:#ef4444;
+color:white;
+}
+
+.table thead th{
+background:#1f2937;
+color:white;
+border-color:#111827;
+}
+
+th, td {
+    text-align: center; vertical-align: middle; 
+}
+
+.btn-editar, td .btn-baja {
+    display: inline-block; margin: 0 auto;
+}
+
+tbody tr:hover td{background:#f4f6f9;}/* FILA HOVER */
+tbody tr:nth-child(even) td{background:#f4f6f9;}/* FILAS ALTERNADAS */
+tbody tr:nth-child(even):hover td{background:#e5e7eb;}/* FILAS ALTERNADAS HOVER */
+

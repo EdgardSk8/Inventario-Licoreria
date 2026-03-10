@@ -3,17 +3,16 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Sistema</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<title>Sistema</title>
+@include('principal.links')
+
 
 @vite(['resources/css/principal/principal.css'])
 @vite(['resources/css/principal/footer.css'])
 
 @vite(['resources/js/principal/cargavistahijo.js'])
 @vite(['resources/js/principal/cerrar_acordeon.js'])
-
 
 </head>
 
@@ -260,35 +259,7 @@
 
 </div>
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-
-function iniciarDateTimePickers() {
-
-    document.querySelectorAll('input[type="datetime-local"]').forEach(input => {
-
-        if (input.dataset.flatpickr) return;
-
-        flatpickr(input, {
-            enableTime: true,
-            dateFormat: "Y-m-d H:i",
-            time_24hr: true,
-            locale: "es",
-            allowInput: true
-        });
-
-        input.dataset.flatpickr = true;
-
-    });
-
-}
-
-document.addEventListener("DOMContentLoaded", iniciarDateTimePickers);
-
-</script>
 
 </body>
 </html>

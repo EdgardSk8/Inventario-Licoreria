@@ -1,5 +1,13 @@
 $(document).ready(function () {
 
+    $.fn.dataTable.ext.search.push( // Check de usuarios inactivos
+    function(settings, data, dataIndex) {
+        const ocultar = $('#toggleInactivosUsuarios').is(':checked');
+        if (!ocultar) return true; // no filtrar si el checkbox está desmarcado
+        const estado = data[4]; // columna "estado_usuario" (índice 4)
+        return estado.includes('Activo'); // solo mostrar activos
+    }); $('#toggleInactivosUsuarios').on('change', function() { tabla.draw(); });
+
     // Inicializar DataTable
     const tabla = $('#tablaUsuarios').DataTable({
         processing: true,
@@ -27,8 +35,8 @@ $(document).ready(function () {
                 searchable: false,
                 render: function(data, type, row){
                     let botonEstado = row.estado_usuario == 1 
-                        ? `<button class="btn-baja bajaUsuario" data-id="${data}" style="background:#dc3545;color:white;">Dar Baja</button>` 
-                        : `<button class="btn-baja bajaUsuario" data-id="${data}" style="background:#0d6efd;color:white;">Activar</button>`;
+                        ? `<button class="btn-baja bajaUsuario" data-id="${data}">Dar Baja</button>` 
+                        : `<button class="btn-baja bajaUsuario" data-id="${data}">Activar</button>`;
 
                     return `
                         <button class="btn-editar editarUsuario" data-id="${data}">Editar</button>
@@ -78,20 +86,26 @@ $(document).ready(function () {
             modal.show();
         });
     }
+    
 
     // Cargar roles
-    function cargarRolesEditar(rolSeleccionado){
-        const select = $('#editar_rol_usuario');
-        fetch('/roles/mostrar')
-            .then(response => response.json())
-            .then(data => {
-                select.empty();
-                data.data.forEach(rol => {
+function cargarRolesEditar(rolSeleccionado){
+    const select = $('#editar_rol_usuario');
+    fetch('/roles-usuario/mostrar?estado=1') // tu endpoint de roles
+        .then(response => response.json())
+        .then(data => {
+            select.empty();
+            // Asegurarse que es un array de roles
+            const roles = data.data || data.roles || [];
+            roles.forEach(rol => {
+                if(rol.estado_rol == 1){ // SOLO roles activos
                     const selected = Number(rol.id_rol) === Number(rolSeleccionado) ? "selected" : "";
                     select.append(`<option value="${rol.id_rol}" ${selected}>${rol.nombre_rol}</option>`);
-                });
+                }
             });
-    }
+        })
+        .catch(err => console.error("Error al cargar roles:", err));
+}
 
     function formatearCedula(inputId) {
         const cedula = document.getElementById(inputId);
@@ -151,7 +165,6 @@ $(document).ready(function () {
                 const modalElement = document.getElementById("modalEditarUsuario");
                 const modalInstance = bootstrap.Modal.getInstance(modalElement);
                 modalInstance.hide();
-                
             },
             error: function(err){
 
@@ -176,8 +189,6 @@ $(document).ready(function () {
     });
 
     // Recargar tabla al cancelar
-    $('#modalEditarUsuario').on('hidden.bs.modal', function () {
-        tabla.ajax.reload();
-    });
+    $('#modalEditarUsuario').on('hidden.bs.modal', function () {tabla.ajax.reload(); });
 
 });

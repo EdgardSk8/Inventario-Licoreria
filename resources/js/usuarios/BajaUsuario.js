@@ -3,9 +3,7 @@ document.addEventListener("click", async function(e) {
     if (e.target.classList.contains("bajaUsuario")) {
 
         const id = e.target.dataset.id;
-
-        // crear modal si no existe
-        let modalElement = document.getElementById("modalConfirmarEstado");
+        let modalElement = document.getElementById("modalConfirmarEstado");// crear modal si no existe
 
         if (!modalElement) {
 
@@ -38,7 +36,6 @@ document.addEventListener("click", async function(e) {
 
         const modal = new bootstrap.Modal(modalElement);
         modal.show();
-
         const botonConfirmar = modalElement.querySelector("#confirmarCambioEstado");
 
         botonConfirmar.onclick = async function () {
@@ -55,28 +52,14 @@ document.addEventListener("click", async function(e) {
                 });
 
                 const data = await response.json();
-
+                
                 if (data.success) {
-
                     mostrarToast("Estado actualizado", "success");
-
                     $('#tablaUsuarios').DataTable().ajax.reload(null, false);
+                } else { mostrarToast("Error al cambiar estado", "danger"); }
 
-                } else {
-
-                    mostrarToast("Error al cambiar estado", "danger");
-
-                }
-
-            } catch (error) {
-
-                mostrarToast("Error de conexión", "danger");
-
-            }
-
+            } catch (error) { mostrarToast("Error de conexión", "danger"); }
             modal.hide();
         };
-
     }
-
-});
+}); //Fin de la fruncion click

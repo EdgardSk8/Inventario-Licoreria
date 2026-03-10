@@ -51,4 +51,11 @@ Route::post('/usuarios/cambiar-estado/{id}', [UsuarioController::class, 'cambiar
 /*  ╔══════════════ Endpoint roles ══════════════╗ 
     ╚════════════════════════════════════════════╝ */
 
+Route::get('/roles-usuario/mostrar', [RolController::class, 'MostrarRolesUsuario']);
+
 Route::get('/roles/mostrar', [RolController::class, 'MostrarRoles']);
+Route::post('/roles/crear', [RolController::class, 'CrearRol']);
+Route::get('/roles/{id}/editar', [RolController::class, 'EditarRol']);
+Route::put('/roles/{id}/actualizar', [RolController::class, 'ActualizarRol']);
+
+Route::post('/roles/cambiar-estado/{id}', [RolController::class, 'CambiarEstadoRol']);

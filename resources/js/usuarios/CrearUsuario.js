@@ -29,7 +29,7 @@ function cargarRoles() {
     // Escuchar cuando el modal se abre
     modal.addEventListener("shown.bs.modal", async function () {
         try {
-            const res = await fetch("/roles/mostrar");
+            const res = await fetch("/roles-usuario/mostrar?estado=1");
             const data = await res.json();
 
             selectRol.innerHTML = '<option disabled selected value="">Seleccione</option>';
@@ -105,4 +105,4 @@ document.getElementById("btnGuardarUsuario").addEventListener("click", async fun
 
 // INICIALIZAR
 formatearCedula("crear_cedula_usuario");
-cargarRoles(); // manteniendo la estructura original para vistas hijas
+cargarRoles();
