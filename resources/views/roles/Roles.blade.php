@@ -13,15 +13,17 @@
 
 <script src="{{ Vite::asset('resources/js/roles/MostrarRoles.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/roles/BajaRol.js') }}"></script>
-<script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/roles/CrearRol.js') }}"></script>
 
+<script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 </head>
 
 <body>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
+
     <!-- Botón Agregar Rol -->
+
     <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#modalCrearRol">
         + Agregar Rol
     </button>
@@ -31,6 +33,7 @@
         <input class="form-check-input" type="checkbox" id="toggleInactivosRoles" checked>
         <label class="form-check-label" for="toggleInactivos">Ocultar inactivos</label>
     </div>
+
 </div>
 
 @include('roles.CrearRol') {{-- MODAL CREAR ROL --}}
@@ -42,8 +45,8 @@
         <tr>
             <th>Nombre del Rol</th>
             <th>Descripción</th>
-            <th>Estado</th>
             <th>Fecha de Creación</th>
+            <th>Estado</th>
             <th>Acciones</th>
         </tr>
     </thead>

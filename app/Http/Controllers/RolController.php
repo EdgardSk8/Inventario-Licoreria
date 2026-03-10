@@ -195,6 +195,9 @@ class RolController extends Controller{
         }
     }
 
+/*  ╔═══════════ Mostrar Rol ════════════╗ 
+    ╚════════════════════════════════════╝ */
+
     public function MostrarRoles()
         {
             try {
@@ -213,7 +216,10 @@ class RolController extends Controller{
                     'detalle' => $e->getMessage()
                 ], 500);
             }
-        }
+    }
+
+/*  ╔════════════ Mostrar Rol en Usuario ═══════════╗ 
+    ╚═══════════════════════════════════════════════╝ */
 
     public function MostrarRolesUsuario(Request $request)
     {
@@ -257,4 +263,5 @@ class RolController extends Controller{
             ], 500);
         }
     }
-}
+
+} // Fin controlador

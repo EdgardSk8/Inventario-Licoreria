@@ -6,11 +6,17 @@ Route::get('/', function () {
     return view('/principal/principal');
 });
 
+/*  ╔════════════ Insercion de controladores ════════════╗ 
+    ╚════════════════════════════════════════════════════╝ */
+
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ImpuestoController;
 
 
-/* VISTAS DINAMICAS */
+/*  ╔════════════ Cargar de Vistas Dinamicas ════════════╗ 
+    ╚════════════════════════════════════════════════════╝ */
 
 Route::view('/dashboard', 'dashboard')->name('dashboard'); 
 Route::view('/usuarios', 'usuarios.Usuario')->name('usuarios'); 
@@ -48,6 +54,24 @@ Route::put('/usuarios/{id}/actualizar', [UsuarioController::class, 'ActualizarUs
 Route::get('/usuarios/mostrar', [UsuarioController::class, 'MostrarUsuarios']);
 Route::post('/usuarios/cambiar-estado/{id}', [UsuarioController::class, 'cambiarEstadoUsuario']);
 
+/*  ╔═══════════ Endpoint Categorias ════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/categorias/mostrar', [CategoriaController::class, 'MostrarCategorias']);
+Route::post('/categorias/crear', [CategoriaController::class, 'CrearCategoria']);
+Route::get('/categorias/{id}/editar', [CategoriaController::class, 'EditarCategoria']);
+Route::put('/categorias/{id}/actualizar', [CategoriaController::class, 'ActualizarCategoria']);
+Route::post('/categorias/cambiar-estado/{id}', [CategoriaController::class, 'CambiarEstadoCategoria']);
+
+/*  ╔════════════ Endpoint Impuestos ════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/impuestos/mostrar', [ImpuestoController::class, 'MostrarImpuestos']);
+Route::post('/impuestos/crear', [ImpuestoController::class, 'CrearImpuesto']);
+Route::get('/impuestos/{id}/editar', [ImpuestoController::class, 'EditarImpuesto']);
+Route::put('/impuestos/{id}/actualizar', [ImpuestoController::class, 'ActualizarImpuesto']);
+Route::post('/impuestos/cambiar-estado/{id}', [ImpuestoController::class, 'CambiarEstadoImpuesto']);
+
 /*  ╔══════════════ Endpoint roles ══════════════╗ 
     ╚════════════════════════════════════════════╝ */
 
@@ -57,5 +81,4 @@ Route::get('/roles/mostrar', [RolController::class, 'MostrarRoles']);
 Route::post('/roles/crear', [RolController::class, 'CrearRol']);
 Route::get('/roles/{id}/editar', [RolController::class, 'EditarRol']);
 Route::put('/roles/{id}/actualizar', [RolController::class, 'ActualizarRol']);
-
 Route::post('/roles/cambiar-estado/{id}', [RolController::class, 'CambiarEstadoRol']);
