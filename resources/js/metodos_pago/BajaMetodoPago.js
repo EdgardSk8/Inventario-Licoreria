@@ -1,0 +1,79 @@
+document.addEventListener("click", async function(e) {
+
+    if (e.target.classList.contains("bajaMetodoPago")) {
+
+        const id = e.target.dataset.id;
+        let modalElement = document.getElementById("modalConfirmarEstadoMetodoPago");
+
+        // Crear modal si no existe
+        if (!modalElement) {
+
+            const modalHTML = `
+            <div class="modal fade" id="modalConfirmarEstadoMetodoPago" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirmar acción</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            ¿Deseas cambiar el estado de este método de pago?
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-danger" id="confirmarCambioEstadoMetodoPago">Confirmar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>`;
+
+            document.body.insertAdjacentHTML("beforeend", modalHTML);
+            modalElement = document.getElementById("modalConfirmarEstadoMetodoPago");
+        }
+
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+
+        const botonConfirmar = modalElement.querySelector("#confirmarCambioEstadoMetodoPago");
+
+        botonConfirmar.onclick = async function () {
+
+            try {
+
+                const response = await fetch(`/metodos-pago/cambiar-estado/${id}`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute("content")
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+
+                    mostrarToast("Estado del método de pago actualizado", "success");
+
+                    $('#tablaMetodosPago').DataTable().ajax.reload(null, false);
+
+                } else {
+
+                    mostrarToast("Error al cambiar estado", "danger");
+                }
+
+            } catch (error) {
+
+                mostrarToast("Error de conexión", "danger");
+                console.error(error);
+
+            }
+
+            modal.hide();
+        };
+    }
+});

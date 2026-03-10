@@ -13,6 +13,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ImpuestoController;
+use App\Http\Controllers\MetodoPagoController;
 
 
 /*  ╔════════════ Cargar de Vistas Dinamicas ════════════╗ 
@@ -71,6 +72,17 @@ Route::post('/impuestos/crear', [ImpuestoController::class, 'CrearImpuesto']);
 Route::get('/impuestos/{id}/editar', [ImpuestoController::class, 'EditarImpuesto']);
 Route::put('/impuestos/{id}/actualizar', [ImpuestoController::class, 'ActualizarImpuesto']);
 Route::post('/impuestos/cambiar-estado/{id}', [ImpuestoController::class, 'CambiarEstadoImpuesto']);
+
+/*  ╔═══════════ Endpoint Metodo Pago ═══════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/metodos-pago/mostrar', [MetodoPagoController::class, 'MostrarMetodosPago']);
+Route::post('/metodos-pago/crear', [MetodoPagoController::class, 'CrearMetodoPago']);
+Route::get('/metodos-pago/{id}/editar', [MetodoPagoController::class, 'EditarMetodoPago']);
+Route::put('/metodos-pago/{id}/actualizar', [MetodoPagoController::class, 'ActualizarMetodoPago']);
+Route::post('/metodos-pago/cambiar-estado/{id}', [MetodoPagoController::class, 'CambiarEstadoMetodoPago']);
+
+
 
 /*  ╔══════════════ Endpoint roles ══════════════╗ 
     ╚════════════════════════════════════════════╝ */
