@@ -73,10 +73,12 @@ border-color:#111827;
 
 th, td {
     text-align: center; vertical-align: middle; 
+    
 }
 
 .btn-editar, td .btn-baja {
     display: inline-block; margin: 0 auto;
+    
 }
 
 tbody tr:hover td{background:#f4f6f9;}/* FILA HOVER */

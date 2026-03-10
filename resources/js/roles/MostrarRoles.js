@@ -39,7 +39,10 @@ $(document).ready(function () {
                         ? `<button class="btn-baja bajaRol" data-id="${data}">Dar Baja</button>` 
                         : `<button class="btn-baja bajaRol" data-id="${data}">Activar</button>`;
 
-                    return `<button class="btn-editar editarRol" data-id="${data}">Editar</button>${botonEstado}`;
+                    return `
+                        <button class="btn-editar editarRol" data-id="${data}">Editar</button>
+                        ${botonEstado}
+                    `;
                 }
             }
         ],
