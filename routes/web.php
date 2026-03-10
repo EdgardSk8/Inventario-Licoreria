@@ -14,6 +14,7 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ImpuestoController;
 use App\Http\Controllers\MetodoPagoController;
+use App\Http\Controllers\TipoGastoController;
 
 
 /*  ╔════════════ Cargar de Vistas Dinamicas ════════════╗ 
@@ -81,6 +82,17 @@ Route::post('/metodos-pago/crear', [MetodoPagoController::class, 'CrearMetodoPag
 Route::get('/metodos-pago/{id}/editar', [MetodoPagoController::class, 'EditarMetodoPago']);
 Route::put('/metodos-pago/{id}/actualizar', [MetodoPagoController::class, 'ActualizarMetodoPago']);
 Route::post('/metodos-pago/cambiar-estado/{id}', [MetodoPagoController::class, 'CambiarEstadoMetodoPago']);
+
+/*  ╔══════════ Endpoint Tipo de Gasto ══════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/tipo-gasto/mostrar', [TipoGastoController::class, 'MostrarTipoGasto']);
+Route::post('/tipo-gasto/crear', [TipoGastoController::class, 'CrearTipoGasto']);
+Route::get('/tipo-gasto/{id}/editar', [TipoGastoController::class, 'EditarTipoGasto']);
+Route::put('/tipo-gasto/{id}/actualizar', [TipoGastoController::class, 'ActualizarTipoGasto']);
+Route::post('/tipo-gasto/cambiar-estado/{id}', [TipoGastoController::class, 'CambiarEstadoTipoGasto']);
+
+
 
 
 
