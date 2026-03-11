@@ -15,6 +15,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ImpuestoController;
 use App\Http\Controllers\MetodoPagoController;
 use App\Http\Controllers\TipoGastoController;
+use App\Http\Controllers\ClienteController;
 
 
 /*  ╔════════════ Cargar de Vistas Dinamicas ════════════╗ 
@@ -92,7 +93,14 @@ Route::get('/tipo-gasto/{id}/editar', [TipoGastoController::class, 'EditarTipoGa
 Route::put('/tipo-gasto/{id}/actualizar', [TipoGastoController::class, 'ActualizarTipoGasto']);
 Route::post('/tipo-gasto/cambiar-estado/{id}', [TipoGastoController::class, 'CambiarEstadoTipoGasto']);
 
+/*  ╔══════════════ Endpoint Cliente ══════════════╗ 
+    ╚══════════════════════════════════════════════╝ */
 
+Route::get('/clientes/mostrar', [ClienteController::class, 'MostrarClientes']);
+Route::post('/clientes/crear', [ClienteController::class, 'CrearCliente']);
+Route::get('/clientes/{id}/editar', [ClienteController::class, 'EditarCliente']);
+Route::put('/clientes/{id}/actualizar', [ClienteController::class, 'ActualizarCliente']);
+Route::post('/clientes/cambiar-estado/{id}', [ClienteController::class, 'CambiarEstadoCliente']);
 
 
 
