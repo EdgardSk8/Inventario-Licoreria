@@ -21,10 +21,21 @@ overflow:hidden;
 background:#f4f6f9;
 }
 
+/* contenido */
+.content{
+height:100vh;
+overflow-y:auto;
+flex-grow:1;
+}
+
 /* SIDEBAR */
 
 .sidebar{
 width:230px;
+min-width:130px;
+max-width:230px;
+flex-shrink:0;
+
 height:100vh;
 background:#1f2937;
 color:white;
@@ -91,13 +102,6 @@ color:white;
 
 .accordion-button::after{
 filter:invert(1);
-}
-
-/* contenido */
-
-.content{
-height:100vh;
-overflow-y:auto;
 }
 
 /* header */

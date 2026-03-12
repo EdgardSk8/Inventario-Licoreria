@@ -43,6 +43,7 @@
 @include('proveedores.CrearProveedor') {{-- MODAL CREAR --}}
 @include('proveedores.EditarProveedor') {{-- MODAL EDITAR --}}
 
+
 <table id="tablaProveedores" class="table table-striped table-bordered">
 
     <thead>
@@ -52,7 +53,7 @@
             <th>Teléfono</th>
             <th>Correo</th>
             <th>Dirección</th>
-            <th>Fecha de Creación</th>
+            <!-- <th>Fecha de Creación</th> -->
             <th>Estado</th>
             <th>Acciones</th>
         </tr>

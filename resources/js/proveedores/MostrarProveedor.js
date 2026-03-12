@@ -5,7 +5,7 @@ $(document).ready(function () {
             const ocultar = $('#toggleInactivosProveedores').is(':checked');
             if (!ocultar) return true;
 
-            const estado = data[6]; // columna estado_proveedor
+            const estado = data[5]; // columna estado_proveedor
             return estado.includes('Activo');
         }
     );
@@ -15,20 +15,22 @@ $(document).ready(function () {
     });
 
     // Inicializar DataTable
-    const tabla = $('#tablaProveedores').DataTable({
+    const tabla = $('#tablaProveedores').DataTable({autoWidth: false,
+
         processing: true,
         ajax: {
             url: '/proveedores/mostrar',
             type: 'GET',
             dataSrc: 'proveedores'
         },
+
         columns: [
             { data: 'nombre_proveedor' },
             { data: 'ruc_proveedor' },
             { data: 'telefono_proveedor' },
             { data: 'correo_proveedor' },
             { data: 'direccion_proveedor' },
-            { data: 'fecha_creacion_proveedor' },
+            //{ data: 'fecha_creacion_proveedor' },
 
             {
                 data: 'estado_proveedor',
@@ -49,7 +51,7 @@ $(document).ready(function () {
                         ? `<button class="btn-baja bajaProveedor" data-id="${data}">Dar Baja</button>`
                         : `<button class="btn-baja bajaProveedor" data-id="${data}">Activar</button>`;
 
-                    return `
+                    return ` 
                         <button class="btn-editar editarProveedor" data-id="${data}">Editar</button>
                         ${botonEstado}
                     `;

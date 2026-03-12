@@ -43,20 +43,19 @@
 
 <table id="tablaClientes" class="table table-striped table-bordered">
 
-<thead>
-<tr>
+    <thead>
+        <tr>
 
-<th>Nombre</th>
-<th>Cédula</th>
-<th>RUC</th>
-<th>Teléfono</th>
-<th>Correo</th>
-<th>Fecha Creación</th>
-<th>Estado</th>
-<th>Acciones</th>
+            <th>Nombre</th>
+            <th>Cédula</th>
+            <th>RUC</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Estado</th>
+            <th>Acciones</th>
 
-</tr>
-</thead>
+        </tr>
+    </thead>
 
 <tbody></tbody>
 

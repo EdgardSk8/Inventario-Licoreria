@@ -8,7 +8,7 @@ $(document).ready(function () {
 
             if (!ocultar) return true;
 
-            const estado = data[6]; // columna estado_cliente
+            const estado = data[5]; // columna estado_cliente
 
             return estado.includes('Activo');
 
@@ -38,7 +38,6 @@ $(document).ready(function () {
             { data: 'ruc_cliente' },
             { data: 'telefono_cliente' },
             { data: 'correo_cliente' },
-            { data: 'fecha_creacion_cliente' },
 
             {
                 data: 'estado_cliente',
