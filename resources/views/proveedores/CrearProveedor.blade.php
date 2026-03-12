@@ -15,35 +15,50 @@
 
         <form id="formCrearProveedor" class="row g-3">
 
-          <div class="col-md-3">
-            <label class="form-label">Nombre del Proveedor</label>
-            <input type="text" id="crear_nombre_proveedor" placeholder="Nombre del proveedor"
-            class="form-control form-control-sm" maxlength="150" required>
-          </div>
+            <div class="col-md-3">
+                <label class="form-label">Nombre del Proveedor</label>
+                <input type="text" id="crear_nombre_proveedor" placeholder="Nombre del proveedor"
+                class="form-control form-control-sm" maxlength="150" required>
+            </div>
 
-          <div class="col-md-2">
-            <label class="form-label">RUC</label>
-            <input type="text" id="crear_ruc_proveedor" placeholder="RUC del proveedor"
-            class="form-control form-control-sm" maxlength="15">
-          </div>
+            <div class="col-md-2">
+                <label class="form-label">Tipo de Proveedor</label>
+                <select id="tipo_ruc" class="form-select form-select-sm">
+                    <option value="" disabled selected>Seleccionar</option>
+                    <option value="natural">Natural nacional (cédula)</option>
+                    <option value="N">Natural sin cédula</option>
+                    <option value="R">Extranjero residente</option>
+                    <option value="E">Extranjero no residente</option>
+                    <option value="J">Persona jurídica</option>
+                </select>
+            </div>
 
-          <div class="col-md-2">
-            <label class="form-label">Teléfono</label>
-            <input type="text" id="crear_telefono_proveedor" placeholder="Teléfono"
-            class="form-control form-control-sm" maxlength="20">
-          </div>
+            <div class="col-md-2">
+                <label class="form-label">RUC</label>
+                <input 
+                    type="text"
+                    id="crear_ruc_proveedor"
+                    class="form-control form-control-sm"
+                    placeholder="Ingrese RUC" disabled maxlength="14">
+            </div>
 
-          <div class="col-md-3">
-            <label class="form-label">Correo</label>
-            <input type="email" id="crear_correo_proveedor" placeholder="Correo electrónico"
-            class="form-control form-control-sm" maxlength="100">
-          </div>
+            <div class="col-md-2">
+                <label class="form-label">Teléfono</label>
+                <input type="text" id="crear_telefono_proveedor" placeholder="Teléfono"
+                class="form-control form-control-sm" maxlength="8">
+            </div>
 
-          <div class="col-md-12">
-            <label class="form-label">Dirección</label>
-            <input type="text" id="crear_direccion_proveedor" placeholder="Dirección del proveedor"
-            class="form-control form-control-sm" maxlength="200">
-          </div>
+            <div class="col-md-3">
+                <label class="form-label">Correo</label>
+                <input type="email" id="crear_correo_proveedor" placeholder="Correo electrónico"
+                class="form-control form-control-sm" maxlength="100">
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Dirección</label>
+                <input type="text" id="crear_direccion_proveedor" placeholder="Dirección del proveedor"
+                class="form-control form-control-sm" maxlength="200">
+            </div>
 
         </form>
 
@@ -52,9 +67,8 @@
       <div class="modal-footer d-flex align-items-center justify-content-between">
 
         <div class="text-start">
-          <div><strong>Nombre máximo:</strong> 150 caracteres</div>
-          <div><strong>RUC máximo:</strong> 15 caracteres</div>
-          <div><strong>Teléfono máximo:</strong> 20 caracteres</div>
+          <div><strong>RUC máximo:</strong> 14 caracteres</div>
+          <div><strong>Teléfono máximo:</strong> 8 caracteres</div>
         </div>
 
         <div>

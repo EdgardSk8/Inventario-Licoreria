@@ -18,7 +18,7 @@
           <!-- ID oculto -->
           <input type="hidden" id="editar_id_proveedor">
 
-          <div class="col-md-6">
+          <div class="col-md-4">
             <label class="form-label">Nombre del Proveedor</label>
             <input type="text"
               id="editar_nombre_proveedor"
@@ -27,7 +27,7 @@
               required>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-2">
             <label class="form-label">RUC</label>
             <input type="text"
               id="editar_ruc_proveedor"
@@ -35,15 +35,15 @@
               maxlength="15">
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-2">
             <label class="form-label">Teléfono</label>
             <input type="text"
               id="editar_telefono_proveedor"
               class="form-control form-control-sm"
-              maxlength="20">
+              maxlength="8">
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-4">
             <label class="form-label">Correo</label>
             <input type="email"
               id="editar_correo_proveedor"
@@ -84,9 +84,8 @@
       <div class="modal-footer d-flex align-items-center justify-content-between">
 
         <div class="text-start">
-          <div><strong>Nombre máximo:</strong> 150 caracteres</div>
-          <div><strong>RUC máximo:</strong> 15 caracteres</div>
-          <div><strong>Teléfono máximo:</strong> 20 caracteres</div>
+          <div><strong>RUC máximo:</strong> 14 caracteres</div>
+          <div><strong>Teléfono máximo:</strong> 8 caracteres</div>
         </div>
 
         <div>
