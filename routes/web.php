@@ -16,6 +16,7 @@ use App\Http\Controllers\ImpuestoController;
 use App\Http\Controllers\MetodoPagoController;
 use App\Http\Controllers\TipoGastoController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ProveedorController;
 
 
 /*  ╔════════════ Cargar de Vistas Dinamicas ════════════╗ 
@@ -102,6 +103,14 @@ Route::get('/clientes/{id}/editar', [ClienteController::class, 'EditarCliente'])
 Route::put('/clientes/{id}/actualizar', [ClienteController::class, 'ActualizarCliente']);
 Route::post('/clientes/cambiar-estado/{id}', [ClienteController::class, 'CambiarEstadoCliente']);
 
+/*  ╔════════════ Endpoint Proveedores ════════════╗ 
+    ╚══════════════════════════════════════════════╝ */
+
+Route::get('/proveedores/mostrar', [ProveedorController::class, 'MostrarProveedores']);
+Route::post('/proveedores/crear', [ProveedorController::class, 'CrearProveedor']);
+Route::get('/proveedores/{id}/editar', [ProveedorController::class, 'EditarProveedor']);
+Route::put('/proveedores/{id}/actualizar', [ProveedorController::class, 'ActualizarProveedor']);
+Route::post('/proveedores/cambiar-estado/{id}', [ProveedorController::class, 'CambiarEstadoProveedor']);
 
 
 /*  ╔══════════════ Endpoint roles ══════════════╗ 
