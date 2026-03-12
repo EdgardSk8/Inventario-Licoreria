@@ -45,7 +45,7 @@
             <div class="col-md-2">
                 <label class="form-label">Teléfono</label>
                 <input type="text" id="crear_telefono_proveedor" placeholder="Teléfono"
-                class="form-control form-control-sm" maxlength="8">
+                class="form-control form-control-sm" maxlength="15">
             </div>
 
             <div class="col-md-3">

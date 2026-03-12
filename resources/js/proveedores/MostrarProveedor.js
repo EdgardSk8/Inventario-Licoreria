@@ -133,6 +133,40 @@ $(document).ready(function () {
             return;
         }
 
+        if(datos.ruc_proveedor.length < 14){
+            mostrarToast('El RUC debe tener al menos 14 caracteres', 'danger');
+            return false;
+        }
+
+        if(!/^[0-9+()]+$/.test(datos.telefono_proveedor)){
+            mostrarToast('El teléfono solo puede contener números y los símbolos + ( )', 'danger');
+            return false;
+        }
+
+        // evitar doble +
+        if((datos.telefono_proveedor.match(/\+/g) || []).length > 1){
+            mostrarToast('El signo + solo puede aparecer una vez', 'danger');
+            return false;
+        }
+
+        // evitar más de un (
+        if((datos.telefono_proveedor.match(/\(/g) || []).length > 1){
+            mostrarToast('Solo se permite un paréntesis de apertura', 'danger');
+            return false;
+        }
+
+        // evitar más de un )
+        if((datos.telefono_proveedor.match(/\)/g) || []).length > 1){
+            mostrarToast('Solo se permite un paréntesis de cierre', 'danger');
+            return false;
+        }
+
+        // evitar parentesis mal ordenados
+        if(datos.telefono_proveedor.indexOf(')') < datos.telefono_proveedor.indexOf('(')){
+            mostrarToast('Los paréntesis están en orden incorrecto', 'danger');
+            return false;
+        }
+
         $.ajax({
 
             url: `/proveedores/${id}/actualizar/`,

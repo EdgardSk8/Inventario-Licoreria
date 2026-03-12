@@ -32,7 +32,7 @@
             <input type="text"
               id="editar_ruc_proveedor"
               class="form-control form-control-sm"
-              maxlength="15">
+              maxlength="14">
           </div>
 
           <div class="col-md-2">
@@ -40,7 +40,7 @@
             <input type="text"
               id="editar_telefono_proveedor"
               class="form-control form-control-sm"
-              maxlength="8">
+              maxlength="15">
           </div>
 
           <div class="col-md-4">
