@@ -17,6 +17,7 @@ use App\Http\Controllers\MetodoPagoController;
 use App\Http\Controllers\TipoGastoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\CajaController;
 
 
 /*  ╔════════════ Cargar de Vistas Dinamicas ════════════╗ 
@@ -112,8 +113,14 @@ Route::get('/proveedores/{id}/editar', [ProveedorController::class, 'EditarProve
 Route::put('/proveedores/{id}/actualizar', [ProveedorController::class, 'ActualizarProveedor']);
 Route::post('/proveedores/cambiar-estado/{id}', [ProveedorController::class, 'CambiarEstadoProveedor']);
 
+/*  ╔══════════════ Endpoint Cajas ══════════════╗ 
+    ╚════════════════════════════════════════════╝ */
 
-/*  ╔══════════════ Endpoint roles ══════════════╗ 
+Route::post('/cajas/abrir', [CajaController::class, 'AbrirCaja']);
+Route::post('/cajas/cerrar', [CajaController::class, 'CerrarCaja']);
+Route::get('/cajas/registro', [CajaController::class, 'RegistroCajas']);
+
+/*  ╔══════════════ Endpoint Roles ══════════════╗ 
     ╚════════════════════════════════════════════╝ */
 
 Route::get('/roles-usuario/mostrar', [RolController::class, 'MostrarRolesUsuario']);
