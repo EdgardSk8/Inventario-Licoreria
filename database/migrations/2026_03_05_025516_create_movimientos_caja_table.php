@@ -28,8 +28,13 @@ class CreateMovimientosCajaTable extends Migration
 
             $table->unsignedInteger('id_usuario');
 
+            // 👇 referencia a venta, gasto, compra, etc.
             $table->integer('id_referencia')->nullable();
 
+            // 👇 NUEVO (CLAVE para transferencias)
+            $table->unsignedInteger('id_cuenta_destino')->nullable();
+
+            // relaciones
             $table->foreign('id_caja')
                   ->references('id_caja')
                   ->on('cajas');
@@ -37,6 +42,10 @@ class CreateMovimientosCajaTable extends Migration
             $table->foreign('id_usuario')
                   ->references('id_usuario')
                   ->on('usuarios');
+
+            $table->foreign('id_cuenta_destino')
+                  ->references('id_cuenta')
+                  ->on('cuentas');
         });
     }
 

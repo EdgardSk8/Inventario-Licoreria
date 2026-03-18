@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Caja;
 
 class CajaController extends Controller
-{
+{ /* MODIFICAR */
 
 /*  ╔════════════ Abrir Caja ═════════════╗ 
     ╚═════════════════════════════════════╝ */

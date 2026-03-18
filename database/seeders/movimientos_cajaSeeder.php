@@ -22,7 +22,8 @@ class movimientos_cajaSeeder extends Seeder
                 'monto_movimiento_caja' => 2000.00,
                 'fecha_movimiento_caja' => now(),
                 'id_usuario' => 1,
-                'id_referencia' => null
+                'id_referencia' => null,
+                'id_cuenta_destino' => null
             ],
 
             [
@@ -32,7 +33,8 @@ class movimientos_cajaSeeder extends Seeder
                 'monto_movimiento_caja' => 350.50,
                 'fecha_movimiento_caja' => now(),
                 'id_usuario' => 1,
-                'id_referencia' => 1
+                'id_referencia' => 1, // id_venta
+                'id_cuenta_destino' => null
             ],
 
             [
@@ -42,7 +44,8 @@ class movimientos_cajaSeeder extends Seeder
                 'monto_movimiento_caja' => 500.00,
                 'fecha_movimiento_caja' => now(),
                 'id_usuario' => 1,
-                'id_referencia' => 2
+                'id_referencia' => 2, // podría ser compra/gasto
+                'id_cuenta_destino' => null
             ],
 
             [
@@ -52,8 +55,21 @@ class movimientos_cajaSeeder extends Seeder
                 'monto_movimiento_caja' => 120.75,
                 'fecha_movimiento_caja' => now(),
                 'id_usuario' => 1,
-                'id_referencia' => null
+                'id_referencia' => null,
+                'id_cuenta_destino' => null
             ],
+
+            // 👇 NUEVO: ejemplo real de transferencia
+            [
+                'id_caja' => 1,
+                'tipo_movimiento_caja' => 'SALIDA',
+                'concepto_movimiento_caja' => 'Transferencia a cuenta bancaria',
+                'monto_movimiento_caja' => 800.00,
+                'fecha_movimiento_caja' => now(),
+                'id_usuario' => 1,
+                'id_referencia' => null,
+                'id_cuenta_destino' => 1 // importante
+            ]
 
         ]);
     }

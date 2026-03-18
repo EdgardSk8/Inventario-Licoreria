@@ -13,7 +13,7 @@ class CreateComprasTable extends Migration
      */
     public function up()
     {
-        Schema::create('compras', function (Blueprint $table) {
+      Schema::create('compras', function (Blueprint $table) {
             $table->increments('id_compra');
 
             $table->string('numero_factura_compra',50);
@@ -29,6 +29,11 @@ class CreateComprasTable extends Migration
 
             $table->boolean('estado_compra')->default(true);
 
+            // 👇 NUEVOS CAMPOS (clave)
+            $table->unsignedInteger('id_caja')->nullable();
+            $table->unsignedInteger('id_cuenta')->nullable();
+
+            // relaciones
             $table->foreign('id_proveedor')
                   ->references('id_proveedor')
                   ->on('proveedores');
@@ -36,6 +41,14 @@ class CreateComprasTable extends Migration
             $table->foreign('id_usuario')
                   ->references('id_usuario')
                   ->on('usuarios');
+
+            $table->foreign('id_caja')
+                  ->references('id_caja')
+                  ->on('cajas');
+
+            $table->foreign('id_cuenta')
+                  ->references('id_cuenta')
+                  ->on('cuentas');
         });
     }
 

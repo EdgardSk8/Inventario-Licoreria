@@ -13,7 +13,7 @@ class CreateGastosTable extends Migration
      */
     public function up()
     {
-         Schema::create('gastos', function (Blueprint $table) {
+ Schema::create('gastos', function (Blueprint $table) {
             $table->increments('id_gasto');
 
             $table->unsignedInteger('id_tipo_gasto');
@@ -25,8 +25,14 @@ class CreateGastosTable extends Migration
             $table->dateTime('fecha_gasto')->useCurrent();
 
             $table->unsignedInteger('id_usuario');
-            $table->unsignedInteger('id_caja');
 
+            // 👇 ahora puede ser null (porque puede pagarse desde cuenta)
+            $table->unsignedInteger('id_caja')->nullable();
+
+            // 👇 NUEVO (clave)
+            $table->unsignedInteger('id_cuenta')->nullable();
+
+            // relaciones
             $table->foreign('id_tipo_gasto')
                   ->references('id_tipo_gasto')
                   ->on('tipo_gasto');
@@ -38,6 +44,10 @@ class CreateGastosTable extends Migration
             $table->foreign('id_caja')
                   ->references('id_caja')
                   ->on('cajas');
+
+            $table->foreign('id_cuenta')
+                  ->references('id_cuenta')
+                  ->on('cuentas');
         });
     }
 

@@ -17,22 +17,44 @@ class DatabaseSeeder extends Seeder
             rolesSeeder::class,
             permisosSeeder::class,
             rol_permisoSeeder::class,
+
+            // 👤 Usuarios (depende de roles)
             usuariosSeeder::class,
+
+            // 📦 Catálogos base
             categoriaSeeder::class,
             impuestosSeeder::class,
             metodos_pagoSeeder::class,
             tipo_gastoSeeder::class,
+
+            // 👥 Terceros
             proveedoresSeeder::class,
             clientesSeeder::class,
+
+            // 💰 Estructura financiera (ANTES de usarse)
+            cuentasSeeder::class,
             cajasSeeder::class,
+
+            // 🛒 Productos
             productosSeeder::class,
-            movimientos_inventarioSeeder::class,
+
+            // 📥 Compras (usan proveedores + productos + cuentas/caja)
             comprasSeeder::class,
             detalle_comprasSeeder::class,
+
+            // 📦 Inventario (depende de compras/productos)
+            movimientos_inventarioSeeder::class,
+
+            // 📤 Ventas (usan clientes + usuarios + caja/cuenta)
             ventasSeeder::class,
             detalle_ventasSeeder::class,
-            movimientos_cajaSeeder::class,
+
+            // 💸 Gastos (usan tipo_gasto + caja/cuenta)
             gastosSeeder::class,
+
+            // 💵 Movimientos financieros (al final)
+            movimientos_cajaSeeder::class,
+            movimientos_cuentasSeeder::class,
         ]);
     }
 }

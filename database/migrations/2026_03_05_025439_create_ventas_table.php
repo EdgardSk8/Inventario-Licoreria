@@ -22,7 +22,12 @@ class CreateVentasTable extends Migration
 
             $table->unsignedInteger('id_cliente')->nullable();
             $table->unsignedInteger('id_usuario');
-            $table->unsignedInteger('id_caja');
+
+            // 👇 IMPORTANTE: ahora puede ser null
+            $table->unsignedInteger('id_caja')->nullable();
+
+            // 👇 NUEVO (clave para pagos no efectivos)
+            $table->unsignedInteger('id_cuenta')->nullable();
 
             $table->decimal('subtotal_venta',10,2);
             $table->decimal('impuesto_venta',10,2);
@@ -32,6 +37,7 @@ class CreateVentasTable extends Migration
 
             $table->unsignedInteger('id_metodo_pago');
 
+            // relaciones
             $table->foreign('id_cliente')
                   ->references('id_cliente')
                   ->on('clientes');
@@ -43,6 +49,10 @@ class CreateVentasTable extends Migration
             $table->foreign('id_caja')
                   ->references('id_caja')
                   ->on('cajas');
+
+            $table->foreign('id_cuenta')
+                  ->references('id_cuenta')
+                  ->on('cuentas');
 
             $table->foreign('id_metodo_pago')
                   ->references('id_metodo_pago')

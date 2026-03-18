@@ -15,10 +15,37 @@ class Venta extends Model
         'id_cliente',
         'id_usuario',
         'id_caja',
-        'subtotal_venta',
-        'impuesto_venta',
-        'total_venta',
-        'estado_venta',
-        'id_metodo_pago'
+        'id_cuenta',
+        'total_venta'
     ];
+
+    // 🔹 Relación: venta pertenece a cliente
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');
+    }
+
+    // 🔹 Relación: venta pertenece a usuario
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
+    }
+
+    // 🔹 Relación: venta pertenece a caja
+    public function caja()
+    {
+        return $this->belongsTo(Caja::class, 'id_caja', 'id_caja');
+    }
+
+    // 🔹 Relación: venta pertenece a cuenta
+    public function cuenta()
+    {
+        return $this->belongsTo(Cuenta::class, 'id_cuenta', 'id_cuenta');
+    }
+
+    // 🔹 Relación: una venta tiene muchos detalles
+    public function detalles()
+    {
+        return $this->hasMany(DetalleVenta::class, 'id_venta', 'id_venta');
+    }
 }
