@@ -55,6 +55,7 @@ class DatabaseSeeder extends Seeder
             // 💵 Movimientos financieros (al final)
             movimientos_cajaSeeder::class,
             movimientos_cuentasSeeder::class,
+            UbicacionesSeeder::class,
         ]);
     }
 }

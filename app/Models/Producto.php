@@ -15,11 +15,15 @@ class Producto extends Model
         'descripcion_producto',
         'id_categoria',
         'id_impuesto',
+        'id_ubicacion',
+        'imagen_producto',
         'precio_compra',
         'precio_venta',
         'stock_actual',
         'estado_producto'
     ];
+
+    // 🔗 Relaciones
 
     public function categoria()
     {
@@ -30,4 +34,10 @@ class Producto extends Model
     {
         return $this->belongsTo(Impuesto::class,'id_impuesto');
     }
+
+    public function ubicacion() // 👈 NUEVA RELACIÓN
+    {
+        return $this->belongsTo(Ubicacion::class,'id_ubicacion');
+    }
+    
 }

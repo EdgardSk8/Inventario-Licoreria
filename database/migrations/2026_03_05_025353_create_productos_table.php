@@ -20,6 +20,8 @@ class CreateProductosTable extends Migration
 
             $table->unsignedInteger('id_categoria');
             $table->unsignedInteger('id_impuesto');
+            $table->unsignedInteger('id_ubicacion')->nullable();
+            $table->string('imagen_producto')->nullable();
 
             $table->decimal('precio_compra',10,2);
             $table->decimal('precio_venta',10,2);
@@ -28,6 +30,7 @@ class CreateProductosTable extends Migration
             $table->boolean('estado_producto')->default(true);
             $table->dateTime('fecha_creacion_producto')->useCurrent();
 
+            // 🔗 Relaciones
             $table->foreign('id_categoria')
                   ->references('id_categoria')
                   ->on('categoria');
@@ -35,8 +38,14 @@ class CreateProductosTable extends Migration
             $table->foreign('id_impuesto')
                   ->references('id_impuesto')
                   ->on('impuestos');
+
+            $table->foreign('id_ubicacion') // 👈 NUEVA RELACIÓN
+                  ->references('id_ubicacion')
+                  ->on('ubicaciones')
+                  ->onDelete('set null'); // 👈 recomendable
         });
     }
+
 
     /**
      * Reverse the migrations.
