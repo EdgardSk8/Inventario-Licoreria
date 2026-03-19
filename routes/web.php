@@ -18,6 +18,7 @@ use App\Http\Controllers\TipoGastoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CajaController;
+use App\Http\Controllers\ProductoController;
 
 
 /*  ╔════════════ Cargar de Vistas Dinamicas ════════════╗ 
@@ -119,6 +120,18 @@ Route::post('/proveedores/cambiar-estado/{id}', [ProveedorController::class, 'Ca
 Route::post('/cajas/abrir', [CajaController::class, 'AbrirCaja']);
 Route::post('/cajas/cerrar', [CajaController::class, 'CerrarCaja']);
 Route::get('/cajas/registro', [CajaController::class, 'RegistroCajas']);
+
+/*  ╔════════════ Endpoint Productos ════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/productos/mostrar', [ProductoController::class, 'MostrarProductos']);
+Route::post('/productos/crear', [ProductoController::class, 'CrearProducto']);
+Route::get('/productos/{id}/editar', [ProductoController::class, 'EditarProducto']);
+Route::put('/productos/{id}/actualizar', [ProductoController::class, 'ActualizarProducto']);
+Route::post('/productos/cambiar-estado/{id}', [ProductoController::class, 'CambiarEstadoProducto']);
+
+Route::get('/productos/formulario', [ProductoController::class, 'ObtenerDatosFormularioProducto']);
+
 
 /*  ╔══════════════ Endpoint Roles ══════════════╗ 
     ╚════════════════════════════════════════════╝ */

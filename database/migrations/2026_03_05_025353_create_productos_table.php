@@ -16,12 +16,12 @@ class CreateProductosTable extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->increments('id_producto');
             $table->string('nombre_producto',150);
-            $table->string('descripcion_producto',200)->nullable();
+            $table->text('descripcion_producto')->nullable();
 
             $table->unsignedInteger('id_categoria');
             $table->unsignedInteger('id_impuesto');
             $table->unsignedInteger('id_ubicacion')->nullable();
-            $table->string('imagen_producto')->nullable();
+            $table->string('imagen_producto',255)->nullable();
 
             $table->decimal('precio_compra',10,2);
             $table->decimal('precio_venta',10,2);
@@ -39,7 +39,7 @@ class CreateProductosTable extends Migration
                   ->references('id_impuesto')
                   ->on('impuestos');
 
-            $table->foreign('id_ubicacion') // 👈 NUEVA RELACIÓN
+            $table->foreign('id_ubicacion') 
                   ->references('id_ubicacion')
                   ->on('ubicaciones')
                   ->onDelete('set null'); // 👈 recomendable

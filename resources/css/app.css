@@ -46,6 +46,21 @@ font-size:13px;
 background:#dc2626;
 }
 
+.btn-detalles{
+    background:#6199f5;
+    color:white;
+    border:none;
+    padding:4px 10px;
+    cursor:pointer;
+    border-radius:4px;
+    font-size:13px;
+}
+
+.btn-detalles:hover{
+    background:#5082d1;
+}
+
+
 /* ESTADOS */
 .estado{
 padding:3px 8px;

@@ -245,7 +245,7 @@ class UsuarioController extends Controller
 
 /*  ╔══════════════ Mostrar Usuario ═════════════╗ 
     ╚════════════════════════════════════════════╝ */
-
+    
     public function MostrarUsuarios()
     {
         try {

@@ -20,7 +20,8 @@ class Producto extends Model
         'precio_compra',
         'precio_venta',
         'stock_actual',
-        'estado_producto'
+        'estado_producto',
+        'fecha_creacion_producto'
     ];
 
     // 🔗 Relaciones
