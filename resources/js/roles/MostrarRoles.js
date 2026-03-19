@@ -21,7 +21,10 @@ $(document).ready(function () {
         columns: [
             { data: 'nombre_rol' },
             { data: 'descripcion_rol' },
-            { data: 'fecha_creacion_rol' },
+
+            { data: 'fecha_creacion_rol', render: function(data){ return formatearFecha(data); }
+            },
+
             { 
                 data: 'estado_rol',
                 render: function(data){

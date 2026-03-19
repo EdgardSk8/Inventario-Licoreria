@@ -14,6 +14,7 @@
 <script src="{{ Vite::asset('resources/js/roles/MostrarRoles.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/roles/BajaRol.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/roles/CrearRol.js') }}"></script>
+<script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
 
 <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 </head>

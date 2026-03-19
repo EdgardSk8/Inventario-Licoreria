@@ -28,6 +28,11 @@ $(document).ready(function () {
 
             $('#detalle_nombre_producto').text(p.nombre_producto);
             $('#detalle_descripcion_producto').text(p.descripcion_producto || '-');
+            $('#detalle_fecha_producto').text(
+            p.fecha_creacion_producto 
+                ? formatearFecha(p.fecha_creacion_producto) 
+                : '-'
+        );
             $('#detalle_categoria_producto').text(p.categoria?.nombre_categoria || 'SIN CATEGORIA');
             $('#detalle_ubicacion_producto').text(p.ubicacion?.nombre_ubicacion || 'SIN UBICACION');
             $('#detalle_impuesto_producto').text(p.impuesto?.nombre_impuesto || 'SIN IMPUESTO ASIGNADO');

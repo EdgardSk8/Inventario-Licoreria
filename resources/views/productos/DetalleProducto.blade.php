@@ -24,6 +24,11 @@
           </li>
 
           <li class="list-group-item">
+            <strong>Fecha:</strong>
+            <span id="detalle_fecha_producto"></span>
+          </li>
+
+          <li class="list-group-item">
             <strong>Categoría:</strong>
             <span id="detalle_categoria_producto"></span>
           </li>

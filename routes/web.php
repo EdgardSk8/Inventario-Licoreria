@@ -60,6 +60,8 @@ Route::put('/usuarios/{id}/actualizar', [UsuarioController::class, 'ActualizarUs
 Route::get('/usuarios/mostrar', [UsuarioController::class, 'MostrarUsuarios']);
 Route::post('/usuarios/cambiar-estado/{id}', [UsuarioController::class, 'cambiarEstadoUsuario']);
 
+Route::get('/roles-usuario/mostrar', [UsuarioController::class, 'MostrarRolesUsuario']);
+
 /*  ╔═══════════ Endpoint Categorias ════════════╗ 
     ╚════════════════════════════════════════════╝ */
 
@@ -135,8 +137,6 @@ Route::get('/productos/formulario', [ProductoController::class, 'ObtenerDatosFor
 
 /*  ╔══════════════ Endpoint Roles ══════════════╗ 
     ╚════════════════════════════════════════════╝ */
-
-Route::get('/roles-usuario/mostrar', [RolController::class, 'MostrarRolesUsuario']);
 
 Route::get('/roles/mostrar', [RolController::class, 'MostrarRoles']);
 Route::post('/roles/crear', [RolController::class, 'CrearRol']);
