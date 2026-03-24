@@ -11,9 +11,9 @@
 
 <link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}">
 
+<script src="{{ Vite::asset('resources/js/EspaniolTabla.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/cajas/MostrarCajas.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
-
 
 
 <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>

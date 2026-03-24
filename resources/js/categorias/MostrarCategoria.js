@@ -13,29 +13,21 @@ $(document).ready(function () {
 
     // Inicializar DataTable
     const tabla = $('#tablaCategorias').DataTable({
+
         processing: true,
-        ajax: {
-            url: '/categorias/mostrar',
-            type: 'GET',
-            dataSrc: 'categorias'
-        },
+
+        ajax: {url: '/categorias/mostrar' ,type: 'GET', dataSrc: 'categorias' },
+
         columns: [
             { data: 'nombre_categoria' },
             { data: 'descripcion_categoria' },
             { data: 'fecha_creacion_categoria' },
-            { 
-                data: 'estado_categoria',
-                render: function(data){
-                    return data == 1 
-                        ? '<span class="estado estado-activo">Activo</span>'
-                        : '<span class="estado estado-inactivo">Inactivo</span>';
-                }
-            },
-            {
-                data: 'id_categoria',
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row){
+
+            { data: 'estado_categoria',render: function(data){return data == 1 
+                ? '<span class="estado estado-activo">Activo</span>'
+                : '<span class="estado estado-inactivo">Inactivo</span>'; } },
+
+            { data: 'id_categoria', orderable: false, searchable: false, render: function(data, type, row){
 
                     let botonEstado = row.estado_categoria == 1
                         ? `<button class="btn-baja bajaCategoria" data-id="${data}">Dar Baja</button>`
@@ -52,10 +44,7 @@ $(document).ready(function () {
     });
 
     // Click en botón Editar
-    $('#tablaCategorias').on('click', '.editarCategoria', function(){
-        const id = $(this).data('id');
-        abrirModalEditar(id);
-    });
+    $('#tablaCategorias').on('click', '.editarCategoria', function() {const id = $(this).data('id'); abrirModalEditar(id); });
 
     // Abrir modal y llenar datos
     function abrirModalEditar(id) {
@@ -144,7 +133,7 @@ $(document).ready(function () {
 
                 }
 
-            }
+            } //Fin de Funcion error
 
         });
 

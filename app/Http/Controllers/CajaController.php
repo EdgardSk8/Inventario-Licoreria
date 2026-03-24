@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use App\Models\Caja;
+use App\Models\MovimientoCaja;
 
 class CajaController extends Controller
 { /* MODIFICAR */
@@ -78,63 +80,69 @@ class CajaController extends Controller
 /*  ╔════════════ Cerrar Caja ═════════════╗ 
     ╚══════════════════════════════════════╝ */
 
-    public function CerrarCaja(Request $request)
+    public function CerrarCaja()
     {
+        DB::beginTransaction();
+
+        $idUsuario = session('usuario.id');
+
+        if (!$idUsuario) {
+            return response()->json([
+                'success' => false,
+                'mensaje' => 'Sesión no válida'
+            ], 401);
+        }
+
         try {
 
-            $validator = Validator::make($request->all(), [
-                'monto_final' => 'required|numeric|min:0'
-            ], [
-                'monto_final.required' => 'El monto final es obligatorio.',
-                'monto_final.numeric' => 'El monto final debe ser numérico.',
-                'monto_final.min' => 'El monto final no puede ser negativo.'
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'success' => false,
-                    'errors' => $validator->errors()
-                ], 422);
-            }
-
-            $idUsuario = session('usuario.id');
-
-            if (!$idUsuario) {
-                return response()->json([
-                    'success' => false,
-                    'mensaje' => 'Sesión no válida'
-                ], 401);
-            }
-
-            // 🔎 Buscar caja abierta DEL USUARIO
-            $caja = Caja::where('estado_caja', 1)
-                        ->where('id_usuario', $idUsuario)
-                        ->first();
+            // 🔥 obtener caja abierta
+            $caja = Caja::where('estado_caja', 1)->first();
 
             if (!$caja) {
                 return response()->json([
                     'success' => false,
                     'mensaje' => 'No hay caja abierta'
-                ], 404);
+                ], 400);
             }
 
+            // 💰 total ventas (desde movimientos_caja)
+            $totalIngresos = MovimientoCaja::where('id_caja', $caja->id_caja)
+                ->where('tipo_movimiento_caja', 'INGRESO')
+                ->sum('monto_movimiento_caja');
+
+            $totalSalidas = MovimientoCaja::where('id_caja', $caja->id_caja)
+                ->where('tipo_movimiento_caja', 'SALIDA')
+                ->sum('monto_movimiento_caja');
+
+            // 🧾 cálculo
+            $montoTeorico = $caja->monto_inicial + $totalIngresos - $totalSalidas;
+
+            // 🔒 cerrar caja
             $caja->update([
-                'monto_final' => $request->monto_final,
                 'fecha_cierre' => now(),
+                'monto_final' => $montoTeorico,
+                'monto_teorico' => $montoTeorico,
+                'monto_real' => $montoTeorico,
+                'diferencia' => 0,
                 'estado_caja' => 0
             ]);
 
+            DB::commit();
+
             return response()->json([
                 'success' => true,
-                'mensaje' => 'Caja cerrada correctamente'
-            ], 200);
+                'mensaje' => 'Caja cerrada correctamente',
+                'total' => $montoTeorico
+            ]);
 
         } catch (\Exception $e) {
+
+            DB::rollBack();
+
             return response()->json([
-                'error' => true,
-                'mensaje' => 'Error al cerrar caja',
-                'detalle' => $e->getMessage()
-            ], 500);
+                'success' => false,
+                'mensaje' => $e->getMessage()
+            ]);
         }
     }
 
@@ -170,7 +178,7 @@ class CajaController extends Controller
         try {
 
             $cajas = Caja::with('usuario')
-                ->orderBy('fecha_apertura', 'desc')
+                ->orderBy('fecha_apertura', 'asc')
                 ->get();
 
             return response()->json([

@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/facturacion/Facturacion.css') }}">
 
-
     <script src="{{ Vite::asset('resources/js/EspaniolTabla.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/vuelto.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/Facturacion.js') }}"></script>

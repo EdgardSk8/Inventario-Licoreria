@@ -48,7 +48,7 @@ function verificarCajaEstado() {
 /*  ═════════ Habilitar/deshabilitar inputs y botones de facturación ══════════  */
 
 function setFacturacionEstado(habilitado = true) {
-    $('#pagoCordobas, #vueltoCordobas, #vueltoDolares, #pagoDolares, #clientes, #btnFacturar').prop('disabled', !habilitado);
+    $('#pagoCordobas, #vueltoCordobas, #vueltoDolares, #pagoDolares, #clientes, #metodo_pago, #btnFacturar').prop('disabled', !habilitado);
     $('#tablaProductos tbody button, #carrito button').prop('disabled', !habilitado);
     $('#carrito input').prop('readonly', !habilitado);
 }
@@ -98,7 +98,7 @@ $(document).on('click', '#btnCerrarCaja', function () {
     })
     .done(function(res) {
         verificarCajaEstado();
-        mostrarToast(res.mensaje || 'Caja cerrada correctamente', 'success');
+        mostrarToast('Caja cerrada: C$ ' + res.total, 'success');
     })
     .fail(function(xhr) {
 

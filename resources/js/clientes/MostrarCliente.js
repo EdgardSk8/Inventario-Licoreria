@@ -2,34 +2,24 @@ $(document).ready(function () {
 
     // Filtro para ocultar clientes inactivos
     $.fn.dataTable.ext.search.push(
+
         function(settings, data, dataIndex) {
-
             const ocultar = $('#toggleInactivosClientes').is(':checked');
-
             if (!ocultar) return true;
-
             const estado = data[5]; // columna estado_cliente
-
             return estado.includes('Activo');
-
         }
+        
     );
 
-    $('#toggleInactivosClientes').on('change', function() {
-        tabla.draw();
-    });
-
+    $('#toggleInactivosClientes').on('change', function() { tabla.draw(); });
 
     // Inicializar DataTable
     const tabla = $('#tablaClientes').DataTable({
 
         processing: true,
 
-        ajax: {
-            url: '/clientes/mostrar',
-            type: 'GET',
-            dataSrc: 'clientes'
-        },
+        ajax: {url: '/clientes/mostrar', type: 'GET', dataSrc: 'clientes'},
 
         columns: [
 
@@ -39,20 +29,12 @@ $(document).ready(function () {
             { data: 'telefono_cliente' },
             { data: 'correo_cliente' },
 
-            {
-                data: 'estado_cliente',
-                render: function(data){
-                    return data == 1
-                        ? '<span class="estado estado-activo">Activo</span>'
-                        : '<span class="estado estado-inactivo">Inactivo</span>';
-                }
-            },
+            { data: 'estado_cliente', render: function(data) { return data == 1
+                    ? '<span class="estado estado-activo">Activo</span>'
+                    : '<span class="estado estado-inactivo">Inactivo</span>'; } },
 
-            {
-                data: 'id_cliente',
-                orderable: false,
-                searchable: false,
-
+            { data: 'id_cliente', orderable: false, searchable: false,
+                
                 render: function(data, type, row){
 
                     let botonEstado = row.estado_cliente == 1
@@ -71,18 +53,8 @@ $(document).ready(function () {
         ...Traduccion // Constante de traduccion de datatables
     });
 
-
-
     // Click botón editar
-    $('#tablaClientes').on('click', '.editarCliente', function(){
-
-        const id = $(this).data('id');
-
-        abrirModalEditar(id);
-
-    });
-
-
+    $('#tablaClientes').on('click', '.editarCliente', function(){const id = $(this).data('id');abrirModalEditar(id);});
 
     // Abrir modal editar cliente
     function abrirModalEditar(id) {
@@ -135,14 +107,7 @@ $(document).ready(function () {
         };
 
 
-        if(datos.nombre_cliente === ''){
-
-            mostrarToast('El nombre del cliente es obligatorio', 'danger');
-
-            return;
-
-        }
-
+        if(datos.nombre_cliente === ''){ mostrarToast('El nombre del cliente es obligatorio', 'danger'); return;}
 
         $.ajax({
 
@@ -167,41 +132,19 @@ $(document).ready(function () {
                 console.error(err);
 
                 if(err.status === 422){
-
                     const errores = err.responseJSON.errors;
-
                     let mensaje = '';
-
-                    for(let campo in errores){
-
-                        mensaje = errores[campo][0];
-
-                        break;
-
-                    }
-
+                    for(let campo in errores) {mensaje = errores[campo][0]; break; }
                     mostrarToast(mensaje, 'danger');
-
                 }
 
-                else if(err.responseJSON && err.responseJSON.mensaje){
-
-                    mostrarToast(err.responseJSON.mensaje, 'danger');
-
-                }
-
-                else{
-
-                    mostrarToast('Error inesperado del servidor', 'danger');
-
-                }
+                else if(err.responseJSON && err.responseJSON.mensaje){ mostrarToast(err.responseJSON.mensaje, 'danger');}
+                else{ mostrarToast('Error inesperado del servidor', 'danger'); }
 
             }
 
         });
 
     });
-
-
 
 });

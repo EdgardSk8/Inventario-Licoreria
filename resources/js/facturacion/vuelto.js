@@ -5,7 +5,7 @@ const TASA = 37;
 let bloqueando = false;
 let ultimaMoneda = 'C';
 
-document.getElementById('tasaImpuesto').textContent = 'Cambio: ' + TASA + ' Cordobas';
+document.getElementById('tasaImpuesto').textContent = 'Cambio: 1 Dolar = ' + TASA + ' Cordobas';
 
 /*  ╔════════ Cálculo de Vueltos ═════════╗ 
     ╚═════════════════════════════════════╝ */
