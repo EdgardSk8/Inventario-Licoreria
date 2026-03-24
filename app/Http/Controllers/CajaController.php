@@ -173,7 +173,7 @@ class CajaController extends Controller
 /*  ╔════════════ Registro Caja ═════════════╗ 
     ╚════════════════════════════════════════╝ */
 
-    public function RegistroCajas()
+    public function RegistroCajas() // Muestra todas las cajas
     {
         try {
 

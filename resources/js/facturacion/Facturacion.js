@@ -1,13 +1,14 @@
 $(document).ready(function () {
 
+/*-------------------------------------------------------------------------------------------------------------------*/
+
     let carrito = [];
     const tablaProductos = inicializarTablaProductos();
     eventosProductos(tablaProductos);
 
-    /* ╔════════════ FUNCIONES ════════════╗ */
-    /* ╚═══════════════════════════════════╝ */
+/*-------------------------------------------------------------------------------------------------------------------*/
 
-/* ═════════════ INICIALIZAR TABLA ═════════════*/
+/* ═════════════ (INICIALIZAR TABLA) ═════════════*/
 
     function inicializarTablaProductos() {
 
@@ -18,18 +19,20 @@ $(document).ready(function () {
             columns: [ 
                 
                 { data: 'nombre_producto' },
-
                 { data: 'precio_venta', render: function(data){ return 'C$ ' + parseFloat(data).toFixed(1); } }, // Muestra un decimal
-
                 { data: 'stock_actual' },
-
                 { data: 'id_producto', render: function(data, type, row) { // Acciones
 
+                    let deshabilitado = row.stock_actual <= 0 ? 'disabled' : '';
+                    let clase = row.stock_actual <= 0 ? 'btn-secondary' : 'btn-dark';
+
                         return `
-                            <button class="btn btn-sm btn-dark agregarProducto"
+                            <button class="btn btn-sm ${clase} agregarProducto"
                                 data-id="${row.id_producto}"
                                 data-nombre="${row.nombre_producto}"
-                                data-precio="${row.precio_venta}">
+                                data-precio="${row.precio_venta}" 
+                                data-stock="${row.stock_actual}"
+                                ${deshabilitado}>
                                 <i class="bi bi-cart-plus"></i>
                                 Agregar
                             </button>
@@ -44,7 +47,9 @@ $(document).ready(function () {
         });
     }
 
-/* ═════════════ () ═════════════*/
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* ═════════════ (EVENTO AGREGAR PRODUCTOS) ═════════════*/
 
     function eventosProductos(tabla) {
 
@@ -53,44 +58,47 @@ $(document).ready(function () {
             const producto = {
                 id: $(this).data('id'),
                 nombre: $(this).data('nombre'),
-                precio: parseFloat($(this).data('precio'))
+                precio: parseFloat($(this).data('precio')),
+                stock: parseInt($(this).data('stock'))
             };
 
             agregarProductoCarrito(producto);
         });
     }
 
-/* ═════════════ () ═════════════*/
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* ═════════════ (FUNCION AGREGAR PRODUCTOS AL CARRITO) ═════════════*/
 
     function agregarProductoCarrito(producto) {
 
         let existente = carrito.find(p => p.id === producto.id);
 
-        if (existente) {
-            existente.cantidad++;
-        } else {
-            carrito.push({
-                ...producto,
-                cantidad: 1
-            });
-        }
+        if (existente) { // EVITA VENDER MAS DE LO QUE EXISTE
+            if (existente.cantidad >= existente.stock) { mostrarToast(`No hay más stock de ${existente.nombre}`, 'danger'); 
+                return; }
+
+            existente.cantidad++; } 
+
+            else { carrito.push({ ...producto, cantidad: 1 }); }
 
         renderCarrito();
+
     }
 
-/* ═════════════ () ═════════════*/
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* ═════════════ (RENDERIZAR TABLA DEL CARRITO) ═════════════ */
 
     function renderCarrito() {
 
-        let html = '';
-        let total = 0;
+        let TABLACARRITO = ''; let total = 0;
 
         carrito.forEach((p, i) => {
 
-            let subtotal = p.precio * p.cantidad;
-            total += subtotal;
+            let subtotal = p.precio * p.cantidad; total += subtotal;
 
-            html += `
+            TABLACARRITO += `
                 <tr>
                     <td>${p.nombre}</td>
                     <td class="col-md-1">
@@ -109,89 +117,90 @@ $(document).ready(function () {
             `;
         });
 
-        $('#carrito').html(html);
+        $('#carrito').html(TABLACARRITO);
         $('#total').text('C$ ' + total.toFixed(2));
         calcularVueltos();
     }
 
+/*-------------------------------------------------------------------------------------------------------------------*/
 
+    /* ═══════ EVENTO: ELIMINAR PRODUCTO DEL CARRITO ═══════ */
 
-
-    /* ╔════════════ EVENTOS CARRITO ════════════╗ */
-    /* ╚═════════════════════════════════════════╝ */
-
-    // ❌ ELIMINAR
     $('#carrito').on('click', '.eliminar', function(){
-        const i = $(this).data('index');
-        carrito.splice(i, 1);
-        renderCarrito();
-    });
+        const i = $(this).data('index'); carrito.splice(i, 1); renderCarrito();
+    }); // Elimina el producto seleccionado del carrito actual
 
-    // 🔄 CAMBIAR CANTIDAD
+    /* ═══════ EVENTO: CAMBIAR CANTIDAD DEL PRODUCTO ═══════ */
+
     $('#carrito').on('input', '.cantidad', function(){
-        const i = $(this).data('index');
-        carrito[i].cantidad = parseInt($(this).val());
-        renderCarrito();
-    });
+        const i = $(this).data('index'); carrito[i].cantidad = parseInt($(this).val()); renderCarrito();
+    }); // Actualiza la cantidad del producto y recalcula totales
 
+/*-------------------------------------------------------------------------------------------------------------------*/
 
-$('#btnFacturar').click(function () {
+    /* ═══════ VALIDAR Y FACTURAR DEL CARRITO ═══════ */
 
-    if (carrito.length === 0) {
-        mostrarToast('Agregue productos', 'danger');
-        return;
-    }
+    $('#btnFacturar').click(function () {
 
-    let cliente = $('#clientes').val();
-    if (!cliente) {
-        mostrarToast('Seleccione cliente', 'danger');
-        return;
-    }
+        $('#btnFacturar').prop('disabled', true); // Evita Doble Click
 
-    let total = parseFloat($('#total').text().replace(/[^\d.-]/g, '')) || 0;
-    let recibido = parseFloat($('#pagoCordobas').val()) || 0;
+        let cliente = $('#clientes').val();
+        let total = parseFloat($('#total').text().replace(/[^\d.-]/g, '')) || 0;
+        let recibido = parseFloat($('#pagoCordobas').val()) || 0;
 
-    if (recibido < total) {
-        mostrarToast('Pago insuficiente', 'danger');
-        return;
-    }
+        // VALIDAR ANTES DE FACTURAR
+        if (!validarFactura(cliente, total, recibido)) { $('#btnFacturar').prop('disabled', false); return; }
 
-    let data = {
-        cliente: cliente,
-        carrito: carrito,
-        total: total,
-        recibido: recibido
-    };
+        let data = { cliente: cliente, carrito: carrito, total: total, recibido: recibido };
 
-    $.ajax({
-        url: '/facturar/pos',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(res) {
+        $.ajax({
 
-            if(res.success){
-                mostrarToast('Factura realizada', 'success');
+            url: '/facturar/pos', method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 
-                carrito = [];
-                renderCarrito();
-                $('#pagoCordobas').val('');
-                $('#pagoDolares').val('');
-                $('#vueltoCordobas').val('');
-                $('#vueltoDolares').val('');
+            success: function(res) {
+
+                if(res.success){ mostrarToast('Factura realizada', 'success');
+
+                    carrito = [];
+                    renderCarrito();
+
+                    $('#pagoCordobas').val('');
+                    $('#pagoDolares').val('');
+                    $('#vueltoCordobas').val('');
+                    $('#vueltoDolares').val('');
+
+                    tablaProductos.ajax.reload(null, false); // RECARGA TABLA AL FACTURAR
+                }
+
+                $('#btnFacturar').prop('disabled', false); // HABILITA BTN FACTURAR
+            }, 
+            error: function() {
+                mostrarToast('Error al facturar', 'danger'); $('#btnFacturar').prop('disabled', false);
             }
-        },
-        error: function() {
-            mostrarToast('Error al facturar', 'danger');
-        }
+        });
     });
 
-});
+/*-------------------------------------------------------------------------------------------------------------------*/
 
+    /* ═══════ VALIDACIÓN: DATOS DE FACTURA ═══════ */
 
+    function validarFactura(cliente, total, recibido){
+
+        if (carrito.length === 0) { mostrarToast('Agregue productos', 'danger'); return false; }
+        if (!cliente) { mostrarToast('Seleccione cliente', 'danger'); return false; }
+        if (recibido < total) { mostrarToast('Pago insuficiente', 'danger'); return false; }
+
+        for (let p of carrito) {
+            if (p.cantidad > p.stock) { mostrarToast(`Stock insuficiente para ${p.nombre}`, 'danger'); return false; }
+        }
+
+        return true;
+    }
+
+/*-------------------------------------------------------------------------------------------------------------------*/
 
 
 

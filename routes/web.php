@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FacturacionController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -153,6 +154,12 @@ Route::post('/roles/crear', [RolController::class, 'CrearRol']);
 Route::get('/roles/{id}/editar', [RolController::class, 'EditarRol']);
 Route::put('/roles/{id}/actualizar', [RolController::class, 'ActualizarRol']);
 Route::post('/roles/cambiar-estado/{id}', [RolController::class, 'CambiarEstadoRol']);
+
+/*  ╔════════════════ Endpoint Ventas ═══════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/ventas/mostrar', [VentaController::class, 'MostrarVentas']);
+
 
 
 /*  ╔════════════════ FACTURACION ═══════════════╗ 
