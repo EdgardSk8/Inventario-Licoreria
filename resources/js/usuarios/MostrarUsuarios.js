@@ -1,11 +1,14 @@
 $(document).ready(function () {
 
     $.fn.dataTable.ext.search.push( // Check de usuarios inactivos
+
     function(settings, data, dataIndex) {
+
         const ocultar = $('#toggleInactivosUsuarios').is(':checked');
         if (!ocultar) return true; // no filtrar si el checkbox está desmarcado
         const estado = data[4]; // columna "estado_usuario" (índice 4)
         return estado.includes('Activo'); // solo mostrar activos
+
     }); $('#toggleInactivosUsuarios').on('change', function() { tabla.draw(); });
 
     // Inicializar DataTable
@@ -37,7 +40,6 @@ $(document).ready(function () {
                     let botonEstado = row.estado_usuario == 1 
                         ? `<button class="btn-baja bajaUsuario" data-id="${data}">Dar Baja</button>` 
                         : `<button class="btn-baja bajaUsuario" data-id="${data}">Activar</button>`;
-
                     return `
                         <button class="btn-editar editarUsuario" data-id="${data}">Editar</button>
                         ${botonEstado}
@@ -45,21 +47,7 @@ $(document).ready(function () {
                 }
             }
         ],
-        language: {
-            search: "Buscar:",
-            lengthMenu: "Mostrar _MENU_ registros",
-            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            infoEmpty: "Mostrando 0 a 0 de 0 registros",
-            infoFiltered: "(filtrado de _MAX_ registros totales)",
-            zeroRecords: "No se encontraron resultados",
-            emptyTable: "No hay datos disponibles",
-            paginate: {
-                first: "Primero",
-                previous: "Anterior",
-                next: "Siguiente",
-                last: "Último"
-            }
-        }
+        ...Traduccion // Constante de traduccion de datatables
     });
 
     // Click en botón Editar
@@ -70,7 +58,9 @@ $(document).ready(function () {
 
     // Abrir modal y llenar datos
     function abrirModalEditar(id) {
+
         $.get(`/usuarios/${id}/editar`, function(res){
+
             const usuario = res.usuario;
 
             $('#editar_id_usuario').val(usuario.id_usuario);
@@ -84,28 +74,32 @@ $(document).ready(function () {
 
             const modal = new bootstrap.Modal(document.getElementById("modalEditarUsuario"));
             modal.show();
+
         });
+
     }
     
 
     // Cargar roles
-function cargarRolesEditar(rolSeleccionado){
-    const select = $('#editar_rol_usuario');
-    fetch('/roles-usuario/mostrar?estado=1') // tu endpoint de roles
-        .then(response => response.json())
-        .then(data => {
-            select.empty();
-            // Asegurarse que es un array de roles
-            const roles = data.data || data.roles || [];
-            roles.forEach(rol => {
-                if(rol.estado_rol == 1){ // SOLO roles activos
-                    const selected = Number(rol.id_rol) === Number(rolSeleccionado) ? "selected" : "";
-                    select.append(`<option value="${rol.id_rol}" ${selected}>${rol.nombre_rol}</option>`);
-                }
-            });
-        })
-        .catch(err => console.error("Error al cargar roles:", err));
-}
+    function cargarRolesEditar(rolSeleccionado){
+
+        const select = $('#editar_rol_usuario');
+
+        fetch('/roles-usuario/mostrar?estado=1') // tu endpoint de roles
+            .then(response => response.json())
+            .then(data => {
+                select.empty();
+                // Asegurarse que es un array de roles
+                const roles = data.data || data.roles || [];
+                roles.forEach(rol => {
+                    if(rol.estado_rol == 1){ // SOLO roles activos
+                        const selected = Number(rol.id_rol) === Number(rolSeleccionado) ? "selected" : "";
+                        select.append(`<option value="${rol.id_rol}" ${selected}>${rol.nombre_rol}</option>`);
+                    }
+                });
+            })
+            .catch(err => console.error("Error al cargar roles:", err));
+    }
 
     function formatearCedula(inputId) {
         const cedula = document.getElementById(inputId);
@@ -125,10 +119,12 @@ function cargarRolesEditar(rolSeleccionado){
             this.value = valor;
         });
     }
+
     formatearCedula("editar_cedula_usuario")
 
     // Actualizar usuario
     $('#btnActualizarUsuario').click(function() {
+        
         const nombre = $('#editar_nombre_completo_usuario').val().trim();
         const cedula = $('#editar_cedula_usuario').val().trim();
         const usuario = $('#editar_nombre_usuario').val().trim();

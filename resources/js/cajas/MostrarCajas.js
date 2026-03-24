@@ -49,24 +49,8 @@ $(document).ready(function () {
                 }
             }
         ],
-
-        order: [[2, "desc"]],
-
-        language: {
-            search: "Buscar:",
-            lengthMenu: "Mostrar _MENU_ registros",
-            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            infoEmpty: "Mostrando 0 a 0 de 0 registros",
-            infoFiltered: "(filtrado de _MAX_ registros totales)",
-            zeroRecords: "No se encontraron resultados",
-            emptyTable: "No hay datos disponibles",
-            paginate: {
-                first: "Primero",
-                previous: "Anterior",
-                next: "Siguiente",
-                last: "Último"
-            }
-        }
+        order: [[2, "asc"]], //arreglar
+        ...Traduccion // Constante de traduccion de datatables
     });
 
 });
