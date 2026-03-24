@@ -6,7 +6,6 @@ $(document).ready(function () {
             url: '/cajas/registro',
             type: 'GET',
             dataSrc: 'data',
-            order: [[0, "desc"]],
         },
         columns: [
             { 
@@ -51,7 +50,7 @@ $(document).ready(function () {
             }
         ],
 
-        order: [[0, "desc"]],
+        order: [[2, "desc"]],
 
         language: {
             search: "Buscar:",

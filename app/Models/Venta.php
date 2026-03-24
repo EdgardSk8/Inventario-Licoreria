@@ -12,11 +12,24 @@ class Venta extends Model
 
     protected $fillable = [
         'numero_factura',
+        'fecha_venta',
+
         'id_cliente',
         'id_usuario',
         'id_caja',
         'id_cuenta',
-        'total_venta'
+
+        'subtotal_venta',
+        'impuesto_venta',
+        'total_venta',
+
+        'estado_venta',
+
+        'id_metodo_pago',
+
+        'monto_recibido',
+        'vuelto',
+        'moneda'
     ];
 
     // 🔹 Relación: venta pertenece a cliente
@@ -41,6 +54,11 @@ class Venta extends Model
     public function cuenta()
     {
         return $this->belongsTo(Cuenta::class, 'id_cuenta', 'id_cuenta');
+    }
+    
+    public function metodoPago()
+    {
+        return $this->belongsTo(MetodoPago::class, 'id_metodo_pago', 'id_metodo_pago');
     }
 
     // 🔹 Relación: una venta tiene muchos detalles

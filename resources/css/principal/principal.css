@@ -112,3 +112,29 @@ border-bottom:1px solid #e5e7eb;
 padding:15px 25px;
 font-weight:500;
 }
+
+
+#btnLogout {
+    background-color: #dc3545; /* rojo base */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 2px 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hover */
+#btnLogout:hover {
+    background-color: #bb2d3b; /* rojo más oscuro */
+    transform: scale(1.05);
+}
+
+/* Click */
+#btnLogout:active {
+    transform: scale(0.95);
+}
+
+/* Icono */
+#btnLogout i {
+    font-size: 14px;
+}

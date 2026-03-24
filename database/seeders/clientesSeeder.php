@@ -16,7 +16,7 @@ class clientesSeeder extends Seeder
     {
         DB::table('clientes')->insert([
             
-        ['nombre_cliente'=>'Juan Perez','telefono_cliente'=>'88880001'],
+        ['nombre_cliente'=>'Cliente Generico','telefono_cliente'=>''],
         ['nombre_cliente'=>'Maria Lopez','telefono_cliente'=>'88880002'],
         ['nombre_cliente'=>'Carlos Martinez','telefono_cliente'=>'88880003'],
         ['nombre_cliente'=>'Ana Rodriguez','telefono_cliente'=>'88880004'],

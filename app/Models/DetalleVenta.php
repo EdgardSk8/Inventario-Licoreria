@@ -15,6 +15,8 @@ class DetalleVenta extends Model
         'id_producto',
         'cantidad_venta',
         'precio_unitario_venta',
-        'subtotal_detalle_venta'
+        'subtotal_detalle_venta',
+        'porcentaje_impuesto',
+        'monto_impuesto',
     ];
 }

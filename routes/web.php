@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FacturacionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,7 +20,15 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\LoginController;
 
+/*  ╔════════════ LOGIN ═════════════╗ 
+    ╚════════════════════════════════╝ */
+
+Route::view('/login', 'login.Login')->name('login'); 
+
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 /*  ╔════════════ Cargar de Vistas Dinamicas ════════════╗ 
     ╚════════════════════════════════════════════════════╝ */
@@ -48,6 +57,7 @@ Route::view('/inventario/movimientos', 'inventario.MovimientosInventario')->name
 Route::view('/gastos', 'gastos.Gastos')->name('gastos'); 
 Route::view('/tipos-gasto', 'tipos_gasto.TiposGasto')->name('tipos.gasto'); 
 Route::view('/metodos-pago', 'metodos_pago.MetodosPago')->name('metodos.pago'); 
+Route::view('/facturacion', 'facturacion.Facturacion')->name('facturacion'); 
 
 /* CONTROLADORES */
 
@@ -119,8 +129,8 @@ Route::post('/proveedores/cambiar-estado/{id}', [ProveedorController::class, 'Ca
 /*  ╔══════════════ Endpoint Cajas ══════════════╗ 
     ╚════════════════════════════════════════════╝ */
 
-Route::post('/cajas/abrir', [CajaController::class, 'AbrirCaja']);
-Route::post('/cajas/cerrar', [CajaController::class, 'CerrarCaja']);
+/*Route::post('/cajas/abrir', [CajaController::class, 'AbrirCaja']);
+Route::post('/cajas/cerrar', [CajaController::class, 'CerrarCaja']);*/
 Route::get('/cajas/registro', [CajaController::class, 'RegistroCajas']);
 
 /*  ╔════════════ Endpoint Productos ════════════╗ 
@@ -143,3 +153,16 @@ Route::post('/roles/crear', [RolController::class, 'CrearRol']);
 Route::get('/roles/{id}/editar', [RolController::class, 'EditarRol']);
 Route::put('/roles/{id}/actualizar', [RolController::class, 'ActualizarRol']);
 Route::post('/roles/cambiar-estado/{id}', [RolController::class, 'CambiarEstadoRol']);
+
+
+/*  ╔════════════════ FACTURACION ═══════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/productos/pos', [FacturacionController::class, 'MostrarProductosPOS']);
+Route::get('/clientes/pos', [FacturacionController::class, 'MostrarClientesPOS']);
+Route::post('/facturar/pos', [FacturacionController::class, 'FacturarProductosPOS']);
+Route::get('/metodo-pago/pos', [FacturacionController::class, 'MostrarMetodoPagoPOS']);
+
+Route::post('/caja/abrir', [CajaController::class, 'AbrirCaja']);
+Route::post('/caja/cerrar', [CajaController::class, 'CerrarCaja']);
+Route::get('/caja/verificar', [CajaController::class, 'VerificarCaja']);

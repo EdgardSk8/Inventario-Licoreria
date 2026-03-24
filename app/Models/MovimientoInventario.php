@@ -16,6 +16,7 @@ class MovimientoInventario extends Model
         'cantidad_movimiento',
         'motivo_movimiento',
         'id_referencia',
+        'fecha_movimiento',
         'id_usuario'
     ];
 }

@@ -56,6 +56,7 @@ class DatabaseSeeder extends Seeder
             movimientos_cajaSeeder::class,
             movimientos_cuentasSeeder::class,
             UbicacionesSeeder::class,
+            ConfiguracionEmpresaSeeder::class,
         ]);
     }
 }

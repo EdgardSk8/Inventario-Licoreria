@@ -7,12 +7,15 @@
 <title>Sistema</title>
 @include('principal.links')
 
-
 @vite(['resources/css/principal/principal.css'])
 @vite(['resources/css/principal/footer.css'])
+@vite(['resources/css/app.css'])
 
 @vite(['resources/js/principal/cargavistahijo.js'])
 @vite(['resources/js/principal/cerrar_acordeon.js'])
+@vite(['resources/js/principal/logout.js'])
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 
@@ -41,6 +44,34 @@
         <div class="p-3">
             <i class="bi bi-speedometer2"></i>
             <a href="" class="cargar-vista" data-url="{{ route('dashboard') }}">Dashboard</a>
+        </div>
+
+
+    <!-- ╔═══════════ FACTURACION ═══════════╗ -->
+    <!-- ╚═══════════════════════════════════╝ -->
+
+        <div class="accordion-item border-0">
+
+            <h2 class="accordion-header">
+
+                <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#factura">
+
+                    <i class="bi bi-people me-2"></i> Facturacion
+
+                </button>
+
+            </h2>
+
+            <div id="factura" class="accordion-collapse collapse" data-bs-parent="#menuSidebar">
+
+                <div class="submenu">
+
+                    <a href="" class="cargar-vista" data-url="{{ route('facturacion') }}">Facturacion</a>
+
+                </div>
+
+            </div>
+
         </div>
 
     <!-- ╔══════════ ADMINISTRACIÓN ══════════╗ -->
@@ -252,14 +283,31 @@
 
 <div class="content flex-grow-1">
 
-    <div class="topbar">Panel de administración</div>
-    <div id="contenido-dinamico" class="p-3">@yield('contenido')</div>
-    
+    <div class="topbar d-flex justify-content-between align-items-center px-2">
+        
+        <!-- 🧾 Título -->
+        <div>Panel de administración</div>
+
+        <!-- 👤 Usuario -->
+        <div>
+            <strong>{{ session('usuario.nombre') ?? 'Invitado' }}</strong>
+            <small class="text-muted">({{ session('usuario.rol') ?? 'Sin rol' }}) </small>
+
+                <button id="btnLogout" class="btn btn-sm">Cerrar sesion
+                    <i class="bi bi-box-arrow-right"> </i>
+                </button>
+        </div>
+
+    </div>
+
+    <div id="contenido-dinamico" class="p-2">@yield('contenido')</div>
+
+    <!-- 
     @include('principal.footer')
+    -->
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

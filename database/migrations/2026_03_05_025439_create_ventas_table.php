@@ -16,7 +16,7 @@ class CreateVentasTable extends Migration
         Schema::create('ventas', function (Blueprint $table) {
             $table->increments('id_venta');
 
-            $table->string('numero_factura',50);
+            $table->string('numero_factura',50)->unique();
 
             $table->dateTime('fecha_venta')->useCurrent();
 
@@ -37,6 +37,10 @@ class CreateVentasTable extends Migration
 
             $table->unsignedInteger('id_metodo_pago');
 
+            $table->decimal('monto_recibido', 10,2)->nullable();
+            $table->decimal('vuelto', 10,2)->nullable();
+            $table->string('moneda', 10)->default('NIO');
+
             // relaciones
             $table->foreign('id_cliente')
                   ->references('id_cliente')
@@ -52,7 +56,8 @@ class CreateVentasTable extends Migration
 
             $table->foreign('id_cuenta')
                   ->references('id_cuenta')
-                  ->on('cuentas');
+                  ->on('cuentas')
+                  ->nullOnDelete();
 
             $table->foreign('id_metodo_pago')
                   ->references('id_metodo_pago')

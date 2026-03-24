@@ -24,21 +24,21 @@ class cajasSeeder extends Seeder
                 'id_usuario'     => 1,
             ],
             [
-                'fecha_apertura' => now(),
-                'fecha_cierre'   => null,
+                'fecha_apertura' => '2025-05-20 08:00:00',
+                'fecha_cierre'   => '2025-05-20 18:30:00',
 
                 'monto_inicial'  => 200.00,
                 'monto_teorico'  => null,
                 'monto_real'     => null,
                 'diferencia'     => null,
-                'monto_final'    => null,
+                'monto_final'    => 450.00,
 
-                'estado_caja'    => true,
+                'estado_caja'    => false,
                 'id_usuario'     => 2,
             ],
             [
-                'fecha_apertura' => '2024-05-19 09:15:00',
-                'fecha_cierre'   => '2024-05-19 17:00:00',
+                'fecha_apertura' => '2026-05-19 09:15:00',
+                'fecha_cierre'   => '2026-05-19 17:00:00',
 
                 'monto_inicial'  => 100.00,
                 'monto_teorico'  => 420.00,
