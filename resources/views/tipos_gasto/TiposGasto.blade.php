@@ -15,6 +15,7 @@
 <script src="{{ Vite::asset('resources/js/tipos_gasto/BajaTipoGasto.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/tipos_gasto/CrearTipoGasto.js') }}"></script>
 
+
 <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 
 </head>

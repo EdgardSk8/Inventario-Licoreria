@@ -13,15 +13,14 @@ class ConfiguracionEmpresaSeeder extends Seeder
      */
     public function run(): void
     {
-         DB::table('configuracion_empresa')->insert([
-            'nombre_empresa' => 'Tellez',
-            'ruc_empresa' => 'J0310000000001', // inventado
+        DB::table('configuracion_empresa')->insert([
+            'nombre_empresa'    => 'Tellez S.A.',
+            'ruc_empresa'       => 'J0310000000001',
             'direccion_empresa' => 'Barrio San Juan, León, Nicaragua',
-            'telefono_empresa' => '8888-9999',
-            'correo_empresa' => 'contacto@tellez.com',
-            'logo_empresa' => null, // por ahora vacío
-            'created_at' => now(),
-            'updated_at' => now()
+            'telefono_empresa'  => '8888-9999',
+            'correo_empresa'    => 'contacto@tellez.com',
+            'created_at'        => now(),
+            'updated_at'        => now()
         ]);
     }
 }

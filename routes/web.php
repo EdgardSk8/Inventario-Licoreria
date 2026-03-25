@@ -22,6 +22,8 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ConfiguracionEmpresaController;
+use App\Http\Controllers\CredencialesController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -59,8 +61,18 @@ Route::view('/gastos', 'gastos.Gastos')->name('gastos');
 Route::view('/tipos-gasto', 'tipos_gasto.TiposGasto')->name('tipos.gasto'); 
 Route::view('/metodos-pago', 'metodos_pago.MetodosPago')->name('metodos.pago'); 
 Route::view('/facturacion', 'facturacion.Facturacion')->name('facturacion'); 
+Route::view('/credenciales', 'credenciales.Credenciales')->name('credenciales'); 
 
 /* CONTROLADORES */
+
+/*  ╔════════════ Endpoint Empresa ══════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/credenciales/{id}/editar', [CredencialesController::class, 'EditarCredencial']);
+Route::put('/credenciales/{id}/actualizar', [CredencialesController::class, 'ActualizarCredenciales']);
+
+Route::get('/empresa/mostrar', [CredencialesController::class, 'MostrarCredenciales']);
+
 
 /*  ╔════════════ Endpoint Usuario ══════════════╗ 
     ╚════════════════════════════════════════════╝ */
@@ -132,6 +144,7 @@ Route::post('/proveedores/cambiar-estado/{id}', [ProveedorController::class, 'Ca
 
 /*Route::post('/cajas/abrir', [CajaController::class, 'AbrirCaja']);
 Route::post('/cajas/cerrar', [CajaController::class, 'CerrarCaja']);*/
+
 Route::get('/cajas/registro', [CajaController::class, 'RegistroCajas']);
 
 /*  ╔════════════ Endpoint Productos ════════════╗ 

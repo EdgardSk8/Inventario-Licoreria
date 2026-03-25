@@ -7,6 +7,8 @@
 
 <title>Administrador de Usuarios</title>
 
+
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}">
@@ -15,6 +17,8 @@
 <script src="{{ Vite::asset('resources/js/usuarios/BajaUsuario.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/usuarios/CrearUsuario.js') }}"></script>
+
+
 
 </head>
 

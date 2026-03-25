@@ -7,6 +7,7 @@
 
 <title>Administrador de Roles</title>
 
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}">
@@ -15,6 +16,8 @@
 <script src="{{ Vite::asset('resources/js/roles/BajaRol.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/roles/CrearRol.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
+
+
 
 <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 </head>

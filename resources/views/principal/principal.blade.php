@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 
 <title>Sistema</title>
+<script src="{{ Vite::asset('resources/js/EspaniolTabla.js') }}"></script>
 @include('principal.links')
 
 @vite(['resources/css/principal/principal.css'])
@@ -265,6 +266,7 @@
 
                     <a href="" class="cargar-vista" data-url="{{ route('impuestos') }}">Impuestos</a>
                     <a href="" class="cargar-vista" data-url="{{ route('metodos.pago') }}">Metodos de Pago</a>
+                    <a href="" class="cargar-vista" data-url="{{ route('credenciales') }}">Credenciales de Empresa</a>
 
                 </div>
 

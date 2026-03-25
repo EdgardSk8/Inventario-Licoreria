@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}">
 
     <!-- Scripts -->
-    <script src="{{ Vite::asset('resources/js/EspaniolTabla.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/ventas/MostrarVentas.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
