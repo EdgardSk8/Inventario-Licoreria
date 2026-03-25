@@ -19,9 +19,16 @@ class Compra extends Model
         'numero_factura_compra',
         'id_proveedor',
         'id_usuario',
+        'fecha_compra',
+        'subtotal_compra',
+        'descuento_compra',
+        'impuesto_compra',
+        'total_compra',
+        'estado_compra',
         'id_caja',
         'id_cuenta',
-        'total_compra'
+        'id_metodo_pago',
+        'id_tipo_factura'
     ];
 
     // 🔹 Relación: compra pertenece a proveedor
@@ -52,5 +59,14 @@ class Compra extends Model
     public function detalles()
     {
         return $this->hasMany(DetalleCompra::class, 'id_compra', 'id_compra');
+    }
+    public function metodoPago()
+    {
+        return $this->belongsTo(MetodoPago::class, 'id_metodo_pago', 'id_metodo_pago');
+    }
+
+    public function tipoFactura()
+    {
+        return $this->belongsTo(TipoFactura::class, 'id_tipo_factura', 'id_tipo_factura');
     }
 }

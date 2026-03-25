@@ -57,7 +57,8 @@ class DatabaseSeeder extends Seeder
             movimientos_cajaSeeder::class,
             movimientos_cuentasSeeder::class,
             UbicacionesSeeder::class,
-            credencialesSeeder::class
+            credencialesSeeder::class,
+            TiposFacturaSeeder::class
         ]);
     }
 }

@@ -13,18 +13,20 @@ class CreateComprasTable extends Migration
      */
     public function up()
     {
+      
       Schema::create('compras', function (Blueprint $table) {
             $table->increments('id_compra');
 
-            $table->string('numero_factura_compra',50);
+            $table->string('numero_factura_compra',50)->nullable();
 
-            $table->unsignedInteger('id_proveedor');
+            $table->unsignedInteger('id_proveedor')->nullable();
             $table->unsignedInteger('id_usuario');
 
             $table->dateTime('fecha_compra')->useCurrent();
 
             $table->decimal('subtotal_compra',10,2);
-            $table->decimal('impuesto_compra',10,2);
+            $table->decimal('descuento_compra',10,2)->nullable();
+            $table->decimal('impuesto_compra',10,2)->nullable();
             $table->decimal('total_compra',10,2);
 
             $table->boolean('estado_compra')->default(true);
@@ -32,11 +34,14 @@ class CreateComprasTable extends Migration
             // 👇 NUEVOS CAMPOS (clave)
             $table->unsignedInteger('id_caja')->nullable();
             $table->unsignedInteger('id_cuenta')->nullable();
+            $table->unsignedInteger('id_metodo_pago')->nullable();
+            $table->unsignedInteger('id_tipo_factura')->nullable();
 
             // relaciones
             $table->foreign('id_proveedor')
                   ->references('id_proveedor')
-                  ->on('proveedores');
+                  ->on('proveedores')
+                  ->nullOnDelete();
 
             $table->foreign('id_usuario')
                   ->references('id_usuario')
@@ -49,7 +54,16 @@ class CreateComprasTable extends Migration
             $table->foreign('id_cuenta')
                   ->references('id_cuenta')
                   ->on('cuentas');
-        });
+
+            $table->foreign('id_metodo_pago')
+                  ->references('id_metodo_pago')
+                  ->on('metodos_pago');
+
+            $table->foreign('id_tipo_factura')
+                  ->references('id_tipo_factura')
+                  ->on('tipos_factura');
+      });
+
     }
 
     /**
