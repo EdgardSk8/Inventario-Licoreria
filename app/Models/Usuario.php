@@ -23,4 +23,23 @@ class Usuario extends Model
     {
         return $this->belongsTo(Rol::class,'id_rol_usuario');
     }
+
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla usuarios se usa para almacenar la información de las personas que usan el sistema.
+
+Cada registro representa un usuario, donde se guarda:
+
+- El nombre completo
+- Su cédula de identidad
+- El nombre de usuario y contraseña
+- El rol asignado
+- Su estado (activo o inactivo)
+- La fecha de creación
+
+La función de la tabla usuarios es controlar quién accede al sistema y qué puede
+hacer según su rol.
+
+══════════════════════════════════════════════════════════════════════════ */

@@ -19,3 +19,20 @@ class Proveedor extends Model
         'estado_proveedor'
     ];
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla proveedores se usa para almacenar la información de quienes suministran productos.
+
+Cada registro representa un proveedor, donde se guarda:
+
+- El nombre del proveedor (empresa)
+- Su RUC (opcional)
+- Teléfono, dirección y correo electrónico
+- Su estado (activo o inactivo)
+- La fecha de creación
+
+La función de la tabla proveedores es identificar de dónde provienen los productos,
+facilitando la gestión de compras y relaciones comerciales.
+
+══════════════════════════════════════════════════════════════════════════ */

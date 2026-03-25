@@ -35,4 +35,23 @@ class Cuenta extends Model
     {
         return $this->hasMany(MovimientoCaja::class, 'id_cuenta_destino', 'id_cuenta');
     }
+
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla cuentas se usa para gestionar el dinero en diferentes cuentas del sistema.
+
+Cada registro representa una cuenta, donde se guarda:
+
+- El nombre de la cuenta (ej: caja general, banco, efectivo)
+- El tipo de cuenta (ej: Bancaria, Ahorro, Efectivo etc.)
+- Una descripción opcional
+- El saldo actual disponible
+- Su estado (activa o inactiva)
+- Fechas de creación y actualización
+
+La función de la tabla cuentas es llevar control del dinero disponible en
+distintos medios, permitiendo registrar ingresos y egresos de forma organizada.
+
+══════════════════════════════════════════════════════════════════════════ */

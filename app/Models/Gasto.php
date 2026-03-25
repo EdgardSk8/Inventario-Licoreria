@@ -42,4 +42,23 @@ class Gasto extends Model
         return $this->hasOne(MovimientoCaja::class, 'id_referencia', 'id_gasto')
                     ->where('tipo_movimiento_caja', 'SALIDA');
     }
+
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla gastos se usa para registrar los egresos de dinero del negocio.
+
+Cada registro representa un gasto, donde se guarda:
+
+- El tipo de gasto (ej: servicios, compras menores, mantenimiento)
+- Una descripción del gasto
+- El monto gastado
+- La fecha y hora del gasto
+- El usuario que lo registró
+- La caja o cuenta desde donde se pagó (si aplica)
+
+La función de la tabla gastos es llevar control del dinero que sale del negocio,
+permitiendo un mejor seguimiento y administración de los egresos.
+
+══════════════════════════════════════════════════════════════════════════ */

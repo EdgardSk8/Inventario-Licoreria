@@ -19,4 +19,24 @@ class DetalleVenta extends Model
         'porcentaje_impuesto',
         'monto_impuesto',
     ];
+
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla detalle_ventas se usa para desglosar los productos incluidos en una venta.
+
+Cada registro representa un producto vendido dentro de una venta, donde se guarda:
+
+- La venta a la que pertenece
+- El producto vendido
+- La cantidad vendida
+- El precio unitario de venta
+- El subtotal por ese producto
+- El porcentaje de impuesto aplicado
+- El monto de impuesto calculado
+
+La función de la tabla detalle_ventas es detallar cada producto vendido,
+permitiendo calcular correctamente los totales y los impuestos de la venta.
+
+══════════════════════════════════════════════════════════════════════════ */

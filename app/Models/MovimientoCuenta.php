@@ -23,4 +23,23 @@ class MovimientoCuenta extends Model
     {
         return $this->belongsTo(Cuenta::class, 'id_cuenta', 'id_cuenta');
     }
+
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla movimientos_cuentas se usa para registrar los movimientos de dinero en las cuentas.
+
+Cada registro representa un movimiento, donde se guarda:
+
+- La cuenta afectada
+- El tipo de movimiento (ingreso o salida)
+- El monto del movimiento
+- Una descripción opcional
+- La fecha y hora
+- El usuario que lo realizó
+
+La función de la tabla movimientos_cuentas es controlar el dinero que entra y sale
+de las cuentas, manteniendo actualizado el saldo.
+
+══════════════════════════════════════════════════════════════════════════ */

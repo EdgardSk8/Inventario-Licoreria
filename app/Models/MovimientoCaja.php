@@ -38,4 +38,25 @@ class MovimientoCaja extends Model
     {
         return $this->belongsTo(Cuenta::class, 'id_cuenta_destino', 'id_cuenta');
     }
+
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla movimientos_caja se usa para registrar entradas y salidas de dinero en caja.
+
+Cada registro representa un movimiento, donde se guarda:
+
+- La caja a la que pertenece
+- El tipo de movimiento (ingreso o salida)
+- El concepto del movimiento (Apertura de caja, Pago de proveedor, Gasto operativo etc )
+- El monto del movimiento
+- La fecha y hora
+- El usuario que lo realizó
+- Referencias opcionales (ej: venta, gasto)
+- La cuenta destino (si aplica)
+
+La función de la tabla movimientos_caja es llevar un control detallado del flujo
+de dinero dentro de la caja durante un turno.
+
+══════════════════════════════════════════════════════════════════════════ */

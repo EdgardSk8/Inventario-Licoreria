@@ -17,4 +17,21 @@ class Credenciales extends Model
         'telefono_empresa',
         'correo_empresa',
     ];
+
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla credenciales se usa para almacenar la información de la empresa.
+
+Cada registro guarda:
+
+- El nombre de la empresa
+- El RUC
+- Dirección, teléfono y correo electrónico
+- Fechas de creación y actualización
+
+La función de la tabla credenciales es proporcionar los datos necesarios de la
+empresa para mostrarlos en facturas, reportes y configuraciones del sistema.
+
+══════════════════════════════════════════════════════════════════════════ */

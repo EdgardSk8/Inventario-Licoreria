@@ -42,3 +42,26 @@ class Caja extends Model
         return $this->hasMany(Compra::class, 'id_caja', 'id_caja');
     }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla cajas se usa para controlar el dinero de cada turno de caja.
+
+Cada registro representa una caja abierta por un usuario, donde se guarda:
+
+- La fecha y hora de apertura y cierre
+- El dinero inicial con el que se abre
+- Las ventas, gastos y movimientos realizados
+- El dinero esperado al cierre (teórico)
+- El dinero contado realmente
+- La diferencia entre ambos (para detectar faltantes o sobrantes)
+
+La funcion de la tabla caja es saber con que caja se ha hecho una facturacion
+
+══════════════════════════════════════════════════════════════════════════ */ 
+
+
+
+
+
+

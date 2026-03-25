@@ -118,6 +118,8 @@ class FacturacionController extends Controller
         }
     }
 
+/*  ╔════════ Facturar Clientes POS ══════════╗ 
+    ╚═════════════════════════════════════════╝ */
 
     public function FacturarProductosPOS(Request $request)
     {

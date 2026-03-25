@@ -42,3 +42,22 @@ class Producto extends Model
     }
     
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla productos se usa para almacenar la información de los productos del negocio.
+
+Cada registro representa un producto, donde se guarda:
+
+- El nombre y descripción del producto
+- La categoría, impuesto y ubicación
+- Una imagen (opcional)
+- El precio de compra y precio de venta
+- El stock actual disponible
+- Su estado (activo o inactivo)
+- La fecha de creación
+
+La función de la tabla productos es gestionar el inventario, permitiendo controlar
+precios, stock y organización de los productos.
+
+══════════════════════════════════════════════════════════════════════════ */

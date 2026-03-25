@@ -31,4 +31,21 @@ class TipoFactura extends Model
     {
         return $this->hasMany(Compra::class, 'id_tipo_factura', 'id_tipo_factura');
     }
+
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla tipos_factura se usa para definir los tipos de comprobantes de venta o compra.
+
+Cada registro representa un tipo de factura, donde se guarda:
+
+- El nombre del tipo de factura (ej: contado, crédito)
+- Una descripción opcional
+- Su estado (activo o inactivo)
+- Fechas de creación y actualización
+
+La función de la tabla tipos_factura es clasificar las transacciones según su tipo,
+facilitando el control y la gestión administrativa.
+
+══════════════════════════════════════════════════════════════════════════ */

@@ -69,4 +69,24 @@ class Compra extends Model
     {
         return $this->belongsTo(TipoFactura::class, 'id_tipo_factura', 'id_tipo_factura');
     }
+
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla compras se usa para registrar las adquisiciones de productos a proveedores.
+
+Cada registro representa una compra, donde se guarda:
+
+- El número de factura de la compra
+- El proveedor que emitio la venta y el usuario que realizó la compra
+- La fecha y hora de la compra
+- El subtotal, descuento, impuesto y total de la compra
+- El método de pago, cuenta o caja utilizada (si aplica)
+- El tipo de factura
+- Su estado (activa o anulada)
+
+La función de la tabla compras es llevar control de las entradas de productos al
+inventario y el dinero que sale por dichas adquisiciones.
+
+══════════════════════════════════════════════════════════════════════════ */

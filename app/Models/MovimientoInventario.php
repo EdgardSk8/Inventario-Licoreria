@@ -36,3 +36,24 @@ class MovimientoInventario extends Model
     }
 
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+
+La tabla movimientos_inventario se usa para registrar los cambios en el stock de productos.
+
+Cada registro representa un movimiento de inventario, donde se guarda:
+
+- El producto afectado
+- El tipo de movimiento (entrada, salida o ajuste)
+- La cantidad movida
+- El stock resultante después del movimiento
+- El motivo del movimiento
+- Referencias (ej: venta, compra, devolución)
+- El precio unitario (si aplica)
+- La fecha y hora
+- El usuario que lo realizó
+
+La función de la tabla movimientos_inventario es llevar un control detallado del
+stock, permitiendo conocer el historial y estado actual de cada producto.
+
+══════════════════════════════════════════════════════════════════════════ */
