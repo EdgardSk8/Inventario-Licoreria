@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Credenciales extends Model
 {
-    protected $table = 'configuracion_empresa';
+    protected $table = 'credenciales';
 
     protected $primaryKey = 'id';
 

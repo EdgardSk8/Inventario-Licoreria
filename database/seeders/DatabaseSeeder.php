@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Credenciales;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -56,7 +57,7 @@ class DatabaseSeeder extends Seeder
             movimientos_cajaSeeder::class,
             movimientos_cuentasSeeder::class,
             UbicacionesSeeder::class,
-            ConfiguracionEmpresaSeeder::class,
+            credencialesSeeder::class
         ]);
     }
 }

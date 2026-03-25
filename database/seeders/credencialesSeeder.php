@@ -6,14 +6,14 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ConfiguracionEmpresaSeeder extends Seeder
+class credencialesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('configuracion_empresa')->insert([
+         DB::table('credenciales')->insert([
             'nombre_empresa'    => 'Tellez S.A.',
             'ruc_empresa'       => 'J0310000000001',
             'direccion_empresa' => 'Barrio San Juan, León, Nicaragua',
