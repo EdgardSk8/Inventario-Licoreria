@@ -125,7 +125,7 @@
 
                     <a href="" class="cargar-vista" data-url="{{ route('productos') }}">Productos</a>
                     <a href="" class="cargar-vista" data-url="{{ route('categorias') }}">Categorias</a>
-                    <a href="" class="cargar-vista" data-url="{{ route('movimientos.inventario') }}">Inventario</a>
+                    <a href="" class="cargar-vista" data-url="{{ route('movimientos.inventario') }}">Kardex</a>
 
                 </div>
 

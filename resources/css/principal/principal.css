@@ -23,9 +23,9 @@ background:#f4f6f9;
 
 /* contenido */
 .content{
-height:100vh;
-overflow-y:auto;
-flex-grow:1;
+    height:100vh;
+     overflow-y: auto; 
+    flex-grow:1;
 }
 
 /* SIDEBAR */

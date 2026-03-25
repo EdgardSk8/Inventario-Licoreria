@@ -177,14 +177,20 @@ class FacturacionController extends Controller
                     'monto_impuesto' => $impuesto
                 ]);
 
+                $stockAntes = $producto->stock_actual;
+                $stockDespues = $stockAntes - $cantidad;
+
                 $producto->decrement('stock_actual', $cantidad);
 
                 MovimientoInventario::create([
                     'id_producto' => $producto->id_producto,
-                    'tipo_movimiento' => 'SALIDA',
-                    'cantidad_movimiento' => $cantidad,
+                    'tipo_movimiento' => 'SALIDA',        // siempre ENTRADA/SALIDA/AJUSTE
+                    'cantidad_movimiento' => $cantidad,   // siempre positivo
+                    'stock_resultante' => $stockDespues,  // nuevo campo
                     'motivo_movimiento' => 'Venta',
                     'id_referencia' => $venta->id_venta,
+                    'tipo_referencia' => 'VENTA',         // nuevo campo
+                    'precio_unitario' => $precio,          // opcional
                     'id_usuario' => session('usuario.id')
                 ]);
             }
@@ -219,7 +225,6 @@ class FacturacionController extends Controller
             ]);
         }
     }
-
 
 
 /*  ╔════════ Mostrar Metodo Pago POS ════════╗ 

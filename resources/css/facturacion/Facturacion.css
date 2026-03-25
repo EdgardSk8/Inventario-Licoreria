@@ -62,15 +62,15 @@
 .agregarProducto{ font-size: 14px; padding: 2px 5px; }
 
 .dataTables_length, .dataTables_filter, .dataTables_info{ font-size: 14px; }
-
 .page-link { font-size: 12px; }
 
 .carrito-scroll {
     overflow-y: auto;
     max-height: 45vh;
     border: 1px solid rgb(190, 190, 190);
+    
 }
 
-.select2-results__options {
+.select2-results__options { /* Selectores (Select2)*/
     max-height: 70vh !important;
 }

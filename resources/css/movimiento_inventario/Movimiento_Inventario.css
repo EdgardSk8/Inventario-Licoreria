@@ -1,0 +1,18 @@
+
+.table thead th{ /* Columna th (Titulo )*/ 
+    text-align: center !important; /* Horizontal */
+    vertical-align: middle !important; /* Vertical */
+    font-size: 16px;
+    padding: 0;
+}
+
+
+
+.table td { /* Columna th (Contenido)*/ 
+    text-align: center; /* Horizontal */
+    vertical-align: middle; /* Vertical */
+    font-size: 14px;
+}
+
+.dataTables_length, .dataTables_filter, .dataTables_info{ font-size: 14px; }
+.page-link { font-size: 12px; }
