@@ -20,8 +20,8 @@
 
     <div class="card shadow-sm">
 
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h6 class="mb-0">
+        <div style="background-color: #111827" class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="mb-0"  style="color: #f4f6f9">
                 <i class="bi bi-building"></i> Configuración de la Empresa
             </h6>
 

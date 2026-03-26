@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\FacturacionController;
-use App\Http\Controllers\MovimientoInventarioController;
-use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,8 +20,11 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ConfiguracionEmpresaController;
 use App\Http\Controllers\CredencialesController;
+use App\Http\Controllers\FacturacionController;
+use App\Http\Controllers\MovimientoInventarioController;
+use App\Http\Controllers\VentaController;
+use App\Http\Controllers\CompraController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -191,3 +191,15 @@ Route::get('/metodo-pago/pos', [FacturacionController::class, 'MostrarMetodoPago
 Route::post('/caja/abrir', [CajaController::class, 'AbrirCaja']);
 Route::post('/caja/cerrar', [CajaController::class, 'CerrarCaja']);
 Route::get('/caja/verificar', [CajaController::class, 'VerificarCaja']);
+
+
+/*  ╔═════════════ Endpoint Compras ═════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::post('/compra/crear', [CompraController::class, 'RegistrarCompra']);
+
+Route::get('/proveedores-compra/mostrar', [CompraController::class, 'MostrarProveedoresCompras']);
+Route::get('/tipo-factura-compra/mostrar', [CompraController::class, 'MostrarTiposFacturaCompras']);
+Route::get('/metodo-pago-compra/mostrar', [CompraController::class, 'MostrarMetodosPagoCompras']);
+Route::get('/cuenta-compra/mostrar', [CompraController::class, 'MostrarCuentasCompras']);
+Route::get('/caja-compra/mostrar', [CompraController::class, 'mostrarCajasAbiertas']);

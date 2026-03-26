@@ -42,7 +42,7 @@ class Cuenta extends Model
 
 La tabla cuentas se usa para gestionar el dinero en diferentes cuentas del sistema.
 
-Cada registro representa una cuenta, donde se guarda:
+Cada registro representa una cuenta (Origen del dinero), donde se guarda:
 
 - El nombre de la cuenta (ej: caja general, banco, efectivo)
 - El tipo de cuenta (ej: Bancaria, Ahorro, Efectivo etc.)
