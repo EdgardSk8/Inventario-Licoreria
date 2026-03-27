@@ -36,7 +36,7 @@ class Producto extends Model
         return $this->belongsTo(Impuesto::class,'id_impuesto');
     }
 
-    public function ubicacion() // 👈 NUEVA RELACIÓN
+    public function ubicacion() 
     {
         return $this->belongsTo(Ubicacion::class,'id_ubicacion');
     }

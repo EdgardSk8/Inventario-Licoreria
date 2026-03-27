@@ -326,7 +326,7 @@ class CompraController extends Controller
         }
     }
 
-/*  ╔════════ Mostrar Cajas Abiertas ═════════╗ 
+/*  ╔════════════ Proceso de cajas ═══════════╗ 
     ╚═════════════════════════════════════════╝ */
 
     public function procesarPagoCaja($totalCompra, $idCompra = null)
@@ -367,39 +367,112 @@ class CompraController extends Controller
         return $caja;
     }
 
-public function MostrarCajasAbiertas(Request $request)
-{
-    $idUsuario = session('usuario.id');
-    $totalCompra = $request->total ?? 0; // opcional para validar si hay suficiente saldo
+/*  ╔════════ Mostrar Cajas Abiertas ═════════╗ 
+    ╚═════════════════════════════════════════╝ */
 
-    $cajas = Caja::where('estado_caja', 1)
-                 ->get(); // podemos filtrar por usuario si quieres
+    public function MostrarCajasAbiertas(Request $request)
+    {
+        $idUsuario = session('usuario.id');
+        $totalCompra = $request->total ?? 0; // opcional para validar si hay suficiente saldo
 
-    $data = $cajas->map(function ($caja) use ($totalCompra) {
+        $cajas = Caja::where('estado_caja', 1)
+                    ->get(); // podemos filtrar por usuario si quieres
 
-        // calcular saldo en tiempo real
-        $ingresos = MovimientoCaja::where('id_caja', $caja->id_caja)
-                    ->where('tipo_movimiento_caja', 'INGRESO')
-                    ->sum('monto_movimiento_caja');
+        $data = $cajas->map(function ($caja) use ($totalCompra) {
 
-        $salidas = MovimientoCaja::where('id_caja', $caja->id_caja)
-                    ->where('tipo_movimiento_caja', 'SALIDA')
-                    ->sum('monto_movimiento_caja');
+            // calcular saldo en tiempo real
+            $ingresos = MovimientoCaja::where('id_caja', $caja->id_caja)
+                        ->where('tipo_movimiento_caja', 'INGRESO')
+                        ->sum('monto_movimiento_caja');
 
-        $saldoActual = $caja->monto_inicial + $ingresos - $salidas;
+            $salidas = MovimientoCaja::where('id_caja', $caja->id_caja)
+                        ->where('tipo_movimiento_caja', 'SALIDA')
+                        ->sum('monto_movimiento_caja');
 
-        return [
-            'id' => $caja->id_caja,
-            'text' => "{$caja->usuario->nombre_completo_usuario} (Saldo: C$ ".number_format($saldoActual, 2).")",
-            'saldo_actual' => $saldoActual
-        ];
-    });
+            $saldoActual = $caja->monto_inicial + $ingresos - $salidas;
 
-    return response()->json([
-        'success' => true,
-        'data' => $data
-    ]);
-}
+            return [
+                'id' => $caja->id_caja,
+                'text' => "{$caja->usuario->nombre_completo_usuario} (Saldo: C$ ".number_format($saldoActual, 2).")",
+                'saldo_actual' => $saldoActual
+            ];
+        });
 
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
+
+
+
+/*  ╔═══════════ Mostrar Productos ═══════════╗ 
+    ╚═════════════════════════════════════════╝ */
+
+    public function MostrarProductosCompras(Request $request)
+    {
+        try {
+            // 🔍 VALIDACIÓN
+            $validator = Validator::make($request->all(), [
+                'q' => 'nullable|string|max:150',
+                'estado' => 'nullable|boolean'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'error' => true,
+                    'mensajes' => $validator->errors()
+                ], 400);
+            }
+
+            // 🔎 CONSULTA BASE
+            $query = Producto::query();
+
+            // 🟢 FILTRO POR ESTADO
+            if ($request->has('estado')) {
+                $query->where('estado_producto', $request->estado);
+            } else {
+                // por defecto solo activos
+                $query->where('estado_producto', 1);
+            }
+
+            // 🔍 BÚSQUEDA (Select2 usa "q")
+            if ($request->filled('q')) {
+                $busqueda = $request->q;
+
+                $query->where(function ($q) use ($busqueda) {
+                    $q->where('nombre_producto', 'like', "%{$busqueda}%")
+                    ->orWhere('descripcion_producto', 'like', "%{$busqueda}%");
+                });
+            }
+
+            $productos = $query
+                ->orderBy('nombre_producto', 'asc')
+                ->limit(20)
+                ->get();
+
+            // 🎯 FORMATO SELECT2
+            $data = $productos->map(function ($p) {
+                return [
+                    'id' => $p->id_producto,
+                    'text' => $p->nombre_producto
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'total' => $data->count(),
+                'data' => $data
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'error' => true,
+                'mensaje' => 'Error al obtener productos',
+                'detalle' => $e->getMessage()
+            ], 500);
+        }
+    }
 
 } // Fin de controlador

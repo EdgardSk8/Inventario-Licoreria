@@ -1,0 +1,19 @@
+/* resources/css/compras/Compras.css */
+
+.container-fluid{ height: 70vh; } /* Contenedor Principal */
+/* ---------------------------------------------------------------------------------- */
+/* ═════════════ ( SELECTORES ) ═══════════════ */
+.select2-selection__rendered{ font-size: 14px; }/* Selector2 */
+.select2-results__options{ font-size: 14px; max-height: 45vh !important; overflow-y: auto; } /* Selector2 opciones */
+.form-select, .form-control{ font-size: 14px; } /* Selector Comun */
+/* ---------------------------------------------------------------------------------- */
+/* ═════════════ ( TABLA ) ═══════════════ */
+.card-body{ padding: 5px 10px 10px 10px; } /* Tabla de productos */
+.table thead th{ text-align: center !important; padding: 0; } /* Titulo Tabla */
+.table td{  padding: 2px 0px 2px 0; } /* Columna th (Contenido)*/ 
+.carrito-container .card-body{ max-height: 45vh; overflow-y: scroll; overflow-x: hidden; } /* Contenedor de Tabla */
+.table input{ font-size: 14px; width: 60%; text-align: center; margin: 0 auto; display: block; } /* Input Tabla Producto */
+.btn-danger { height: 25px; width: 50px; padding: 0; font-size: 16px; } /* Btn Eliminar */
+.table input[type=number]::-webkit-outer-spin-button, .table input[type=number]::-webkit-inner-spin-button {
+-webkit-appearance: none; margin: 0; } /* Quitar flechas de los inputs "type=number" */
+/* ---------------------------------------------------------------------------------- */

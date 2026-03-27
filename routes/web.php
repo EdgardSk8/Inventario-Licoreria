@@ -203,3 +203,4 @@ Route::get('/tipo-factura-compra/mostrar', [CompraController::class, 'MostrarTip
 Route::get('/metodo-pago-compra/mostrar', [CompraController::class, 'MostrarMetodosPagoCompras']);
 Route::get('/cuenta-compra/mostrar', [CompraController::class, 'MostrarCuentasCompras']);
 Route::get('/caja-compra/mostrar', [CompraController::class, 'mostrarCajasAbiertas']);
+Route::get('/productos-compra/mostrar', [CompraController::class, 'MostrarProductosCompras']);
