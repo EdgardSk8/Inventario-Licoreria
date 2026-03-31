@@ -57,14 +57,32 @@
             <input type="number" id="editar_precio_compra" class="form-control form-control-sm" step="0.01" required>
           </div>
 
+          <div class="col-md-1 d-flex align-items-center justify-content-between">
+            <small class="mb-0">V/R</small>
+            <input type="checkbox" id="editar_check_venta" title="% de ganancia de venta">
+            <input type="checkbox" id="editar_redondeo_venta" title="Redondeo total al impuesto">
+          </div>
+
+          <!-- % venta -->
+          <div class="col-md-1">
+            <label class="form-label">% Venta</label>
+            <input type="number" id="editar_porcentaje_venta" class="form-control form-control-sm" step="0.1" >
+          </div>
+
           <!-- Precio venta -->
           <div class="col-md-2">
-            <label class="form-label">Precio Venta</label>
+            <label class="form-label">P. Venta</label>
             <input type="number" id="editar_precio_venta" class="form-control form-control-sm" step="0.01" required>
           </div>
 
-          <!-- Stock -->
+          <!-- Precio incluye IVA -->
           <div class="col-md-2">
+            <label class="form-label">Precio Total ( +IVA )</label>
+            <input type="number" id="editar_precio_venta_TOTAL" class="form-control form-control-sm" disabled>
+          </div>
+
+          <!-- Stock -->
+          <div class="col-md-1">
             <label class="form-label">Stock</label>
             <input type="number" id="editar_stock_actual" class="form-control form-control-sm" min="0" required>
           </div>

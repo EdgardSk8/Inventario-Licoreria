@@ -168,7 +168,7 @@
                                 <th>#</th>
                                 <th>Producto</th>
                                 <th>Cant</th>
-                                <th>P. Venta</th>
+                                <th>P. Compra</th>
                                 <th>Total</th>
                                 <th>Acción</th>
 
@@ -206,14 +206,14 @@
                         <div class="col-12 mb-1">
 
                             <label class="small">Descuento</label>
-                            <input type="number" id="descuento" class="form-control form-control-sm text-end" value="0">
+                            <input type="number" id="descuento" class="form-control form-control-sm text-end" placeholder="0" value="">
 
                         </div>
 
                         <div class="col-12 mb-1">
 
                             <label class="small">Impuesto</label>
-                            <input type="number" id="impuesto" class="form-control form-control-sm text-end" value="0">
+                            <input type="number" id="impuesto" class="form-control form-control-sm text-end" placeholder="0" value="">
 
                         </div>
 

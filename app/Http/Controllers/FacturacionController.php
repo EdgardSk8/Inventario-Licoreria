@@ -39,7 +39,8 @@ class FacturacionController extends Controller
                 ], 400);
             }
 
-            $query = Producto::where('estado_producto', 1);
+            $query = Producto::with('impuesto')
+                ->where('estado_producto', 1);
 
             // 🔍 Buscador
             if ($request->filled('buscar')) {
@@ -51,10 +52,27 @@ class FacturacionController extends Controller
                     'nombre_producto',
                     'precio_venta',
                     'stock_actual',
-                    'imagen_producto'
+                    'imagen_producto',
+                    'id_impuesto' // 🔥 IMPORTANTE para la relación
                 )
-                ->limit(20) // importante para rendimiento
-                ->get();
+                ->limit(20)
+                ->get()
+                ->map(function ($p) {
+
+                    $iva = $p->impuesto->porcentaje_impuesto ?? 0;
+
+                    $precioConIVA = $p->precio_venta + ($p->precio_venta * ($iva / 100));
+
+                    return [
+                        'id_producto'     => $p->id_producto,
+                        'nombre_producto' => $p->nombre_producto,
+                        'precio_venta'    => $p->precio_venta,
+                        'precio_con_iva'  => round($precioConIVA, 2),
+                        'iva'             => $iva,
+                        'stock_actual'    => $p->stock_actual,
+                        'imagen_producto' => $p->imagen_producto
+                    ];
+                });
 
             return response()->json([
                 'success' => true,
@@ -127,7 +145,7 @@ class FacturacionController extends Controller
 
         try {
 
-            // 🔥 obtener caja abierta (SIN session)
+            // 🔥 obtener caja abierta
             $caja = Caja::where('estado_caja', 1)->first();
 
             if (!$caja) {
@@ -139,29 +157,36 @@ class FacturacionController extends Controller
             $subtotalGeneral = 0;
             $impuestoGeneral = 0;
 
+            // ⚠️ NO usar total del frontend
             $venta = Venta::create([
                 'numero_factura' => $numero,
                 'id_cliente' => $request->cliente,
                 'id_usuario' => session('usuario.id'),
-                'id_caja' => $caja->id_caja, // 🔥 AQUÍ
+                'id_caja' => $caja->id_caja,
                 'id_metodo_pago' => 1,
                 'subtotal_venta' => 0,
                 'impuesto_venta' => 0,
-                'total_venta' => $request->total,
+                'total_venta' => 0, // se actualiza después
                 'monto_recibido' => $request->recibido,
-                'vuelto' => $request->recibido - $request->total
+                'vuelto' => 0
             ]);
 
             foreach ($request->carrito as $item) {
 
                 $producto = Producto::with('impuesto')->find($item['id']);
 
-                $precio = $item['precio'];
+                if (!$producto) {
+                    throw new \Exception('Producto no encontrado');
+                }
+
                 $cantidad = $item['cantidad'];
                 $porcentaje = $producto->impuesto->porcentaje_impuesto;
 
-                $precioSinImpuesto = $precio / (1 + ($porcentaje / 100));
-                $impuestoUnitario = $precio - $precioSinImpuesto;
+                // 🔥 PRECIO REAL desde BD (SIN IVA)
+                $precioSinImpuesto = $producto->precio_venta;
+
+                // 🔥 cálculo correcto
+                $impuestoUnitario = $precioSinImpuesto * ($porcentaje / 100);
 
                 $subtotal = $precioSinImpuesto * $cantidad;
                 $impuesto = $impuestoUnitario * $cantidad;
@@ -173,53 +198,66 @@ class FacturacionController extends Controller
                     'id_venta' => $venta->id_venta,
                     'id_producto' => $producto->id_producto,
                     'cantidad_venta' => $cantidad,
-                    'precio_unitario_venta' => $precio,
+                    'precio_unitario_venta' => $precioSinImpuesto, // 🔥 SIN IVA
                     'subtotal_detalle_venta' => $subtotal,
                     'porcentaje_impuesto' => $porcentaje,
                     'monto_impuesto' => $impuesto
                 ]);
 
+                // 📦 stock
                 $stockAntes = $producto->stock_actual;
                 $stockDespues = $stockAntes - $cantidad;
+
+                if ($stockDespues < 0) {
+                    throw new \Exception("Stock insuficiente para {$producto->nombre_producto}");
+                }
 
                 $producto->decrement('stock_actual', $cantidad);
 
                 MovimientoInventario::create([
                     'id_producto' => $producto->id_producto,
-                    'tipo_movimiento' => 'SALIDA',        // siempre ENTRADA/SALIDA/AJUSTE
-                    'cantidad_movimiento' => $cantidad,   // siempre positivo
-                    'stock_resultante' => $stockDespues,  // nuevo campo
+                    'tipo_movimiento' => 'SALIDA',
+                    'cantidad_movimiento' => $cantidad,
+                    'stock_resultante' => $stockDespues,
                     'motivo_movimiento' => 'Venta',
                     'id_referencia' => $venta->id_venta,
-                    'tipo_referencia' => 'VENTA',         // nuevo campo
-                    'precio_unitario' => $precio,          // opcional
+                    'tipo_referencia' => 'VENTA',
+                    'precio_unitario' => $precioSinImpuesto,
                     'id_usuario' => session('usuario.id')
                 ]);
             }
 
+            // 🔥 TOTAL REAL calculado en backend
+            $totalGeneral = $subtotalGeneral + $impuestoGeneral;
+
             $venta->update([
                 'subtotal_venta' => $subtotalGeneral,
-                'impuesto_venta' => $impuestoGeneral
+                'impuesto_venta' => $impuestoGeneral,
+                'total_venta' => $totalGeneral,
+                'vuelto' => $request->recibido - $totalGeneral
             ]);
-            
 
-            // 💰 movimiento caja (ARREGLADO)
+            // 💰 movimiento caja
             MovimientoCaja::create([
-                'id_caja' => $caja->id_caja, // 🔥 AQUÍ TAMBIÉN
+                'id_caja' => $caja->id_caja,
                 'tipo_movimiento_caja' => 'INGRESO',
                 'concepto_movimiento_caja' => 'Venta',
-                'monto_movimiento_caja' => $request->total,
+                'monto_movimiento_caja' => $totalGeneral,
                 'id_usuario' => session('usuario.id'),
                 'id_referencia' => $venta->id_venta
             ]);
 
             DB::commit();
 
-            return response()->json(['success' => true]);
+            return response()->json([
+                'success' => true,
+                'total' => $totalGeneral
+            ]);
 
         } catch (\Exception $e) {
 
             DB::rollBack();
+
             return response()->json([
                 'success' => false,
                 'error' => $e->getMessage(),

@@ -19,7 +19,7 @@ $(document).ready(function () {
             columns: [ 
                 
                 { data: 'nombre_producto' },
-                { data: 'precio_venta', render: function(data){ return 'C$ ' + parseFloat(data).toFixed(1); } }, // Muestra un decimal
+                { data: 'precio_con_iva', render: function(data){ return 'C$ ' + parseFloat(data).toFixed(1); } }, // Muestra un decimal
                 { data: 'stock_actual' },
                 { data: 'id_producto', render: function(data, type, row) { // Acciones
 
@@ -45,6 +45,8 @@ $(document).ready(function () {
             ...Traduccion // Constante de traduccion de datatables
 
         });
+
+        
     }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
