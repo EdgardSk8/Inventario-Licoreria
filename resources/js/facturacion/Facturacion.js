@@ -19,7 +19,7 @@ $(document).ready(function () {
             columns: [ 
                 
                 { data: 'nombre_producto' },
-                { data: 'precio_con_iva', render: function(data){ return 'C$ ' + parseFloat(data).toFixed(1); } }, // Muestra un decimal
+                { data: 'precio_con_iva',  render: function(data){ return moneda(data, 1); } },
                 { data: 'stock_actual' },
                 { data: 'id_producto', render: function(data, type, row) { // Acciones
 
@@ -30,7 +30,7 @@ $(document).ready(function () {
                             <button class="btn btn-sm ${clase} agregarProducto"
                                 data-id="${row.id_producto}"
                                 data-nombre="${row.nombre_producto}"
-                                data-precio="${row.precio_venta}" 
+                                data-precio="${row.precio_con_iva}" 
                                 data-stock="${row.stock_actual}"
                                 ${deshabilitado}>
                                 <i class="bi bi-cart-plus"></i>
@@ -47,6 +47,12 @@ $(document).ready(function () {
         });
 
         
+    }
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+    function moneda(valor, decimales = 2) {
+        return 'C$ ' + parseFloat(valor || 0).toFixed(decimales);
     }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
@@ -108,8 +114,8 @@ $(document).ready(function () {
                             class="form-control form-control-sm cantidad"
                             data-index="${i}">
                     </td>
-                    <td>${p.precio.toFixed(2)}</td>
-                    <td>${subtotal.toFixed(2)}</td>
+                    <td>C$ ${p.precio.toFixed(2)}</td>
+                    <td>C$ ${subtotal.toFixed(2)}</td>
                     <td>
                         <button class="btn btn-sm btn-danger eliminar" data-index="${i}">
                             X

@@ -77,7 +77,7 @@
 
           <!-- Precio incluye IVA -->
           <div class="col-md-2">
-            <label class="form-label">Precio Total ( +IVA )</label>
+            <label class="form-label">Precio Total (+IVA)</label>
             <input type="number" id="editar_precio_venta_TOTAL" class="form-control form-control-sm" disabled>
           </div>
 

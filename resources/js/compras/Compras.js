@@ -107,23 +107,24 @@ $(document).ready(function () {
 /* ----------------------------------------------------- */
 
 /* ═════════════ ( SELECTOR CUENTAS ) ═══════════════ */
+function cargarCuentas() {
+    $.get('/cuenta-compra/mostrar', function(res) {
+        let select = $('#cuenta');
+        select.html('<option value="" disabled selected>Seleccione cuenta</option>');
 
-    function cargarCuentas() {
+        // Usar res.cuentas según tu JSON
+        if(res.success && Array.isArray(res.cuentas)) {
+            res.cuentas.forEach(function(c) {
+                select.append('<option value="' + c.id + '">' + c.display + '</option>');
+            });
+            
+        }
+    });
+}
 
-        $.get('/cuenta-compra/mostrar', function(res) {
-
-            const html = ['<option value="" disabled selected>Seleccione cuenta</option>']
-                .concat(res.data.map(c => 
-                    `<option value="${c.id_cuenta}">${c.nombre_cuenta} (C$ ${parseFloat(c.saldo_actual).toFixed(2)})</option>`
-                )).join('');
-
-            $('#cuenta').html(html);
-
-        });
-
-    }
 
     cargarCuentas();
+
 
 /* ----------------------------------------------------- */
 
@@ -313,46 +314,81 @@ $('#btnLimpiar').click(function () {
 /*═══════════════════════════════════════════════════*/
 /* 💾 REGISTRAR COMPRA */
 
-$('#btnRegistrar').click(function () {
-    let data = {
-        numero_factura: $('#numero_factura').val(),
-        proveedor: $('#proveedor').val(),
-        tipo_factura: $('#tipo_factura').val(),
-        metodo_pago: $('#metodo_pago').val(),
-        cuenta: $('#cuenta').val(),
-        descuento: parseFloat($('#descuento').val()) || 0,
-        impuesto: parseFloat($('#impuesto').val()) || 0,
-        total: parseFloat($('#total').val()) || 0,
-        carrito: carrito
-    };
+    $('#btnRegistrar').click(function () {
 
-    // VALIDACIONES
-    if (!data.proveedor) return alert('Seleccione proveedor');
-    if (!data.tipo_factura) return alert('Seleccione tipo factura');
-    if (!data.metodo_pago) return alert('Seleccione método de pago');
-    if (carrito.length === 0) return alert('Agregue productos');
+        let tipoPago = $('#cajacuentaselect').val();
 
-    $.ajax({
-        url: '/compras/registrar',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function (res) {
-            if (res.success) {
-                alert('Compra registrada');
-                $('#btnLimpiar').click();
-            } else {
-                alert(res.error || 'Error desconocido');
-            }
-        },
-        error: function (xhr) {
-            let msg = xhr.responseJSON?.error || 'Error al registrar';
-            alert(msg);
+        let data = {
+            numero_factura: $('#numero_factura').val(),
+            proveedor: $('#proveedor').val(),
+            tipo_factura: $('#tipo_factura').val(),
+            metodo_pago: $('#metodo_pago').val(),
+            caja: tipoPago === 'caja' ? $('#caja_select').val() : null,
+            cuenta: tipoPago === 'cuenta'? $('#cuenta').val() : null,
+            descuento: parseFloat($('#descuento').val()) || 0,
+            impuesto: parseFloat($('#impuesto').val()) || 0,
+            carrito: carrito
+        };
+
+        // ✅ VALIDACIONES CON TOAST
+        if (!data.proveedor) return mostrarToast('Seleccione proveedor', 'danger');
+        if (!data.tipo_factura) return mostrarToast('Seleccione tipo factura', 'danger');
+        if (!data.metodo_pago) return mostrarToast('Seleccione método de pago', 'danger');
+        if (carrito.length === 0) return mostrarToast('Agregue productos', 'danger');
+
+        if (!data.caja && !data.cuenta) {
+            return mostrarToast('Seleccione caja o cuenta', 'danger');
         }
+
+        // Verificar carrito: cantidad y precio
+        for (let item of carrito) {
+            if (item.cantidad <= 0) return mostrarToast(`Cantidad inválida para ${item.nombre}`, 'danger');
+            if (item.precio <= 0) return mostrarToast(`Precio inválido para ${item.nombre}`, 'danger');
+        }
+
+
+
+
+        $.ajax({
+            url: '/compra/crear', // ✅ CORREGIDO
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            success: function (res) {
+
+                if (res.success) {
+
+                    mostrarToast(res.mensaje || 'Compra registrada correctamente', 'success');
+
+                    $('#btnLimpiar').click();
+
+                } else {
+                    mostrarToast(res.error || 'Error desconocido', 'danger');
+                }
+            },
+
+            error: function (xhr) {
+
+                // 🔥 VALIDACIONES LARAVEL (422)
+                if (xhr.status === 422) {
+
+                    let errores = xhr.responseJSON.errors;
+                    let primerError = Object.values(errores)[0][0];
+
+                    mostrarToast(primerError, 'danger');
+                    return;
+                }
+
+                // 🔥 ERROR GENERAL
+                let msg = xhr.responseJSON?.error || 'Error al registrar';
+                mostrarToast(msg, 'danger');
+            }
+        });
+
     });
-});
 
 });

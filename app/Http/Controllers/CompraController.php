@@ -29,54 +29,73 @@ class CompraController extends Controller
         DB::beginTransaction();
 
         try {
-
-            // ✅ 1. VALIDACIÓN
-            Validator::make($request->all(), [
+            // =====================
+            // 1️⃣ VALIDACIÓN
+            // =====================
+            $validator = Validator::make($request->all(), [
                 'proveedor' => 'required|exists:proveedores,id_proveedor',
                 'metodo_pago' => 'required|exists:metodos_pago,id_metodo_pago',
                 'tipo_factura' => 'required|exists:tipos_factura,id_tipo_factura',
+                'caja' => 'nullable|exists:cajas,id_caja',
                 'cuenta' => 'nullable|exists:cuentas,id_cuenta',
                 'carrito' => 'required|array|min:1',
-            ])->validate();
+                'carrito.*.id' => 'required|exists:productos,id_producto',
+                'carrito.*.cantidad' => 'required|numeric|min:1',
+                'carrito.*.precio' => 'required|numeric|min:0',
+            ]);
 
-            $usaCaja = $request->metodo_pago == 1;
+            if ($validator->fails()) {
+                // Para toast, devolvemos solo el primer error o un mensaje general
+                $mensaje = $validator->errors()->first() ?? 'Datos inválidos';
+                return response()->json([
+                    'success' => false,
+                    'mensaje' => $mensaje
+                ], 422);
+            }
+
+            // =====================
+            // 2️⃣ VALIDAR FUENTE DE PAGO
+            // =====================
+            $usaCaja = $request->filled('caja');
             $usaCuenta = $request->filled('cuenta');
 
-            if ($usaCaja == $usaCuenta) {
-                throw new \Exception('Debe seleccionar solo una fuente de pago: caja o cuenta');
+            if (!$usaCaja && !$usaCuenta) {
+                return response()->json(['success' => false, 'mensaje' => 'Debe seleccionar caja o cuenta'], 422);
             }
 
+            if ($usaCaja && $usaCuenta) {
+                return response()->json(['success' => false, 'mensaje' => 'No puede pagar con caja y cuenta al mismo tiempo'], 422);
+            }
+
+            // =====================
+            // 3️⃣ CALCULAR SUBTOTAL Y TOTAL
+            // =====================
             $subtotalGeneral = 0;
-
-            // ✅ 2. RECORRER CARRITO
             foreach ($request->carrito as $item) {
-
                 $producto = Producto::find($item['id']);
-
                 if (!$producto) {
-                    throw new \Exception('Producto no encontrado');
+                    return response()->json(['success' => false, 'mensaje' => 'Producto no encontrado: ' . $item['id']], 422);
                 }
-
-                $precio = $item['precio'];
-                $cantidad = $item['cantidad'];
-
-                $subtotal = $precio * $cantidad;
-                $subtotalGeneral += $subtotal;
+                $subtotalGeneral += $item['precio'] * $item['cantidad'];
             }
 
-            // ✅ 3. CALCULAR TOTAL REAL
             $descuento = $request->descuento ?? 0;
             $impuesto = $request->impuesto ?? 0;
-
             $totalCalculado = $subtotalGeneral - $descuento + $impuesto;
 
-            // ✅ 4. CREAR COMPRA
+            if ($totalCalculado < 0) {
+                return response()->json(['success' => false, 'mensaje' => 'Total inválido'], 422);
+            }
+
+            // =====================
+            // 4️⃣ CREAR COMPRA
+            // =====================
             $compra = Compra::create([
                 'numero_factura_compra' => $request->numero_factura,
                 'id_proveedor' => $request->proveedor,
                 'id_usuario' => session('usuario.id'),
-                'id_caja' => null,
-                'id_cuenta' => $request->cuenta ?? null,
+                'id_caja' => $usaCaja ? $request->caja : null,
+                'id_cuenta' => $usaCuenta ? $request->cuenta : null,
                 'id_metodo_pago' => $request->metodo_pago,
                 'id_tipo_factura' => $request->tipo_factura,
                 'subtotal_compra' => $subtotalGeneral,
@@ -85,36 +104,31 @@ class CompraController extends Controller
                 'total_compra' => $totalCalculado
             ]);
 
-            // ✅ 5. DETALLE + STOCK + KARDEX
+            // =====================
+            // 5️⃣ DETALLES, STOCK Y KARDEX
+            // =====================
             foreach ($request->carrito as $item) {
-
                 $producto = Producto::find($item['id']);
-
-                $precio = $item['precio'];
                 $cantidad = $item['cantidad'];
-
-                $subtotal = $precio * $cantidad;
+                $precio = $item['precio'];
 
                 DetalleCompra::create([
                     'id_compra' => $compra->id_compra,
                     'id_producto' => $producto->id_producto,
                     'cantidad_compra' => $cantidad,
                     'precio_unitario_compra' => $precio,
-                    'subtotal_detalle_compra' => $subtotal
+                    'subtotal_detalle_compra' => $precio * $cantidad
                 ]);
 
-                // STOCK
-                $stockAntes = $producto->stock_actual;
-                $stockDespues = $stockAntes + $cantidad;
-
+                // Actualizar STOCK
                 $producto->increment('stock_actual', $cantidad);
 
-                // KARDEX
+                // Registrar KARDEX
                 MovimientoInventario::create([
                     'id_producto' => $producto->id_producto,
                     'tipo_movimiento' => 'ENTRADA',
                     'cantidad_movimiento' => $cantidad,
-                    'stock_resultante' => $stockDespues,
+                    'stock_resultante' => $producto->stock_actual,
                     'motivo_movimiento' => 'Compra',
                     'id_referencia' => $compra->id_compra,
                     'tipo_referencia' => 'COMPRA',
@@ -123,30 +137,33 @@ class CompraController extends Controller
                 ]);
             }
 
-            // ✅ 6. PROCESAR PAGO
+            // =====================
+            // 6️⃣ MOVIMIENTO DE CAJA O CUENTA
+            // =====================
+            if ($usaCaja) {
+                $caja = Caja::find($request->caja);
+                if (!$caja) {
+                    return response()->json(['success' => false, 'mensaje' => 'Caja no encontrada'], 422);
+                }
 
-            // 🟢 EFECTIVO → CAJA
-            if ($request->metodo_pago == 1) {
-
-                $caja = $this->procesarPagoCaja($totalCalculado, $compra->id_compra);
-
-                // guardar caja en compra
-                $compra->update([
-                    'id_caja' => $caja->id_caja
+                MovimientoCaja::create([
+                    'id_caja' => $caja->id_caja,
+                    'tipo_movimiento_caja' => 'SALIDA',
+                    'concepto_movimiento_caja' => 'Compra',
+                    'monto_movimiento_caja' => $totalCalculado,
+                    'id_usuario' => session('usuario.id'),
+                    'id_referencia' => $compra->id_compra,
                 ]);
             }
 
-            // 🔵 BANCO → CUENTA
-            if ($request->cuenta) {
-
+            if ($usaCuenta) {
                 $cuenta = Cuenta::find($request->cuenta);
-
                 if (!$cuenta) {
-                    throw new \Exception('Cuenta no encontrada');
+                    return response()->json(['success' => false, 'mensaje' => 'Cuenta no encontrada'], 422);
                 }
 
                 if ($cuenta->saldo_actual < $totalCalculado) {
-                    throw new \Exception('Saldo insuficiente en cuenta');
+                    return response()->json(['success' => false, 'mensaje' => 'Saldo insuficiente en cuenta'], 422);
                 }
 
                 MovimientoCuenta::create([
@@ -162,19 +179,26 @@ class CompraController extends Controller
 
             DB::commit();
 
+            // =====================
+            // 7️⃣ MENSAJE EXITOSO
+            // =====================
             return response()->json([
-                'success' => true
+                'success' => true,
+                'mensaje' => 'Compra registrada correctamente'
             ]);
 
         } catch (\Exception $e) {
-
             DB::rollBack();
+
+            \Log::error('Error al registrar compra: ' . $e->getMessage(), [
+                'request' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
 
             return response()->json([
                 'success' => false,
-                'error' => $e->getMessage(),
-                'linea' => $e->getLine()
-            ]);
+                'mensaje' => 'Ocurrió un error al registrar la compra: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -306,22 +330,30 @@ class CompraController extends Controller
     public function MostrarCuentasCompras()
     {
         try {
-
+            // Trae solo las cuentas activas
             $cuentas = Cuenta::where('estado', 1)
                 ->orderBy('nombre_cuenta', 'asc')
                 ->get();
 
+            // Formatea los datos para el <select>
+            $data = $cuentas->map(function ($cuenta) {
+                return [
+                    'id' => $cuenta->id_cuenta, // valor real que se envía al backend
+                    'nombre' => $cuenta->nombre_cuenta,
+                    'saldo_actual' => number_format($cuenta->saldo_actual, 2),
+                    'display' => "{$cuenta->nombre_cuenta} (Saldo: C$ " . number_format($cuenta->saldo_actual, 2) . ")"
+                ];
+            });
+
             return response()->json([
                 'success' => true,
-                'data' => $cuentas
-            ], 200);
+                'cuentas' => $data
+            ]);
 
         } catch (\Exception $e) {
-
             return response()->json([
-                'error' => true,
-                'mensaje' => 'Error al obtener cuentas',
-                'detalle' => $e->getMessage()
+                'success' => false,
+                'mensaje' => 'Error al obtener cuentas'
             ], 500);
         }
     }

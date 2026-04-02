@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('direccion_empresa', 200)->nullable();
             $table->string('telefono_empresa', 20)->nullable();
             $table->string('correo_empresa', 100)->nullable();
+            $table->decimal('tipo_cambio', 10, 2)->nullable();
             $table->timestamps();
         });
     }

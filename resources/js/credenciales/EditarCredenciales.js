@@ -9,6 +9,7 @@ $(document).ready(function(){
     $('#btnEditar').click(function(){
         const id = $('#editar_id_empresa').val() || 1; // dinámico o fallback
         abrirModalEditarEmpresa(id);
+        
     });
 
     // ==========================
@@ -30,6 +31,7 @@ $(document).ready(function(){
             direccion_empresa: $('#editar_direccion_empresa').val(),
             telefono_empresa: $('#editar_telefono_empresa').val(),
             correo_empresa: $('#editar_correo_empresa').val(),
+            tipo_cambio: $('#editar_tipo_cambio').val(), // ✅ SOLO ESTO
             _token: $('meta[name="csrf-token"]').attr('content'),
             _method: 'PUT' // ✅ importante para Laravel
         };
@@ -52,12 +54,16 @@ $(document).ready(function(){
                 $('#direccion_empresa').text(empresa.direccion_empresa);
                 $('#telefono_empresa').text(empresa.telefono_empresa);
                 $('#correo_empresa').text(empresa.correo_empresa);
+                let tasa = parseFloat(empresa.tipo_cambio);
+                if (!isNaN(tasa) && tasa > 0) { $('#tipo_cambio').text(`1 USD = ${tasa.toFixed(2)} C$`); }
+                else { $('#tipo_cambio').text('-'); }
 
                 // ==========================
                 // CERRAR MODAL
                 // ==========================
                 const modalElement = document.getElementById("modalEditarEmpresa");
                 const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                
 
                 if(modalInstance){
                     modalInstance.hide();
@@ -110,6 +116,7 @@ function abrirModalEditarEmpresa(id) {
         $('#editar_direccion_empresa').val(empresa.direccion_empresa);
         $('#editar_telefono_empresa').val(empresa.telefono_empresa);
         $('#editar_correo_empresa').val(empresa.correo_empresa);
+        $('#editar_tipo_cambio').val(empresa.tipo_cambio); // ✅ SOLO ESTO
 
         // ==========================
         // ABRIR MODAL

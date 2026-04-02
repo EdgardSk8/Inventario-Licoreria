@@ -15,13 +15,19 @@ class MovimientoCuenta extends Model
         'tipo_movimiento',
         'descripcion',
         'monto',
-        'fecha'
+        'fecha',
+        'id_usuario'
     ];
 
     // 🔹 Relación: pertenece a una cuenta
     public function cuenta()
     {
         return $this->belongsTo(Cuenta::class, 'id_cuenta', 'id_cuenta');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
     }
 
 }

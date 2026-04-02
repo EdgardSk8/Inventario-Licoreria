@@ -8,8 +8,9 @@
     <title>Compras</title>
 
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/compras/Compras.css') }}">
-
+    <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/compras/Compras.js') }}"></script>
+
 
 </head>
 
@@ -36,8 +37,8 @@
 
                         <label class="form-label small">Proveedor</label>
 
-                        <select class="form-select form-select-sm" id="proveedor">
-                            <option value="" selected disabled>Seleccione un proveedor</option>
+                        <select class="form-select form-select-sm" id="proveedor" required>
+                            <option value="" selected disabled >Seleccione un proveedor</option>
                         </select>
 
                     </div>
@@ -242,6 +243,25 @@
         </div> <!-- Fin Contenedor Totales -->
 
     </div> <!-- Fin Contenedor Carrito y Totales -->
+
+<!--    ╔════════ Mensaje Toast ══════════╗ 
+        ╚═════════════════════════════════╝     -->
+
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+
+        <div id="toastMensaje" class="toast text-bg-success border-0">
+
+            <div class="d-flex">
+
+            <div class="toast-body" id="toastTexto"></div>
+
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </body>
 

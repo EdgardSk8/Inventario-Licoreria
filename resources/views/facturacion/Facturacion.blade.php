@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/facturacion/Facturacion.css') }}">
 
     <script src="{{ Vite::asset('resources/js/facturacion/vuelto.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/facturacion/Facturacion.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/VerificarCaja.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/Select.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/facturacion/Facturacion.js') }}"></script>
 
     <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 

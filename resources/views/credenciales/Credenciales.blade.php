@@ -59,6 +59,11 @@
                     <div id="correo_empresa">-</div>
                 </div>
 
+                <div class="col-md-6 mb-2">
+                    <strong>Tasa de Cambio:</strong>
+                    <div id="tipo_cambio">-</div>
+                </div>
+
             </div>
 
         </div>

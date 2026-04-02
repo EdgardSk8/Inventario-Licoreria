@@ -1,60 +1,96 @@
-/*  ╔════════ Variables Globales POS ═════════╗ 
-    ╚═════════════════════════════════════════╝ */
+(function () {
 
-const TASA = 37;
-let bloqueando = false;
-let ultimaMoneda = 'C';
+    /*  ╔════════ Variables Globales POS ═════════╗ */
+    let TASA = 0;
+    let bloqueando = false;
+    let ultimaMoneda = 'C';
 
-document.getElementById('tasaImpuesto').textContent = 'Cambio: 1 Dolar = ' + TASA + ' Cordobas';
+    /*  ╔════════ Inicialización ═════════╗ */
+    function init() {
+        cargarTipoCambio();
+        eventos();
+    }
 
-/*  ╔════════ Cálculo de Vueltos ═════════╗ 
-    ╚═════════════════════════════════════╝ */
+    /*  ╔════════ Obtener Tipo de Cambio ═════════╗ */
+    function cargarTipoCambio() {
+        $.get('/tipo-cambio', function (res) {
 
-function calcularVueltos() {
+            if (res.success) {
+                TASA = parseFloat(res.tasa) || 0;
 
-    let total = parseFloat($('#total').text().replace(/[^\d.-]/g, '')) || 0;
-    let pagoC = parseFloat($('#pagoCordobas').val()) || 0;
-    let pagoD = parseFloat($('#pagoDolares').val()) || 0;
+                $('#tasaImpuesto').text(
+                    'Cambio: 1 Dolar = ' + TASA + ' Cordobas'
+                );
+            }
 
-    let totalPagadoC = 0;
+        });
+    }
 
-    if (ultimaMoneda === 'C') { totalPagadoC = pagoC; } else { totalPagadoC = pagoD * TASA; }
-    let vueltoC = totalPagadoC - total;
-    if (vueltoC < 0) { $('#vueltoCordobas').val('C$ 0.00'); $('#vueltoDolares').val('$ 0.00'); return; }
-    let vueltoD = vueltoC / TASA;
+    /*  ╔════════ Cálculo de Vueltos ═════════╗ */
+    function calcularVueltos() {
 
-    $('#vueltoCordobas').val('C$ ' + vueltoC.toFixed(2));
-    $('#vueltoDolares').val('$ ' + vueltoD.toFixed(2));
-}
+        if (!TASA) return; // 🚨 evitar errores
 
-/*  ╔════════ Evento Pago en Córdobas ═════════╗ 
-    ╚══════════════════════════════════════════╝ */
+        let total = parseFloat($('#total').text().replace(/[^\d.-]/g, '')) || 0;
+        let pagoC = parseFloat($('#pagoCordobas').val()) || 0;
+        let pagoD = parseFloat($('#pagoDolares').val()) || 0;
 
-$('#pagoCordobas').on('input', function () {
+        let totalPagadoC = (ultimaMoneda === 'C')
+            ? pagoC
+            : pagoD * TASA;
 
-    if (bloqueando) return; bloqueando = true;
-    ultimaMoneda = 'C';
-    let valor = parseFloat($(this).val()) || 0;
-    let enDolares = valor / TASA;
-    $('#pagoDolares').val(enDolares.toFixed(2));
-    calcularVueltos();
-    bloqueando = false;
+        let vueltoC = totalPagadoC - total;
 
-});
+        if (vueltoC < 0) {
+            $('#vueltoCordobas').val('C$ 0.00');
+            $('#vueltoDolares').val('$ 0.00');
+            return;
+        }
 
-/*  ╔════════ Evento Pago en Dólares ═════════╗ 
-    ╚═════════════════════════════════════════╝ */
+        let vueltoD = vueltoC / TASA;
 
-$('#pagoDolares').on('input', function () {
+        $('#vueltoCordobas').val('C$ ' + vueltoC.toFixed(2));
+        $('#vueltoDolares').val('$ ' + vueltoD.toFixed(2));
+    }
 
-    if (bloqueando) return;bloqueando = true;
-    ultimaMoneda = 'D';
-    let valor = parseFloat($(this).val()) || 0;
-    let enCordobas = valor * TASA;
-    $('#pagoCordobas').val(enCordobas.toFixed(2));
-    calcularVueltos();
-    bloqueando = false;
+    /*  ╔════════ Eventos ═════════╗ */
+    function eventos() {
 
-});
+        // 🔄 Evitar eventos duplicados en SPA
+        $('#pagoCordobas').off('input').on('input', function () {
 
-    
+            if (bloqueando || !TASA) return;
+            bloqueando = true;
+
+            ultimaMoneda = 'C';
+
+            let valor = parseFloat($(this).val()) || 0;
+            let enDolares = valor / TASA;
+
+            $('#pagoDolares').val(enDolares.toFixed(2));
+
+            calcularVueltos();
+            bloqueando = false;
+        });
+
+        $('#pagoDolares').off('input').on('input', function () {
+
+            if (bloqueando || !TASA) return;
+            bloqueando = true;
+
+            ultimaMoneda = 'D';
+
+            let valor = parseFloat($(this).val()) || 0;
+            let enCordobas = valor * TASA;
+
+            $('#pagoCordobas').val(enCordobas.toFixed(2));
+
+            calcularVueltos();
+            bloqueando = false;
+        });
+    }
+
+    // 🚀 Iniciar
+    init();
+
+})();

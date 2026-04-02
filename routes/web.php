@@ -71,6 +71,8 @@ Route::view('/credenciales', 'credenciales.Credenciales')->name('credenciales');
 
 Route::get('/credenciales/{id}/editar', [CredencialesController::class, 'EditarCredencial']);
 Route::put('/credenciales/{id}/actualizar', [CredencialesController::class, 'ActualizarCredenciales']);
+Route::get('/tipo-cambio', [CredencialesController::class, 'MostrarTipoCambio']);
+Route::post('/tipo-cambio', [CredencialesController::class, 'ActualizarTipoCambio']);
 
 Route::get('/empresa/mostrar', [CredencialesController::class, 'MostrarCredenciales']);
 

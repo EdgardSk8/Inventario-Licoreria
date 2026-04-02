@@ -82,14 +82,16 @@ class CredencialesController extends Controller
                     'ruc_empresa' => $request->ruc_empresa,
                     'direccion_empresa' => $request->direccion_empresa,
                     'telefono_empresa' => $request->telefono_empresa,
-                    'correo_empresa' => $request->correo_empresa
+                    'correo_empresa' => $request->correo_empresa,
+                    'tipo_cambio' => $request->tipo_cambio,
                 ],
                 [
                     'nombre_empresa' => ['required', 'max:100'],
                     'ruc_empresa' => ['required', 'max:20'],
                     'direccion_empresa' => ['required', 'max:255'],
                     'telefono_empresa' => ['required', 'max:20'],
-                    'correo_empresa' => ['required', 'email', 'max:100']
+                    'correo_empresa' => ['required', 'email', 'max:100'],
+                    'tipo_cambio' => ['nullable', 'numeric']
                 ],
                 [
                     'nombre_empresa.required' => 'El nombre de la empresa es obligatorio.',
@@ -113,6 +115,7 @@ class CredencialesController extends Controller
             $credenciales->direccion_empresa = $request->direccion_empresa;
             $credenciales->telefono_empresa = $request->telefono_empresa;
             $credenciales->correo_empresa = $request->correo_empresa;
+            $credenciales->tipo_cambio = $request->tipo_cambio;
 
             $credenciales->save();
 
@@ -131,11 +134,26 @@ class CredencialesController extends Controller
         }
     }
 
+/*  ╔═══════════ Mostrar Tipo de cambio ════════════╗ 
+    ╚═══════════════════════════════════════════════╝ */
 
+    public function MostrarTipoCambio()
+    {
+        try {
+            $config = Credenciales::first();
 
+            return response()->json([
+                'success' => true,
+                'tasa' => $config ? (float) $config->tipo_cambio : 0
+            ], 200);
 
-
-
-
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'mensaje' => 'Error al obtener tipo de cambio',
+                'detalle' => $e->getMessage()
+            ], 500);
+        }
+    }
 
 }

@@ -59,6 +59,16 @@
               maxlength="100">
           </div>
 
+          <div class="col-md-6">
+            <label class="form-label">Tasa Cambio</label>
+            <input type="number"
+              id="editar_tipo_cambio"
+              class="form-control form-control-sm"
+              step="0.50"
+              min="0"
+              maxlength="100">
+          </div>
+
 
         </form>
 
