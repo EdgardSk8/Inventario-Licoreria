@@ -149,7 +149,7 @@ class CompraController extends Controller
                 MovimientoCaja::create([
                     'id_caja' => $caja->id_caja,
                     'tipo_movimiento_caja' => 'SALIDA',
-                    'concepto_movimiento_caja' => 'Compra',
+                    'concepto_movimiento_caja' => 'Reabastecimiento de stock',
                     'monto_movimiento_caja' => $totalCalculado,
                     'id_usuario' => session('usuario.id'),
                     'id_referencia' => $compra->id_compra,

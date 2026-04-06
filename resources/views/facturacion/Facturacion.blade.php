@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Facturación</title>
+    <title>Facturación</title>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -13,9 +14,11 @@
 
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/facturacion/Facturacion.css') }}">
 
-    <script src="{{ Vite::asset('resources/js/facturacion/vuelto.js') }}"></script>
+    
     <script src="{{ Vite::asset('resources/js/facturacion/VerificarCaja.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/Select.js') }}"></script>
+    
+    <script src="{{ Vite::asset('resources/js/facturacion/vuelto.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/Facturacion.js') }}"></script>
 
     <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>

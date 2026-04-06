@@ -25,6 +25,7 @@ use App\Http\Controllers\FacturacionController;
 use App\Http\Controllers\MovimientoInventarioController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\CompraController;
+use App\Http\Controllers\MovimientoCajaController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -56,7 +57,7 @@ Route::view('/ventas/detalle', 'ventas.DetalleVenta')->name('detalle.ventas');
 Route::view('/impuestos', 'impuestos.Impuestos')->name('impuestos'); 
 Route::view('/cajas', 'cajas.Cajas')->name('cajas'); 
 Route::view('/cajas/detalle', 'cajas.DetalleCaja')->name('detalle.cajas'); 
-Route::view('/cajas/movimientos', 'cajas.MovimientosCaja')->name('movimientos.cajas'); 
+Route::view('/cajas/movimientos', 'movimiento_caja.Movimientos_Caja')->name('movimientos.cajas'); 
 Route::view('/inventario/movimientos', 'inventario.MovimientosInventario')->name('movimientos.inventario'); 
 Route::view('/gastos', 'gastos.Gastos')->name('gastos'); 
 Route::view('/tipos-gasto', 'tipos_gasto.TiposGasto')->name('tipos.gasto'); 
@@ -179,8 +180,12 @@ Route::get('/ventas/mostrar', [VentaController::class, 'MostrarVentas']);
 /*  ╔══════ Movimiento Inventario (Kardex) ══════╗ 
     ╚════════════════════════════════════════════╝ */
 
-Route::get('/movimiento-inventario/mostrar', [MovimientoInventarioController::class, 'MostrarMovimientos']);
+Route::get('/movimiento-inventario/mostrar', [MovimientoInventarioController::class, 'MostrarMovimientosInventario']);
 
+/*  ╔═══════ Movimiento caja (Kardex) ═══════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/movimientos-caja/mostrar', [MovimientoCajaController::class, 'MostrarMovimientosCaja']);
 
 /*  ╔════════════════ FACTURACION ═══════════════╗ 
     ╚════════════════════════════════════════════╝ */

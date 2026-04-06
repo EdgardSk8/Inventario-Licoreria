@@ -51,7 +51,10 @@
 
         $('#vueltoCordobas').val('C$ ' + vueltoC.toFixed(2));
         $('#vueltoDolares').val('$ ' + vueltoD.toFixed(2));
+
     }
+
+    window.calcularVueltos = calcularVueltos; // función al global
 
     /*  ╔════════ Eventos ═════════╗ */
     function eventos() {

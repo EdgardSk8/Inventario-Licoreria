@@ -10,7 +10,7 @@ class MovimientoInventarioController extends Controller
 
 /*  ╔═════ Mostrar Movimiento Inventario ═════╗ 
     ╚═════════════════════════════════════════╝ */
-    public function MostrarMovimientos()
+    public function MostrarMovimientosInventario()
     {
         try {
 
@@ -49,4 +49,5 @@ class MovimientoInventarioController extends Controller
 
         }
     }
+    
 }

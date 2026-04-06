@@ -219,7 +219,7 @@ class FacturacionController extends Controller
                     'tipo_movimiento' => 'SALIDA',
                     'cantidad_movimiento' => $cantidad,
                     'stock_resultante' => $stockDespues,
-                    'motivo_movimiento' => 'Venta',
+                    'motivo_movimiento' => 'Venta despacho realizada',
                     'id_referencia' => $venta->id_venta,
                     'tipo_referencia' => 'VENTA',
                     'precio_unitario' => $precioSinImpuesto,
@@ -241,7 +241,7 @@ class FacturacionController extends Controller
             MovimientoCaja::create([
                 'id_caja' => $caja->id_caja,
                 'tipo_movimiento_caja' => 'INGRESO',
-                'concepto_movimiento_caja' => 'Venta',
+                'concepto_movimiento_caja' => 'Venta Caja',
                 'monto_movimiento_caja' => $totalGeneral,
                 'id_usuario' => session('usuario.id'),
                 'id_referencia' => $venta->id_venta
