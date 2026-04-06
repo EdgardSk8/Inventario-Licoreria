@@ -21,7 +21,7 @@
             <input type="text" id="crear_nombre_producto" class="form-control form-control-sm" maxlength="100" required>
           </div>
 
-           <!-- Descripción -->
+          <!-- Descripción -->
           <div class="col-md-3">
             <label class="form-label">Descripción</label>
             <input type="text" id="crear_descripcion_producto" class="form-control form-control-sm" maxlength="150">
@@ -51,18 +51,37 @@
           <!-- Precio compra -->
           <div class="col-md-2">
             <label class="form-label">Precio Compra</label>
-            <input type="number" id="crear_precio_compra" class="form-control form-control-sm" min="0" step="1.00" required>
+            <input type="number" id="crear_precio_compra" class="form-control form-control-sm" step="0.01" required>
+          </div>
+
+          <!-- CHECKS -->
+          <div class="col-md-1 d-flex align-items-center justify-content-between">
+            <small class="mb-0">V/ R</small>
+            <input type="checkbox" id="crear_check_venta" title="% de ganancia de venta">
+            <input type="checkbox" id="crear_redondeo_venta" title="Redondeo total al impuesto">
+          </div>
+
+          <!-- % venta -->
+          <div class="col-md-1">
+            <label class="form-label">% Venta</label>
+            <input type="number" id="crear_porcentaje_venta" class="form-control form-control-sm" step="0.1">
           </div>
 
           <!-- Precio venta -->
+          <div class="col-md-1">
+            <label class="form-label">P. Venta</label>
+            <input type="number" id="crear_precio_venta" class="form-control form-control-sm" step="0.01" required>
+          </div>
+
+          <!-- Precio total -->
           <div class="col-md-2">
-            <label class="form-label">Precio Venta</label>
-            <input type="number" id="crear_precio_venta" class="form-control form-control-sm" min="0" step="1.00" required>
+            <label class="form-label">Precio Total (+IVA)</label>
+            <input type="number" id="crear_precio_venta_TOTAL" class="form-control form-control-sm">
           </div>
 
           <!-- Stock -->
           <div class="col-md-2">
-            <label class="form-label">Stock Inicial</label>
+            <label class="form-label">Cant. inicial</label>
             <input type="number" id="crear_stock_actual" class="form-control form-control-sm" min="0" required>
           </div>
 
@@ -72,6 +91,7 @@
             <input type="file" id="crear_imagen_producto" class="form-control form-control-sm" accept="image/*">
           </div>
 
+          <!-- Preview -->
           <div class="mt-2 text-center">
             <img id="preview_imagen_producto" 
                 src="" 
@@ -87,31 +107,34 @@
       <div class="modal-footer d-flex align-items-center justify-content-between">
 
         <div class="text-start">
-          <div><strong>Nombre:</strong> máx. 100 caracteres</div>
-          <div><strong>Descripción:</strong> máx. 150 caracteres</div>
+
+          <div class="row flex-nowrap">
+
+            <!-- Columna izquierda -->
+            <div class="col-md-8">
+              <div><strong>Nombre:</strong> máx. 100 caracteres</div>
+              <div><strong>Descripción:</strong> máx. 150 caracteres</div>
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="col-md-6">
+              <div><strong>V:</strong> Porcentaje de venta</div>
+              <div><strong>R:</strong> Redondeo de venta</div>
+            </div>
+
+          </div>
+
         </div>
 
-        <div>
+        <div >
           <button class="btn cancelar" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" class="btn guardar" id="btnGuardarProducto">Guardar</button>
         </div>
 
       </div>
 
-    </div>
 
-  </div>
 
-</div>
-
-<!-- TOAST (igual reutilizable) -->
-<div class="toast-container position-fixed top-0 end-0 p-3">
-
-  <div id="toastMensaje" class="toast text-bg-success border-0">
-
-    <div class="d-flex">
-      <div class="toast-body" id="toastTexto"></div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
     </div>
 
   </div>

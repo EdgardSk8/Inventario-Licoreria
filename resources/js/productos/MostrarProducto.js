@@ -262,8 +262,10 @@ $(document).ready(function () {
 /* --------------------------------------------------------------------------------------------------------------- */
 
     function inicializarEdicionVenta() {
+
         const checkVenta = $('#editar_check_venta'); 
-        const checkRedondeo = $('#editar_redondeo_venta'); // checkbox que actúa como botón
+        const checkRedondeo = $('#editar_redondeo_venta');
+
         const inputPorcentaje = $('#editar_porcentaje_venta');
         const inputPrecioCompra = $('#editar_precio_compra');
         const inputPrecioVenta = $('#editar_precio_venta'); 
@@ -271,44 +273,89 @@ $(document).ready(function () {
         const selectImpuesto = $('#editar_id_impuesto');
 
         let porcentajeOriginal = parseFloat(inputPorcentaje.val()) || 0;
+        let bloqueando = false;
+        let modoRedondeo = false; // 🔥 NUEVO
 
-        // 🔹 Control de inputs según checkbox
+        // 🔹 Habilitar / deshabilitar inputs
         function toggleInputs() {
             if (checkVenta.is(':checked')) {
                 inputPorcentaje.prop('disabled', false);
                 inputPrecioVenta.prop('disabled', true);
+                inputPrecioTotal.prop('disabled', true);
             } else {
                 inputPorcentaje.prop('disabled', true);
                 inputPrecioVenta.prop('disabled', false);
+                inputPrecioTotal.prop('disabled', false);
             }
         }
 
-        // 🔹 Función principal de cálculo
+        // 🔹 Calcular desde % o precio base
         function calcularTodo() {
+            if (bloqueando || modoRedondeo) return; // 🔥 clave
+            bloqueando = true;
+
             let precioCompra = parseFloat(inputPrecioCompra.val()) || 0;
             let iva = parseFloat(selectImpuesto.find(':selected').data('iva')) || 0;
 
             if (checkVenta.is(':checked')) {
                 let porcentaje = parseFloat(inputPorcentaje.val()) || 0;
+
                 let precioBase = precioCompra * (1 + porcentaje / 100);
                 let precioTotal = precioBase * (1 + iva / 100);
 
                 inputPrecioVenta.val(precioBase.toFixed(2));
                 inputPrecioTotal.val(precioTotal.toFixed(2));
+
                 porcentajeOriginal = porcentaje;
+
             } else {
                 let precioBase = parseFloat(inputPrecioVenta.val()) || 0;
+
                 let precioTotal = precioBase * (1 + iva / 100);
                 inputPrecioTotal.val(precioTotal.toFixed(2));
             }
+
+            bloqueando = false;
         }
 
-        // 🔹 Función para redondear al siguiente entero
+        // 🔥 Calcular desde TOTAL
+        function calcularDesdeTotal() {
+            if (bloqueando) return;
+            bloqueando = true;
+
+            modoRedondeo = false; // 🔥 si escribe usuario, se desactiva
+
+            let precioCompra = parseFloat(inputPrecioCompra.val()) || 0;
+            let total = parseFloat(inputPrecioTotal.val()) || 0;
+            let iva = parseFloat(selectImpuesto.find(':selected').data('iva')) || 0;
+
+            if (precioCompra <= 0 || total <= 0) {
+                bloqueando = false;
+                return;
+            }
+
+            let precioBase = total / (1 + iva / 100);
+            let porcentaje = ((precioBase / precioCompra) - 1) * 100;
+
+            inputPrecioVenta.val(precioBase.toFixed(2));
+            inputPorcentaje.val(porcentaje.toFixed(2));
+
+            porcentajeOriginal = porcentaje;
+
+            bloqueando = false;
+        }
+
+        // 🔹 Redondeo PRO (estable)
         function redondearTotal() {
+
+            modoRedondeo = true; // 🔥 activa bloqueo
+
             let iva = parseFloat(selectImpuesto.find(':selected').data('iva')) || 0;
 
             if (checkVenta.is(':checked')) {
+
                 let precioCompra = parseFloat(inputPrecioCompra.val()) || 0;
+
                 let totalConIva = precioCompra * (1 + porcentajeOriginal / 100) * (1 + iva / 100);
                 let totalRedondeado = Math.ceil(totalConIva);
 
@@ -316,11 +363,15 @@ $(document).ready(function () {
                 let nuevoPorcentaje = ((baseRedondeada / precioCompra) - 1) * 100;
 
                 porcentajeOriginal = nuevoPorcentaje;
-                inputPorcentaje.val(nuevoPorcentaje.toFixed(2));
+
+                inputPorcentaje.val(nuevoPorcentaje.toFixed(3));
                 inputPrecioVenta.val(baseRedondeada.toFixed(2));
                 inputPrecioTotal.val(totalRedondeado);
+
             } else {
+
                 let precioBase = parseFloat(inputPrecioVenta.val()) || 0;
+
                 let totalConIva = precioBase * (1 + iva / 100);
                 let totalRedondeado = Math.ceil(totalConIva);
 
@@ -337,29 +388,49 @@ $(document).ready(function () {
 
         // 🔄 Eventos
         checkVenta.on('change', () => { 
+            modoRedondeo = false;
             toggleInputs(); 
             calcularTodo(); 
         });
-        inputPrecioCompra.on('input', calcularTodo);
-        inputPorcentaje.on('input', calcularTodo);
-        inputPrecioVenta.on('input', calcularTodo);
-        selectImpuesto.on('change', calcularTodo);
 
-        // 🔹 Checkbox que actúa como botón para redondear
+        inputPrecioCompra.on('input', () => {
+            modoRedondeo = false;
+            calcularTodo();
+        });
+
+        inputPorcentaje.on('input', () => {
+            modoRedondeo = false;
+            calcularTodo();
+        });
+
+        inputPrecioVenta.on('input', () => {
+            modoRedondeo = false;
+            calcularTodo();
+        });
+
+        selectImpuesto.on('change', () => {
+            modoRedondeo = false;
+            calcularTodo();
+        });
+
+        inputPrecioTotal.on('input', calcularDesdeTotal);
+
+        // 🔹 Botón redondeo
         checkRedondeo.on('click', function(e) {
             e.preventDefault();
             redondearTotal();
             checkRedondeo.prop('checked', false);
         });
 
-        // 🔹 Ejecutar cálculo al abrir modal
+        // 🔹 Modal
         $('#modalEditarProducto').on('shown.bs.modal', function () {
-            toggleInputs(); // aseguramos estado correcto de inputs
-            calcularTodo(); // rellena automáticamente el total con IVA
+            modoRedondeo = false;
+            toggleInputs();
+            calcularTodo();
         });
     }
 
-    inicializarEdicionVenta();
+inicializarEdicionVenta();
 
 /* ---------------------------------------------------------------------------------------------------- */
 

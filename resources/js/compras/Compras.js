@@ -81,7 +81,6 @@ $(document).ready(function () {
 
     cargarMetodosPago();
 
-
 /* ----------------------------------------------------- */
 
 /* ═════════════ ( HABILITA/DESHABILITA SELECTORES ) ═══════════════ */
@@ -107,24 +106,22 @@ $(document).ready(function () {
 /* ----------------------------------------------------- */
 
 /* ═════════════ ( SELECTOR CUENTAS ) ═══════════════ */
-function cargarCuentas() {
-    $.get('/cuenta-compra/mostrar', function(res) {
-        let select = $('#cuenta');
-        select.html('<option value="" disabled selected>Seleccione cuenta</option>');
+    function cargarCuentas() {
+        $.get('/cuenta-compra/mostrar', function(res) {
+            let select = $('#cuenta');
+            select.html('<option value="" disabled selected>Seleccione cuenta</option>');
 
-        // Usar res.cuentas según tu JSON
-        if(res.success && Array.isArray(res.cuentas)) {
-            res.cuentas.forEach(function(c) {
-                select.append('<option value="' + c.id + '">' + c.display + '</option>');
-            });
-            
-        }
-    });
-}
-
+            // Usar res.cuentas según tu JSON
+            if(res.success && Array.isArray(res.cuentas)) {
+                res.cuentas.forEach(function(c) {
+                    select.append('<option value="' + c.id + '">' + c.display + '</option>');
+                });
+                
+            }
+        });
+    }
 
     cargarCuentas();
-
 
 /* ----------------------------------------------------- */
 

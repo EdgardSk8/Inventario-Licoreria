@@ -14,8 +14,8 @@
 <!-- JS -->
 <script src="{{ Vite::asset('resources/js/productos/MostrarProducto.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/productos/BajaProducto.js') }}"></script>
-<script src="{{ Vite::asset('resources/js/productos/CrearProducto.js') }}"></script>
-<script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
+<!-- <script src="{{ Vite::asset('resources/js/productos/CrearProducto.js') }}"></script> -->
+<script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script> 
 
 <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 
@@ -25,10 +25,10 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
 
-    <!-- Botón Agregar Producto -->
+    <!-- Botón Agregar Producto 
     <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#modalCrearProducto">
         + Agregar Producto
-    </button>
+    </button>-->
 
     <!-- Checkbox ocultar inactivos -->
     <div class="form-check form-switch mb-0">
@@ -38,8 +38,8 @@
 
 </div>
 
-{{-- MODALES --}}
-@include('productos.CrearProducto')
+{{-- MODALES 
+@include('productos.CrearProducto')--}}
 @include('productos.EditarProducto')
 @include('productos.DetalleProducto')
 

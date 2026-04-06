@@ -10,11 +10,13 @@
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/compras/Compras.css') }}">
     <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/compras/Compras.js') }}"></script>
-
+    <script src="{{ Vite::asset('resources/js/compras/CrearProducto.js') }}"></script>
 
 </head>
 
 <body>
+
+    @include('compras.CrearProducto')
 
     <!-- ═════════════ ( CONTENEDOR PRINCIPAL ) ═══════════════ -->
 
@@ -134,7 +136,7 @@
 
                     <div class="col-md-2"> <!-- Botón Nuevo Producto -->
 
-                        <button class="btn btn-success btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalProducto">
+                        <button class="btn btn-success btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalCrearProducto">
                             Nuevo Producto
                         </button>
 
