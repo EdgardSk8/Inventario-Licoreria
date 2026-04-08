@@ -44,12 +44,15 @@ class CajaController extends Controller
             }
 
             // 🔎 Verificar si ya hay caja abierta
-            $cajaAbierta = Caja::where('estado_caja', 1)->first();
+            $cajaAbierta = Caja::where('estado_caja', 1)
+                ->where('id_usuario', $idUsuario)
+                ->lockForUpdate()
+                ->first();
 
             if ($cajaAbierta) {
                 return response()->json([
                     'success' => false,
-                    'mensaje' => 'Ya existe una caja abierta.'
+                    'mensaje' => 'Ya tienes una caja abierta.'
                 ], 400);
             }
 
@@ -96,7 +99,9 @@ class CajaController extends Controller
         try {
 
             // 🔥 obtener caja abierta
-            $caja = Caja::where('estado_caja', 1)->first();
+            $caja = Caja::where('estado_caja', 1)
+                ->where('id_usuario', $idUsuario)
+                ->first();
 
             if (!$caja) {
                 return response()->json([
@@ -166,6 +171,7 @@ class CajaController extends Controller
 
         return response()->json([
             'abierta' => $caja ? true : false,
+            'id_caja' => $caja ? $caja->id_caja : null,
             'usuario' => session('usuario')
         ]);
     }

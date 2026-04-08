@@ -63,24 +63,32 @@
             <!-- 🛒 CARRITO -->
             <div class="col-md-6 panel">
             
-            <div class="row mb-2">
-                
-                <div class="col-6">
-                    <h6> Seleccionar Cliente:</h6>
-                    <select class="form-select form-select-sm" name="id_cliente" id="clientes"></select>
+                <div class="row">
+                    
+                    <div class="col-6">
+                        <h6> Seleccionar Cliente:</h6>
+                        <select class="form-select form-select-sm" name="id_cliente" id="clientes"></select>
+                    </div>
+
+                    <div class="col-6">
+                        <h6> Seleccionar Metodo de Pago:</h6>
+                        <select class="form-select form-select-sm" name="id_metodo_pago" id="metodo_pago"></select>
+                    </div>
+
                 </div>
 
-                <div class="col-6">
-                    <h6> Seleccionar Metodo de Pago:</h6>
-                    <select class="form-select form-select-sm" name="id_metodo_pago" id="metodo_pago"></select>
+                <div class="row">
+
+                    <div class="col-6 d-flex align-items-center">
+                        <strong id="tasaImpuesto"></strong>
+                    </div>
+
+                    <div class="col-6 d-flex align-items-center">
+                        <span id="NumeroCaja"></span>
+                    </div>
+
                 </div>
 
-
-
-            </div>
-                <div class="col-6 d-flex align-items-center justify-content-start">
-                    <strong id="tasaImpuesto"></strong>
-                </div>
                 <!-- 💳 PAGO FIJO -->
                 <div class="card card-pago p-2 mb-2">
 

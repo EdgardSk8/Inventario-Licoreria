@@ -208,11 +208,23 @@ class FacturacionController extends Controller
                 $stockAntes = $producto->stock_actual;
                 $stockDespues = $stockAntes - $cantidad;
 
-                if ($stockDespues < 0) {
-                    throw new \Exception("Stock insuficiente para {$producto->nombre_producto}");
+                // if ($stockDespues < 0) {
+                //     throw new \Exception("Stock insuficiente para {$producto->nombre_producto}");
+                // }
+
+                if ($producto->stock_actual < $cantidad) {
+                    throw new \Exception("El producto '{$producto->nombre_producto}' ya no tiene existencias disponibles");
                 }
 
-                $producto->decrement('stock_actual', $cantidad);
+                //$producto->decrement('stock_actual', $cantidad);
+
+                $actualizado = Producto::where('id_producto', $item['id'])
+                ->where('stock_actual', '>=', $cantidad)
+                ->decrement('stock_actual', $cantidad);
+
+                if (!$actualizado) {
+                    throw new \Exception("El producto '{$producto->nombre_producto}' ya no tiene existencias disponibles");
+                }
 
                 MovimientoInventario::create([
                     'id_producto' => $producto->id_producto,
@@ -312,6 +324,39 @@ class FacturacionController extends Controller
                 'detalle' => $e->getMessage()
             ], 500);
         }
+    }
+
+/*  ╔═══════ Validar Stock Carrito POS ═══════╗ 
+    ╚═════════════════════════════════════════╝ */
+
+    public function ValidarStockCarrito(Request $request)
+    {
+        $productos = Producto::whereIn('id_producto', collect($request->carrito)->pluck('id'))
+            ->get()
+            ->keyBy('id_producto');
+
+        foreach ($request->carrito as $item) {
+
+            $producto = $productos[$item['id']] ?? null;
+
+            if (!$producto) {
+                return response()->json([
+                    'ok' => false,
+                    'mensaje' => "Producto no encontrado"
+                ]);
+            }
+
+            if ($producto->stock_actual < $item['cantidad']) {
+                return response()->json([
+                    'ok' => false,
+                    'mensaje' => "El producto '{$producto->nombre_producto}' ya no tiene existencias, por favor reinicie la pagina para ver el stock actualizado",
+                    'stock' => $producto->stock_actual,
+                    'id' => $producto->id_producto
+                ]);
+            }
+        }
+
+        return response()->json(['ok' => true]);
     }
 
 

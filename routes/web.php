@@ -194,6 +194,7 @@ Route::get('/productos/pos', [FacturacionController::class, 'MostrarProductosPOS
 Route::get('/clientes/pos', [FacturacionController::class, 'MostrarClientesPOS']);
 Route::post('/facturar/pos', [FacturacionController::class, 'FacturarProductosPOS']);
 Route::get('/metodo-pago/pos', [FacturacionController::class, 'MostrarMetodoPagoPOS']);
+Route::post('/validar-stock-carrito', [FacturacionController::class, 'ValidarStockCarrito']);
 
 Route::post('/caja/abrir', [CajaController::class, 'AbrirCaja']);
 Route::post('/caja/cerrar', [CajaController::class, 'CerrarCaja']);

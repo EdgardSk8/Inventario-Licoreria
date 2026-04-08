@@ -32,9 +32,9 @@ $(document).ready(function () {
                 data: 'tipo_movimiento_caja',
                 render: function(data){
                     if (data === 'INGRESO') {
-                        return `<span class="badge bg-success">INGRESO</span>`;
+                        return `<strong class="text-success">INGRESO</strong>`;
                     } else {
-                        return `<span class="badge bg-danger">SALIDA</span>`;
+                        return `<strong class="text-danger">SALIDA</strong>`;
                     }
                 }
             },
@@ -53,12 +53,12 @@ $(document).ready(function () {
                 }
             },
 
-            { 
-                data: 'id_referencia',
-                render: function(data){
-                    return data ? data : '—';
-                }
-            }
+            // { 
+            //     data: 'id_referencia',
+            //     render: function(data){
+            //         return data ? data : '—';
+            //     }
+            // }
         ],
 
         columnDefs: [
@@ -69,7 +69,7 @@ $(document).ready(function () {
             { targets: 4, visible: $('.toggle-col[data-column="4"]').is(':checked') },
             { targets: 5, visible: $('.toggle-col[data-column="5"]').is(':checked') },
             { targets: 6, visible: $('.toggle-col[data-column="6"]').is(':checked') },
-            { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') }
+            // { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') }
         ],
 
         order: [[1, 'desc']],

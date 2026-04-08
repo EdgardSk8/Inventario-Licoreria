@@ -148,7 +148,7 @@ $(document).ready(function () {
 
     /* ═══════ VALIDAR Y FACTURAR DEL CARRITO ═══════ */
 
-    $('#btnFacturar').click(function () {
+    $('#btnFacturar').click(async function () {
 
         $('#btnFacturar').prop('disabled', true); // Evita Doble Click
 
@@ -158,6 +158,9 @@ $(document).ready(function () {
 
         // VALIDAR ANTES DE FACTURAR
         if (!validarFactura(cliente, total, recibido)) { $('#btnFacturar').prop('disabled', false); return; }
+
+        let stockOk = await validarStockBD();
+        if (!stockOk) { $('#btnFacturar').prop('disabled', false); return; }
 
         let data = { cliente: cliente, carrito: carrito, total: total, recibido: recibido };
 
@@ -209,5 +212,42 @@ $(document).ready(function () {
     }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
+
+async function validarStockBD() {
+
+    let res = await fetch('/validar-stock-carrito', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: JSON.stringify({ carrito })
+    });
+
+    let data = await res.json();
+
+    if (!data.ok) {
+        mostrarToast(data.mensaje, 'danger');
+
+        let p = carrito.find(x => x.id == data.id);
+        if (p) p.stock = data.stock;
+
+        return false;
+    }
+
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 });

@@ -53,10 +53,10 @@
                 <label class="form-check-label">Cuenta Destino</label>
             </div>
 
-            <div class="form-check">
+            <!-- <div class="form-check">
                 <input class="form-check-input toggle-col" type="checkbox" data-column="7" id="colReferencia">
                 <label class="form-check-label">Referencia</label>
-            </div>
+            </div> -->
 
         </div>
 

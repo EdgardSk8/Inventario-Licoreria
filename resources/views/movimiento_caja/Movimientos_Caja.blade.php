@@ -35,7 +35,6 @@
                     <th>Concepto</th>
                     <th>Monto</th>
                     <th>Cuenta Destino</th>
-                    <th>Referencia</th>
                 </tr>
             </thead>
             <tbody></tbody>

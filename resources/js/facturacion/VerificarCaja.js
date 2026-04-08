@@ -35,6 +35,9 @@ $(document).ready(function () {
 function verificarCajaEstado() {
     $.get('/caja/verificar', function(res) {
 
+        if (res.abierta && res.id_caja) { $('#NumeroCaja').html(`<strong class="text-success">Caja N.º ${res.id_caja} Abierta</strong>`); } 
+        else { $('#NumeroCaja').html(`<strong class="text-danger">Caja no activa</strong>`); }
+
         if (res.usuario) { $('#usuarioNombre').text(res.usuario.nombre); $('#usuarioRol').text(res.usuario.rol); }
 
         // Abrir/Cerrar botones
