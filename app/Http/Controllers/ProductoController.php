@@ -37,8 +37,8 @@ class ProductoController extends Controller
                     'id_impuesto' => 'required|exists:impuestos,id_impuesto',
                     'id_ubicacion' => 'nullable|exists:ubicaciones,id_ubicacion', // 👈 CAMBIO
 
-                    'precio_compra' => 'required|numeric|min:0',
-                    'precio_venta' => 'required|numeric|min:0',
+                    'precio_compra' => 'nullable|numeric|min:0',
+                    'precio_venta' => 'nullable|numeric|min:0',
                     'stock_actual' => 'nullable|integer|min:0'
                 ],
                 [
@@ -78,22 +78,26 @@ class ProductoController extends Controller
             $archivo->move($ruta, $nombreImagen);
         }
 
-            Producto::create([
-                'nombre_producto' => $request->nombre_producto,
-                'descripcion_producto' => $request->descripcion_producto,
-                'imagen_producto' => $nombreImagen,
-                'id_categoria' => $request->id_categoria,
-                'id_impuesto' => $request->id_impuesto,
-                'id_ubicacion' => $request->id_ubicacion,
-                'precio_compra' => $request->precio_compra,
-                'precio_venta' => $request->precio_venta,
-                'stock_actual' => $request->stock_actual ?? 0,
-            ]);
+        $producto = Producto::create([
+            'nombre_producto' => $request->nombre_producto,
+            'descripcion_producto' => $request->descripcion_producto,
+            'imagen_producto' => $nombreImagen,
+            'id_categoria' => $request->id_categoria,
+            'id_impuesto' => $request->id_impuesto,
+            'id_ubicacion' => $request->id_ubicacion,
+            'precio_compra' => $request->precio_compra,
+            'precio_venta' => $request->precio_venta,
+            'stock_actual' => 0,
+        ]);
 
-            return response()->json([
-                'success' => true,
-                'mensaje' => 'Producto creado correctamente'
-            ], 200);
+        return response()->json([
+            'success' => true,
+            'mensaje' => 'Producto creado correctamente',
+            'producto' => [
+                'id' => $producto->id_producto,
+                'text' => $producto->nombre_producto
+            ]
+        ], 200);
 
         } catch (\Exception $e) {
             return response()->json([

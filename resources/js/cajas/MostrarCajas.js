@@ -16,7 +16,7 @@ $(document).ready(function () {
             { data: 'estado_caja',render: function(data){return data == 1
                     ? '<span class="estado estado-activo">Abierta</span>' : '<span class="estado estado-inactivo">Cerrada</span>';} }
         ],
-        order: [[1, 'desc']],
+        order: [[1, 'asc']],
         ...Traduccion // Constante de traduccion de datatables
     });
 

@@ -241,7 +241,7 @@ class FacturacionController extends Controller
             MovimientoCaja::create([
                 'id_caja' => $caja->id_caja,
                 'tipo_movimiento_caja' => 'INGRESO',
-                'concepto_movimiento_caja' => 'Venta Caja',
+                'concepto_movimiento_caja' => 'Ingreso por ventas',
                 'monto_movimiento_caja' => $totalGeneral,
                 'id_usuario' => session('usuario.id'),
                 'id_referencia' => $venta->id_venta

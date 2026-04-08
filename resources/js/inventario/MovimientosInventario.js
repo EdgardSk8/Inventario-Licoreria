@@ -14,8 +14,13 @@ $(document).ready(function () {
             { data: 'nombre_completo_usuario' },
             { data: 'fecha_movimiento', render: function(data){ return formatearFecha(data); } },
             { data: 'nombre_producto' },
-            { data: 'tipo_movimiento' },
-
+            { data: 'tipo_movimiento',
+                render: function(data) {
+                    if (data === 'ENTRADA') { return `<strong class="text-success">${data}</strong>`; } 
+                    else if (data === 'SALIDA') { return `<strong class="text-danger">${data}</strong>`; }
+                    return data;
+                }
+            },
             { data: 'tipo_referencia' },        // Columna separada: Tipo de referencia         // Columna separada: ID de referencia
             { data: 'motivo_movimiento' }, 
             { data: 'cantidad_movimiento' },

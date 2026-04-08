@@ -129,7 +129,7 @@ class CompraController extends Controller
                     'tipo_movimiento' => 'ENTRADA',
                     'cantidad_movimiento' => $cantidad,
                     'stock_resultante' => $producto->stock_actual,
-                    'motivo_movimiento' => 'Compra',
+                    'motivo_movimiento' => 'Reabastecimiento de productos',
                     'id_referencia' => $compra->id_compra,
                     'tipo_referencia' => 'COMPRA',
                     'precio_unitario' => $precio,
@@ -149,7 +149,7 @@ class CompraController extends Controller
                 MovimientoCaja::create([
                     'id_caja' => $caja->id_caja,
                     'tipo_movimiento_caja' => 'SALIDA',
-                    'concepto_movimiento_caja' => 'Reabastecimiento de stock',
+                    'concepto_movimiento_caja' => 'Reabastecimiento de productos',
                     'monto_movimiento_caja' => $totalCalculado,
                     'id_usuario' => session('usuario.id'),
                     'id_referencia' => $compra->id_compra,
@@ -170,7 +170,7 @@ class CompraController extends Controller
                     'id_cuenta' => $cuenta->id_cuenta,
                     'tipo_movimiento' => 'SALIDA',
                     'monto' => $totalCalculado,
-                    'descripcion' => 'Compra',
+                    'descripcion' => 'Compra de productos',
                     'id_usuario' => session('usuario.id')
                 ]);
 
@@ -390,7 +390,7 @@ class CompraController extends Controller
         MovimientoCaja::create([
             'id_caja' => $caja->id_caja,
             'tipo_movimiento_caja' => 'SALIDA',
-            'concepto_movimiento_caja' => 'Compra',
+            'concepto_movimiento_caja' => 'Compra de productos',
             'monto_movimiento_caja' => $totalCompra,
             'id_usuario' => $idUsuario,
             'id_referencia' => $idCompra ?? null
@@ -436,8 +436,6 @@ class CompraController extends Controller
         ]);
     }
 
-
-
 /*  ╔═══════════ Mostrar Productos ═══════════╗ 
     ╚═════════════════════════════════════════╝ */
 
@@ -460,13 +458,14 @@ class CompraController extends Controller
             // 🔎 CONSULTA BASE
             $query = Producto::query();
 
-            // 🟢 FILTRO POR ESTADO
-            if ($request->has('estado')) {
-                $query->where('estado_producto', $request->estado);
-            } else {
-                // por defecto solo activos
-                $query->where('estado_producto', 1);
-            }
+            // FILTRO POR ESTADO
+
+            // if ($request->has('estado')) {
+            //     $query->where('estado_producto', $request->estado);
+            // } else {
+            //     // por defecto solo activos
+            //     $query->where('estado_producto', 1);
+            // }
 
             // 🔍 BÚSQUEDA (Select2 usa "q")
             if ($request->filled('q')) {
@@ -480,10 +479,10 @@ class CompraController extends Controller
 
             $productos = $query
                 ->orderBy('nombre_producto', 'asc')
-                ->limit(20)
+                //->limit(20) limite datos cargadis en select2
                 ->get();
 
-            // 🎯 FORMATO SELECT2
+            // FORMATO SELECT2
             $data = $productos->map(function ($p) {
                 return [
                     'id' => $p->id_producto,

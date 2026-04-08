@@ -285,27 +285,43 @@ inicializarCrearVenta();
             processData: false,
             contentType: false,
 
-            success: function(res){
+        success: function(res){
 
-                mostrarToast('Producto creado correctamente', 'success');
+            mostrarToast('Producto creado correctamente', 'success');
 
-                // 🧹 Limpiar
-                $('#formCrearProducto')[0].reset();
+            let producto = res.producto;
 
-                $('#preview_imagen_producto')
-                    .attr('src', '')
-                    .addClass('d-none');
+            // 🧠 Insertar en Select2 y seleccionarlo
+            let newOption = new Option(producto.text, producto.id, true, true);
+            $('#producto_select').append(newOption).trigger('change'); // selecciona automáticamente
 
-                // ❌ Cerrar modal
-                const modalElement = document.getElementById("modalCrearProducto");
-                const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                if(modalInstance) modalInstance.hide();
+            // 🔹 Tomar la cantidad y precio que puso el usuario en el modal
+            let cantidad = parseFloat($('#crear_stock_actual').val()) || 0;
+            let precio = parseFloat($('#crear_precio_compra').val()) || 0;
 
-                // 🔄 Recargar tabla
-                if($.fn.DataTable.isDataTable('#tablaProductos')){
-                    $('#tablaProductos').DataTable().ajax.reload();
-                }
-            },
+            $('#cantidad').val(cantidad);
+            $('#precio').val(precio);
+
+            $('#producto_select').trigger('select2:select'); // asegura que select2 registre el cambio
+            $('#btnAgregar').click();
+
+            // 🧹 Limpiar
+            $('#formCrearProducto')[0].reset();
+
+            $('#preview_imagen_producto')
+                .attr('src', '')
+                .addClass('d-none');
+
+            // ❌ Cerrar modal
+            const modalElement = document.getElementById("modalCrearProducto");
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if(modalInstance) modalInstance.hide();
+
+            // 🔄 Recargar tabla
+            if($.fn.DataTable.isDataTable('#tablaProductos')){
+                $('#tablaProductos').DataTable().ajax.reload();
+            }
+        },
 
             error: function(err){
                 console.error(err);
@@ -328,6 +344,7 @@ inicializarCrearVenta();
                     mostrarToast('Error inesperado del servidor', 'danger');
                 }
             }
+
         });
 
     });

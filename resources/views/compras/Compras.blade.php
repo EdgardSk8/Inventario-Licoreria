@@ -8,6 +8,7 @@
     <title>Compras</title>
 
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/compras/Compras.css') }}">
+    
     <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/compras/Compras.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/compras/CrearProducto.js') }}"></script>
@@ -114,7 +115,7 @@
                         <label class="small">Producto</label>
 
                         <select id="producto_select" class="form-select form-select-sm">
-                            <option value="" selected disabled>Seleccione un Producto</option>
+                        <!--    <option value="" selected disabled>Seleccione un Producto</option> -->
                         </select>
 
                     </div>

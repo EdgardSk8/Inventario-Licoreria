@@ -10,7 +10,8 @@ $(document).ready(function () {
         paging: false,
         searching: false,
         info: false,
-        ordering: false
+        ordering: false,
+        ...Traduccion
     });
 
 /* ------------------------------------------------------------------------------------------------------------------- */
@@ -172,96 +173,120 @@ $(document).ready(function () {
 
 /*═══════════════════════════════════════════════════*/
 /* ➕ AGREGAR PRODUCTO */
+console.log('DATA SELECT2:', $('#producto_select').select2('data'));
+    $('#btnAgregar').click(function () {
+        let data = $('#producto_select').select2('data')[0];
+        let cantidad = parseInt($('#cantidad').val()) || 0;
+        let precio = parseFloat($('#crear_precio_compra').val()) || 0;
+        let descuento = parseFloat($('#descuento_item').val()) || 0;
+        let impuesto = parseFloat($('#impuesto_item').val()) || 0;
 
-$('#btnAgregar').click(function () {
-    let data = $('#producto_select').select2('data')[0];
-    let cantidad = parseInt($('#cantidad').val());
-    let precio = parseFloat($('#precio').val());
-    let descuento = parseFloat($('#descuento_item').val()) || 0;
-    let impuesto = parseFloat($('#impuesto_item').val()) || 0;
+        if (!data) return alert('Seleccione producto');
+        //if (cantidad <= 0) return alert('Cantidad inválida');
+        //if (precio <= 0) return alert('Precio inválido');
 
-    if (!data) return alert('Seleccione producto');
-    if (cantidad <= 0) return alert('Cantidad inválida');
-    //if (precio <= 0) return alert('Precio inválido');
+        let existente = carrito.find(p => p.id === data.id);
 
-    let existente = carrito.find(p => p.id === data.id);
+        if (existente) {
+            existente.cantidad += cantidad;
+            existente.precio = precio; // actualizar precio manual
+            existente.descuento = descuento;
+            existente.impuesto = impuesto;
+        } else {
+            carrito.push({
+                id: data.id,
+                nombre: data.text,
+                precio: precio,
+                cantidad: cantidad,
+                descuento: descuento,
+                impuesto: impuesto
+            });
+        }
 
-    if (existente) {
-        existente.cantidad += cantidad;
-        existente.precio = precio; // actualizar precio manual
-        existente.descuento = descuento;
-        existente.impuesto = impuesto;
-    } else {
-        carrito.push({
-            id: data.id,
-            nombre: data.text,
-            precio: precio,
-            cantidad: cantidad,
-            descuento: descuento,
-            impuesto: impuesto
-        });
-    }
+        renderCarrito();
 
-    renderCarrito();
-
-    // limpiar inputs
-    $('#producto_select').val(null).trigger('change');
-    // limpiar inputs con placeholder
-    $('#cantidad').val('').attr('placeholder', '0');
-    $('#precio').val('').attr('placeholder', '0');
-    $('#descuento_item').val('').attr('placeholder', '0'); // aunque ya no uses descuento, si quieres mantener
-    $('#impuesto_item').val('').attr('placeholder', '0');  // idem
-});
+        // limpiar inputs
+        $('#producto_select').val(null).trigger('change');
+        // limpiar inputs con placeholder
+        $('#cantidad').val('').attr('placeholder', '0');
+        $('#precio').val('').attr('placeholder', '0');
+        $('#descuento_item').val('').attr('placeholder', '0'); // aunque ya no uses descuento, si quieres mantener
+        $('#impuesto_item').val('').attr('placeholder', '0');  // idem
+    });
 
 /*═══════════════════════════════════════════════════*/
 /* 🎨 RENDER CARRITO */
 
-function renderCarrito() {
-    tabla.clear();
-    let subtotalGeneral = 0;
+    function renderCarrito() {
+        tabla.clear();
+        let subtotalGeneral = 0;
 
-    carrito.forEach((p, i) => {
-        
-        let subtotal = p.precio * p.cantidad;
-        let totalItem = subtotal - p.descuento + p.impuesto;
-        subtotalGeneral += subtotal;
-        
+        carrito.forEach((p, i) => {
 
-        tabla.row.add([
-            i + 1,
-            p.nombre,
-            `<input type="number" value="${p.cantidad}" min="0" placeholder="0"
-                class="form-control form-control-sm cantidad"
-                data-index="${i}">`,
-            `<input type="number" value="${p.precio}" min="0" placeholder="0"
-                class="form-control form-control-sm precio"
-                data-index="${i}">`,
-            totalItem.toFixed(2),
-            `<button class="btn btn-danger btn-sm eliminar" data-index="${i}">
-                <i class="bi bi-trash"></i>
-            </button>`
-        ]);
-    });
+            let precio = parseFloat(p.precio) || 0;
+            let cantidad = parseFloat(p.cantidad) || 0;
+            let descuento = parseFloat(p.descuento) || 0;
+            let impuesto = parseFloat(p.impuesto) || 0;
 
-    tabla.draw();
-    calcularTotales(subtotalGeneral);
-}
+            let subtotal = precio * cantidad;
+            let totalItem = subtotal - descuento + impuesto;
+
+            subtotalGeneral += subtotal;
+
+            tabla.row.add([
+                i + 1,
+                p.nombre,
+                `<input type="number" value="${cantidad}" min="0" placeholder="0"
+                    class="form-control form-control-sm cantidad"
+                    data-index="${i}">`,
+                `<input type="number" value="${precio}" min="0" placeholder="0"
+                    class="form-control form-control-sm precio"
+                    data-index="${i}">`,
+                totalItem.toFixed(2),
+                `<button class="btn btn-danger btn-sm eliminar" data-index="${i}">
+                    <i class="bi bi-trash"></i>
+                </button>`
+            ]);
+        });
+
+        tabla.draw();
+        calcularTotales(subtotalGeneral);
+    }
 
 /*═══════════════════════════════════════════════════*/
 /* 🔄 EVENTOS DINÁMICOS */
 
 $('#tabla_carrito').on('blur', '.cantidad, .precio, .descuento, .impuesto', function () {
+
     let i = $(this).data('index');
-    let clase = $(this).attr('class').split(' ')[2]; // cantidad, precio, descuento, impuesto
     let valor = parseFloat($(this).val()) || 0;
 
-    carrito[i][clase] = valor;
+    if (carrito[i] === undefined) return;
 
-    // recalcular totales
-    calcularTotales(carrito.reduce((acc, p) => acc + (p.precio * p.cantidad), 0));
+    if ($(this).hasClass('cantidad')) {
+        carrito[i].cantidad = valor;
+    } 
+    else if ($(this).hasClass('precio')) {
+        carrito[i].precio = valor;
+    } 
+    else if ($(this).hasClass('descuento')) {
+        carrito[i].descuento = valor;
+    } 
+    else if ($(this).hasClass('impuesto')) {
+        carrito[i].impuesto = valor;
+    }
 
-    // opcional: actualizar cajas si necesitas
-    actualizarCajas(); renderCarrito();
+    // 🔥 recalcular subtotal correctamente
+    let subtotalGeneral = carrito.reduce((acc, p) => {
+        return acc + ((p.precio || 0) * (p.cantidad || 0));
+    }, 0);
+
+    calcularTotales(subtotalGeneral);
+
+    actualizarCajas();
+
+    // 🔁 re-render para reflejar cambios
+    renderCarrito();
 });
 
 $('#tabla_carrito').on('click', '.eliminar', function () {
@@ -269,6 +294,8 @@ $('#tabla_carrito').on('click', '.eliminar', function () {
     carrito.splice(i, 1);
     renderCarrito();
 });
+
+
 
 
 
