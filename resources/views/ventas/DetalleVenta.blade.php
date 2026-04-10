@@ -13,9 +13,13 @@
 
                 <div class="d-flex align-items-center gap-2">
 
-                    <button type="button" class="btn btn-success btn-sm" id="btnImprimir">
-                        🖨 Imprimir Factura de Venta
-                    </button>
+                <button type="button" class="btn btn-success btn-sm" id="btnImprimir">
+                    <i class="bi bi-printer"></i> Imprimir Factura
+                </button>
+
+                <button type="button" class="btn btn-danger btn-sm" id="btnAnular">
+                    <i class="bi bi-x-circle"></i> Anular Factura
+                </button>
 
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
 

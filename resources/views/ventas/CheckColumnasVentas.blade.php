@@ -1,6 +1,6 @@
 <h6>Mostrar/Ocultar columnas</h6>
 
-<div class="d-flex flex-wrap align-items-center gap-3">
+<div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
 
     <div class="form-check">
         <input class="form-check-input toggle-col" type="checkbox" data-column="0" id="colFactura" checked>
