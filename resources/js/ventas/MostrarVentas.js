@@ -4,6 +4,8 @@ $(document).ready(function () {
 
     $('#tablaVentas').DataTable({
 
+        responsive: true,
+
         processing: true,
 
         ajax: { url: '/ventas/mostrar', type: 'GET', dataSrc: 'ventas' },
@@ -22,7 +24,7 @@ $(document).ready(function () {
                 render: function(data){
                     return `
                         <button class="btn btn-sm btn-primary btn-detalle" data-id="${data}">
-                            Detalles
+                            <i class="bi bi-eye"></i> Detalle
                         </button>
                     `;
                 }
@@ -41,6 +43,7 @@ $(document).ready(function () {
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') },
             { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') }
         ],
+        order: [[0, 'desc']],
         ...Traduccion // Constante de traduccion de datatables
     }); // Fin de datatables
 

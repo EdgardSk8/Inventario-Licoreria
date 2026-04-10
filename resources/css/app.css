@@ -1,12 +1,17 @@
 .btn-agregar_usuario{ margin-bottom: 20px; }
 
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
+
 .modal-header{ background-color: #111827; color: #cbd5e1; }
 .modal-body .modal-footer{ background-color: #f4f6f9; }
+
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
 
 /* BOTÓN GUARDAR */
 .guardar { background-color: #6199f5; transition: background-color 0.2s ease; }
 .guardar:hover { background-color: #3b82f6; color: white; }
 
+/* BOTÓN ACTUALIZAR */
 .actualizar { background-color: #6199f5; transition: background-color 0.2s ease; }
 .actualizar:hover { background-color: #3b82f6; color: white; }
 
@@ -14,115 +19,67 @@
 .cancelar { background-color: #fa7777; transition: background-color 0.2s ease; }
 .cancelar:hover { background-color: #f74242; color: white; }
 
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
+
+.btn-detalle,.btn-editar, td .btn-baja, .estado {
+    padding: 2px 8px;
+    font-size: 14px;
+    line-height: 1.2;
+    border-radius: 4px;
+    font-weight: 400;
+}
+
+.btn-detalle i { font-size: 14px; } /* Icono Detalle */
+
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
+
 /* BOTON EDITAR */
-.btn-editar{
-background:#22c55e;
-color:white;
-border:none;
-padding:4px 10px;
-cursor:pointer;
-border-radius:4px;
-font-size:13px;
-transition: background 0.3s ease;
-}
-
-
-.btn-editar:hover{
-background:#16a34a;
-}
+.btn-editar{ background:#22c55e; color:white; }
+.btn-editar:hover{ background:#16a34a; }
 
 /* BOTON DAR DE BAJA */
-.btn-baja{
-background:#ef4444;
-color:white;
-border:none;
-padding:4px 10px;
-cursor:pointer;
-border-radius:4px;
-font-size:13px;
-}
+.btn-baja{ background:#ef4444; color:white; }
+.btn-baja:hover{ background:#dc2626; }
 
-.btn-baja:hover{
-background:#dc2626;
-}
+.estado-activo{ background:#22c55e; color:white; } /* ACTIVO */
+.estado-inactivo{ background:#ef4444; color:white; } /* INACTIVO */
 
-.btn-detalles{
-    background:#6199f5;
-    color:white;
-    border:none;
-    padding:4px 10px;
-    cursor:pointer;
-    border-radius:4px;
-    font-size:13px;
-}
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
 
-.btn-detalles:hover{
-    background:#5082d1;
-}
+.dataTables_wrapper { padding: 5px 0 0 0; } /* Contenedor Datatables */
+.table { width: 100% !important; margin: 0 auto; } /* Tabla */
 
-
-/* ESTADOS */
-.estado{
-padding:3px 8px;
-border-radius:4px;
-font-size:12px;
-font-weight:500;
-}
-
-/* ACTIVO */
-.estado-activo{
-background:#22c55e;
-color:white;
-}
-
-/* INACTIVO */
-.estado-inactivo{
-background:#ef4444;
-color:white;
-}
-
-.table{
-    width:100%;
-    table-layout:auto;
-}
-
-.table thead th{ /* Columna th (Titulo )*/ 
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
+    
+/* Columna th (Titulo )*/ 
+.table thead th{ 
     background:#1f2937;
     color:white;
     border-color:#111827;
+    text-align: center !important; /* Horizontal */
+    vertical-align: middle !important; /* Vertical */
+    font-size: 15px;
+    padding: 3px;
 }
 
-
-.table td { /* Columna th (Contenido)*/ 
-    text-align: center; /* Horizontal */
-    vertical-align: middle; /* Vertical */
-}
-
-/*
-.table th{
-    white-space: normal;
-}
-*/
-
-td:last-child{ /* Btn horizontales */
-    white-space: nowrap;
-}
-
+/* Columna th (Contenido)*/ 
 .table td{
     word-break: break-word;
-    overflow-wrap: break-word; 
-    font-size: 14px;
-    padding: 5px;
+    overflow-wrap: break-word;
+    text-align: center !important; /* Horizontal */
+    vertical-align: middle !important; /* Vertical */
+    font-size: 14px !important;
+    padding: 3px;
 }
 
-.btn-editar, td .btn-baja {
-    display: inline-block; 
-    margin: 0 auto;
-    padding: 3px 8px;
-    border-radius:4px;
-    font-size:12px;
-    
-}
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
+
+td:last-child{  white-space: nowrap; }/* Btn horizontales */
+.dataTables_length, .dataTables_filter, .dataTables_info{ font-size: 14px; }
+.page-link { font-size: 12px; }
+.form-select{ padding: 2px 25px 2px 10px;}
+
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
 
 tbody tr:hover td{background:#f4f6f9;}/* FILA HOVER */
 tbody tr:nth-child(even) td{background:#f4f6f9;}/* FILAS ALTERNADAS */

@@ -50,11 +50,11 @@ $(document).ready(function () {
                 render: function(data, type, row){
 
                     let botonEstado = row.estado_proveedor == 1
-                        ? `<button class="btn-baja bajaProveedor" data-id="${data}">Dar Baja</button>`
-                        : `<button class="btn-baja bajaProveedor" data-id="${data}">Activar</button>`;
+                        ? `<button class="btn btn-sm btn-baja bajaProveedor" data-id="${data}">Dar Baja</button>`
+                        : `<button class="btn btn-sm btn-baja bajaProveedor" data-id="${data}">Activar</button>`;
 
                     return ` 
-                        <button class="btn-editar editarProveedor" data-id="${data}">Editar</button>
+                        <button class="btn btn-sm btn-editar editarProveedor" data-id="${data}">Editar</button>
                         ${botonEstado}
                     `;
                 }

@@ -21,8 +21,9 @@ body{ height:100vh; overflow:hidden; background:#f4f6f9; }
 /*  ╔═══════ Contenido (Vistas Hijo) ═══════╗ 
     ╚═══════════════════════════════════════╝ */
 
-.content{ height:100vh; overflow-y: auto;  flex-grow:1; }
+.content{ height:100vh; overflow-y: auto; overflow-x: hidden; flex-grow:1; }
 
+#contenido-dinamico{ }
 /* ═════════════════════════════════════════════════════════════════════════════════════════════ */
 
 /*  ╔═══════ SIDEBAR (Menu Lateral) ═══════╗ 
