@@ -5,6 +5,7 @@ $(document).ready(function () {
     let carrito = [];
     const tablaProductos = inicializarTablaProductos();
     eventosProductos(tablaProductos);
+    document.getElementById('titulo').textContent = 'SISTEMA DE FACTURACION';
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 

@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'GESTION DE CLIENTES';
+
     // Filtro para ocultar clientes inactivos
     $.fn.dataTable.ext.search.push(
 

@@ -26,6 +26,7 @@ use App\Http\Controllers\MovimientoInventarioController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\MovimientoCajaController;
+use App\Http\Controllers\DetalleVentaController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -176,6 +177,11 @@ Route::post('/roles/cambiar-estado/{id}', [RolController::class, 'CambiarEstadoR
     ╚════════════════════════════════════════════╝ */
 
 Route::get('/ventas/mostrar', [VentaController::class, 'MostrarVentas']);
+
+/*  ╔══════════ Endpoint Detalle Ventas ═════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/ventas/{id}/detalle', [DetalleVentaController::class, 'MostrarDetalleVenta']);
 
 /*  ╔══════ Movimiento Inventario (Kardex) ══════╗ 
     ╚════════════════════════════════════════════╝ */

@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'METODOS DE PAGO';
+
     $.fn.dataTable.ext.search.push( // Check de métodos de pago inactivos
         function(settings, data, dataIndex) {
             const ocultar = $('#toggleInactivosMetodosPago').is(':checked');

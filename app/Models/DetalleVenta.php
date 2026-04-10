@@ -20,6 +20,16 @@ class DetalleVenta extends Model
         'monto_impuesto',
     ];
 
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
+    }
+
+    public function venta()
+    {
+        return $this->belongsTo(Venta::class, 'id_venta', 'id_venta');
+    }
+
 }
 
 /* ══════════════════════════════════════════════════════════════════════════

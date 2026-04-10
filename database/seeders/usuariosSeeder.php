@@ -17,9 +17,9 @@ class usuariosSeeder extends Seeder
     {
         DB::table('usuarios')->insert([
             [
-                'nombre_completo_usuario' => 'Administrador del Sistema',
-                'cedula_identidad_usuario' => '000-000000-0000A',
-                'nombre_usuario' => 'admin',
+                'nombre_completo_usuario' => 'Edgard Tellez',
+                'cedula_identidad_usuario' => '281-151202-1003C',
+                'nombre_usuario' => 'Edgard',
                 'password_hash_usuario' => Hash::make('123456'),
                 'id_rol_usuario' => 1,
                 'estado_usuario' => true,

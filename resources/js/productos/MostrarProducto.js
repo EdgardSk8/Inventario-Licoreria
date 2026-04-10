@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'CATEGORIA DE PRODUCTOS';
+
+    document.getElementById('titulo').textContent = 'GESTION DE PRODUCTOS';
+
     // 🔎 Filtro para ocultar inactivos
     $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex) {

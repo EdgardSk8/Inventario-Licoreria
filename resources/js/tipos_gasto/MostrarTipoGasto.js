@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'CLASIFICACION DE GASTOS';
+
     $.fn.dataTable.ext.search.push( // Check de tipos de gasto inactivos
         function(settings, data, dataIndex) {
             const ocultar = $('#toggleInactivosTipoGasto').is(':checked');

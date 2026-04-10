@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'MOVIMIENTOS DE INVENTARIO';
+
     $('#tablaKardex').DataTable({
 
         processing: true,
@@ -18,6 +20,7 @@ $(document).ready(function () {
                 render: function(data) {
                     if (data === 'ENTRADA') { return `<strong class="text-success">${data}</strong>`; } 
                     else if (data === 'SALIDA') { return `<strong class="text-danger">${data}</strong>`; }
+                    else if (data === 'AJUSTE') { return `<strong class="text-black-50">${data}</strong>`; }
                     return data;
                 }
             },
@@ -53,8 +56,8 @@ $(document).ready(function () {
     }); // Fin de DataTables
 
     $('.toggle-col').on('change', function(e) {
-    const column = $('#tablaKardex').DataTable().column($(this).attr('data-column'));
-    column.visible(this.checked);
-});
+        const column = $('#tablaKardex').DataTable().column($(this).attr('data-column'));
+        column.visible(this.checked);
+    });
 
 });

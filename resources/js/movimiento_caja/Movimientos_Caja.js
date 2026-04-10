@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'MOVIMIENTOS DE CAJA';
+
     let tabla = $('#tablaMovimientosCaja').DataTable({
 
         processing: true,

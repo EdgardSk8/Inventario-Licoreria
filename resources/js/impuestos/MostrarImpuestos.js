@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'GESTION DE IMPUESTOS';
+
     $.fn.dataTable.ext.search.push( // Check de impuestos inactivos
         function(settings, data, dataIndex) {
             const ocultar = $('#toggleInactivosImpuestos').is(':checked');

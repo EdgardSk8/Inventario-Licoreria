@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between align-items-start">
 
-            <h4>Kardex de Productos</h4>
+            <h4>Movimiento de Productos</h4>
 
             <div class="row">
                 

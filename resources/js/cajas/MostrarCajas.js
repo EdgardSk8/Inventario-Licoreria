@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'CONTROL DE CAJAS';
+
     const tabla = $('#tablaCajas').DataTable({
 
         processing: true,

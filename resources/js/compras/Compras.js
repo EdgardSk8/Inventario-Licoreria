@@ -14,6 +14,8 @@ $(document).ready(function () {
         ...Traduccion
     });
 
+    document.getElementById('titulo').textContent = 'REGISTRO DE COMPRAS';
+
 /* ------------------------------------------------------------------------------------------------------------------- */
 
 /*  ╔════════════════════ Selectores Select2 ═══════════════════╗ 

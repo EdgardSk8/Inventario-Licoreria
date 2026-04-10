@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'DATOS DE EMPRESA';
+
     function cargarCredenciales() {
 
         $.ajax({

@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'GESTION DE ROLES';
+
     $.fn.dataTable.ext.search.push( // Check de roles inactivos
 
         function(settings, data, dataIndex) {

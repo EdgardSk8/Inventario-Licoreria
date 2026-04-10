@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'GESTION DE USUARIOS';
+
     $.fn.dataTable.ext.search.push( // Check de usuarios inactivos
 
     function(settings, data, dataIndex) {

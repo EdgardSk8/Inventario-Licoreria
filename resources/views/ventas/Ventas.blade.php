@@ -15,11 +15,15 @@
     <!-- Scripts -->
     <script src="{{ Vite::asset('resources/js/ventas/MostrarVentas.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/ventas/DetalleVenta.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/ventas/ImprimirFacturaVenta.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 
 </head>
 
 <body>
+
+    @include('ventas.CheckColumnasVentas')
 
     <table id="tablaVentas" class="table table-striped table-bordered">
 
@@ -34,12 +38,15 @@
                 <th>Total</th>
                 <th>Método Pago</th>
                 <th>Estado</th>
+                <th>Detalles</th>
             </tr>
         </thead>
 
         <tbody></tbody>
 
     </table>
+
+    @include('ventas.DetalleVenta')
 
 </body>
 </html>

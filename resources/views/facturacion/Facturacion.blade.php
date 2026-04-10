@@ -39,7 +39,7 @@
                     <h3>FACTURACION</h3>
 
                     <div>
-                    <button id="btnAbrirCaja" class="btn btn-success">Abrir Caja</button> 
+                        <button id="btnAbrirCaja" class="btn btn-success">Abrir Caja</button> 
                         <button id="btnCerrarCaja" class="btn btn-danger">Cerrar Caja</button>
                     </div>
                     

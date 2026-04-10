@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'REGISTRO DE PROVEEDORES';
+
     $.fn.dataTable.ext.search.push( // Check de proveedores inactivos
         function(settings, data, dataIndex) {
             const ocultar = $('#toggleInactivosProveedores').is(':checked');

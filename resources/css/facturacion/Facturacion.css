@@ -74,3 +74,16 @@
 .select2-results__options { /* Selectores (Select2)*/
     max-height: 70vh !important;
 }
+
+
+
+@media (max-width: 575.98px) {
+
+    h3{ font-size: 15px;}
+    .table td { font-size: 12px; }
+    .table thead th{ font-size: 14px; }
+    .agregarProducto{ font-size: 10px; padding: 2px 3px; }
+    #btnAbrirCaja, #btnCerrarCaja{ font-size: 10px; padding: 2px 3px; }
+
+
+}

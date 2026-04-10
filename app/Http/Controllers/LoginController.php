@@ -48,7 +48,7 @@ class LoginController extends Controller
             if (!$usuario) {
                 return response()->json([
                     'success' => false,
-                    'mensaje' => 'Usuario o contraseña incorrectos'
+                    'mensaje' => 'Usuario no existe en el sistema'
                 ], 401);
             }
 
@@ -64,7 +64,7 @@ class LoginController extends Controller
             if (!Hash::check($request->password, $usuario->password_hash_usuario)) {
                 return response()->json([
                     'success' => false,
-                    'mensaje' => 'Usuario o contraseña incorrectos'
+                    'mensaje' => 'Credenciales incorrectas'
                 ], 401);
             }
 
@@ -78,7 +78,7 @@ class LoginController extends Controller
 
             return response()->json([
                 'success' => true,
-                'mensaje' => 'Login correcto',
+                'mensaje' => 'Inicio de sesión exitoso',
                 'usuario' => [
                     'nombre' => $usuario->nombre_usuario,
                     'rol' => $usuario->nombre_rol

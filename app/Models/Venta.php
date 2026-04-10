@@ -33,24 +33,21 @@ class Venta extends Model
     ];
 
     // 🔹 Relación: venta pertenece a cliente
-    public function cliente()
+ public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');
     }
 
-    // 🔹 Relación: venta pertenece a usuario
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
     }
 
-    // 🔹 Relación: venta pertenece a caja
     public function caja()
     {
         return $this->belongsTo(Caja::class, 'id_caja', 'id_caja');
     }
 
-    // 🔹 Relación: venta pertenece a cuenta
     public function cuenta()
     {
         return $this->belongsTo(Cuenta::class, 'id_cuenta', 'id_cuenta');
@@ -61,10 +58,36 @@ class Venta extends Model
         return $this->belongsTo(MetodoPago::class, 'id_metodo_pago', 'id_metodo_pago');
     }
 
-    // 🔹 Relación: una venta tiene muchos detalles
+    // 🔥 IMPORTANTE (ya lo tenías, pero es clave)
     public function detalles()
     {
         return $this->hasMany(DetalleVenta::class, 'id_venta', 'id_venta');
+    }
+
+    /* ═════════════ OPCIONAL (RECOMENDADO) ═════════════ */
+
+    // ✔ Total de productos vendidos en esa venta
+    public function totalItems()
+    {
+        return $this->detalles->sum('cantidad_venta');
+    }
+
+    // ✔ Total de impuestos calculado desde detalles
+    public function totalImpuestos()
+    {
+        return $this->detalles->sum('monto_impuesto');
+    }
+
+    // ✔ Subtotal calculado desde detalles
+    public function subtotalCalculado()
+    {
+        return $this->detalles->sum('subtotal_detalle_venta');
+    }
+
+    // ✔ Estado legible (para no usar ternarios en JS)
+    public function getEstadoTextoAttribute()
+    {
+        return $this->estado_venta == 1 ? 'Activa' : 'Anulada';
     }
 
 }
