@@ -40,10 +40,26 @@ $(document).ready(function () {
                 searchable: false,
                 render: function(data, type, row){
                     let botonEstado = row.estado_usuario == 1 
-                        ? `<button class="btn-baja bajaUsuario" data-id="${data}">Dar Baja</button>` 
-                        : `<button class="btn-baja bajaUsuario" data-id="${data}">Activar</button>`;
+                        ? `<button class="btn btn-baja bajaUsuario" data-id="${data}">
+                        
+                            <i class="bi bi-person-x"></i> Dar Baja
+                        
+                        </button>` 
+
+                        : `<button class="btn btn-baja bajaUsuario" data-id="${data}">
+                        
+                            <i class="bi bi-check-circle"></i> Activar
+                        
+                        </button>`;
+
                     return `
-                        <button class="btn-editar editarUsuario" data-id="${data}">Editar</button>
+
+                        <button class="btn btn-editar editarUsuario" data-id="${data}">
+                        
+                            <i class="bi bi-pencil-square me-1"></i> Editar
+                        
+                        </button>
+                        
                         ${botonEstado}
                     `;
                 }

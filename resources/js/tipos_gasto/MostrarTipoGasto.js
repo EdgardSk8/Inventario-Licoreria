@@ -38,11 +38,24 @@ $(document).ready(function () {
                 searchable: false,
                 render: function(data, type, row){
                     let botonEstado = row.estado_tipo_gasto == 1 
-                        ? `<button class="btn-baja bajaTipoGasto" data-id="${data}">Dar Baja</button>` 
-                        : `<button class="btn-baja bajaTipoGasto" data-id="${data}">Activar</button>`;
+                        ? `<button class="btn btn-baja bajaTipoGasto" data-id="${data}">
+                        
+                            <i class="bi bi-person-x"></i> Dar Baja
+                        
+                        </button>` 
+
+                        : `<button class="btn btn-baja bajaTipoGasto" data-id="${data}">
+                        
+                            <i class="bi bi-check-circle"></i> Activar
+                        
+                        </button>`;
 
                     return `
-                        <button class="btn-editar editarTipoGasto" data-id="${data}">Editar</button>
+                        <button class="btn btn-editar editarTipoGasto" data-id="${data}">
+                        
+                            <i class="bi bi-pencil-square me-1"></i> Editar
+                        
+                        </button>
                         ${botonEstado}
                     `;
                 }

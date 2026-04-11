@@ -214,41 +214,29 @@ $(document).ready(function () {
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
-async function validarStockBD() {
+    async function validarStockBD() {
 
-    let res = await fetch('/validar-stock-carrito', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        body: JSON.stringify({ carrito })
-    });
+        let res = await fetch('/validar-stock-carrito', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            body: JSON.stringify({ carrito })
+        });
 
-    let data = await res.json();
+        let data = await res.json();
 
-    if (!data.ok) {
-        mostrarToast(data.mensaje, 'danger');
+        if (!data.ok) {
+            mostrarToast(data.mensaje, 'danger');
 
-        let p = carrito.find(x => x.id == data.id);
-        if (p) p.stock = data.stock;
+            let p = carrito.find(x => x.id == data.id);
+            if (p) p.stock = data.stock;
 
-        return false;
+            return false;
+        }
+
+        return true;
     }
-
-    return true;
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 });

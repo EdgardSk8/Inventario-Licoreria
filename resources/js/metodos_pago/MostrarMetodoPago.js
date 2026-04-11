@@ -39,11 +39,26 @@ $(document).ready(function () {
                 render: function(data, type, row){
 
                     let botonEstado = row.estado_metodo_pago == 1 
-                        ? `<button class="btn-baja bajaMetodoPago" data-id="${data}">Dar Baja</button>` 
-                        : `<button class="btn-baja bajaMetodoPago" data-id="${data}">Activar</button>`;
+                        ? `<button class="btn btn-baja bajaMetodoPago" data-id="${data}">
+                        
+                            <i class="bi bi-person-x"></i> Dar Baja
+                        
+                        </button>` 
+
+                        : `<button class="btn btn-baja bajaMetodoPago" data-id="${data}">
+                        
+                            <i class="bi bi-check-circle"></i> Activar
+                        
+                        </button>`;
 
                     return `
-                        <button class="btn-editar editarMetodoPago" data-id="${data}">Editar</button>
+                    
+                        <button class="btn btn-editar editarMetodoPago" data-id="${data}">
+                        
+                            <i class="bi bi-pencil-square me-1"></i> Editar
+                        
+                        </button>
+
                         ${botonEstado}
                     `;
                 }

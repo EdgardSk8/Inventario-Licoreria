@@ -23,7 +23,7 @@ $(document).ready(function () {
                 data: 'id_venta',
                 render: function(data){
                     return `
-                        <button class="btn btn-sm btn-primary btn-detalle" data-id="${data}">
+                        <button class="btn detalle btn-detalle" data-id="${data}">
                             <i class="bi bi-eye"></i> Detalle
                         </button>
                     `;

@@ -21,25 +21,39 @@
 
 /* ══════════════════════════════════════════════════════════════════════════════════════ */
 
-.btn-detalle,.btn-editar, td .btn-baja, .estado {
+.btn-detalle, .btn-editar, td .btn-baja, .btn-alta, .estado {
     padding: 2px 8px;
     font-size: 14px;
     line-height: 1.2;
     border-radius: 4px;
     font-weight: 400;
+    transition: all 0.15s ease;
 }
 
-.btn-detalle i { font-size: 14px; } /* Icono Detalle */
+i { font-size: 14px; } /* Icono Detalle */
 
 /* ══════════════════════════════════════════════════════════════════════════════════════ */
 
+/* BOTON DETALLES*/
+.btn-detalle { background-color: #0d6efd; color:white; }
+.btn-detalle:hover { background-color: #0c5cd3; color:white; }
+.btn.btn-detalle:active { background-color: #0c5cd3; color:white; transform: scale(0.90); }
+
+
+/* BOTON ACTIVAR*/
+.btn-alta { background-color: #0d6efd; color:white; }
+.btn-alta:hover { background-color: #0c5cd3; color:white; }
+.btn.btn-baja:active { background-color: #0c5cd3; color:white; transform: scale(0.90); }
+
 /* BOTON EDITAR */
 .btn-editar{ background:#22c55e; color:white; }
-.btn-editar:hover{ background:#16a34a; }
+.btn-editar:hover{ background:#16a34a; color:white; }
+.btn.btn-editar:active { background:#16a34a; color:white; transform: scale(0.90); }
 
 /* BOTON DAR DE BAJA */
 .btn-baja{ background:#ef4444; color:white; }
-.btn-baja:hover{ background:#dc2626; }
+.btn-baja:hover{ background:#dc2626; color:white; }
+.btn.btn-baja:active { background:#dc2626; color:white; transform: scale(0.90); }
 
 .estado-activo{ background:#22c55e; color:white; } /* ACTIVO */
 .estado-inactivo{ background:#ef4444; color:white; } /* INACTIVO */

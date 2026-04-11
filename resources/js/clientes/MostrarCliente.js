@@ -40,11 +40,21 @@ $(document).ready(function () {
                 render: function(data, type, row){
 
                     let botonEstado = row.estado_cliente == 1
-                        ? `<button class="btn-baja bajaCliente" data-id="${data}">Dar Baja</button>`
-                        : `<button class="btn-baja bajaCliente" data-id="${data}">Activar</button>`;
+                        ? `<button class="btn btn-baja bajaCliente" data-id="${data}">
 
+                                <i class="bi bi-person-x"></i> Dar Baja
+
+                            </button>`
+
+                        : `<button class="btn btn-alta bajaCliente" data-id="${data}">
+
+                                <i class="bi bi-check-circle"></i> Activar
+
+                            </button>`;
                     return `
-                        <button class="btn-editar editarCliente" data-id="${data}">Editar</button>
+                        <button class="btn btn-editar editarCliente" data-id="${data}">
+                            <i class="bi bi-pencil-square me-1"></i> Editar
+                        </button>
                         ${botonEstado}
                     `;
 
