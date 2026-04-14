@@ -21,7 +21,7 @@
 
 <body>
 
-    <div class="container">
+    <div >
 
         @include('movimiento_caja.CheckColumnasCaja')
         

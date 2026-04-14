@@ -23,25 +23,11 @@
 
 <body>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-
-    <!-- Botón Agregar Producto 
-    <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#modalCrearProducto">
-        + Agregar Producto
-    </button>-->
-
-    <!-- Checkbox ocultar inactivos -->
-    <div class="form-check form-switch mb-0">
-        <input class="form-check-input" type="checkbox" id="toggleInactivosProductos" checked>
-        <label class="form-check-label" for="toggleInactivosProductos">Ocultar inactivos</label>
-    </div>
-
-</div>
-
 {{-- MODALES 
 @include('productos.CrearProducto')--}}
 @include('productos.EditarProducto')
 @include('productos.DetalleProducto')
+@include('productos.CheckColumnasProductos')
 
 <table id="tablaProductos" class="table table-striped table-bordered">
 
@@ -50,8 +36,10 @@
             <th>Imagen</th>
             <th>Nombre</th>
             <th>Categoría</th>
-            <th>Precio Compra</th>
-            <th>Precio Venta</th>
+            <th>P. Compra</th>
+            <th>P. Venta</th>
+            <th>Impuesto</th>
+            <th>Stock</th>
             <th>Estado</th>
             <th>Acciones</th>
         </tr>
