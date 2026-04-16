@@ -18,7 +18,14 @@ $(document).ready(function () {
             { data: 'impuesto_venta' },
             { data: 'total_venta' },
             { data: 'metodo_pago.nombre_metodo_pago' },
-            { data: 'estado_venta', render: function(data){ return data == 1 ? 'Activa' : 'Anulada';} },
+            { data: 'estado_venta',
+                render: function(data){
+                    return data == 1
+                        ? '<span class="estado estado-activo">Registrada</span>'
+                        : '<span class="estado estado-inactivo">Anulada</span>';
+                }
+            },
+
             {
                 data: 'id_venta',
                 render: function(data){
@@ -42,7 +49,7 @@ $(document).ready(function () {
             { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') },
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') },
             { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') }
-        ],
+        ], lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         order: [[0, 'desc']],
         ...Traduccion // Constante de traduccion de datatables
     }); // Fin de datatables

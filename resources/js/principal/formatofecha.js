@@ -1,4 +1,4 @@
-/*function formatearFecha(fechaSQL) {
+function formatearFechaDia(fechaSQL) {
 
     if (!fechaSQL) return '';
 
@@ -20,18 +20,8 @@
     const mes = meses[fecha.getMonth()];
     const año = fecha.getFullYear();
 
-    let horas = fecha.getHours();
-    const minutos = fecha.getMinutes().toString().padStart(2,'0');
-
-    const ampm = horas >= 12 ? 'PM' : 'AM';
-
-    horas = horas % 12;
-    horas = horas ? horas : 12;
-
-    const horasFormateadas = horas.toString().padStart(2,'0');
-
-    return `${diaSemana}, ${dia} de ${mes} del ${año}, ${horasFormateadas}:${minutos} ${ampm}`;
-}*/
+    return `${diaSemana} ${dia} ${mes} ${año}`;
+}
 
 // Versión simple: Día/Mes/Año
 // Formato: DD/MM/YYYY HH:MM AM/PM

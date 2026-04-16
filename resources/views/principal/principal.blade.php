@@ -180,8 +180,14 @@
                         <i class="bi bi-wallet2 me-2 text-success"></i> Cajas
                     </a>
 
-                    <a href="" class="cargar-vista" data-url="{{ route('movimientos.cajas') }}">
-                        <i class="bi bi-arrow-left-right me-2 text-primary"></i> Movimiento de Cajas
+                   <a href="" class="cargar-vista" data-url="{{ route('movimientos.cajas') }}">
+                        <i class="bi bi-cash-stack me-2 text-primary"></i>
+                        Movimiento de Cajas
+                    </a>
+
+                    <a href="" class="cargar-vista" data-url="{{ route('cuentas') }}">
+                        <i class="bi bi-bank me-2 text-primary"></i>
+                        Cuentas
                     </a>
 
                 </div> <!-- Fin de Submenu -->

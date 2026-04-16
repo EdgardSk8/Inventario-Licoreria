@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('movimientos_cuentas', function (Blueprint $table) {
+
             $table->increments('id_movimiento_cuenta');
 
             $table->unsignedInteger('id_cuenta');
@@ -26,6 +27,8 @@ return new class extends Migration
 
             $table->unsignedInteger('id_usuario');
 
+            $table->unsignedInteger('id_transferencia')->nullable();
+
             // relaciones
             $table->foreign('id_cuenta')
                   ->references('id_cuenta')
@@ -34,6 +37,12 @@ return new class extends Migration
             $table->foreign('id_usuario')
                   ->references('id_usuario')
                   ->on('usuarios');
+
+            $table->foreign('id_transferencia')
+                ->references('id_transferencia')
+                ->on('transferencias_caja_cuenta');
+
+
         });
     }
 

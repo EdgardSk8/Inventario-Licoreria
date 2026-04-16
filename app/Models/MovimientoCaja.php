@@ -18,7 +18,8 @@ class MovimientoCaja extends Model
         'fecha_movimiento_caja',
         'id_usuario',
         'id_referencia',
-        'id_cuenta_destino'
+        'id_cuenta_destino',
+        'id_transferencia'
     ];
 
     // 🔹 Relación: pertenece a una caja
@@ -37,6 +38,11 @@ class MovimientoCaja extends Model
     public function cuentaDestino()
     {
         return $this->belongsTo(Cuenta::class, 'id_cuenta_destino', 'id_cuenta');
+    }
+
+    public function transferencia()
+    {
+        return $this->belongsTo(TransferenciaCajaCuenta::class, 'id_transferencia', 'id_transferencia');
     }
 
 }

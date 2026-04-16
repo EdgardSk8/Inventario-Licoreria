@@ -16,7 +16,8 @@ class MovimientoCuenta extends Model
         'descripcion',
         'monto',
         'fecha',
-        'id_usuario'
+        'id_usuario',
+        'id_transferencia'
     ];
 
     // 🔹 Relación: pertenece a una cuenta
@@ -28,6 +29,11 @@ class MovimientoCuenta extends Model
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function transferencia()
+    {
+        return $this->belongsTo(TransferenciaCajaCuenta::class, 'id_transferencia', 'id_transferencia');
     }
 
 }

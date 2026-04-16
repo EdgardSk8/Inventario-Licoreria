@@ -1,6 +1,6 @@
 <h6>Mostrar/Ocultar columnas</h6>
 
-<div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+<div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
 
     <div class="form-check form-switch mb-0">
         <input class="form-check-input" type="checkbox" id="toggleInactivosProductos" checked>

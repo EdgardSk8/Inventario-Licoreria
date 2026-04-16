@@ -49,7 +49,7 @@ $(document).ready(function () {
             { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') }
         ],
 
-        order: [[1, 'desc']],
+        order: [[1, 'desc']], lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
 
         ...Traduccion // Tu constante de traducción de DataTables
 

@@ -15,8 +15,9 @@ $(document).ready(function () {
         processing: true, ajax: { url: '/productos/mostrar', type: 'GET', dataSrc: 'productos' },
 
         columns: [
-            /* ══════ Imagen del Producto ══════ */
-            { data: 'imagen_producto', render: function(data){
+
+            { data: 'imagen_producto', /* ══════ Imagen del Producto ══════ */
+                render: function(data){
                     if(data){ return `<img src="/imagenes/productos/${data}" width="40">`; } 
                     else { return `<img src="/img/noproducto.png" width="30">`; }
                 }
@@ -100,10 +101,10 @@ $(document).ready(function () {
             { targets: 6, visible: $('.toggle-col[data-column="6"]').is(':checked') },
             { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') },
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') }
-        ],
+        ], lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
 
-        ...Traduccion // Constante de traduccion de datatables
-        
+        ...Traduccion, // Constante de traduccion de datatables
+
     }); // Fin de Funcion de inicializacion de tabla
 
 /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */

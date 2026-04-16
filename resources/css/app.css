@@ -21,7 +21,7 @@
 
 /* ══════════════════════════════════════════════════════════════════════════════════════ */
 
-.btn-detalle, .btn-editar, td .btn-baja, .btn-alta, .estado {
+.btn-detalle, .btn-editar, td .btn-baja, .btn-alta, .estado, .btn-transferir {
     padding: 2px 8px;
     font-size: 14px;
     line-height: 1.2;
@@ -38,6 +38,11 @@ i { font-size: 14px; } /* Icono Detalle */
 .btn-detalle { background-color: #0d6efd; color:white; }
 .btn-detalle:hover { background-color: #0c5cd3; color:white; }
 .btn.btn-detalle:active { background-color: #0c5cd3; color:white; transform: scale(0.90); }
+
+/* BOTON DE TRANSFERIR */
+.btn-transferir { background-color: #198754;color: white; }
+.btn-transferir:hover { background-color: #157347;color: white; } 
+.btn-transferir:active { background-color: #146c43; color: white; }
 
 
 /* BOTON ACTIVAR*/

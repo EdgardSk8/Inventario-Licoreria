@@ -27,6 +27,8 @@ use App\Http\Controllers\VentaController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\MovimientoCajaController;
 use App\Http\Controllers\DetalleVentaController;
+use App\Http\Controllers\CuentaController;
+use App\Http\Controllers\TransferenciaCajaCuentaController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -64,7 +66,8 @@ Route::view('/gastos', 'gastos.Gastos')->name('gastos');
 Route::view('/tipos-gasto', 'tipos_gasto.TiposGasto')->name('tipos.gasto'); 
 Route::view('/metodos-pago', 'metodos_pago.MetodosPago')->name('metodos.pago'); 
 Route::view('/facturacion', 'facturacion.Facturacion')->name('facturacion'); 
-Route::view('/credenciales', 'credenciales.Credenciales')->name('credenciales'); 
+Route::view('/credenciales', 'credenciales.Credenciales')->name('credenciales');
+Route::view('/cuenta', 'cuenta.Cuenta')->name('cuentas'); 
 
 /* CONTROLADORES */
 
@@ -192,6 +195,14 @@ Route::get('/movimiento-inventario/mostrar', [MovimientoInventarioController::cl
     ╚════════════════════════════════════════════╝ */
 
 Route::get('/movimientos-caja/mostrar', [MovimientoCajaController::class, 'MostrarMovimientosCaja']);
+
+
+/*  ╔═══════════ Cuentas (Kardex) ═══════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/movimientos-caja-cuenta/mostrar', [TransferenciaCajaCuentaController::class, 'MostrarCajaTransferencia']);
+Route::post('/movimientos-caja-cuenta/transferir', [TransferenciaCajaCuentaController::class, 'TransferenciaCajaCuenta']);
+Route::get('/movimientos-caja-cuenta/detalle/{id}', [TransferenciaCajaCuentaController::class, 'MostrarDetalleCuenta']);
 
 /*  ╔════════════════ FACTURACION ═══════════════╗ 
     ╚════════════════════════════════════════════╝ */

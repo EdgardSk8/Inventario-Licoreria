@@ -14,6 +14,7 @@ class CreateMovimientosCajaTable extends Migration
     public function up()
     {
         Schema::create('movimientos_caja', function (Blueprint $table) {
+            
             $table->increments('id_movimiento_caja');
 
             $table->unsignedInteger('id_caja');
@@ -27,6 +28,8 @@ class CreateMovimientosCajaTable extends Migration
             $table->dateTime('fecha_movimiento_caja')->useCurrent();
 
             $table->unsignedInteger('id_usuario');
+
+            $table->unsignedInteger('id_transferencia')->nullable();
 
             // 👇 referencia a venta, gasto, compra, etc.
             $table->integer('id_referencia')->nullable();
@@ -46,6 +49,11 @@ class CreateMovimientosCajaTable extends Migration
             $table->foreign('id_cuenta_destino')
                   ->references('id_cuenta')
                   ->on('cuentas');
+
+            $table->foreign('id_transferencia')
+                ->references('id_transferencia')
+                ->on('transferencias_caja_cuenta');
+
         });
     }
 
