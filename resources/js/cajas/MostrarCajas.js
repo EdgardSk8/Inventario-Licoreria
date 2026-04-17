@@ -8,14 +8,14 @@ $(document).ready(function () {
         ajax: { url: '/cajas/registro',type: 'GET',dataSrc: 'data', },
 
         columns: [
+            { data: 'fecha_apertura', render: function(data, type, row){ return `<strong>Caja #${row.id_caja}<br>`; } },
             { data: 'usuario.nombre_usuario'},
-            { data: 'fecha_apertura', render: function(data){ return formatearFecha(data); } },
+            { data: 'fecha_apertura', render: function(data){ return formatearFechaDiaHora(data); } },
             { data: 'fecha_cierre', render: function(data){
-                return data ? formatearFecha(data) : '<span class="estado estado-activo">Caja abierta</span>'; } },
-            { data: 'fecha_apertura', render: function(data, type, row){ return `Caja #${row.id_caja}<br>`; } },
-            { data: 'monto_inicial', render: function(data){ return 'C$ ' + parseFloat(data).toFixed(2); } },
+                return data ? formatearFechaDiaHora(data) : '<span class="estado estado-activo">Caja abierta</span>'; } },
+            { data: 'monto_inicial', render: function(data){ return '<strong>' + ' C$ ' + parseFloat(data).toFixed(2); } },
             { data: 'monto_final',render: function(data){ return data 
-                    ? 'C$ ' + parseFloat(data).toFixed(2) : '<span class="estado estado-activo">En proceso</span>'; } },
+                    ? '<strong class="text-success">' + 'C$ ' + parseFloat(data).toFixed(2) : '<span class="estado estado-activo">En proceso</span>'; } },
             { data: 'estado_caja',render: function(data){return data == 1
                     ? '<span class="estado estado-activo">Abierta</span>' : '<span class="estado estado-inactivo">Cerrada</span>';} }
         ],

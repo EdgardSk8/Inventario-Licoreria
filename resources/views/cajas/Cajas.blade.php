@@ -25,10 +25,10 @@
 
         <thead>
             <tr>
+                <th>Nº Caja</th>
                 <th>Usuario</th>
                 <th>Fecha Apertura</th>
                 <th>Fecha Cierre</th>
-                <th>Nº Caja</th>
                 <th>Monto Inicial</th>
                 <th>Monto Final</th>
                 <th>Estado</th>

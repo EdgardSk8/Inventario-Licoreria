@@ -1,13 +1,13 @@
 $(document).ready(function () {
 
-    document.getElementById('titulo').textContent = 'MOVIMIENTOS DE CAJA';
+    document.getElementById('titulo').textContent = 'MOVIMIENTOS DE CUENTA';
 
-    let tabla = $('#tablaMovimientosCaja').DataTable({
+    let tabla = $('#tablaMovimientosCuenta').DataTable({
 
         processing: true,
 
         ajax: { 
-            url: '/movimientos-caja/mostrar', 
+            url: '/movimientos-cuenta/mostrar', 
             type: 'GET', 
             dataSrc: 'movimientos' 
         },
@@ -16,22 +16,22 @@ $(document).ready(function () {
             { data: 'nombre_completo_usuario' },
 
             { 
-                data: 'fecha_movimiento_caja',
+                data: 'fecha',
                 render: function(data){
                     return formatearFecha(data);
                 }
             },
 
-            // ✅ CAJA POR FECHA (CORREGIDO)
+            // ✅ CUENTA
             { 
-                data: 'fecha_apertura',
+                data: 'nombre_cuenta',
                 render: function(data, type, row){
-                    return `<strong>Caja #${row.id_caja}<br>` /*`<small>${formatearFecha(data)}</small>`*/;
+                    return `${data}`;
                 }
             },
 
             { 
-                data: 'tipo_movimiento_caja',
+                data: 'tipo_movimiento',
                 render: function(data){
                     if (data === 'INGRESO') {
                         return `<strong class="text-success">INGRESO</strong>`;
@@ -40,35 +40,38 @@ $(document).ready(function () {
                     }
                 }
             },
-            {
-                data: 'monto_movimiento_caja',
-                render: function(data, type, row) {
-
-                    let monto = parseFloat(data).toFixed(2);
-
-                    if (row.tipo_movimiento_caja === 'INGRESO') {
-                        return `<strong class="text-success">+ C$ ${monto}</strong>`;
-                    } else {
-                        return `<strong class="text-danger">- C$ ${monto}</strong>`;
-                    }
-                }
-            },
-
-            { data: 'concepto_movimiento_caja' },
 
             { 
-                data: 'cuenta_destino',
+                data: 'descripcion',
                 render: function(data){
                     return data ? data : '—';
                 }
             },
 
-            // { 
-            //     data: 'id_referencia',
-            //     render: function(data){
-            //         return data ? data : '—';
-            //     }
-            // }
+            { 
+                data: 'monto',
+                render: function(data, type, row) {
+
+                    let monto = parseFloat(data).toLocaleString('es-NI', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+
+                    if (row.tipo_movimiento === 'INGRESO') {
+                        return `<strong class="text-success"> C$ ${monto}</strong>`;
+                    } else {
+                        return `<strong class="text-danger"> C$ ${monto}</strong>`;
+                    }
+                }
+            },
+
+            { 
+                data: 'id_transferencia',
+                render: function(data){
+                    return data ? `#${data}` : '—';
+                }
+            }
+
         ],
 
         columnDefs: [
@@ -79,12 +82,11 @@ $(document).ready(function () {
             { targets: 4, visible: $('.toggle-col[data-column="4"]').is(':checked') },
             { targets: 5, visible: $('.toggle-col[data-column="5"]').is(':checked') },
             { targets: 6, visible: $('.toggle-col[data-column="6"]').is(':checked') },
-            // { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') }
         ],
 
         order: [[1, 'desc']],
 
-        lengthMenu: [10, 14, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
 
         ...Traduccion
 

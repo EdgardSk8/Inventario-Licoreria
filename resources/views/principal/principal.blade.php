@@ -160,40 +160,77 @@
         <!-- ╔══════════════ CAJA ═══════════════╗ -->
         <!-- ╚═══════════════════════════════════╝ -->
 
+        <!-- ╔═════════════ CAJA ═════════════╗ -->
         <div class="accordion-item border-0">
 
             <h2 class="accordion-header">
-
                 <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#caja">
-
                     <i class="bi bi-wallet2 me-2"></i> Caja
-
                 </button>
-
             </h2>
 
             <div id="caja" class="accordion-collapse collapse" data-bs-parent="#menuSidebar">
-
                 <div class="submenu">
 
                     <a href="" class="cargar-vista" data-url="{{ route('cajas') }}">
                         <i class="bi bi-wallet2 me-2 text-success"></i> Cajas
                     </a>
 
-                   <a href="" class="cargar-vista" data-url="{{ route('movimientos.cajas') }}">
+                    <a href="" class="cargar-vista" data-url="{{ route('movimientos.cajas') }}">
                         <i class="bi bi-cash-stack me-2 text-primary"></i>
-                        Movimiento de Cajas
+                        Movimientos de Caja
                     </a>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ╔═════════════ CUENTAS ═════════════╗ -->
+        <div class="accordion-item border-0">
+
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#cuentas">
+                    <i class="bi bi-bank me-2"></i> Cuentas
+                </button>
+            </h2>
+
+            <div id="cuentas" class="accordion-collapse collapse" data-bs-parent="#menuSidebar">
+                <div class="submenu">
 
                     <a href="" class="cargar-vista" data-url="{{ route('cuentas') }}">
-                        <i class="bi bi-bank me-2 text-primary"></i>
-                        Cuentas
+                        <i class="bi bi-bank me-2 text-success"></i> Cuentas
                     </a>
 
-                </div> <!-- Fin de Submenu -->
+                    <a href="" class="cargar-vista" data-url="{{ route('movimientos.cuentas') }}">
+                        <i class="bi bi-cash-coin me-2 text-primary"></i>
+                        Movimientos de Cuenta
+                    </a>
 
-            </div> <!-- Fin de Acordeon -->
+                </div>
+            </div>
+        </div>
 
+
+        <!-- ╔═════════════ TRANSFERENCIAS ═════════════╗ -->
+        <div class="accordion-item border-0">
+
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#transferencias">
+                    <i class="bi bi-arrow-left-right me-2"></i> Transferencias
+                </button>
+            </h2>
+
+            <div id="transferencias" class="accordion-collapse collapse" data-bs-parent="#menuSidebar">
+                <div class="submenu">
+
+                    <a href="" class="cargar-vista" data-url="{{ route('transferencia') }}">
+                        <i class="bi bi-arrow-left-right me-2 text-primary"></i>
+                        Transferencias Caja → Cuenta
+                    </a>
+
+                </div>
+            </div>
         </div>
 
 <!-- ═════════════════════════════════════════════════════════════════════════════════════════════  -->

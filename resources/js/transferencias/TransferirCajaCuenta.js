@@ -38,7 +38,7 @@ function llenarModalCaja(row) {
     );
 
     $('#infoInicial').text(
-        'C$ ' + (parseFloat(row.monto_inicial) || 0).toFixed(2)
+        'C$ ' + (parseFloat(row.monto_final) || 0).toFixed(2)
     );
 
     // =========================

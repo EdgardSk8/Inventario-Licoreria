@@ -44,3 +44,29 @@ function formatearFecha(fechaSQL) {
 
     return `${dia}/${mes}/${año} ${horasFormateadas}:${minutos} ${ampm}`;
 }
+
+function formatearFechaDiaHora(fechaSQL) {
+
+    if (!fechaSQL) return '';
+
+    const fecha = new Date(fechaSQL);
+
+    const meses = [
+        "enero","febrero","marzo","abril",
+        "mayo","junio","julio","agosto",
+        "septiembre","octubre","noviembre","diciembre"
+    ];
+
+    const dia = fecha.getDate();
+    const mes = meses[fecha.getMonth()];
+    const año = fecha.getFullYear();
+
+    let horas = fecha.getHours();
+    let minutos = fecha.getMinutes();
+
+    // Formato 24h con cero adelante
+    horas = horas < 10 ? '0' + horas : horas;
+    minutos = minutos < 10 ? '0' + minutos : minutos;
+
+    return `${dia} de ${mes} del ${año} ${horas}:${minutos}`;
+}

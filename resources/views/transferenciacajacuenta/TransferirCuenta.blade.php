@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <span>Saldo inicial</span>
+                        <span>Saldo de Cierre: </span>
                         <span id="infoInicial" class="fw-semibold text-dark"></span>
                     </div>
 
@@ -40,7 +40,7 @@
                 <!-- Monto -->
                 <div class="mb-3">
                     <label class="form-label small text-muted">Monto</label>
-                    <input type="number" step="0.01" id="monto" class="form-control form-control-sm" placeholder="0.00" required>
+                    <input type="number" step="0.50" id="monto" class="form-control form-control-sm" min="0" placeholder="0.00" required>
                 </div>
 
                 <!-- Saldo restante -->

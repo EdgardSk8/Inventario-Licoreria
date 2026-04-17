@@ -13,8 +13,8 @@
     </div>
 
     <div class="form-check">
-        <input class="form-check-input toggle-col" type="checkbox" data-column="2" id="colCaja" checked>
-        <label class="form-check-label" for="colCaja">Caja</label>
+        <input class="form-check-input toggle-col" type="checkbox" data-column="2" id="colCuenta" checked>
+        <label class="form-check-label" for="colCuenta">Cuenta</label>
     </div>
 
     <div class="form-check">
@@ -23,8 +23,8 @@
     </div>
 
     <div class="form-check">
-        <input class="form-check-input toggle-col" type="checkbox" data-column="4" id="colConcepto" checked>
-        <label class="form-check-label" for="colConcepto">Concepto</label>
+        <input class="form-check-input toggle-col" type="checkbox" data-column="4" id="colDescripcion" checked>
+        <label class="form-check-label" for="colDescripcion">Descripción</label>
     </div>
 
     <div class="form-check">
@@ -33,8 +33,8 @@
     </div>
 
     <div class="form-check">
-        <input class="form-check-input toggle-col" type="checkbox" data-column="6" id="colCuenta" checked>
-        <label class="form-check-label" for="colCuenta">Cuenta Destino</label>
+        <input class="form-check-input toggle-col" type="checkbox" data-column="6" id="colTransferencia" checked>
+        <label class="form-check-label" for="colTransferencia">Transferencia</label>
     </div>
 
 </div>

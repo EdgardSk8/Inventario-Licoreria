@@ -13,28 +13,27 @@ use App\Models\TransferenciaCajaCuenta;
 class TransferenciaCajaCuentaController extends Controller
 {
     
-/*  ╔══════ Transferir Caja a Cuenta ══════╗ 
-    ╚══════════════════════════════════════╝ */
-
+    /* ╔══════ Transferir Caja a Cuenta ══════╗ */
     public function TransferenciaCajaCuenta(Request $request)
     {
         try {
 
             return DB::transaction(function () use ($request) {
 
-                $idCaja = $request->id_caja;
-                $idCuenta = $request->id_cuenta;
-                $monto = floatval($request->monto);
+                $idCaja    = $request->id_caja;
+                $idCuenta  = $request->id_cuenta;
+                $monto     = floatval($request->monto);
                 $idUsuario = auth()->id() ?? 1;
 
+                // ✅ Validaciones básicas
                 if (!$idCaja || !$idCuenta || $monto <= 0) {
                     throw new \Exception("Datos inválidos");
                 }
 
-                $caja = Caja::findOrFail($idCaja);
+                $caja   = Caja::findOrFail($idCaja);
                 $cuenta = Cuenta::findOrFail($idCuenta);
 
-                // SALDO CAJA
+                // ✅ Calcular saldo de caja
                 $ingresos = MovimientoCaja::where('id_caja', $idCaja)
                     ->where('tipo_movimiento_caja', 'INGRESO')
                     ->sum('monto_movimiento_caja');
@@ -46,61 +45,72 @@ class TransferenciaCajaCuentaController extends Controller
                 $saldoCaja = ($caja->monto_inicial ?? 0) + $ingresos - $salidas;
 
                 if ($saldoCaja < $monto) {
-                    throw new \Exception("Saldo insuficiente");
+                    throw new \Exception("Saldo insuficiente en caja");
                 }
 
-                // 🔴 MOVIMIENTO EN CAJA (SALIDA)
+                /* =====================================================
+                   1. CREAR TRANSFERENCIA (PRIMERO)
+                ===================================================== */
+                $transferencia = TransferenciaCajaCuenta::create([
+                    'id_caja_origen'   => $idCaja,
+                    'id_cuenta_destino'=> $idCuenta,
+                    'monto'            => $monto,
+                    'concepto'         => 'Transferencia de Caja a Cuenta',
+                    'id_usuario'       => $idUsuario,
+                    'fecha'            => now()
+                ]);
+
+                /* =====================================================
+                   2. MOVIMIENTO CAJA (SALIDA)
+                ===================================================== */
                 MovimientoCaja::create([
-                    'id_caja' => $idCaja,
-                    'tipo_movimiento_caja' => 'SALIDA',
-                    'concepto_movimiento_caja' => 'Transferencia a cuenta ' . $cuenta->nombre_cuenta,
-                    'monto_movimiento_caja' => $monto,
-                    'fecha_movimiento_caja' => now(),
-                    'id_usuario' => $idUsuario,
-                    'id_cuenta_destino' => $idCuenta
+                    'id_caja'                     => $idCaja,
+                    'tipo_movimiento_caja'       => 'SALIDA',
+                    'concepto_movimiento_caja'   => 'Transferencia de Caja hacia Cuenta: ' . $cuenta->nombre_cuenta,
+                    'monto_movimiento_caja'      => $monto,
+                    'fecha_movimiento_caja'      => now(),
+                    'id_usuario'                 => $idUsuario,
+                    'id_cuenta_destino'          => $idCuenta,
+
+                    // 🔥 CLAVE
+                    'id_transferencia'           => $transferencia->id_transferencia
                 ]);
 
-                // 🟢 MOVIMIENTO EN CUENTA (INGRESO)
+                /* =====================================================
+                   3. MOVIMIENTO CUENTA (INGRESO)
+                ===================================================== */
                 MovimientoCuenta::create([
-                    'id_cuenta' => $idCuenta,
-                    'tipo_movimiento' => 'INGRESO',
-                    'descripcion' => 'Transferencia desde caja #' . $idCaja,
-                    'monto' => $monto,
-                    'fecha' => now(),
-                    'id_usuario' => $idUsuario,
+                    'id_cuenta'      => $idCuenta,
+                    'tipo_movimiento'=> 'INGRESO',
+                    'descripcion'    => 'Transferencia desde Caja #' . $idCaja . ' hacia ' . $cuenta->nombre_cuenta,
+                    'monto'          => $monto,
+                    'fecha'          => now(),
+                    'id_usuario'     => $idUsuario,
 
-                    // 🔥 CLAVE PARA HISTORIAL
-                    'id_caja_origen' => $idCaja
+                    // 🔥 CLAVE
+                    'id_transferencia' => $transferencia->id_transferencia
                 ]);
 
-                TransferenciaCajaCuenta::create([
-                    'id_caja_origen' => $idCaja,
-                    'id_cuenta_destino' => $idCuenta,
-                    'monto' => $monto,
-                    'concepto' => 'Transferencia de Caja a Cuenta',
-                    'id_usuario' => $idUsuario,
-                    'fecha' => now()
-                ]);
-
-                // ACTUALIZAR SALDO CUENTA
+                /* =====================================================
+                   4. ACTUALIZAR SALDO CUENTA
+                ===================================================== */
                 $cuenta->increment('saldo_actual', $monto);
 
                 return response()->json([
                     'success' => true,
-                    'mensaje' => 'Transferencia realizada correctamente'
+                    'mensaje' => 'Transferencia realizada correctamente',
+                    'id_transferencia' => $transferencia->id_transferencia
                 ]);
             });
 
         } catch (\Throwable $e) {
+
             return response()->json([
                 'success' => false,
                 'mensaje' => $e->getMessage()
             ], 500);
         }
     }
-
-/*  ╔═══════ Mostrar Transferencias ═══════╗ 
-    ╚══════════════════════════════════════╝ */
 
     public function MostrarCajaTransferencia()
     {
@@ -157,9 +167,7 @@ class TransferenciaCajaCuentaController extends Controller
         }
     }
 
-/*  ╔═ Mostrar Detalles de Transferencias ═╗ 
-    ╚══════════════════════════════════════╝ */
-
+    /* ╔═══════ Mostrar Transferencias ═══════╗ */
     public function MostrarDetalleCuenta($id_caja)
     {
         try {
@@ -176,44 +184,27 @@ class TransferenciaCajaCuentaController extends Controller
 
                 return [
                     'id' => $t->id_transferencia,
-
-                    // 💰 cuenta destino
                     'nombre_cuenta' => $t->cuentaDestino->nombre_cuenta ?? 'Sin cuenta',
-
-                    // 💰 monto transferido
                     'monto' => (float) $t->monto,
-
-                    // 💰 saldo actual de la cuenta
                     'saldo_cuenta' => (float) ($t->cuentaDestino->saldo_actual ?? 0),
-
-                    // 👤 usuario que hizo la transferencia
                     'usuario' => $t->usuario->nombre_completo_usuario ?? 'Sin usuario',
-
                     'fecha' => $t->fecha,
                 ];
             });
-
-            $saldoCuenta = optional(
-                $transferencias->first()?->cuentaDestino
-            )->saldo_actual ?? 0;
 
             return response()->json([
                 'success' => true,
                 'data' => $data,
                 'total' => $data->sum('monto'),
-                'cantidad' => $data->count(),
-                'saldo_cuenta' => $saldoCuenta
+                'cantidad' => $data->count()
             ]);
 
         } catch (\Exception $e) {
 
             return response()->json([
                 'success' => false,
-                'mensaje' => 'Error al obtener detalle',
-                'error' => $e->getMessage()
+                'mensaje' => $e->getMessage()
             ], 500);
         }
     }
-
-
-} // Fin de controlador
+}

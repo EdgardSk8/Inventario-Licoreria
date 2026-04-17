@@ -29,6 +29,7 @@ use App\Http\Controllers\MovimientoCajaController;
 use App\Http\Controllers\DetalleVentaController;
 use App\Http\Controllers\CuentaController;
 use App\Http\Controllers\TransferenciaCajaCuentaController;
+use App\Http\Controllers\MovimientoCuentaController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -67,7 +68,9 @@ Route::view('/tipos-gasto', 'tipos_gasto.TiposGasto')->name('tipos.gasto');
 Route::view('/metodos-pago', 'metodos_pago.MetodosPago')->name('metodos.pago'); 
 Route::view('/facturacion', 'facturacion.Facturacion')->name('facturacion'); 
 Route::view('/credenciales', 'credenciales.Credenciales')->name('credenciales');
-Route::view('/cuenta', 'cuenta.Cuenta')->name('cuentas'); 
+Route::view('/transferencia', 'transferenciacajacuenta.Transferencia')->name('transferencia');
+Route::view('/cuentas', 'cuentas.Cuentas')->name('cuentas'); 
+Route::view('/cuentas/movimientos', 'movimiento_cuenta.Movimientos_Cuentas')->name('movimientos.cuentas'); 
 
 /* CONTROLADORES */
 
@@ -198,6 +201,21 @@ Route::get('/movimientos-caja/mostrar', [MovimientoCajaController::class, 'Mostr
 
 
 /*  ╔═══════════ Cuentas (Kardex) ═══════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/cuenta/mostrar', [CuentaController::class, 'MostrarCuentas']);
+Route::post('/cuenta/crear', [CuentaController::class, 'CrearCuenta']);
+Route::get('/cuenta/{id}/editar', [CuentaController::class, 'EditarCuenta']);
+Route::put('/cuenta/{id}/actualizar', [CuentaController::class, 'ActualizarCuenta']);
+Route::post('/cuenta/cambiar-estado/{id}', [CuentaController::class, 'CambiarEstadoCuenta']);
+
+/*  ╔══════ Movimiento Cuentas (Kardex) ═════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/movimientos-cuenta/mostrar', [MovimientoCuentaController::class, 'MostrarMovimientosCuenta']);
+
+
+/*  ╔════════ Transferencias (Kardex) ═══════════╗ 
     ╚════════════════════════════════════════════╝ */
 
 Route::get('/movimientos-caja-cuenta/mostrar', [TransferenciaCajaCuentaController::class, 'MostrarCajaTransferencia']);

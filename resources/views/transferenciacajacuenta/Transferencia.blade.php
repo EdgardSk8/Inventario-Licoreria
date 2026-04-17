@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}">
 
     <!-- JS -->
-    <script src="{{ Vite::asset('resources/js/cuenta/MostrarCajaTransferencia.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/cuenta/TransferirCajaCuenta.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/cuenta/DetalleCuenta.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/transferencias/MostrarCajaTransferencia.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/transferencias/TransferirCajaCuenta.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/transferencias/DetalleTransferencia.js') }}"></script>
 
 
     <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
@@ -25,7 +25,7 @@
 
 <body>
 
-    @include('cuenta.TransferirCuenta')
+    @include('transferenciacajacuenta.TransferirCuenta')
 
 
 <div class="container">
@@ -58,7 +58,7 @@
 
 </div>
 
-@include('cuenta.DetalleCuenta')
+@include('transferenciacajacuenta.DetalleCuenta')
 
 
     <div class="toast-container position-fixed top-0 end-0 p-3">
