@@ -176,6 +176,7 @@ $(document).ready(function () {
 /*═══════════════════════════════════════════════════*/
 /* ➕ AGREGAR PRODUCTO */
 console.log('DATA SELECT2:', $('#producto_select').select2('data'));
+
     $('#btnAgregar').click(function () {
         let data = $('#producto_select').select2('data')[0];
         let cantidad = parseInt($('#cantidad').val()) || 0;
@@ -241,7 +242,10 @@ console.log('DATA SELECT2:', $('#producto_select').select2('data'));
                 `<input type="number" value="${cantidad}" min="0" placeholder="0"
                     class="form-control form-control-sm cantidad"
                     data-index="${i}">`,
-                `<input type="number" value="${precio}" min="0" placeholder="0"
+                `<input type="number"
+                    value="${p.precio != null && p.precio !== 0 ? p.precio : ''}"
+                    min="0"
+                    placeholder="0"
                     class="form-control form-control-sm precio"
                     data-index="${i}">`,
                 totalItem.toFixed(2),
@@ -258,48 +262,60 @@ console.log('DATA SELECT2:', $('#producto_select').select2('data'));
 /*═══════════════════════════════════════════════════*/
 /* 🔄 EVENTOS DINÁMICOS */
 
-$('#tabla_carrito').on('blur', '.cantidad, .precio, .descuento, .impuesto', function () {
+    $('#tabla_carrito').on('blur', '.cantidad, .precio, .descuento, .impuesto', function () {
 
-    let i = $(this).data('index');
-    let valor = parseFloat($(this).val()) || 0;
+        let i = $(this).data('index');
+        let valor = parseFloat($(this).val()) || 0;
 
-    if (carrito[i] === undefined) return;
+        if (carrito[i] === undefined) return;
 
-    if ($(this).hasClass('cantidad')) {
-        carrito[i].cantidad = valor;
-    } 
-    else if ($(this).hasClass('precio')) {
-        carrito[i].precio = valor;
-    } 
-    else if ($(this).hasClass('descuento')) {
-        carrito[i].descuento = valor;
-    } 
-    else if ($(this).hasClass('impuesto')) {
-        carrito[i].impuesto = valor;
-    }
+        if ($(this).hasClass('cantidad')) {
+            carrito[i].cantidad = valor;
+        } 
+        else if ($(this).hasClass('precio')) {
+            carrito[i].precio = valor;
+        } 
+        else if ($(this).hasClass('descuento')) {
+            carrito[i].descuento = valor;
+        } 
+        else if ($(this).hasClass('impuesto')) {
+            carrito[i].impuesto = valor;
+        }
 
-    // 🔥 recalcular subtotal correctamente
-    let subtotalGeneral = carrito.reduce((acc, p) => {
-        return acc + ((p.precio || 0) * (p.cantidad || 0));
-    }, 0);
+        // 🔥 recalcular subtotal correctamente
+        let subtotalGeneral = carrito.reduce((acc, p) => {
+            return acc + ((p.precio || 0) * (p.cantidad || 0));
+        }, 0);
 
-    calcularTotales(subtotalGeneral);
+        calcularTotales(subtotalGeneral);
 
-    actualizarCajas();
+        actualizarCajas();
 
-    // 🔁 re-render para reflejar cambios
-    renderCarrito();
-});
+        // 🔁 re-render para reflejar cambios
+        renderCarrito();
+    });
 
-$('#tabla_carrito').on('click', '.eliminar', function () {
-    let i = $(this).data('index');
-    carrito.splice(i, 1);
-    renderCarrito();
-});
+    $('#tabla_carrito').on('click', '.eliminar', function () {
+        let i = $(this).data('index');
+        carrito.splice(i, 1);
+        renderCarrito();
+    });
 
+    $('#tabla_carrito').on('keydown', '.precio', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); $(this).blur(); }
+    }); // Al presionar "Enter" sale del blur
 
+    $(document).on('keydown', function (e) {
 
+        if (e.key === 'Enter') {
 
+            // Evita que se dispare submit o comportamientos raros
+            e.preventDefault();
+
+            // Simula el click del botón
+            $('#btnAgregar').trigger('click');
+        }
+    });
 
 /*═══════════════════════════════════════════════════*/
 /* 💰 TOTALES */

@@ -141,9 +141,14 @@ $(document).ready(function () {
 
     /* ═══════ EVENTO: CAMBIAR CANTIDAD DEL PRODUCTO ═══════ */
 
-    $('#carrito').on('input', '.cantidad', function(){
-        const i = $(this).data('index'); carrito[i].cantidad = parseInt($(this).val()); renderCarrito();
+    $('#carrito').on('blur', '.cantidad', function () {
+    const i = $(this).data('index'); let valor = parseInt($(this).val());
+        if (isNaN(valor) || valor < 1) valor = 1; carrito[i].cantidad = valor; renderCarrito();
     }); // Actualiza la cantidad del producto y recalcula totales
+
+    $('#carrito').on('keydown', '.cantidad', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); $(this).blur(); }
+    }); // Al presionar "Enter" sale del blur
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
