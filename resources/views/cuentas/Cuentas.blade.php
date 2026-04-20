@@ -25,10 +25,18 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
 
+    <div>
     <!-- Botón Agregar Cuenta -->
-    <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#modalCrearCuenta">
-        + Agregar Cuenta
-    </button>
+        <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#modalCrearCuenta">
+            <i class="bi bi-plus-circle me-1"></i> Agregar Cuenta
+        </button>
+
+        <!-- Botón Transferir entre cuentas -->
+        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalCrearCuenta">
+            <i class="bi bi-arrow-left-right me-1"></i> Transferir entre cuentas
+        </button>
+
+    </div>
 
     <!-- Toggle ocultar inactivos -->
     <div class="form-check form-switch mb-0">

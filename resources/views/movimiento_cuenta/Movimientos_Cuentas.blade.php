@@ -10,8 +10,6 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Estilos -->
-    <link rel="stylesheet" href="{{ Vite::asset('resources/css/movimiento_cuenta/Movimiento_Cuenta.css') }}">
 
     <!-- Scripts -->
     <script src="{{ Vite::asset('resources/js/movimiento_cuenta/Movimientos_Cuentas.js') }}"></script>
