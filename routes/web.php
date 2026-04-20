@@ -183,6 +183,7 @@ Route::post('/roles/cambiar-estado/{id}', [RolController::class, 'CambiarEstadoR
     ╚════════════════════════════════════════════╝ */
 
 Route::get('/ventas/mostrar', [VentaController::class, 'MostrarVentas']);
+Route::post('/ventas/anular/{id}', [VentaController::class, 'AnularVenta']);
 
 /*  ╔══════════ Endpoint Detalle Ventas ═════════╗ 
     ╚════════════════════════════════════════════╝ */

@@ -506,4 +506,112 @@ class CompraController extends Controller
         }
     }
 
+    public function AnularCompra($id)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $compra = Compra::with('detalles')->find($id);
+
+            if (!$compra) {
+                return response()->json([
+                    'success' => false,
+                    'mensaje' => 'Compra no encontrada'
+                ], 404);
+            }
+
+            if ($compra->estado_compra === 'ANULADA') {
+                return response()->json([
+                    'success' => false,
+                    'mensaje' => 'La compra ya está anulada'
+                ], 422);
+            }
+
+            // =====================
+            // 1️⃣ REVERTIR INVENTARIO
+            // =====================
+            foreach ($compra->detalles as $detalle) {
+
+                $producto = Producto::find($detalle->id_producto);
+
+                // ⚠️ Validar que no quede negativo
+                if ($producto->stock_actual < $detalle->cantidad_compra) {
+                    throw new \Exception('No hay suficiente stock para revertir');
+                }
+
+                $producto->decrement('stock_actual', $detalle->cantidad_compra);
+
+                // KARDEX INVERSO
+                MovimientoInventario::create([
+                    'id_producto' => $producto->id_producto,
+                    'tipo_movimiento' => 'SALIDA',
+                    'cantidad_movimiento' => $detalle->cantidad_compra,
+                    'stock_resultante' => $producto->stock_actual,
+                    'motivo_movimiento' => 'Anulación de compra',
+                    'id_referencia' => $compra->id_compra,
+                    'tipo_referencia' => 'ANULACION_COMPRA',
+                    'precio_unitario' => $detalle->precio_unitario_compra,
+                    'id_usuario' => session('usuario.id')
+                ]);
+            }
+
+            // =====================
+            // 2️⃣ DEVOLVER DINERO
+            // =====================
+            $total = $compra->total_compra;
+
+            // CAJA
+            if ($compra->id_caja) {
+
+                MovimientoCaja::create([
+                    'id_caja' => $compra->id_caja,
+                    'tipo_movimiento_caja' => 'ENTRADA',
+                    'concepto_movimiento_caja' => 'Anulación de compra',
+                    'monto_movimiento_caja' => $total,
+                    'id_usuario' => session('usuario.id'),
+                    'id_referencia' => $compra->id_compra
+                ]);
+            }
+
+            // CUENTA
+            if ($compra->id_cuenta) {
+
+                $cuenta = Cuenta::find($compra->id_cuenta);
+
+                MovimientoCuenta::create([
+                    'id_cuenta' => $cuenta->id_cuenta,
+                    'tipo_movimiento' => 'ENTRADA',
+                    'monto' => $total,
+                    'descripcion' => 'Anulación de compra',
+                    'id_usuario' => session('usuario.id')
+                ]);
+
+                $cuenta->increment('saldo_actual', $total);
+            }
+
+            // =====================
+            // 3️⃣ MARCAR COMO ANULADA
+            // =====================
+            $compra->estado_compra = 'ANULADA';
+            $compra->save();
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'mensaje' => 'Compra anulada correctamente'
+            ]);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'mensaje' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 } // Fin de controlador

@@ -17,7 +17,7 @@
                     <i class="bi bi-printer"></i> Imprimir Factura
                 </button>
 
-                <button type="button" class="btn btn-danger btn-sm" id="btnAnular">
+                <button type="button" data-id="" class="btn btn-danger btn-sm" id="btnAnular">
                     <i class="bi bi-x-circle"></i> Anular Factura
                 </button>
 
