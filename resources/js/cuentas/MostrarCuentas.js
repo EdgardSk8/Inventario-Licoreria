@@ -29,7 +29,7 @@ $(document).ready(function () {
     tabla = $('#tablaCuentas').DataTable({
         autoWidth: false,
         processing: true,
-
+        order: [[0, 'asc']],
         ajax: {
             url: '/cuenta/mostrar',
             type: 'GET',
@@ -58,7 +58,6 @@ $(document).ready(function () {
                 render: renderAcciones
             }
         ],
-
         lengthMenu: [10, 15, 20, 30, 50, 100],
         ...Traduccion
     });
@@ -367,13 +366,21 @@ $(document).ready(function () {
 
 let procesandoMovimiento = false;
 
-$(document).on('click', '#btnGuardarMovimiento', function(){
+/* ----------------------------------------------- */
 
-    if(procesandoMovimiento) return; // 🔒 BLOQUEO REAL
+// 🧠 variable global segura (evita redeclaración)
+window.procesandoMovimiento = window.procesandoMovimiento || false;
 
-    procesandoMovimiento = true;
+$(document)
+.off('click', '#btnGuardarMovimiento')
+.on('click', '#btnGuardarMovimiento', function () {
 
     const btn = $(this);
+
+    // 🔒 DOBLE BLOQUEO (variable + estado botón)
+    if (window.procesandoMovimiento || btn.prop('disabled')) return;
+
+    window.procesandoMovimiento = true;
 
     const data = {
         id_cuenta: $('#movimiento_id_cuenta').val(),
@@ -383,29 +390,44 @@ $(document).on('click', '#btnGuardarMovimiento', function(){
         _token: $('meta[name="csrf-token"]').attr('content')
     };
 
-    if(!validarMovimiento(data)){
-        procesandoMovimiento = false;
+    if (!validarMovimiento(data)) {
+        window.procesandoMovimiento = false;
         return;
     }
 
-    btn.prop('disabled', true).text('Procesando...');
+    // 🔒 bloquear botón inmediatamente
+    btn.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Procesando...');
 
     $.ajax({
         url: '/cuenta/movimiento',
         type: 'POST',
         data,
 
-        success: function(res){
+        success: function (res) {
+
             mostrarToast(res.mensaje, 'success');
-            tabla.ajax.reload();
-            bootstrap.Modal.getInstance('#modalMovimiento').hide();
+
+            if (typeof tabla !== 'undefined') {
+                tabla.ajax.reload(null, false);
+            }
+
+            // ✅ FIX bootstrap (esto estaba mal)
+            const modalEl = document.getElementById('modalMovimiento');
+            const modalInstance = bootstrap.Modal.getInstance(modalEl);
+
+            modalInstance?.hide();
         },
 
-        error: manejarErrorAjax,
+        error: function (xhr) {
+            manejarErrorAjax(xhr);
+        },
 
-        complete: function(){
-            procesandoMovimiento = false; // 🔓 liberar
-            btn.prop('disabled', false).text('Confirmar');
+        complete: function () {
+            // 🔓 liberar SIEMPRE
+            window.procesandoMovimiento = false;
+
+            btn.prop('disabled', false)
+               .html('<i class="bi bi-check-circle me-1"></i> Confirmar');
         }
     });
 });

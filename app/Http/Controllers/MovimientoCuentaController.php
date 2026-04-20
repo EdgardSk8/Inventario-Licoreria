@@ -30,7 +30,7 @@ class MovimientoCuentaController extends Controller
                 )
                 ->join('cuentas', 'movimientos_cuentas.id_cuenta', '=', 'cuentas.id_cuenta')
                 ->join('usuarios', 'movimientos_cuentas.id_usuario', '=', 'usuarios.id_usuario')
-                ->orderBy('movimientos_cuentas.fecha', 'desc')
+                ->orderBy('movimientos_cuentas.id_cuenta', 'asc')
                 ->get();
 
             return response()->json([
