@@ -37,8 +37,8 @@
                         <strong>Cantidad de transferencias:</strong>
                         <span id="detalleCantidadTransferencias">0</span> <br>
 
-                        <strong>Saldo actual de Cuenta:</strong>
-                        <span id="detalleSaldoTransferencias">C$ 0.00</span>
+                        <!-- <strong>Saldo actual de Cuenta:</strong>
+                        <span id="detalleSaldoTransferencias">C$ 0.00</span> -->
                     </div>
                 </div>
 

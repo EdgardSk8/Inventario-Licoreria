@@ -19,7 +19,7 @@ $(document).ready(function () {
             { data: 'estado_caja',render: function(data){return data == 1
                     ? '<span class="estado estado-activo">Abierta</span>' : '<span class="estado estado-inactivo">Cerrada</span>';} }
         ],
-        order: [[2, 'desc']], //Orden por fecha de cierre de el mas nuevo al mas antiguo
+        order: [[0, 'desc']], //Orden por fecha de cierre de el mas nuevo al mas antiguo
         lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         ...Traduccion // Constante de traduccion de datatables
     });

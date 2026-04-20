@@ -247,6 +247,15 @@ class CuentaController extends Controller
             ], 500);
         }
     }
+
+
+
+
+
+
+
+
+
     
 
 }

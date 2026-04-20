@@ -45,13 +45,13 @@ i { font-size: 14px; } /* Icono Detalle */
 .btn-transferir:active { background-color: #146c43; color: white; transform: scale(0.90); }
 
 /* BOTON DE AGREGAR SALDO */
-.agregar-saldo {background-color: #198754; color: white; }
+.agregar-saldo { background-color: #198754; color: white; }
 .agregar-saldo:hover { background-color: #157347; color: white; }
-.agregar-saldo:active { background-color: #146c43; color: white; transform: scale(0.90); }
+.btn.agregar-saldo:active { background-color: #146c43; color: white; transform: scale(0.90); }
 
 .retirar-saldo { background-color: #ffc107; color: black; }
 .retirar-saldo:hover { background-color: #e0a800; color: black; }
-.retirar-saldo:active { background-color: #d39e00; color: black; transform: scale(0.90); }
+.btn.retirar-saldo:active { background-color: #d39e00; color: black; transform: scale(0.90); }
 
 
 

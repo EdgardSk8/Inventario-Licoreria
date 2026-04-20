@@ -35,6 +35,11 @@ class MovimientoCuenta extends Model
     {
         return $this->belongsTo(TransferenciaCajaCuenta::class, 'id_transferencia', 'id_transferencia');
     }
+    
+    public function movimientos()
+    {
+        return $this->hasMany(MovimientoCuenta::class, 'id_cuenta', 'id_cuenta');
+    }
 
 }
 

@@ -213,6 +213,7 @@ Route::post('/cuenta/cambiar-estado/{id}', [CuentaController::class, 'CambiarEst
     ╚════════════════════════════════════════════╝ */
 
 Route::get('/movimientos-cuenta/mostrar', [MovimientoCuentaController::class, 'MostrarMovimientosCuenta']);
+Route::post('/cuenta/movimiento', [MovimientoCuentaController::class, 'MovimientoCuenta']);
 
 
 /*  ╔════════ Transferencias (Kardex) ═══════════╗ 
