@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Cuenta;
+use App\Models\MovimientoCuenta;
 
 class CuentaController extends Controller
 {
@@ -248,10 +249,172 @@ class CuentaController extends Controller
         }
     }
 
+/*  ╔═══════════ Transferir Entre Cuentas ═══════════╗ 
+    ╚════════════════════════════════════════════════╝ */
 
+    public function TransferirEntreCuentas(Request $request)
+    {
+        try {
 
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'cuenta_origen' => [
+                        'required',
+                        'exists:cuentas,id_cuenta'
+                    ],
+                    'cuenta_destino' => [
+                        'required',
+                        'exists:cuentas,id_cuenta',
+                        'different:cuenta_origen'
+                    ],
+                    'monto' => [
+                        'required',
+                        'numeric',
+                        'min:0.01'
+                    ],
+                    'descripcion' => [
+                        'nullable',
+                        'max:255'
+                    ]
+                ],
+                [
+                    'cuenta_destino.different' => 'No puedes transferir a la misma cuenta.',
+                    'monto.min' => 'El monto debe ser mayor a 0.'
+                ]
+            );
 
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ], 422);
+            }
 
+            \DB::beginTransaction();
+
+            $monto = (float) $request->monto;
+            $idUsuario = session('usuario.id');
+
+            $cuentaOrigen = Cuenta::where('id_cuenta', $request->cuenta_origen)
+                ->lockForUpdate()
+                ->first();
+
+            $cuentaDestino = Cuenta::where('id_cuenta', $request->cuenta_destino)
+                ->lockForUpdate()
+                ->first();
+
+            if (!$cuentaOrigen || !$cuentaDestino) {
+                return response()->json([
+                    'success' => false,
+                    'mensaje' => 'Cuenta no encontrada'
+                ], 404);
+            }
+
+            if (!$cuentaOrigen->estado || !$cuentaDestino->estado) {
+                return response()->json([
+                    'success' => false,
+                    'mensaje' => 'Una de las cuentas está inactiva'
+                ], 400);
+            }
+
+            if ($cuentaOrigen->saldo_actual < $monto) {
+                return response()->json([
+                    'success' => false,
+                    'mensaje' => 'Saldo insuficiente en la cuenta origen'
+                ], 400);
+            }
+
+            $descripcion = $request->descripcion
+                ? $request->descripcion
+                : "Transferencia de {$cuentaOrigen->nombre_cuenta} a {$cuentaDestino->nombre_cuenta}";
+
+            $fecha = now();
+
+            /* ═════════════ ACTUALIZAR SALDOS ═════════════ */
+
+            $cuentaOrigen->saldo_actual -= $monto;
+            $cuentaOrigen->save();
+
+            $cuentaDestino->saldo_actual += $monto;
+            $cuentaDestino->save();
+
+            /* ═════════════ MOVIMIENTOS ═════════════ */
+
+            MovimientoCuenta::create([
+                'id_cuenta' => $cuentaOrigen->id_cuenta,
+                'tipo_movimiento' => 'SALIDA',
+                'descripcion' => $descripcion,
+                'monto' => $monto,
+                'fecha' => $fecha,
+                'id_usuario' => $idUsuario
+            ]);
+
+            MovimientoCuenta::create([
+                'id_cuenta' => $cuentaDestino->id_cuenta,
+                'tipo_movimiento' => 'INGRESO',
+                'descripcion' => $descripcion,
+                'monto' => $monto,
+                'fecha' => $fecha,
+                'id_usuario' => $idUsuario
+            ]);
+
+            \DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'mensaje' => 'Transferencia realizada correctamente'
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \DB::rollBack();
+
+            \Log::error('Error en transferencia entre cuentas: ' . $e->getMessage(), [
+                'request' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'mensaje' => 'Error al transferir entre cuentas'
+            ], 500);
+        }
+    }
+
+/*  ╔═══════════ Mostrar Cuentas Selector ═══════════╗ 
+    ╚════════════════════════════════════════════════╝ */
+
+    public function MostrarCuentasSelector()
+    {
+        try {
+            // Trae solo las cuentas activas
+            $cuentas = Cuenta::where('estado', 1)
+                ->orderBy('nombre_cuenta', 'asc')
+                ->get();
+
+            // Formatea los datos para el <select>
+            $data = $cuentas->map(function ($cuenta) {
+                return [
+                    'id' => $cuenta->id_cuenta, // valor real que se envía al backend
+                    'nombre' => $cuenta->nombre_cuenta,
+                    'saldo_actual' => $cuenta->saldo_actual,
+                    'display' => "{$cuenta->nombre_cuenta} (Saldo: C$ " . number_format($cuenta->saldo_actual, 2) . ")"
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'cuentas' => $data
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'mensaje' => 'Error al obtener cuentas'
+            ], 500);
+        }
+    }
 
 
 

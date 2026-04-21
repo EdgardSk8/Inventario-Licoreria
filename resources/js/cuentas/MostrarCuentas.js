@@ -1,90 +1,65 @@
 $(document).ready(function () {
 
     document.getElementById('titulo').textContent = 'REGISTRO DE CUENTAS';
-
     let tabla;
 
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
-    /* ═════════════ ( FILTRO ACTIVOS / INACTIVOS ) ═════════════ */
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* ═════════════ ( FILTRO ACTIVOS / INACTIVOS ) ═════════════ */
 
     $.fn.dataTable.ext.search.push(function(settings, data) {
 
         const ocultar = $('#toggleInactivosCuentas').is(':checked');
         if (!ocultar) return true;
 
-        const estado = data[4];
+        const estado = data[4]; // Columna de estado
         return estado.includes('Activo');
     });
 
-    $('#toggleInactivosCuentas').on('change', function() {
-        tabla.draw();
-    });
+    $('#toggleInactivosCuentas').on('change', function() { tabla.draw(); }); // Redibujar tabla ocultar inactivos
 
 
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
-    /* ═════════════ ( DATATABLE ) ═════════════ */
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* ═════════════ ( DATATABLE ) ═════════════ */
 
     tabla = $('#tablaCuentas').DataTable({
-        autoWidth: false,
-        processing: true,
-        order: [[0, 'asc']],
-        ajax: {
-            url: '/cuenta/mostrar',
-            type: 'GET',
-            dataSrc: 'cuentas'
-        },
+
+        autoWidth: false, processing: true, order: [[0, 'asc']],
+        ajax: { url: '/cuenta/mostrar', type: 'GET', dataSrc: 'cuentas' },
 
         columns: [
+
             { data: 'nombre_cuenta' },
             { data: 'tipo_cuenta' },
             { data: 'descripcion' },
+            { data: 'saldo_actual', render: renderSaldo },
+            { data: 'estado', render: renderEstado },
+            { data: 'id_cuenta', render: renderAcciones }
 
-            {
-                data: 'saldo_actual',
-                render: renderSaldo
-            },
+        ], lengthMenu: [10, 15, 20, 30, 50, 100], ...Traduccion
 
-            {
-                data: 'estado',
-                render: renderEstado
-            },
-
-            {
-                data: 'id_cuenta',
-                orderable: false,
-                searchable: false,
-                render: renderAcciones
-            }
-        ],
-        lengthMenu: [10, 15, 20, 30, 50, 100],
-        ...Traduccion
     });
 
+/* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
 
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
-    /* ═════════════ ( RENDERERS ) ═════════════ */
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* ═════════════ ( RENDERERS ) ═════════════ */
 
     function renderSaldo(data){
+
         let valor = parseFloat(data);
+        let monto = valor.toLocaleString('es-NI', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        return valor >= 0 ? `<strong class="text-success">C$ ${monto}</strong>` : `<strong class="text-danger">C$ ${monto}</strong>`;
 
-        let monto = valor.toLocaleString('es-NI', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-
-        return valor >= 0
-            ? `<strong class="text-success">C$ ${monto}</strong>`
-            : `<strong class="text-danger">C$ ${monto}</strong>`;
     }
+
+/* ═════════════════════════════════════════ */
 
     function renderEstado(data){
-        return data == 1
-            ? '<span class="estado estado-activo">Activo</span>'
-            : '<span class="estado estado-inactivo">Inactivo</span>';
+        return data == 1 ? '<span class="estado estado-activo">Activo</span>' : '<span class="estado estado-inactivo">Inactivo</span>';
     }
+
+/* ═════════════════════════════════════════ */
 
     function renderAcciones(data, type, row){
 
@@ -95,10 +70,10 @@ $(document).ready(function () {
             : `<button class="btn btn-sm btn-alta bajaCuenta" data-id="${data}">
                 <i class="bi bi-check-circle"></i> Activar
               </button>`;
-
         let botonesSaldo = '';
 
         if(row.estado == 1){
+            
             botonesSaldo = `
                 <button class="btn btn-sm agregar-saldo" data-id="${data}">
                     <i class="bi bi-cash-coin me-1"></i> Agregar
@@ -120,10 +95,9 @@ $(document).ready(function () {
         `;
     }
 
+    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
 
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
     /* ═════════════ ( EVENTOS TABLA ) ═════════════ */
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
 
     $('#tablaCuentas').on('click', '.editarCuenta', function(){
         abrirModalEditar($(this).data('id'));
@@ -139,10 +113,9 @@ $(document).ready(function () {
         abrirModalMovimiento(row, 'RETIRAR');
     });
 
+/* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
 
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
-    /* ═════════════ ( MODAL EDITAR ) ═════════════ */
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* ═════════════ ( MODAL EDITAR ) ═════════════ */
 
     function abrirModalEditar(id){
 
@@ -158,8 +131,11 @@ $(document).ready(function () {
             $('#editar_estado_cuenta').val(c.estado);
 
             new bootstrap.Modal('#modalEditarCuenta').show();
+
         });
     }
+
+/* ═════════════════════════════════════════ */
 
     $('#btnActualizarCuenta').click(function(){
 
@@ -176,35 +152,33 @@ $(document).ready(function () {
 
         if(!validarCuenta(datos)) return;
 
-        $.ajax({
-            url: `/cuenta/${id}/actualizar`,
-            type: 'PUT',
-            data: datos,
+        $.ajax({ url: `/cuenta/${id}/actualizar`, type: 'PUT', data: datos,
 
             success: function(){
+
                 mostrarToast('Cuenta actualizada correctamente', 'success');
                 tabla.ajax.reload();
                 bootstrap.Modal.getInstance('#modalEditarCuenta').hide();
-            },
 
+            },
             error: manejarErrorAjax
         });
+
     });
 
+/* ═════════════════════════════════════════ */
 
     function validarCuenta(d){
         if(d.nombre_cuenta === '') return toastError('El nombre es obligatorio');
         if(d.tipo_cuenta === '') return toastError('El tipo es obligatorio');
-        if(d.saldo_actual === '' || parseFloat(d.saldo_actual) < 0)
-            return toastError('Saldo inválido');
-
+        if(d.saldo_actual === '' || parseFloat(d.saldo_actual) < 0) return toastError('Saldo inválido');
         return true;
     }
 
 
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
-    /* ═════════════ ( MODAL MOVIMIENTOS ) ═════════════ */
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* ═════════════ ( MODAL MOVIMIENTOS ) ═════════════ */
 
     function abrirModalMovimiento(cuenta, tipo){
 
@@ -214,9 +188,7 @@ $(document).ready(function () {
 
         let titulo = tipo === 'AGREGAR' ? 'Agregar Saldo' : 'Retirar Saldo';
         let colorBtn = tipo === 'AGREGAR' ? 'success' : 'danger';
-
         let saldoActual = parseFloat(cuenta.saldo_actual);
-
         let opcionesConcepto = tipo === 'AGREGAR'
             ? `
                 <option value="">-- Seleccionar --</option>
@@ -232,7 +204,6 @@ $(document).ready(function () {
                 <option>Retiro de efectivo</option>
                 <option>Otros egresos</option>
             `;
-
 
         /* ═════════════ ( HTML MODAL ) ═════════════ */
 
@@ -328,18 +299,15 @@ $(document).ready(function () {
         </div>
         `;
 
-
         /* ═════════════ ( RENDER MODAL ) ═════════════ */
 
         $('body').append(html);
-
         new bootstrap.Modal(document.getElementById('modalMovimiento')).show();
-
         actualizarResultado();
+
     }
 
-
-    /* ═════════════ ( EVENTOS MODAL MOVIMIENTO ) ═════════════ */
+/* ═════════════ ( EVENTOS MODAL MOVIMIENTO ) ═════════════ */
 
     $(document).on('input', '#monto_movimiento', actualizarResultado);
 
@@ -347,6 +315,8 @@ $(document).ready(function () {
         $('#grupo_selector').toggleClass('d-none', this.checked);
         $('#grupo_input').toggleClass('d-none', !this.checked);
     });
+
+/* ═════════════════════════════════════════ */
 
     function actualizarResultado(){
 
@@ -364,95 +334,73 @@ $(document).ready(function () {
     }
 
 
-let procesandoMovimiento = false;
+    let procesandoMovimiento = false;
 
-/* ----------------------------------------------- */
+/* ═══════ variable global segura ═══════ */
 
-// 🧠 variable global segura (evita redeclaración)
-window.procesandoMovimiento = window.procesandoMovimiento || false;
+    window.procesandoMovimiento = window.procesandoMovimiento || false;
 
-$(document)
-.off('click', '#btnGuardarMovimiento')
-.on('click', '#btnGuardarMovimiento', function () {
+    $(document)
+    .off('click', '#btnGuardarMovimiento')
+    .on('click', '#btnGuardarMovimiento', function () {
 
-    const btn = $(this);
+        const btn = $(this);
 
-    // 🔒 DOBLE BLOQUEO (variable + estado botón)
-    if (window.procesandoMovimiento || btn.prop('disabled')) return;
+        if (window.procesandoMovimiento || btn.prop('disabled')) return; // Evitar doble click
 
-    window.procesandoMovimiento = true;
+        window.procesandoMovimiento = true;
 
-    const data = {
-        id_cuenta: $('#movimiento_id_cuenta').val(),
-        tipo_movimiento: $('#tipo_movimiento').val(),
-        monto: parseFloat($('#monto_movimiento').val()),
-        descripcion: obtenerDescripcion(),
-        _token: $('meta[name="csrf-token"]').attr('content')
-    };
+        const data = {
+            id_cuenta: $('#movimiento_id_cuenta').val(),
+            tipo_movimiento: $('#tipo_movimiento').val(),
+            monto: parseFloat($('#monto_movimiento').val()),
+            descripcion: obtenerDescripcion(),
+            _token: $('meta[name="csrf-token"]').attr('content')
+        };
 
-    if (!validarMovimiento(data)) {
-        window.procesandoMovimiento = false;
-        return;
-    }
+        if (!validarMovimiento(data)) { window.procesandoMovimiento = false; return; }
+        btn.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Procesando...');
 
-    // 🔒 bloquear botón inmediatamente
-    btn.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Procesando...');
+        $.ajax({ url: '/cuenta/movimiento', type: 'POST', data,
 
-    $.ajax({
-        url: '/cuenta/movimiento',
-        type: 'POST',
-        data,
+            success: function (res) {
 
-        success: function (res) {
+                mostrarToast(res.mensaje, 'success');
+                if (typeof tabla !== 'undefined') { tabla.ajax.reload(null, false); }
+                const modalEl = document.getElementById('modalMovimiento');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                modalInstance?.hide();
 
-            mostrarToast(res.mensaje, 'success');
+            }, error: function (xhr) { manejarErrorAjax(xhr); },
 
-            if (typeof tabla !== 'undefined') {
-                tabla.ajax.reload(null, false);
+            complete: function () { window.procesandoMovimiento = false;
+                btn.prop('disabled', false)
+                .html('<i class="bi bi-check-circle me-1"></i> Confirmar');
             }
 
-            // ✅ FIX bootstrap (esto estaba mal)
-            const modalEl = document.getElementById('modalMovimiento');
-            const modalInstance = bootstrap.Modal.getInstance(modalEl);
-
-            modalInstance?.hide();
-        },
-
-        error: function (xhr) {
-            manejarErrorAjax(xhr);
-        },
-
-        complete: function () {
-            // 🔓 liberar SIEMPRE
-            window.procesandoMovimiento = false;
-
-            btn.prop('disabled', false)
-               .html('<i class="bi bi-check-circle me-1"></i> Confirmar');
-        }
+        });
+        
     });
-});
 
+/* ═════════════════════════════════════════ */
 
     function obtenerDescripcion(){
-        if($('#usar_input_descripcion').is(':checked')){
-            return $('#input_concepto').val().trim();
-        }
+        if($('#usar_input_descripcion').is(':checked')){ return $('#input_concepto').val().trim(); }
         return $('#selector_concepto').val();
     }
 
+/* ═════════════════════════════════════════ */
+
     function validarMovimiento(d){
-
         if(!d.monto || d.monto <= 0) return toastError('Monto inválido');
-
         if(!d.descripcion) return toastError('Concepto requerido');
-
         return true;
     }
 
 
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
-    /* ═════════════ ( HELPERS ) ═════════════ */
-    /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* ═════════════ ( HELPERS ) ═════════════ */
 
     function manejarErrorAjax(err){
         console.error(err);
@@ -465,13 +413,7 @@ $(document)
         mostrarToast(err.responseJSON?.mensaje || 'Error del servidor', 'danger');
     }
 
-    function toastError(msg){
-        mostrarToast(msg, 'danger');
-        return false;
-    }
-
-    $(document).on('hidden.bs.modal', '#modalMovimiento', function () {
-        $(this).remove();
-    });
+    function toastError(msg){ mostrarToast(msg, 'danger'); return false; }
+    $(document).on('hidden.bs.modal', '#modalMovimiento', function () { $(this).remove(); });
 
 });

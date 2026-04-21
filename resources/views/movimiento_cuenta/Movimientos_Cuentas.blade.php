@@ -10,7 +10,6 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-
     <!-- Scripts -->
     <script src="{{ Vite::asset('resources/js/movimiento_cuenta/Movimientos_Cuentas.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
@@ -22,7 +21,6 @@
 
     <div>
 
-        {{-- (Opcional) Check para mostrar/ocultar columnas --}}
         @include('movimiento_cuenta.CheckColumnasCuenta')
 
         <table id="tablaMovimientosCuenta" class="table table-striped table-bordered">

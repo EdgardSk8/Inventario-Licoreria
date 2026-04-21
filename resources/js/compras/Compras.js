@@ -173,7 +173,7 @@ $(document).ready(function () {
 
 
 
-/*═══════════════════════════════════════════════════*/
+/* ═══════════════════════════════════════════════════ */
 /* ➕ AGREGAR PRODUCTO */
 console.log('DATA SELECT2:', $('#producto_select').select2('data'));
 
@@ -217,7 +217,7 @@ console.log('DATA SELECT2:', $('#producto_select').select2('data'));
         $('#impuesto_item').val('').attr('placeholder', '0');  // idem
     });
 
-/*═══════════════════════════════════════════════════*/
+/* ═══════════════════════════════════════════════════ */
 /* 🎨 RENDER CARRITO */
 
     function renderCarrito() {

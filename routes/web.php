@@ -209,6 +209,8 @@ Route::post('/cuenta/crear', [CuentaController::class, 'CrearCuenta']);
 Route::get('/cuenta/{id}/editar', [CuentaController::class, 'EditarCuenta']);
 Route::put('/cuenta/{id}/actualizar', [CuentaController::class, 'ActualizarCuenta']);
 Route::post('/cuenta/cambiar-estado/{id}', [CuentaController::class, 'CambiarEstadoCuenta']);
+Route::post('/cuenta/transferir', [CuentaController::class, 'TransferirEntreCuentas']);
+Route::get('/cuenta/mostrarselector', [CuentaController::class, 'MostrarCuentasSelector']);
 
 /*  ╔══════ Movimiento Cuentas (Kardex) ═════════╗ 
     ╚════════════════════════════════════════════╝ */
