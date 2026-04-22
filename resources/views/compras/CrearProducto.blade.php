@@ -51,7 +51,7 @@
           <!-- Precio compra -->
           <div class="col-md-2">
             <label class="form-label">Precio Compra</label>
-            <input type="number" id="crear_precio_compra" class="form-control form-control-sm" step="0.01" required>
+            <input type="number" id="crear_precio_compra" class="form-control form-control-sm" min="0" step="0.01" required>
           </div>
 
           <!-- CHECKS -->
@@ -76,7 +76,7 @@
           <!-- Precio total -->
           <div class="col-md-2">
             <label class="form-label">Precio Total (+IVA)</label>
-            <input type="number" id="crear_precio_venta_TOTAL" class="form-control form-control-sm">
+            <input type="number" id="crear_precio_venta_TOTAL" min="0" class="form-control form-control-sm">
           </div>
 
           <!-- Stock -->

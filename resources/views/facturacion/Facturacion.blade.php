@@ -30,8 +30,7 @@
     <div class="container-fluid contenedor-pos">
 
         <div class="row h-100">
-
-            <!-- 🧾 PRODUCTOS -->
+ 
             <div class="col-md-6 panel">
 
                 <div  class="d-flex justify-content-between align-items-center">
@@ -60,7 +59,11 @@
 
             </div>
 
-            <!-- 🛒 CARRITO -->
+
+<!-- ════════════════════ COLUMNA DERECHA ═══════════════════════ -->
+
+            <!-- ══════════ SELECTORES ══════════ -->
+
             <div class="col-md-6 panel">
             
                 <div class="row">
@@ -89,7 +92,8 @@
 
                 </div>
 
-                <!-- 💳 PAGO FIJO -->
+                <!-- ══════════ INPUTS ══════════ -->
+
                 <div class="card card-pago p-2 mb-2">
 
                     <div class="d-flex justify-content-between mb-2">
@@ -101,17 +105,34 @@
                     <div class="row g-1 mb-2">
 
                         <!-- CÓRDOBAS -->
-                        <div class="col-6">
+                        <div class="col-6 position-relative">
+                            <span style="
+                                position:absolute;
+                                left:10px;
+                                top:50%;
+                                transform:translateY(-50%);
+                                font-size: 0.85rem;
+                                color: black;">
+                                C$
+                            </span>
+
                             <input type="number" min="0" id="pagoCordobas" required
                                 class="form-control form-control-sm"
-                                placeholder="C$ Recibido">
+                                style="padding-left: 27px;"
+                                placeholder="0">
                         </div>
 
                         <!-- DÓLARES -->
-                        <div class="col-6">
+                        <div class="col-6 position-relative">
+                            <span style=" position:absolute; left:10px; top:50%; transform:translateY(-50%);
+                                font-size: 0.85rem; color: black;">
+                                $
+                            </span>
+
                             <input type="number" min="0" id="pagoDolares" required
                                 class="form-control form-control-sm"
-                                placeholder="$ Recibido">
+                                style="padding-left: 27px;"
+                                placeholder="Recibido">
                         </div>
 
                     </div>
@@ -145,7 +166,8 @@
 
                 <h6>Carrito</h6>
 
-                <!-- 📦 CARRITO -->
+<!-- ════════════════════ CARRITO ═══════════════════════ -->
+
                 <div class="carrito-scroll">
                     <table class="table table-bordered table-sm">
                         <thead class="table-dark">

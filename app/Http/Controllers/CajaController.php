@@ -184,7 +184,7 @@ class CajaController extends Controller
         try {
 
             $cajas = Caja::with('usuario')
-                ->orderBy('fecha_apertura', 'asc')
+                ->orderBy('id_caja', 'asc')
                 ->get();
 
             return response()->json([

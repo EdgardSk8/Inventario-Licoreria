@@ -460,14 +460,14 @@ class CompraController extends Controller
 
             // FILTRO POR ESTADO
 
-            // if ($request->has('estado')) {
-            //     $query->where('estado_producto', $request->estado);
-            // } else {
-            //     // por defecto solo activos
-            //     $query->where('estado_producto', 1);
-            // }
+            if ($request->has('estado')) {
+                $query->where('estado_producto', $request->estado);
+            } else {
+                // por defecto solo activos
+                $query->where('estado_producto', 1);
+            }
 
-            // 🔍 BÚSQUEDA (Select2 usa "q")
+            // BÚSQUEDA (Select2 usa "q")
             if ($request->filled('q')) {
                 $busqueda = $request->q;
 

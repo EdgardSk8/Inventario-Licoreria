@@ -72,9 +72,48 @@ $(document).ready(function () {
     /* ═══════════════════════════════════════════════════ */
     /* INPUT MONTO */
     /* ═══════════════════════════════════════════════════ */
-    $('#monto_transferencia').on('input', function () {
+$('#monto_transferencia').on('input', function () {
+
+    let valor = this.value.replace(/[^0-9.]/g, '');
+
+    // evitar más de un punto
+    let partes = valor.split('.');
+    if (partes.length > 2) {
+        valor = partes[0] + '.' + partes[1];
+        partes = valor.split('.');
+    }
+
+    // permitir escribir "20." sin romper
+    if (valor.endsWith('.')) {
+        this.value = 'C$ ' + valor;
+        return;
+    }
+
+    if (!valor) {
+        this.value = '';
         calcularResultados();
+        return;
+    }
+
+    let numero = parseFloat(valor);
+    if (isNaN(numero)) return;
+
+    this.value = 'C$ ' + numero.toLocaleString('es-NI', {
+        minimumFractionDigits: partes[1] ? partes[1].length : 0,
+        maximumFractionDigits: 2
     });
+
+    calcularResultados();
+});
+    
+    function obtenerMontoLimpio() {
+    let texto = $('#monto_transferencia').val();
+
+    return parseFloat(
+        texto.replace('C$', '')
+             .replace(/,/g, '')
+    ) || 0;
+}
 
     /* ═══════════════════════════════════════════════════ */
     /* ACTUALIZAR SALDOS */
@@ -104,7 +143,7 @@ $(document).ready(function () {
     /* ═══════════════════════════════════════════════════ */
     function calcularResultados() {
 
-        let monto = parseFloat($('#monto_transferencia').val());
+       let monto = obtenerMontoLimpio();
 
         if (!monto || monto <= 0) {
             $('#saldo_origen_resultante').val('');
@@ -147,7 +186,7 @@ $(document).ready(function () {
         let data = {
             cuenta_origen: $('#cuenta_origen').val(),
             cuenta_destino: $('#cuenta_destino').val(),
-            monto: $('#monto_transferencia').val(),
+            monto: obtenerMontoLimpio(),
             descripcion: $('#usar_input_concepto').is(':checked')
                 ? $('#input_concepto').val()
                 : $('#selector_concepto').val()

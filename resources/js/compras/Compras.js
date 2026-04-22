@@ -174,8 +174,6 @@ $(document).ready(function () {
 
 
 /* ═══════════════════════════════════════════════════ */
-/* ➕ AGREGAR PRODUCTO */
-console.log('DATA SELECT2:', $('#producto_select').select2('data'));
 
     $('#btnAgregar').click(function () {
         let data = $('#producto_select').select2('data')[0];

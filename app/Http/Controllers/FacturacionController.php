@@ -53,9 +53,9 @@ class FacturacionController extends Controller
                     'precio_venta',
                     'stock_actual',
                     'imagen_producto',
-                    'id_impuesto' // 🔥 IMPORTANTE para la relación
+                    'id_impuesto' 
                 )
-                ->limit(20)
+                //->limit(20)
                 ->get()
                 ->map(function ($p) {
 

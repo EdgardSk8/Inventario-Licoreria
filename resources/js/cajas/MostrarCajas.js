@@ -8,7 +8,11 @@ $(document).ready(function () {
         ajax: { url: '/cajas/registro',type: 'GET',dataSrc: 'data', },
 
         columns: [
-            { data: 'fecha_apertura', render: function(data, type, row){ return `<strong>Caja #${row.id_caja}<br>`; } },
+            { data: 'id_caja',
+                render: function (data, type) {
+                    if (type === 'sort' || type === 'type') return data; return `<strong>Caja #${data}</strong>`;
+                }
+            },
             { data: 'usuario.nombre_usuario'},
             { data: 'fecha_apertura', render: function(data){ return formatearFechaDiaHora(data); } },
             { data: 'fecha_cierre', render: function(data){
@@ -19,7 +23,7 @@ $(document).ready(function () {
             { data: 'estado_caja',render: function(data){return data == 1
                     ? '<span class="estado estado-activo">Abierta</span>' : '<span class="estado estado-inactivo">Cerrada</span>';} }
         ],
-        order: [[0, 'desc']], //Orden por fecha de cierre de el mas nuevo al mas antiguo
+        order: [[0, 'desc']], //Orden por id
         lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         ...Traduccion // Constante de traduccion de datatables
     });

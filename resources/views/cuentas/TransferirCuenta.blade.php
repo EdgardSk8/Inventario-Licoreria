@@ -70,7 +70,7 @@
                 <div class="row mt-2">
                     <div class="col-md-6 mx-auto">
                         <label class="form-label small mb-0">Monto a transferir</label>
-                        <input type="number" min="0" step="0.01"
+                        <input type="text" min="0" step="0.01"
                             class="form-control form-control-sm text-center fw-bold"
                             id="monto_transferencia">
                     </div>

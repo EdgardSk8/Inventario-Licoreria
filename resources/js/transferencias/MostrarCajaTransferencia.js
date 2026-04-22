@@ -15,10 +15,13 @@ $(document).ready(function () {
         columns: [
 
             // Nº Caja
-            { 
+            {
                 data: 'numero_caja',
-                render: function(data){
-                     return `<span class="fw-bold">Caja #${data}</span>`;
+                render: function (data, type) {
+
+                    if (type === 'sort' || type === 'type') { return data; }
+
+                    return `<span class="fw-bold">Caja #${data}</span>`; 
                 }
             },
 
@@ -63,7 +66,7 @@ $(document).ready(function () {
                         : '<span class="text-danger fw-bold">C$ ' + parseFloat(data).toFixed(2) + '</span>';
                 }
             },
-                        { 
+            { 
                 data: 'monto_transferido',
                 render: function(data){
 
@@ -73,7 +76,7 @@ $(document).ready(function () {
                         return '<span>C$ 0.00</span>';
                     }
 
-                    return '<span class="fw-bold" style="color:#6f42c1;">C$ ' + monto.toFixed(2) + '</span>';
+                    return '<span class="fw-bold">C$ ' + monto.toFixed(2) + '</span>';
                 }
             },
 
@@ -105,7 +108,7 @@ $(document).ready(function () {
                     const cajaAbierta = !row.fecha_cierre;
                     const saldoCaja = parseFloat(row.saldo_caja) || 0;
 
-                    const deshabilitarTransferir = cajaAbierta || saldoCaja === 0;
+                    const deshabilitarTransferir = cajaAbierta || saldoCaja <= 0;
 
                     return `
                         <button class="btn btn-sm ${cajaAbierta ? 'btn-danger' : 'btn-success'} btn-transferir"
@@ -125,7 +128,7 @@ $(document).ready(function () {
         ],
 
         order: [[0, 'desc']],
-        lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        lengthMenu: [15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         ...Traduccion
     });
 

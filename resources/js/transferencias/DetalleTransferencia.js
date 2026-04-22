@@ -78,8 +78,8 @@ function cargarDetalleTransferencias(idCaja) {
                             <td>${index + 1}</td>
 
                             <td>
-                                <span class="badge bg-info text-dark">
-                                    ${t.nombre_cuenta}
+                                <span class="fw-semibold">
+                                    ${t.usuario}
                                 </span>
                             </td>
 
@@ -88,10 +88,11 @@ function cargarDetalleTransferencias(idCaja) {
                             </td>
 
                             <td>
-                                <span class="badge bg-secondary">
-                                    ${t.usuario}
+                                <span class="text-muted">
+                                    ${t.nombre_cuenta}
                                 </span>
                             </td>
+
 
                             <td>
                                 ${formatearFechaDia(t.fecha)}

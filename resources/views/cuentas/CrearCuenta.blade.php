@@ -26,14 +26,19 @@
             </div>
 
             <div class="col-md-3">
-                <label class="form-label">Tipo de Cuenta</label>
-                <input type="text"
-                    id="crear_tipo_cuenta"
-                    placeholder="Ej: Efectivo, Bancaria"
-                    class="form-control form-control-sm"
-                    maxlength="50"
-                    required>
-            </div>
+              <label class="form-label">Tipo de Cuenta</label>
+              <select id="crear_tipo_cuenta"
+                  class="form-select form-select-sm"
+                  required>
+                  
+                  <option value="CAJA">Caja</option>
+                  <option value="BANCO">Banco</option>
+                  <option value="AHORRO">Ahorro</option>
+                  <option value="TARJETA">Tarjeta</option>
+                  <option value="CREDITO">Crédito</option>
+                  
+              </select>
+          </div>
 
             <div class="col-md-5">
                 <label class="form-label">Descripción</label>

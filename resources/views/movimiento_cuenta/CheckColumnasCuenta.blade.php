@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-check">
-        <input class="form-check-input toggle-col" type="checkbox" data-column="6" id="colTransferencia" checked>
+        <input class="form-check-input toggle-col" type="checkbox" data-column="6" id="colTransferencia">
         <label class="form-check-label" for="colTransferencia">Transferencia</label>
     </div>
 

@@ -38,9 +38,22 @@
                 </div>
 
                 <!-- Monto -->
-                <div class="mb-3">
-                    <label class="form-label small text-muted">Monto</label>
-                    <input type="number" step="0.50" id="monto" class="form-control form-control-sm" min="0" placeholder="0.00" required>
+                <div class="col-12 position-relative">
+                    <span style="
+                        position:absolute;
+                        left:10px;
+                        top:50%;
+                        transform:translateY(-50%);
+                        font-size: 0.85rem;
+                        color: black;">
+                        C$
+                    </span>
+
+                    <input type="number" min="0.50" required
+                        id="monto"
+                        class="form-control form-control-sm"
+                        style="padding-left: 27px;"
+                        placeholder="0.00">
                 </div>
 
                 <!-- Saldo restante -->

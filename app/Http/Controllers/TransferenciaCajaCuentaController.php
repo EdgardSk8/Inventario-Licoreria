@@ -23,7 +23,7 @@ class TransferenciaCajaCuentaController extends Controller
                 $idCaja    = $request->id_caja;
                 $idCuenta  = $request->id_cuenta;
                 $monto     = floatval($request->monto);
-                $idUsuario = auth()->id() ?? 1;
+                $idUsuario = session('usuario.id');
 
                 // ✅ Validaciones básicas
                 if (!$idCaja || !$idCuenta || $monto <= 0) {
