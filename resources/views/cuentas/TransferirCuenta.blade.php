@@ -80,7 +80,7 @@
                 <hr class="my-2">
 
                 <div class="form-check form-switch mb-2">
-                    <input class="form-check-input" type="checkbox" id="usar_input_concepto">
+                    <input class="form-check-input" type="checkbox" id="check_concepto">
                     <label class="form-check-label small">
                         Escribir concepto manual
                     </label>
@@ -90,10 +90,10 @@
                 <div class="mb-2" id="grupo_selector_concepto">
                     <label class="form-label small mb-0">Concepto</label>
                     <select class="form-select form-select-sm" id="selector_concepto">
-                        <option value="Reorganización de fondos entre cuentas">Reorganización de fondos entre cuentas</option>
+                            <option value="Ajuste de saldos entre cuentas">Ajuste de saldos entre cuentas</option>
+                            <option value="Reorganización de fondos entre cuentas">Reorganización de fondos entre cuentas</option>
                             <option value="Cobertura de gastos operativos">Cobertura de gastos operativos</option>
                             <option value="Pago interno desde otra cuenta">Pago interno desde otra cuenta</option>
-                            <option value="Ajuste de saldos entre cuentas">Ajuste de saldos entre cuentas</option>
                             <option value="Movimiento por control financiero">Movimiento por control financiero</option>
                     </select>
                 </div>

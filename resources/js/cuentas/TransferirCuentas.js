@@ -1,245 +1,127 @@
 $(document).ready(function () {
 
-    let cuentas = [];
+    let cuentas = []; // Variable de estado
 
-    /* ═══════════════════════════════════════════════════ */
-    /* ABRIR MODAL */
-    /* ═══════════════════════════════════════════════════ */
-    $('#ModalTransferirCuenta').on('show.bs.modal', function () {
-        cargarCuentas();
-        resetFormulario();
-    });
+/* ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════ EVENTOS ═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
 
-    /* ═══════════════════════════════════════════════════ */
-    /* CARGAR CUENTAS */
-    /* ═══════════════════════════════════════════════════ */
-    function cargarCuentas() {
+    /* ═════════ Evento Abrir Modal ═════════ */
 
-        $.get('/cuenta/mostrarselector', function (res) {
+    $('#ModalTransferirCuenta').on('show.bs.modal', function () { cargarCuentas(); resetFormulario(); });
 
-            if (!res.success) return;
+    /* ══════════ Evento de Cambio ══════════ */
 
-            cuentas = res.cuentas;
-
-            let opciones = '<option value="" disabled selected>Seleccione Cuenta de Origen</option>';
-
-            cuentas.forEach(c => {
-                opciones += `<option value="${c.id}" data-saldo="${c.saldo_actual}">
-                                ${c.display}
-                             </option>`;
-            });
-
-            $('#cuenta_origen').html(opciones);
-            $('#cuenta_destino')
-                .html('<option value="" disabled selected>Seleccione Cuenta de Destino</option>')
-                .prop('disabled', true);
-        });
-    }
-
-    /* ═══════════════════════════════════════════════════ */
-    /* CAMBIO CUENTA ORIGEN */
-    /* ═══════════════════════════════════════════════════ */
     $('#cuenta_origen').on('change', function () {
 
         let origenId = $(this).val();
-
         let opciones = '<option value="" disabled selected>Seleccione Cuenta de Origen</option>';
 
         cuentas.forEach(c => {
-            if (c.id != origenId) {
-                opciones += `<option value="${c.id}" data-saldo="${c.saldo_actual}">
-                                ${c.display}
-                             </option>`;
-            }
+            if (c.id != origenId) { opciones += `<option value="${c.id}" data-saldo="${c.saldo_actual}"> ${c.display} </option>`; }
         });
 
-        $('#cuenta_destino')
-            .html(opciones)
-            .prop('disabled', false);
+        $('#cuenta_destino') .html(opciones).prop('disabled', false); //Option deshabilitado
 
-        actualizarSaldos();
-        calcularResultados();
+        recalcularUI();
+
     });
 
-    /* ═══════════════════════════════════════════════════ */
-    /* CAMBIO CUENTA DESTINO */
-    /* ═══════════════════════════════════════════════════ */
-    $('#cuenta_destino').on('change', function () {
-        actualizarSaldos();
-        calcularResultados();
-    });
+    /* ══════════ Evento de Cambio ══════════ */
 
-    /* ═══════════════════════════════════════════════════ */
-    /* INPUT MONTO */
-    /* ═══════════════════════════════════════════════════ */
-$('#monto_transferencia').on('input', function () {
+    $('#cuenta_destino').on('change', function () { recalcularUI(); });
 
-    let valor = this.value.replace(/[^0-9.]/g, '');
+    /* ══════════ Evento Formatedor ══════════ */
 
-    // evitar más de un punto
-    let partes = valor.split('.');
-    if (partes.length > 2) {
-        valor = partes[0] + '.' + partes[1];
-        partes = valor.split('.');
-    }
+    $('#monto_transferencia').on('input', function () {
 
-    // permitir escribir "20." sin romper
-    if (valor.endsWith('.')) {
-        this.value = 'C$ ' + valor;
-        return;
-    }
+        let valor = this.value.replace(/[^0-9.]/g, '');
+        let partes = valor.split('.');
 
-    if (!valor) {
-        this.value = '';
-        calcularResultados();
-        return;
-    }
+        if (partes.length > 2) { valor = partes[0] + '.' + partes[1]; partes = valor.split('.'); }
+        if (valor.endsWith('.')) { this.value = 'C$ ' + valor; return; }
+        if (!valor) { this.value = ''; calcularResultados(); return; }
+        let numero = parseFloat(valor);
+        if (isNaN(numero)) return;
 
-    let numero = parseFloat(valor);
-    if (isNaN(numero)) return;
+        this.value = 'C$ ' + numero.toLocaleString('es-NI', {
 
-    this.value = 'C$ ' + numero.toLocaleString('es-NI', {
-        minimumFractionDigits: partes[1] ? partes[1].length : 0,
-        maximumFractionDigits: 2
-    });
-
-    calcularResultados();
-});
-    
-    function obtenerMontoLimpio() {
-    let texto = $('#monto_transferencia').val();
-
-    return parseFloat(
-        texto.replace('C$', '')
-             .replace(/,/g, '')
-    ) || 0;
-}
-
-    /* ═══════════════════════════════════════════════════ */
-    /* ACTUALIZAR SALDOS */
-    /* ═══════════════════════════════════════════════════ */
-    function actualizarSaldos() {
-
-        let origen = $('#cuenta_origen').val();
-        let destino = $('#cuenta_destino').val();
-
-        if (!origen) {
-            $('#saldo_origen').val('');
-        } else {
-            let saldoOrigen = parseFloat($('#cuenta_origen option:selected').data('saldo')) || 0;
-            $('#saldo_origen').val(formatear(saldoOrigen));
-        }
-
-        if (!destino) {
-            $('#saldo_destino').val('');
-        } else {
-            let saldoDestino = parseFloat($('#cuenta_destino option:selected').data('saldo')) || 0;
-            $('#saldo_destino').val(formatear(saldoDestino));
-        }
-    }
-
-    /* ═══════════════════════════════════════════════════ */
-    /* CALCULAR RESULTADOS */
-    /* ═══════════════════════════════════════════════════ */
-    function calcularResultados() {
-
-       let monto = obtenerMontoLimpio();
-
-        if (!monto || monto <= 0) {
-            $('#saldo_origen_resultante').val('');
-            $('#saldo_destino_resultante').val('');
-            return;
-        }
-
-        let saldoOrigen = parseFloat($('#cuenta_origen option:selected').data('saldo')) || 0;
-        let saldoDestino = parseFloat($('#cuenta_destino option:selected').data('saldo')) || 0;
-
-        $('#saldo_origen_resultante').val(formatear(saldoOrigen - monto));
-        $('#saldo_destino_resultante').val(formatear(saldoDestino + monto));
-    }
-
-    /* ═══════════════════════════════════════════════════ */
-    /* FORMATEAR MONEDA */
-    /* ═══════════════════════════════════════════════════ */
-    function formatear(valor) {
-        return 'C$ ' + Number(valor).toLocaleString('es-NI', {
-            minimumFractionDigits: 2,
+            minimumFractionDigits: partes[1] ? partes[1].length : 0,
             maximumFractionDigits: 2
-        });
-    }
 
-    /* ═══════════════════════════════════════════════════ */
-    /* CONCEPTO SWITCH */
-    /* ═══════════════════════════════════════════════════ */
-    $('#usar_input_concepto').on('change', function () {
+        });
+
+        calcularResultados();
+
+    });
+
+    /* ═════════ Evento de cambio UI ═════════ */
+
+    $('#check_concepto').on('change', function () {
         $('#grupo_selector_concepto').toggleClass('d-none', this.checked);
         $('#grupo_input_concepto').toggleClass('d-none', !this.checked);
     });
 
-    /* ═══════════════════════════════════════════════════ */
-    /* TRANSFERIR */
-    /* ═══════════════════════════════════════════════════ */
+    /* ══════ Evento Click con peticion ══════ */
+
     $('#btnTransferir').on('click', function () {
 
-        let btn = $(this);
+        let btn = $(this); // Referencia al elemento actual
 
-        let data = {
-            cuenta_origen: $('#cuenta_origen').val(),
+        /* ══════════════ Objeto de datos ══════════════ */
+
+        let data = { 
+            cuenta_origen: $('#cuenta_origen').val(), 
             cuenta_destino: $('#cuenta_destino').val(),
-            monto: obtenerMontoLimpio(),
-            descripcion: $('#usar_input_concepto').is(':checked')
+            monto: obtenerMontoLimpio(), 
+            descripcion: $('#check_concepto').is(':checked')
                 ? $('#input_concepto').val()
                 : $('#selector_concepto').val()
         };
 
-        if (!data.cuenta_origen || !data.cuenta_destino || !data.monto) {
-            mostrarToast('Completa todos los campos', 'danger');
-            return;
-        }
+        /*  ════════ Cláusulas de guarda (Validaciones) ════════ */
 
-        btn.prop('disabled', true).text('Procesando...');
+        if (!data.cuenta_origen) { mostrarToast('Seleccione una Cuenta de salida', 'danger'); return; }
+        if (!data.cuenta_destino) { mostrarToast('Seleccione una cuenta entrada', 'danger'); return;}
+        if (!data.monto) { mostrarToast('Ingrese saldo a transferir', 'danger'); return; }
 
-        $.ajax({
-            url: '/cuenta/transferir',
-            method: 'POST',
-            data: data,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+        /*  ════════════════════════════════════════════════════ */
+
+        btn.prop('disabled', true).text('Procesando Transferencia'); // Evita doble click deshabilitando
+
+        /*  ═════════════════ LLAMADA HTTP ══════════════════════ */
+
+        $.ajax({ url: '/cuenta/transferir', method: 'POST', data: data, headers:
+            { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+
             success: function (res) {
 
-                if (res.success) {
-                    mostrarToast(res.mensaje, 'success');
-                    $('#ModalTransferirCuenta').modal('hide');
+                if (res.success) { mostrarToast(res.mensaje, 'success'); $('#ModalTransferirCuenta').modal('hide');
+                    if ($.fn.DataTable.isDataTable('#tablaCuentas')) { $('#tablaCuentas').DataTable().ajax.reload(); }
+                } else { mostrarToast(res.mensaje || 'Error', 'error'); }
 
-                    if (typeof tabla !== 'undefined') {
-                        tabla.ajax.reload();
-                    }
-
-                } else {
-                    mostrarToast(res.mensaje || 'Error', 'error');
-                }
             },
             error: function (xhr) {
 
-                if (xhr.status === 422) {
-                    let errores = xhr.responseJSON.errors;
-                    let mensaje = Object.values(errores)[0][0];
-                    mostrarToast(mensaje, 'danger');
-                } else {
-                    mostrarToast('Error en la transferencia', 'error');
+                console.log('❌ ERROR AJAX COMPLETO:', xhr);
+
+                if (xhr.status === 422) { const errores = xhr.responseJSON?.errors || {}; const mensaje = Object.values(errores)[0]?.[0];
+                    console.log('⚠️ ERROR DE VALIDACIÓN:', mensaje);
                 }
+                mostrarToast('Error en la transferencia', 'error');
             },
-            complete: function () {
-                btn.prop('disabled', false).text('Transferir');
-            }
+            complete: function () { btn.prop('disabled', false).text('Transferir'); }
+            
         });
 
     });
 
-    /* ═══════════════════════════════════════════════════ */
-    /* RESET FORMULARIO */
-    /* ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════ FUNCIONES ══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+
+    /* ══════════ Reinicio de Interfaz ══════════ */
+   
     function resetFormulario() {
 
         $('#monto_transferencia').val('');
@@ -247,15 +129,81 @@ $('#monto_transferencia').on('input', function () {
         $('#saldo_destino').val('');
         $('#saldo_origen_resultante').val('');
         $('#saldo_destino_resultante').val('');
-
         $('#cuenta_origen').prop('selectedIndex', 0);
-        $('#cuenta_destino')
-            .prop('disabled', true)
-            .html('<option value="" disabled selected>Seleccione...</option>');
-
-        $('#usar_input_concepto').prop('checked', false);
+        $('#check_concepto').prop('checked', false);
         $('#grupo_input_concepto').addClass('d-none');
         $('#grupo_selector_concepto').removeClass('d-none');
+
+    }
+
+    /* ══ Función de retorno (Peticion HTTP) ══ */
+
+    function cargarCuentas() {
+
+        $.get('/cuenta/mostrarselector', function (res) {
+
+            if (!res.success) return;
+            cuentas = res.cuentas;
+            let opciones = '<option value="" disabled selected>Seleccione Cuenta de Origen</option>';
+            cuentas.forEach(c => { opciones += `<option value="${c.id}" data-saldo="${c.saldo_actual}"> ${c.display} </option>`; });
+            $('#cuenta_origen').html(opciones);
+            $('#cuenta_destino') .html('<option value="" disabled selected>Seleccione Cuenta de Destino</option>') .prop('disabled', true);
+
+        });
+    }
+
+    /* ═════════ Funcion Utilitaria ═════════ */
+
+    function obtenerMontoLimpio() {
+        let texto = $('#monto_transferencia').val();
+        return parseFloat( texto.replace('C$', '').replace(/,/g, '')) || 0;
+    }
+
+    /* ═══ Función de sincronizacion de UI ═══ */
+
+    function actualizarSaldos() {
+
+        const setSaldo = (selectorOrigen, selectorDestino) => {
+
+            const valor = $(selectorOrigen).val();
+            if (!valor) { $(selectorDestino).val(''); return; }
+            const saldo = parseFloat( $(selectorOrigen + ' option:selected').data('saldo')) || 0;
+            $(selectorDestino).val(formatear(saldo));
+
+        };
+
+        setSaldo('#cuenta_origen', '#saldo_origen');
+        setSaldo('#cuenta_destino', '#saldo_destino');
+    }
+
+    /* Funcion híbrida (logica de negocio + actualizacion de UI) */
+
+    function calcularResultados() {
+
+        let monto = obtenerMontoLimpio();
+        let saldoOrigen = parseFloat($('#cuenta_origen option:selected').data('saldo')) || 0;
+        let saldoDestino = parseFloat($('#cuenta_destino option:selected').data('saldo')) || 0;
+        $('#saldo_origen_resultante').val(formatear(saldoOrigen - monto));
+        $('#saldo_destino_resultante').val(formatear(saldoDestino + monto));
+
+    }
+
+    /* ═════════ Funcion Utilitaria ═════════ */
+
+    function formatear(valor) {
+
+        return 'C$ ' + Number(valor).toLocaleString('es-NI', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+    }
+
+    /* ════════ Función coordinadora ════════ */
+
+    function recalcularUI() {
+        actualizarSaldos();
+        calcularResultados();
     }
 
 });

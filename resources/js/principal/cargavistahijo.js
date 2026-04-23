@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     const links = document.querySelectorAll('.cargar-vista');
     const contenido = document.getElementById('contenido-dinamico');
 
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Click en los enlacesa
+    // Click en los enlaces
     links.forEach(link => {
         link.addEventListener('click', e => {
             e.preventDefault();

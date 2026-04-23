@@ -24,7 +24,7 @@ $(document).ready(function () {
                     ? '<span class="estado estado-activo">Abierta</span>' : '<span class="estado estado-inactivo">Cerrada</span>';} }
         ],
         order: [[0, 'desc']], //Orden por id
-        lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        lengthMenu: [15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         ...Traduccion // Constante de traduccion de datatables
     });
 
