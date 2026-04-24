@@ -27,13 +27,31 @@
               required>
           </div>
 
-          <div class="col-md-2">
-            <label class="form-label">Tipo de Cuenta</label>
-            <input type="text"
-              id="editar_tipo_cuenta"
-              class="form-control form-control-sm"
-              maxlength="50"
-              required>
+          <div class="col-md-3">
+              <label class="form-label">Tipo de Cuenta</label>
+              <select id="editar_tipo_cuenta"
+                  class="form-select form-select-sm"
+                  required>
+                  
+                  <option value="CAJA">Caja</option>
+                  <option value="BANCARIA">Bancaria</option>
+                  <option value="TARJETA">Tarjeta</option>
+                  <option value="CREDITO">Crédito</option>
+                  <option value="AHORRO">Ahorro</option>
+                  <option value="DIGITAL">Digital</option>
+
+                  <option value="INVENTARIO">Inventario</option>
+                  <option value="INGRESOS">Ingresos</option>
+                  <option value="GASTOS">Gastos</option>
+
+                  <option value="CUENTAS POR COBRAR">Cuentas por Cobrar</option>
+                  <option value="CUENTAS POR PAGAR">Cuentas por Pagar</option>
+
+                  <option value="IMPUESTOS">Impuestos</option>
+                  <option value="CAPITAL">Capital</option>
+                  <option value="RETIROS">Retiros</option>
+                  
+              </select>
           </div>
 
           <div class="col-md-3">

@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="mb-2">
-                            <label class="form-label small mb-0">Saldo actual de la cuenta origen destino</label>
+                            <label class="form-label small mb-0">Saldo actual de la cuenta destino</label>
                             <input type="text" class="form-control form-control-sm" id="saldo_destino" disabled>
                         </div>
 

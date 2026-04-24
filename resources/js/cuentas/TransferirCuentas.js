@@ -15,7 +15,7 @@ $(document).ready(function () {
     $('#cuenta_origen').on('change', function () {
 
         let origenId = $(this).val();
-        let opciones = '<option value="" disabled selected>Seleccione Cuenta de Origen</option>';
+        let opciones = '<option value="" disabled selected>Seleccione Cuenta</option>';
 
         cuentas.forEach(c => {
             if (c.id != origenId) { opciones += `<option value="${c.id}" data-saldo="${c.saldo_actual}"> ${c.display} </option>`; }
@@ -199,7 +199,7 @@ $(document).ready(function () {
 
     }
 
-    /* ════════ Función coordinadora ════════ */
+    /* ════════ Funcion Coordinadora ════════ */
 
     function recalcularUI() {
         actualizarSaldos();
