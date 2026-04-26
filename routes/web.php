@@ -30,6 +30,7 @@ use App\Http\Controllers\DetalleVentaController;
 use App\Http\Controllers\CuentaController;
 use App\Http\Controllers\TransferenciaCajaCuentaController;
 use App\Http\Controllers\MovimientoCuentaController;
+use App\Http\Controllers\GastoController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -122,6 +123,14 @@ Route::post('/metodos-pago/crear', [MetodoPagoController::class, 'CrearMetodoPag
 Route::get('/metodos-pago/{id}/editar', [MetodoPagoController::class, 'EditarMetodoPago']);
 Route::put('/metodos-pago/{id}/actualizar', [MetodoPagoController::class, 'ActualizarMetodoPago']);
 Route::post('/metodos-pago/cambiar-estado/{id}', [MetodoPagoController::class, 'CambiarEstadoMetodoPago']);
+
+/*  ╔══════════════ Endpoint Gastos ═════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/gastos/mostrar', [GastoController::class, 'MostrarGastos']);
+
+
+
 
 /*  ╔══════════ Endpoint Tipo de Gasto ══════════╗ 
     ╚════════════════════════════════════════════╝ */

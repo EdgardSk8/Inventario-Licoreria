@@ -16,6 +16,7 @@
 @vite(['resources/js/principal/cerrar_acordeon.js'])
 @vite(['resources/js/principal/logout.js'])
 
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>

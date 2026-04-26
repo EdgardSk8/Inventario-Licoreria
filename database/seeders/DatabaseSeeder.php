@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder
 
             // 💸 Gastos (usan tipo_gasto + caja/cuenta)
             gastosSeeder::class,
+            movimientos_gastosSeeder::class,
 
             // 💵 Movimientos financieros (al final)
             movimientos_cajaSeeder::class,

@@ -12,53 +12,40 @@ class Gasto extends Model
 
     protected $fillable = [
         'id_tipo_gasto',
+        'nombre_gasto',
         'descripcion_gasto',
-        'monto_gasto',
-        'id_usuario',
-        'id_caja'
+        'estado_gasto'
     ];
 
-    // 🔹 Relación: gasto pertenece a un tipo de gasto
+    // 🔹 Relación: pertenece a tipo
     public function tipoGasto()
     {
-        return $this->belongsTo(TipoGasto::class, 'id_tipo_gasto', 'id_tipo_gasto');
+        return $this->belongsTo(TipoGasto::class, 'id_tipo_gasto');
     }
 
-    // 🔹 Relación: gasto pertenece a un usuario
-    public function usuario()
+    // 🔹 Relación: historial de pagos
+    public function movimientos()
     {
-        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
+        return $this->hasMany(MovimientoGasto::class, 'id_gasto');
     }
-
-    // 🔹 Relación: gasto pertenece a una caja
-    public function caja()
-    {
-        return $this->belongsTo(Caja::class, 'id_caja', 'id_caja');
-    }
-
-    // 🔹 Relación: opcional, si quieres enlazar con movimientos de caja
-    public function movimientoCaja()
-    {
-        return $this->hasOne(MovimientoCaja::class, 'id_referencia', 'id_gasto')
-                    ->where('tipo_movimiento_caja', 'SALIDA');
-    }
-
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
 
-La tabla gastos se usa para registrar los egresos de dinero del negocio.
+La tabla gastos se usa como catálogo de los gastos fijos del negocio.
 
-Cada registro representa un gasto, donde se guarda:
+Cada registro representa un tipo de gasto (ej: luz, agua, salarios),
+donde se guarda:
 
-- El tipo de gasto (ej: servicios, compras menores, mantenimiento)
-- Una descripción del gasto
-- El monto gastado
-- La fecha y hora del gasto
-- El usuario que lo registró
-- La caja o cuenta desde donde se pagó (si aplica)
+- El tipo de gasto al que pertenece (clasificación)
+- El nombre del gasto
+- Una descripción opcional
+- Su estado (activo o inactivo)
 
-La función de la tabla gastos es llevar control del dinero que sale del negocio,
-permitiendo un mejor seguimiento y administración de los egresos.
+Esta tabla NO almacena pagos ni movimientos de dinero.
+
+La función de la tabla gastos es definir qué gastos existen en el sistema,
+para luego registrar sus pagos en la tabla movimientos_gastos y así
+llevar control del historial de egresos.
 
 ══════════════════════════════════════════════════════════════════════════ */

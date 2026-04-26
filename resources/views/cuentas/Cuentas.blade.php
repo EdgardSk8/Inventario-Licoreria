@@ -23,7 +23,7 @@
     <script src="{{ Vite::asset('resources/js/cuentas/CrearCuentas.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/cuentas/TransferirCuentas.js') }}"></script>
 
-    <!-- 🔹 Sistema de notificaciones (Toast) -->
+    <!-- Sistema de notificaciones (Toast) -->
     <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 
 </head>

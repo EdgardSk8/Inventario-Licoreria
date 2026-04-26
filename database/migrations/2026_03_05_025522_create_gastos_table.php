@@ -11,45 +11,24 @@ class CreateGastosTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
- Schema::create('gastos', function (Blueprint $table) {
-            $table->increments('id_gasto');
+      public function up()
+      {
+            Schema::create('gastos', function (Blueprint $table) {
+                $table->increments('id_gasto');
 
-            $table->unsignedInteger('id_tipo_gasto');
+                $table->unsignedInteger('id_tipo_gasto');
 
-            $table->string('descripcion_gasto',200);
+                $table->string('nombre_gasto', 150);
+                $table->string('descripcion_gasto', 200)->nullable();
 
-            $table->decimal('monto_gasto',10,2);
+                $table->boolean('estado_gasto')->default(true);
 
-            $table->dateTime('fecha_gasto')->useCurrent();
-
-            $table->unsignedInteger('id_usuario');
-
-            // 👇 ahora puede ser null (porque puede pagarse desde cuenta)
-            $table->unsignedInteger('id_caja')->nullable();
-
-            // 👇 NUEVO (clave)
-            $table->unsignedInteger('id_cuenta')->nullable();
-
-            // relaciones
-            $table->foreign('id_tipo_gasto')
-                  ->references('id_tipo_gasto')
-                  ->on('tipo_gasto');
-
-            $table->foreign('id_usuario')
-                  ->references('id_usuario')
-                  ->on('usuarios');
-
-            $table->foreign('id_caja')
-                  ->references('id_caja')
-                  ->on('cajas');
-
-            $table->foreign('id_cuenta')
-                  ->references('id_cuenta')
-                  ->on('cuentas');
-        });
-    }
+                // relaciones
+                $table->foreign('id_tipo_gasto')
+                    ->references('id_tipo_gasto')
+                    ->on('tipo_gasto');
+            });
+      }
 
     /**
      * Reverse the migrations.

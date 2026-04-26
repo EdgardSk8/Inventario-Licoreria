@@ -37,7 +37,7 @@ class usuariosSeeder extends Seeder
             ],
             [
                 'nombre_completo_usuario' => 'Bodeguero',
-                'cedula_identidad_usuario' => '281-151202-1003C',
+                'cedula_identidad_usuario' => '281-256364-1003C',
                 'nombre_usuario' => 'bodeguero',
                 'password_hash_usuario' => Hash::make('123456'),
                 'id_rol_usuario' => 3,

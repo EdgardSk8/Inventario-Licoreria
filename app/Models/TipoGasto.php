@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoGasto extends Model
 {
-     protected $table = 'tipo_gasto';
+    protected $table = 'tipo_gasto';
     protected $primaryKey = 'id_tipo_gasto';
     public $timestamps = false;
 
@@ -15,6 +15,11 @@ class TipoGasto extends Model
         'descripcion_tipo_gasto',
         'estado_tipo_gasto'
     ];
+
+    public function gastos()
+    {
+        return $this->hasMany(Gasto::class, 'id_tipo_gasto');
+    }
 
 }
 
