@@ -21,7 +21,7 @@
 
 /* ══════════════════════════════════════════════════════════════════════════════════════ */
 
-.btn-detalle, .btn-editar, td .btn-baja, .btn-alta, .estado, .btn-transferir, .agregar-saldo, .retirar-saldo {
+.btn-detalle, .btn-editar, td .btn-baja, .btn-alta, .estado, .btn-transferir, .agregar-saldo, .retirar-saldo, .pagar-gasto, .editar-gasto, .estado-pendiente {
     padding: 2px 8px;
     font-size: 14px;
     line-height: 1.2;
@@ -53,7 +53,10 @@ i { font-size: 14px; } /* Icono Detalle */
 .retirar-saldo:hover { background-color: #e0a800; color: black; }
 .btn.retirar-saldo:active { background-color: #d39e00; color: black; transform: scale(0.90); }
 
-
+/* BOTON PAGAR */
+.pagar-gasto { background-color: #198754; color: white; }
+.pagar-gasto:hover { background-color: #157347; color: white; }
+.btn.pagar-gasto:active { background-color: #146c43; color: white; transform: scale(0.90); }
 
 /* BOTON ACTIVAR*/
 .btn-alta { background-color: #0d6efd; color:white; }
@@ -72,6 +75,8 @@ i { font-size: 14px; } /* Icono Detalle */
 
 .estado-activo{ background:#22c55e; color:white; } /* ACTIVO */
 .estado-inactivo{ background:#ef4444; color:white; } /* INACTIVO */
+.estado-pendiente{ background-color: #ffc107; color: black; } /* PENDIENTE */
+
 
 /* ══════════════════════════════════════════════════════════════════════════════════════ */
 

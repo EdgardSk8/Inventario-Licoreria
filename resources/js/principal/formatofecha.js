@@ -45,7 +45,40 @@ function formatearFecha(fechaSQL) {
     return `${dia}/${mes}/${año} ${horasFormateadas}:${minutos} ${ampm}`;
 }
 
-function formatearFechaDiaHora(fechaSQL) {
+
+    function formatearFechaDiaHora(fechaSQL) {
+
+        if (!fechaSQL) return '';
+
+        const fecha = new Date(fechaSQL);
+
+        const meses = [
+            "enero","febrero","marzo","abril",
+            "mayo","junio","julio","agosto",
+            "septiembre","octubre","noviembre","diciembre"
+        ];
+
+        const dia = fecha.getDate();
+        const mes = meses[fecha.getMonth()];
+        const año = fecha.getFullYear();
+
+        let horas = fecha.getHours();
+        let minutos = fecha.getMinutes();
+
+        // 🔥 AM / PM
+        const periodo = horas >= 12 ? 'PM' : 'AM';
+
+        // 🔥 convertir a 12 horas
+        horas = horas % 12;
+        horas = horas ? horas : 12; // si es 0 → 12
+
+        minutos = minutos < 10 ? '0' + minutos : minutos;
+        horas = horas < 10 ? '0' + horas : horas;
+
+        return `${dia} de ${mes} del ${año} ${horas}:${minutos} ${periodo}`;
+    }
+
+function FechaSimple(fechaSQL) {
 
     if (!fechaSQL) return '';
 
@@ -61,12 +94,8 @@ function formatearFechaDiaHora(fechaSQL) {
     const mes = meses[fecha.getMonth()];
     const año = fecha.getFullYear();
 
-    let horas = fecha.getHours();
-    let minutos = fecha.getMinutes();
+    // 🔥 Primera letra en mayúscula
+    const mesCapitalizado = mes.charAt(0).toUpperCase() + mes.slice(1);
 
-    // Formato 24h con cero adelante
-    horas = horas < 10 ? '0' + horas : horas;
-    minutos = minutos < 10 ? '0' + minutos : minutos;
-
-    return `${dia} de ${mes} del ${año} ${horas}:${minutos}`;
+    return `${dia} de ${mesCapitalizado} del ${año}`;
 }

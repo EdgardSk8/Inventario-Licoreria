@@ -128,8 +128,14 @@ Route::post('/metodos-pago/cambiar-estado/{id}', [MetodoPagoController::class, '
     ╚════════════════════════════════════════════╝ */
 
 Route::get('/gastos/mostrar', [GastoController::class, 'MostrarGastos']);
-
-
+Route::post('/gastos/crear', [GastoController::class, 'CrearGasto']);
+Route::get('/gastos/editar/{id}', [GastoController::class, 'EditarGasto']);
+Route::post('/gastos/actualizar/{id}', [GastoController::class, 'ActualizarGasto']);
+Route::post('/gastos/pagar', [GastoController::class, 'PagarGasto']);
+Route::get('/gastos-cuentas/mostrar', [GastoController::class, 'MostrarCuentasGastos']);
+Route::get('/gastos-cajas/mostrar', [GastoController::class, 'MostrarCajasGastos']);
+Route::get('/gastos/detalle/{id}', [GastoController::class, 'DetalleGasto']);
+Route::post('/gastos/movimiento/editar', [GastoController::class, 'EditarMovimientoGasto']);
 
 
 /*  ╔══════════ Endpoint Tipo de Gasto ══════════╗ 

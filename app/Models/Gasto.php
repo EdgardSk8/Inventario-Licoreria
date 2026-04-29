@@ -13,8 +13,13 @@ class Gasto extends Model
     protected $fillable = [
         'id_tipo_gasto',
         'nombre_gasto',
+        'fecha_inicio',
+        'fecha_pago',
+        'proximo_pago',
         'descripcion_gasto',
-        'estado_gasto'
+        'estado_gasto',
+        'estado_pago',
+        'ultimo_pago'
     ];
 
     // 🔹 Relación: pertenece a tipo
@@ -24,7 +29,7 @@ class Gasto extends Model
     }
 
     // 🔹 Relación: historial de pagos
-    public function movimientos()
+    public function movimientosGasto()
     {
         return $this->hasMany(MovimientoGasto::class, 'id_gasto');
     }

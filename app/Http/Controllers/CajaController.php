@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Caja;
 use App\Models\MovimientoCaja;
 
+
 class CajaController extends Controller
 { /* MODIFICAR */
 
