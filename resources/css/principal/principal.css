@@ -16,7 +16,7 @@ COLORES UTILIZADOS
 
 /* ═════════════════════════════════════════════════════════════════════════════════════════════ */ 
 
-body{ height:100vh; overflow:hidden; background:#f4f6f9; }
+body{ height:100vh; overflow:hidden; background:#f4f6f9 !important; }
 
 /*  ╔═══════ Contenido (Vistas Hijo) ═══════╗ 
     ╚═══════════════════════════════════════╝ */
@@ -59,8 +59,8 @@ body{ height:100vh; overflow:hidden; background:#f4f6f9; }
     ╚══════════════════════════════════════╝ */
 
 .accordion-button, #facturacionbtn, #dashboardbtn{
-    background:#1f2937; color:#cbd5e1;
-    font-size: 16px; box-shadow: none; padding: 14px; 
+    background:#1f2937 !important; color:#cbd5e1 !important;
+    font-size: 16px !important; box-shadow: none !important; padding: 14px !important; 
 }
 
 .accordion-button:not(.collapsed){ background:#111827; color:white; }

@@ -43,7 +43,8 @@
             $('#impuestoVenta').text(`C$ ${parseFloat(venta.impuesto_venta).toFixed(2)}`);
             $('#totalVenta').text(`C$ ${parseFloat(venta.total_venta).toFixed(2)}`);
 
-            $('#modalDetalleVenta').modal('show');
+            const modal = new bootstrap.Modal(document.getElementById('modalDetalleVenta'));
+            modal.show();
 
         });
 

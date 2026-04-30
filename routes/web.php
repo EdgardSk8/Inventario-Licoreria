@@ -31,6 +31,7 @@ use App\Http\Controllers\CuentaController;
 use App\Http\Controllers\TransferenciaCajaCuentaController;
 use App\Http\Controllers\MovimientoCuentaController;
 use App\Http\Controllers\GastoController;
+use App\Http\Controllers\MovimientoGastoController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -71,7 +72,8 @@ Route::view('/facturacion', 'facturacion.Facturacion')->name('facturacion');
 Route::view('/credenciales', 'credenciales.Credenciales')->name('credenciales');
 Route::view('/transferencia', 'transferenciacajacuenta.Transferencia')->name('transferencia');
 Route::view('/cuentas', 'cuentas.Cuentas')->name('cuentas'); 
-Route::view('/cuentas/movimientos', 'movimiento_cuenta.Movimientos_Cuentas')->name('movimientos.cuentas'); 
+Route::view('/cuentas/movimientos', 'movimiento_cuenta.Movimientos_Cuentas')->name('movimientos.cuentas');
+Route::view('/gastos/movimientos', 'movimiento_gasto.Movimientos_Gastos')->name('movimientos.gastos'); 
 
 /* CONTROLADORES */
 
@@ -136,6 +138,11 @@ Route::get('/gastos-cuentas/mostrar', [GastoController::class, 'MostrarCuentasGa
 Route::get('/gastos-cajas/mostrar', [GastoController::class, 'MostrarCajasGastos']);
 Route::get('/gastos/detalle/{id}', [GastoController::class, 'DetalleGasto']);
 Route::post('/gastos/movimiento/editar', [GastoController::class, 'EditarMovimientoGasto']);
+
+/*  ╔════════ Endpoint Movimiento Gasto ═════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/movimientos-gastos/mostrar', [MovimientoGastoController::class, 'MostrarMovimientosGastos']);
 
 
 /*  ╔══════════ Endpoint Tipo de Gasto ══════════╗ 

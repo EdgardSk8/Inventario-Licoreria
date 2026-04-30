@@ -25,7 +25,7 @@
 
     @include('ventas.CheckColumnasVentas')
 
-    <table id="tablaVentas" class="table table-striped nowrap">
+    <table id="tablaVentas" class="table table-striped table-bordered">
 
         <thead>
             <tr>

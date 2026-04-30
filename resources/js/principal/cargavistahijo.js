@@ -45,6 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Cargar la vista por defecto al abrir la página
-    const vistaPorDefecto = "/gastos"; // Cambia aquí al endpoint que quieras cargar
+    const vistaPorDefecto = "/gastos/movimientos"; // Cambia aquí al endpoint que quieras cargar
     cargarVista(vistaPorDefecto);
 });

@@ -8,7 +8,7 @@
     </div>
 
     <div class="form-check">
-        <input class="form-check-input toggle-col" type="checkbox" data-column="0" id="colImagen" checked>
+        <input class="form-check-input toggle-col" type="checkbox" data-column="0" id="colImagen">
         <label class="form-check-label" for="colImagen">Imagen</label>
     </div>
 
