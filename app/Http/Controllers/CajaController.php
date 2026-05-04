@@ -17,76 +17,16 @@ class CajaController extends Controller
 
     public function AbrirCaja(Request $request)
     {
-        try {
+        $validator = Validator::make($request->all(), [
+            'monto_inicial' => 'required|numeric|min:0'
+        ]);
 
-            $validator = Validator::make($request->all(), [
-                'monto_inicial' => 'required|numeric|min:0'
-            ], [
-                'monto_inicial.required' => 'El monto inicial es obligatorio.',
-                'monto_inicial.numeric' => 'El monto inicial debe ser numérico.',
-                'monto_inicial.min' => 'El monto inicial no puede ser negativo.'
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'success' => false,
-                    'errors' => $validator->errors()
-                ], 422);
-            }
-
-            // 🔒 Validar sesión (NO usar auth())
-            $idUsuario = session('usuario.id');
-
-            if (!$idUsuario) {
-                return response()->json([
-                    'success' => false,
-                    'mensaje' => 'Sesión no válida'
-                ], 401);
-            }
-
-            // 🔎 Verificar si ya hay caja abierta
-            $cajaAbierta = Caja::where('estado_caja', 1)
-                ->where('id_usuario', $idUsuario)
-                ->lockForUpdate()
-                ->first();
-
-            if ($cajaAbierta) {
-                return response()->json([
-                    'success' => false,
-                    'mensaje' => 'Ya tienes una caja abierta.'
-                ], 400);
-            }
-
-            Caja::create([
-                'fecha_apertura' => now(),
-                'monto_inicial' => $request->monto_inicial,
-                'id_usuario' => $idUsuario,
-                'estado_caja' => 1
-            ]);
-
-            $caja = Caja::latest('id_caja')->first();
-            session(['caja_id' => $caja->id_caja]);
-
+        if ($validator->fails()) {
             return response()->json([
-                'success' => true,
-                'mensaje' => 'Caja abierta correctamente'
-            ], 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => true,
-                'mensaje' => 'Error al abrir caja',
-                'detalle' => $e->getMessage()
-            ], 500);
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
         }
-    }
-
-/*  ╔════════════ Cerrar Caja ═════════════╗ 
-    ╚══════════════════════════════════════╝ */
-
-    public function CerrarCaja()
-    {
-        DB::beginTransaction();
 
         $idUsuario = session('usuario.id');
 
@@ -99,9 +39,61 @@ class CajaController extends Controller
 
         try {
 
-            // 🔥 obtener caja abierta
+            DB::transaction(function () use ($request, $idUsuario, &$caja) {
+
+                $cajaAbierta = Caja::where('estado_caja', 1)
+                    ->where('id_usuario', $idUsuario)
+                    ->lockForUpdate()
+                    ->first();
+
+                if ($cajaAbierta) {
+                    throw new \Exception('Ya tienes una caja abierta.');
+                }
+
+                $caja = Caja::create([
+                    'fecha_apertura' => now(),
+                    'monto_inicial' => $request->monto_inicial,
+                    'id_usuario' => $idUsuario,
+                    'estado_caja' => 1
+                ]);
+            });
+
+            session(['caja_id' => $caja->id_caja]);
+
+            return response()->json([
+                'success' => true,
+                'mensaje' => 'Caja abierta correctamente'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'mensaje' => $e->getMessage()
+            ], 400);
+        }
+    }
+
+/*  ╔════════════ Cerrar Caja ═════════════╗ 
+    ╚══════════════════════════════════════╝ */
+
+    public function CerrarCaja()
+    {
+        $idUsuario = session('usuario.id');
+
+        if (!$idUsuario) {
+            return response()->json([
+                'success' => false,
+                'mensaje' => 'Sesión no válida'
+            ], 401);
+        }
+
+        try {
+
+            DB::beginTransaction();
+
             $caja = Caja::where('estado_caja', 1)
                 ->where('id_usuario', $idUsuario)
+                ->lockForUpdate()
                 ->first();
 
             if (!$caja) {
@@ -111,19 +103,18 @@ class CajaController extends Controller
                 ], 400);
             }
 
-            // 💰 total ventas (desde movimientos_caja)
-            $totalIngresos = MovimientoCaja::where('id_caja', $caja->id_caja)
-                ->where('tipo_movimiento_caja', 'INGRESO')
-                ->sum('monto_movimiento_caja');
+            $totales = MovimientoCaja::selectRaw("
+                SUM(CASE WHEN tipo_movimiento_caja = 'INGRESO' THEN monto_movimiento_caja ELSE 0 END) as ingresos,
+                SUM(CASE WHEN tipo_movimiento_caja = 'SALIDA' THEN monto_movimiento_caja ELSE 0 END) as salidas
+            ")
+            ->where('id_caja', $caja->id_caja)
+            ->first();
 
-            $totalSalidas = MovimientoCaja::where('id_caja', $caja->id_caja)
-                ->where('tipo_movimiento_caja', 'SALIDA')
-                ->sum('monto_movimiento_caja');
+            $totalIngresos = $totales->ingresos ?? 0;
+            $totalSalidas = $totales->salidas ?? 0;
 
-            // 🧾 cálculo
             $montoTeorico = $caja->monto_inicial + $totalIngresos - $totalSalidas;
 
-            // 🔒 cerrar caja
             $caja->update([
                 'fecha_cierre' => now(),
                 'monto_final' => $montoTeorico,
@@ -148,7 +139,7 @@ class CajaController extends Controller
             return response()->json([
                 'success' => false,
                 'mensaje' => $e->getMessage()
-            ]);
+            ], 500);
         }
     }
 
@@ -180,23 +171,23 @@ class CajaController extends Controller
 /*  ╔════════════ Registro Caja ═════════════╗ 
     ╚════════════════════════════════════════╝ */
 
-    public function RegistroCajas() // Muestra todas las cajas
+    public function RegistroCajas()
     {
         try {
 
             $cajas = Caja::with('usuario')
-                ->orderBy('id_caja', 'asc')
-                ->get();
+                ->orderBy('id_caja', 'desc')
+                ->paginate(10);
 
             return response()->json([
                 'success' => true,
                 'data' => $cajas
-            ], 200);
+            ]);
 
         } catch (\Exception $e) {
             return response()->json([
-                'error' => true,
-                'mensaje' => 'Error al obtener historial de cajas',
+                'success' => false,
+                'mensaje' => 'Error al obtener historial',
                 'detalle' => $e->getMessage()
             ], 500);
         }

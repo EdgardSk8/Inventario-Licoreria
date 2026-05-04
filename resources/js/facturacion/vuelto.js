@@ -4,6 +4,7 @@
     let TASA = 0;
     let bloqueando = false;
     let ultimaMoneda = 'C';
+    let metodoPagoActual = 'efectivo'; // 🔥 NUEVO
 
     /*  ╔════════ Inicialización ═════════╗ */
     function init() {
@@ -29,7 +30,10 @@
     /*  ╔════════ Cálculo de Vueltos ═════════╗ */
     function calcularVueltos() {
 
-        if (!TASA) return; // 🚨 evitar errores
+        // 🚫 SOLO EFECTIVO
+        if (metodoPagoActual !== 'efectivo') return;
+
+        if (!TASA) return;
 
         let total = parseFloat($('#total').text().replace(/[^\d.-]/g, '')) || 0;
         let pagoC = parseFloat($('#pagoCordobas').val()) || 0;
@@ -51,20 +55,18 @@
 
         $('#vueltoCordobas').val('C$ ' + vueltoC.toFixed(2));
         $('#vueltoDolares').val('$ ' + vueltoD.toFixed(2));
-
     }
 
-    window.calcularVueltos = calcularVueltos; // función al global
+    window.calcularVueltos = calcularVueltos;
 
     /*  ╔════════ Eventos ═════════╗ */
     function eventos() {
 
-        // 🔄 Evitar eventos duplicados en SPA
         $('#pagoCordobas').off('input').on('input', function () {
 
-            if (bloqueando || !TASA) return;
-            bloqueando = true;
+            if (bloqueando || !TASA || metodoPagoActual !== 'efectivo') return;
 
+            bloqueando = true;
             ultimaMoneda = 'C';
 
             let valor = parseFloat($(this).val()) || 0;
@@ -78,9 +80,9 @@
 
         $('#pagoDolares').off('input').on('input', function () {
 
-            if (bloqueando || !TASA) return;
-            bloqueando = true;
+            if (bloqueando || !TASA || metodoPagoActual !== 'efectivo') return;
 
+            bloqueando = true;
             ultimaMoneda = 'D';
 
             let valor = parseFloat($(this).val()) || 0;
@@ -93,7 +95,11 @@
         });
     }
 
-    // 🚀 Iniciar
+    // 🔥 Permitir que el otro JS cambie el método
+    window.setMetodoPago = function (metodo) {
+        metodoPagoActual = metodo;
+    };
+
     init();
 
 })();

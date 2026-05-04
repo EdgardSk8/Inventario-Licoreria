@@ -5,7 +5,7 @@ $(document).ready(function () {
     const tabla = $('#tablaCajas').DataTable({
 
         processing: true,
-        ajax: { url: '/cajas/registro',type: 'GET',dataSrc: 'data', },
+        ajax: { url: '/cajas/registro',type: 'GET',dataSrc: 'data.data', },
 
         columns: [
             { data: 'id_caja',

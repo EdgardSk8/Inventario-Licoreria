@@ -7,7 +7,8 @@
 <title>Sistema</title>
 <script src="{{ Vite::asset('resources/js/EspaniolTabla.js') }}"></script>
 
-@vite(['resources/js/app.js'])
+<!-- @vite(['resources/js/app.js']) -->
+ @include('principal.links')
 @vite(['resources/css/principal/principal.css'])
 @vite(['resources/css/principal/footer.css'])
 @vite(['resources/css/app.css'])
@@ -264,7 +265,7 @@
                     </a>
 
                     <a href="" class="cargar-vista" data-url="{{ route('movimientos.gastos') }}">
-                        <i class="bi bi-cash-stack me-2 text-danger"></i> Movimiento gastos
+                        <i class="bi bi-arrow-left-right me-2 text-success"></i> Movimiento gastos
                     </a>
 
                 </div> <!-- Fin de Submenu -->

@@ -1,57 +1,56 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-/*  ╔════════ Selector Clientes ════════╗ 
-    ╚═══════════════════════════════════╝ */
+    $.get('/clientes/pos', function (res) {
 
-    $.get('/clientes/pos', function(res) {
+        if (!res.success) return;
 
-        if(res.success) {
+        let select = $('#clientes');
+        select.empty();
 
-            let select = $('select#clientes'); 
-            select.empty();
-            let idSeleccionado = null;
+        let idSeleccionado = null;
 
-            res.data.forEach(cliente => {
+        res.data.forEach(cliente => {
 
-                if(cliente.id_cliente == 1) {idSeleccionado = cliente.id_cliente; }// ══════ Por ID ══════ //
-                if(cliente.nombre_cliente === 'Cliente Generico') {idSeleccionado = cliente.id_cliente; }// ══════ Por nombre ══════ //
-                select.append(`<option value="${cliente.id_cliente}"> ${cliente.nombre_cliente} </option>`);
-            });
+            if (cliente.id_cliente == 1 || cliente.nombre_cliente === 'Cliente Generico') {
+                idSeleccionado = cliente.id_cliente;
+            }
 
-            $('#clientes').select2(); // ══════ Inicializar select2 ══════ //
-            if(idSeleccionado){ select.val(idSeleccionado).trigger('change'); } // ═══ Seleccionar por defecto ═══ //
+            select.append(
+                `<option value="${cliente.id_cliente}">
+                    ${cliente.nombre_cliente}
+                </option>`
+            );
+        });
 
+        // 🔥 asegurar select2 existe antes de usarlo
+        if ($.fn.select2) {
+            select.select2();
         }
 
-    });
-
-/*  ╔════════ Selector Metodo de Pago ════════╗ 
-    ╚═════════════════════════════════════════╝ */
-
-    $.get('/metodo-pago/pos', function(res) {
-        
-        if(res.success) {
-
-            let select = $('#metodo_pago'); 
-            select.empty();
-            res.data.forEach(metodo_pago => {
-                select.append(`<option value="${metodo_pago.id_metodo_pago}">${metodo_pago.nombre_metodo_pago} </option>`);
-            }); 
-
-            $('#metodo_pago').select2();
-
+        if (idSeleccionado) {
+            select.val(idSeleccionado).trigger('change');
         }
     });
 
 
-}); // Fin de Funcion
+    $.get('/metodo-pago/pos', function (res) {
 
+        if (!res.success) return;
 
+        let select = $('#metodo_pago');
+        select.empty();
 
+        res.data.forEach(metodo => {
+            select.append(
+                `<option value="${metodo.id_metodo_pago}">
+                    ${metodo.nombre_metodo_pago}
+                </option>`
+            );
+        });
 
+        if ($.fn.select2) {
+            select.select2();
+        }
+    });
 
-
-
-
-
-
+});

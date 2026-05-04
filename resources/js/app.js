@@ -2,31 +2,31 @@ import './bootstrap';
 import './EspaniolTabla.js';
 
 // =======================
-// jQuery (PRIMERO)
+// jQuery (SIEMPRE PRIMERO)
 // =======================
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
 // =======================
-// Bootstrap
+// Bootstrap (JS + CSS)
 // =======================
-import 'bootstrap/dist/css/bootstrap.min.css';
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+// =======================
+// Plugins jQuery (DESPUÉS de jQuery)
+// =======================
+
+// Select2
+import 'select2/dist/js/select2.full.min.js';
+import 'select2/dist/css/select2.min.css';
+
+// DataTables
+import 'datatables.net-bs5';
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 
 // =======================
 // Icons
 // =======================
 import 'bootstrap-icons/font/bootstrap-icons.css';
-
-// =======================
-// DataTables
-// =======================
-import 'datatables.net-bs5';
-import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
-
-// =======================
-// Select2
-// =======================
-import 'select2';
-import 'select2/dist/css/select2.min.css';

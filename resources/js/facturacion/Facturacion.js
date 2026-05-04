@@ -6,6 +6,7 @@ $(document).ready(function () {
     const tablaProductos = inicializarTablaProductos();
     eventosProductos(tablaProductos);
     document.getElementById('titulo').textContent = 'SISTEMA DE FACTURACION';
+    $('#metodo_pago').val(null).trigger('change');
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
@@ -15,7 +16,7 @@ $(document).ready(function () {
 
         return $('#tablaProductos').DataTable({
 
-            processing: true, ajax: { url: '/productos/pos', type: 'GET', dataSrc: 'data' },
+            processing: true, deferRender: true, ajax: { url: '/productos/pos', type: 'GET', dataSrc: 'data' },
 
             columns: [ 
                 
@@ -150,6 +151,28 @@ $(document).ready(function () {
         if (e.key === 'Enter') { e.preventDefault(); $(this).blur(); }
     }); // Al presionar "Enter" sale del blur
 
+    // ═══════ EVENTO: CAMBIO MÉTODO DE PAGO ═══════
+    $('#metodo_pago').on('change', function () {
+
+        let metodo = parseInt($(this).val()) || 0;
+
+        // si existe función externa
+        if (window.setMetodoPago) window.setMetodoPago(metodo);
+
+        if (metodo === 1) {
+
+            $('#pagoCordobas, #pagoDolares, #vueltoCordobas, #vueltoDolares')
+                .prop('disabled', false);
+
+        } else {
+
+            $('#pagoCordobas, #pagoDolares, #vueltoCordobas, #vueltoDolares')
+                .prop('disabled', true)
+                .val('');
+        }
+    });
+
+
 /*-------------------------------------------------------------------------------------------------------------------*/
 
     /* ═══════ VALIDAR Y FACTURAR DEL CARRITO ═══════ */
@@ -160,15 +183,22 @@ $(document).ready(function () {
 
         let cliente = $('#clientes').val();
         let total = parseFloat($('#total').text().replace(/[^\d.-]/g, '')) || 0;
-        let recibido = parseFloat($('#pagoCordobas').val()) || 0;
+        let metodo = parseInt($('#metodo_pago').val());
 
+        let recibido = (metodo === 1)
+            ? parseFloat($('#pagoCordobas').val()) || 0
+            : total; // 🔥 clave
+
+
+            
         // VALIDAR ANTES DE FACTURAR
-        if (!validarFactura(cliente, total, recibido)) { $('#btnFacturar').prop('disabled', false); return; }
+        if (!validarFactura(cliente, total, recibido, metodo)) { $('#btnFacturar').prop('disabled', false); return; }
 
         let stockOk = await validarStockBD();
         if (!stockOk) { $('#btnFacturar').prop('disabled', false); return; }
 
         let data = { cliente: cliente, carrito: carrito, total: total, recibido: recibido };
+        
 
         $.ajax({
 
@@ -189,6 +219,8 @@ $(document).ready(function () {
                     $('#vueltoCordobas').val('');
                     $('#vueltoDolares').val('');
 
+                    $('#metodo_pago').val('1').trigger('change'); // reset select2
+
                     tablaProductos.ajax.reload(null, false); // RECARGA TABLA AL FACTURAR
                 }
 
@@ -204,11 +236,14 @@ $(document).ready(function () {
 
     /* ═══════ VALIDACIÓN: DATOS DE FACTURA ═══════ */
 
-    function validarFactura(cliente, total, recibido){
+    function validarFactura(cliente, total, recibido, metodo){
 
         if (carrito.length === 0) { mostrarToast('Agregue productos', 'danger'); return false; }
         if (!cliente) { mostrarToast('Seleccione cliente', 'danger'); return false; }
-        if (recibido < total) { mostrarToast('Pago insuficiente', 'danger'); return false; }
+if (metodo == 1 && recibido < total) {
+    mostrarToast('Pago insuficiente', 'danger');
+    return false;
+}
 
         for (let p of carrito) {
             if (p.cantidad > p.stock) { mostrarToast(`Stock insuficiente para ${p.nombre}`, 'danger'); return false; }

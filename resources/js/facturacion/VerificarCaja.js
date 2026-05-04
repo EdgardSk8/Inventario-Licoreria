@@ -59,7 +59,10 @@ function setFacturacionEstado(habilitado = true) {
 
 /*  ═════════ Abrir Caja ══════════  */
 
-$(document).on('click', '#btnAbrirCaja', function () { $('#modalAbrirCaja').modal('show'); });
+$(document).on('click', '#btnAbrirCaja', function () {
+    const modal = new bootstrap.Modal(document.getElementById('modalAbrirCaja'));
+    modal.show();
+});
 
 $(document).on('click', '#confirmarAbrirCaja', function () {
 
@@ -72,7 +75,7 @@ $(document).on('click', '#confirmarAbrirCaja', function () {
         _token: $('meta[name="csrf-token"]').attr('content')
     })
     .done(function(res) {
-        $('#modalAbrirCaja').modal('hide');
+        bootstrap.Modal.getInstance(document.getElementById('modalAbrirCaja')).hide();
         verificarCajaEstado();
         mostrarToast(res.mensaje || 'Caja abierta correctamente', 'success');
     })

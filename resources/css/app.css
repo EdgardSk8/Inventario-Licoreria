@@ -3,7 +3,7 @@
 /* ══════════════════════════════════════════════════════════════════════════════════════ */
 
 .modal-header{ background-color: #111827 !important; color: #cbd5e1; }
-.modal-body, .modal-footer{ background-color: #f9f4f4; }
+.modal-body, .modal-footer{ background-color: #f4f6f9 !important; }
 
 
 /* ══════════════════════════════════════════════════════════════════════════════════════ */

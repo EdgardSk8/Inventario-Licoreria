@@ -31,6 +31,7 @@ $(document).ready(function () {
 
         }
 
+
     });
 
 /* ----------------------------------------------------- */
@@ -42,10 +43,13 @@ $(document).ready(function () {
         ajax: { url: '/productos-compra/mostrar', dataType: 'json',
 
             processResults: function (res) { return { results: res.data }; }
+            
 
         }
+        
 
     });
+    
 
 /* ------------------------------------------------------------------------------------------------------------------- */
 
