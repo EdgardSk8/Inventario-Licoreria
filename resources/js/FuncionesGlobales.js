@@ -86,8 +86,6 @@ window.formatearFechaDia = function(fechaSQL) {
     return `${diaSemana} ${dia} de ${mes} ${año}`;
 }
 
-// Versión simple: Día/Mes/Año
-// Formato: DD/MM/YYYY HH:MM AM/PM
 window.formatearFecha = function(fechaSQL) {
     if (!fechaSQL) return '';
 
@@ -108,38 +106,37 @@ window.formatearFecha = function(fechaSQL) {
     return `${dia}/${mes}/${año} ${horasFormateadas}:${minutos} ${ampm}`;
 }
 
+window.formatearFechaDiaHora = function(fechaSQL) {
 
-    window.formatearFechaDiaHora = function(fechaSQL) {
+    if (!fechaSQL) return '';
 
-        if (!fechaSQL) return '';
+    const fecha = new Date(fechaSQL);
 
-        const fecha = new Date(fechaSQL);
+    const meses = [
+        "enero","febrero","marzo","abril",
+        "mayo","junio","julio","agosto",
+        "septiembre","octubre","noviembre","diciembre"
+    ];
 
-        const meses = [
-            "enero","febrero","marzo","abril",
-            "mayo","junio","julio","agosto",
-            "septiembre","octubre","noviembre","diciembre"
-        ];
+    const dia = fecha.getDate();
+    const mes = meses[fecha.getMonth()];
+    const año = fecha.getFullYear();
 
-        const dia = fecha.getDate();
-        const mes = meses[fecha.getMonth()];
-        const año = fecha.getFullYear();
+    let horas = fecha.getHours();
+    let minutos = fecha.getMinutes();
 
-        let horas = fecha.getHours();
-        let minutos = fecha.getMinutes();
+    // 🔥 AM / PM
+    const periodo = horas >= 12 ? 'PM' : 'AM';
 
-        // 🔥 AM / PM
-        const periodo = horas >= 12 ? 'PM' : 'AM';
+    // 🔥 convertir a 12 horas
+    horas = horas % 12;
+    horas = horas ? horas : 12; // si es 0 → 12
 
-        // 🔥 convertir a 12 horas
-        horas = horas % 12;
-        horas = horas ? horas : 12; // si es 0 → 12
+    minutos = minutos < 10 ? '0' + minutos : minutos;
+    horas = horas < 10 ? '0' + horas : horas;
 
-        minutos = minutos < 10 ? '0' + minutos : minutos;
-        horas = horas < 10 ? '0' + horas : horas;
-
-        return `${dia} de ${mes} del ${año} ${horas}:${minutos} ${periodo}`;
-    }
+    return `${dia} de ${mes} del ${año} ${horas}:${minutos} ${periodo}`;
+}
 
 window.FechaSimple = function(fechaSQL) {
 
