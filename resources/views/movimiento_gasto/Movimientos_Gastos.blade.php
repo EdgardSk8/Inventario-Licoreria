@@ -15,7 +15,7 @@
     <!-- Scripts -->
     <script src="{{ Vite::asset('resources/js/movimiento_gasto/MostrarMovimientosGastos.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+    
 
 </head>
 
@@ -28,6 +28,7 @@
 
         <thead>
             <tr>
+                <th>Identificador</th>
                 <th>Fecha</th>
                 <th>Gasto</th>
                 <th>Monto</th>

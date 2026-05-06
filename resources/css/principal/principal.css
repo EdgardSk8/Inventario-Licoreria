@@ -60,7 +60,7 @@ body{ height:100vh; overflow:hidden; background:#f4f6f9 !important; }
 
 .accordion-button, #facturacionbtn, #dashboardbtn{
     background:#1f2937 !important; color:#cbd5e1 !important;
-    font-size: 16px !important; box-shadow: none !important; padding: 14px !important; 
+    font-size: 14px !important; box-shadow: none !important; padding: 11px !important; 
 }
 
 .accordion-button:not(.collapsed){ background:#111827; color:white; }
@@ -70,7 +70,7 @@ body{ height:100vh; overflow:hidden; background:#f4f6f9 !important; }
 /*  ╔═══ Enlace de SIDEBAR (individual) ═══╗ 
     ╚══════════════════════════════════════╝ */
 
-.sidebar a { color:#cbd5e1; text-decoration:none; font-size: 16px; }
+.sidebar a { color:#cbd5e1; text-decoration:none; font-size: 14px; }
 .sidebar a:hover{ color:white; }
 
 /* ═════════════════════════════════════════════════════════════════════════════════════════════ */

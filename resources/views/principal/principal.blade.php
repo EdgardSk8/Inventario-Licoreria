@@ -16,6 +16,7 @@
 @vite(['resources/js/principal/cargavistahijo.js'])
 @vite(['resources/js/principal/cerrar_acordeon.js'])
 @vite(['resources/js/principal/logout.js'])
+@vite(['resources/js/FuncionesGlobales.js'])
 
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -143,8 +144,12 @@
 
                 <div class="submenu">
 
-                     <a href="" class="cargar-vista" data-url="{{ route('compras') }}">
+                    <a href="" class="cargar-vista" data-url="{{ route('crear.compras') }}">
                         <i class="bi bi-cart-check me-2 text-success"></i> Realizar Compra
+                    </a>
+
+                    <a href="" class="cargar-vista" data-url="{{ route('compras') }}">
+                       <i class="bi bi-card-checklist me-2 text-secondary"></i> Lista de compras
                     </a>
 
                     <a href="" class="cargar-vista" data-url="{{ route('proveedores') }}">

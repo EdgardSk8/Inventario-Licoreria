@@ -30,7 +30,7 @@ $(document).ready(function () {
                 data: 'id_venta',
                 render: function(data){
                     return `
-                        <button class="btn detalle btn-detalle" data-id="${data}">
+                        <button class="btn detalle-venta btn-detalle" data-id="${data}">
                             <i class="bi bi-eye"></i> Detalle
                         </button>
                     `;
@@ -49,7 +49,7 @@ $(document).ready(function () {
             { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') },
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') },
             { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') }
-        ], lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        ], lengthMenu: [15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         order: [[0, 'desc']],
         ...Traduccion // Constante de traduccion de datatables
     }); // Fin de datatables

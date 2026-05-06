@@ -13,6 +13,7 @@ $(document).ready(function () {
         },
 
         columns: [
+            { data: 'id_movimiento_inventario', visible: false },
             { data: 'nombre_completo_usuario' },
             { data: 'fecha_movimiento', render: function(data){ return formatearFecha(data); } },
             { data: 'nombre_producto' },
@@ -37,7 +38,6 @@ $(document).ready(function () {
         ],
         columnDefs: [
             // Configurar visibilidad inicial según checkboxes
-            { targets: 0, visible: $('.toggle-col[data-column="0"]').is(':checked') },
             { targets: 1, visible: $('.toggle-col[data-column="1"]').is(':checked') },
             { targets: 2, visible: $('.toggle-col[data-column="2"]').is(':checked') },
             { targets: 3, visible: $('.toggle-col[data-column="3"]').is(':checked') },
@@ -46,10 +46,11 @@ $(document).ready(function () {
             { targets: 6, visible: $('.toggle-col[data-column="6"]').is(':checked') },
             { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') },
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') },
-            { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') }
+            { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') },
+            { targets: 10, visible: $('.toggle-col[data-column="0"]').is(':checked') },
         ],
 
-        order: [[1, 'desc']], lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        order: [[0, 'desc']], lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
 
         ...Traduccion // Tu constante de traducción de DataTables
 

@@ -102,6 +102,7 @@ $(document).ready(function () {
             { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') },
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') }
         ], lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        order: [[1, 'asc']],
 
         ...Traduccion, // Constante de traduccion de datatables
 
@@ -145,9 +146,23 @@ $(document).ready(function () {
 
 /* ════════════════ ACCIÓN: ABRIR MODAL DE DETALLES DE PRODUCTO ════════════════ */
 
-    $('#tablaProductos').on('click', '.detallesProducto', function(){ 
-        const id = $(this).data('id'); abrirModalDetalles(id); 
-    });
+$('#tablaProductos').on('click', '.detallesProducto', function () {
+
+    const btn = $(this);
+
+    if (btn.prop('disabled')) return;
+
+    btn.prop('disabled', true);
+
+    const id = btn.data('id');
+
+    abrirModalDetalles(id);
+
+    setTimeout(() => {
+        btn.prop('disabled', false);
+    }, 1000); // tiempo en ms
+
+});
 
 /* ════════════════ ACCIÓN: MOSTRAR IMAGEN CON CURSOR: POINTER ════════════════ */
 

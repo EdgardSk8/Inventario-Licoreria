@@ -16,13 +16,13 @@
 <script src="{{ Vite::asset('resources/js/tipos_gasto/CrearTipoGasto.js') }}"></script>
 
 
-<script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+
 
 </head>
 
 <body>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center">
 
     <!-- Botón Agregar Tipo de Gasto -->
 

@@ -108,7 +108,7 @@ $(document).ready(function () {
                 if (xhr.status === 422) { const errores = xhr.responseJSON?.errors || {}; const mensaje = Object.values(errores)[0]?.[0];
                     console.log('⚠️ ERROR DE VALIDACIÓN:', mensaje);
                 }
-                mostrarToast('Error en la transferencia', 'error');
+                mostrarToast('Error en la transferencia', 'danger');
             },
             complete: function () { btn.prop('disabled', false).text('Transferir'); }
             

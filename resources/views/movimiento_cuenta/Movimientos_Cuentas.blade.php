@@ -13,7 +13,7 @@
     <!-- Scripts -->
     <script src="{{ Vite::asset('resources/js/movimiento_cuenta/Movimientos_Cuentas.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+    
 
 </head>
 
@@ -21,18 +21,17 @@
 
     <div>
 
-        @include('movimiento_cuenta.CheckColumnasCuenta')
 
         <table id="tablaMovimientosCuenta" class="table table-striped table-bordered">
             <thead>
                 <tr>
+                    <th>Identificador</th>
                     <th>Usuario</th>
                     <th>Fecha</th>
                     <th>Cuenta</th>
                     <th>Tipo</th>
                     <th>Descripción</th>
                     <th>Monto</th>
-                    <th>Transferencia</th>
                 </tr>
             </thead>
             <tbody></tbody>

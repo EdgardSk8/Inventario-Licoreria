@@ -29,7 +29,12 @@ class metodos_pagoSeeder extends Seeder
                 'nombre_metodo_pago' => 'Transferencia Bancaria',
                 'descripcion_metodo_pago' => 'Depósitos directos a cuenta corriente o ahorros',
                 'estado_metodo_pago' => true,
-            ]
+            ],
+            [
+                'nombre_metodo_pago' => 'Pago móvil (Billetera Movil)',
+                'descripcion_metodo_pago' => 'Pago desde aplicación móvil o banca digital',
+                'estado_metodo_pago' => true,
+            ],
         ]);
     }
 }

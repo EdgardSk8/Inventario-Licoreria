@@ -17,7 +17,7 @@
 <!-- <script src="{{ Vite::asset('resources/js/productos/CrearProducto.js') }}"></script> -->
 <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script> 
 
-<script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+
 
 </head>
 

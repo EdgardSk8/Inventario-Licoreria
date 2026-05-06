@@ -10,7 +10,7 @@
 
 /* BOTÓN GUARDAR */
 .guardar { background-color: #6199f5; transition: background-color 0.2s ease; }
-.guardar:hover { background-color: #3b82f6; color: white; }
+.btn.guardar:hover { background-color: #3b82f6; color: white; }
 
 /* BOTÓN ACTUALIZAR */
 .actualizar { background-color: #6199f5; transition: background-color 0.2s ease; }
@@ -18,7 +18,32 @@
 
 /* BOTÓN CANCELAR */
 .cancelar { background-color: #fa7777; transition: background-color 0.2s ease; }
-.cancelar:hover { background-color: #f74242; color: white; }
+.btn.cancelar:hover { background-color: #f74242; color: white; }
+
+/* ===== ESTILO GLOBAL PARA BOTONES DISABLED ===== */
+
+button:disabled,
+.btn:disabled,
+.btn.disabled {
+    
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+
+    /* efecto visual moderno */
+    filter: grayscale(20%);
+    
+    /* evita clicks fantasmas */
+    pointer-events: none;
+
+    /* transición suave */
+    transition: all 0.2s ease;
+
+    /* sensación de "bloqueado" */
+    box-shadow: none !important;
+
+}
+
+
 
 /* ══════════════════════════════════════════════════════════════════════════════════════ */
 
@@ -31,7 +56,7 @@
     transition: all 0.15s ease;
 }
 
-i { font-size: 14px; } /* Icono Detalle */
+.btn i { font-size: 14px; } /* Icono Detalle */
 
 /* ══════════════════════════════════════════════════════════════════════════════════════ */
 
@@ -76,9 +101,9 @@ i { font-size: 14px; } /* Icono Detalle */
 
 .estado-activo{ background:#22c55e; color:white; } /* ACTIVO */
 .estado-inactivo{ background:#ef4444; color:white; } /* INACTIVO */
-.estado-pendiente{ background-color: #ffc107; color: black; } /* PENDIENTE */
+.estado-pendiente{ background-color: #ef4444; color: white; } /* PENDIENTE */
 
-
+.modal-header .btn-close { filter: invert(1); }
 /* ══════════════════════════════════════════════════════════════════════════════════════ */
 
 .dataTables_wrapper { padding: 5px 0 0 0; } /* Contenedor Datatables */

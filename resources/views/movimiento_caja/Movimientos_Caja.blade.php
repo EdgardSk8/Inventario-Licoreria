@@ -15,19 +15,18 @@
     <!-- Scripts -->
     <script src="{{ Vite::asset('resources/js/movimiento_caja/Movimientos_Caja.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+    
 
 </head>
 
 <body>
 
     <div >
-
-        @include('movimiento_caja.CheckColumnasCaja')
         
         <table id="tablaMovimientosCaja" class="table table-striped table-bordered">
             <thead>
                 <tr>
+                    <th>Identificador</th>
                     <th>Usuario</th>
                     <th>Fecha</th>
                     <th>Caja</th>

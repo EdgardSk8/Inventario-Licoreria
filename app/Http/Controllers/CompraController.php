@@ -521,7 +521,8 @@ class CompraController extends Controller
                 ], 404);
             }
 
-            if ($compra->estado_compra === 'ANULADA') {
+            // ✔ estado consistente con tu sistema (0 = anulada)
+            if ($compra->estado_compra == 0) {
                 return response()->json([
                     'success' => false,
                     'mensaje' => 'La compra ya está anulada'
@@ -535,14 +536,17 @@ class CompraController extends Controller
 
                 $producto = Producto::find($detalle->id_producto);
 
-                // ⚠️ Validar que no quede negativo
+                if (!$producto) {
+                    throw new \Exception('Producto no encontrado: ' . $detalle->id_producto);
+                }
+
+                // ✔ revertir stock (SALIDA)
                 if ($producto->stock_actual < $detalle->cantidad_compra) {
-                    throw new \Exception('No hay suficiente stock para revertir');
+                    throw new \Exception('Stock insuficiente para revertir compra');
                 }
 
                 $producto->decrement('stock_actual', $detalle->cantidad_compra);
 
-                // KARDEX INVERSO
                 MovimientoInventario::create([
                     'id_producto' => $producto->id_producto,
                     'tipo_movimiento' => 'SALIDA',
@@ -550,7 +554,7 @@ class CompraController extends Controller
                     'stock_resultante' => $producto->stock_actual,
                     'motivo_movimiento' => 'Anulación de compra',
                     'id_referencia' => $compra->id_compra,
-                    'tipo_referencia' => 'ANULACION_COMPRA',
+                    'tipo_referencia' => 'DEVOLUCION',
                     'precio_unitario' => $detalle->precio_unitario_compra,
                     'id_usuario' => session('usuario.id')
                 ]);
@@ -561,12 +565,11 @@ class CompraController extends Controller
             // =====================
             $total = $compra->total_compra;
 
-            // CAJA
             if ($compra->id_caja) {
 
                 MovimientoCaja::create([
                     'id_caja' => $compra->id_caja,
-                    'tipo_movimiento_caja' => 'ENTRADA',
+                    'tipo_movimiento_caja' => 'INGRESO',
                     'concepto_movimiento_caja' => 'Anulación de compra',
                     'monto_movimiento_caja' => $total,
                     'id_usuario' => session('usuario.id'),
@@ -574,14 +577,17 @@ class CompraController extends Controller
                 ]);
             }
 
-            // CUENTA
             if ($compra->id_cuenta) {
 
                 $cuenta = Cuenta::find($compra->id_cuenta);
 
+                if (!$cuenta) {
+                    throw new \Exception('Cuenta no encontrada');
+                }
+
                 MovimientoCuenta::create([
                     'id_cuenta' => $cuenta->id_cuenta,
-                    'tipo_movimiento' => 'ENTRADA',
+                    'tipo_movimiento' => 'INGRESO',
                     'monto' => $total,
                     'descripcion' => 'Anulación de compra',
                     'id_usuario' => session('usuario.id')
@@ -593,7 +599,7 @@ class CompraController extends Controller
             // =====================
             // 3️⃣ MARCAR COMO ANULADA
             // =====================
-            $compra->estado_compra = 'ANULADA';
+            $compra->estado_compra = 0;
             $compra->save();
 
             DB::commit();
@@ -613,5 +619,34 @@ class CompraController extends Controller
             ], 500);
         }
     }
+
+    public function MostrarCompras()
+    {
+        try {
+
+            $compras = Compra::with([
+                'proveedor',
+                'usuario',
+                'metodoPago',
+                'detalles'
+            ])->get();
+
+            return response()->json([
+                'success' => true,
+                'compras' => $compras
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'error' => true,
+                'mensaje' => 'Error al obtener compras',
+                'detalle' => $e->getMessage()
+            ], 500);
+
+        }
+    }
+
+
 
 } // Fin de controlador

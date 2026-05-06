@@ -15,13 +15,13 @@
 <script src="{{ Vite::asset('resources/js/metodos_pago/BajaMetodoPago.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/metodos_pago/CrearMetodoPago.js') }}"></script>
 
-<script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+
 
 </head>
 
 <body>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center">
 
     <!-- Botón Agregar Método de Pago -->
 

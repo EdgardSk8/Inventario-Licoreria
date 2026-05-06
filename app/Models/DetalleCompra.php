@@ -18,6 +18,11 @@ class DetalleCompra extends Model
         'subtotal_detalle_compra'
     ];
 
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
+    }
+
 }
 
 /* ══════════════════════════════════════════════════════════════════════════

@@ -24,7 +24,7 @@
     <script src="{{ Vite::asset('resources/js/cuentas/TransferirCuentas.js') }}"></script>
 
     <!-- Sistema de notificaciones (Toast) -->
-    <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+    
 
 </head>
 
@@ -34,7 +34,7 @@
 
     <!-- ════════════ ACCIONES PRINCIPALES ════════════ -->
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center">
 
         <div>
 

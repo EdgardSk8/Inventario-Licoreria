@@ -15,7 +15,7 @@
 <script src="{{ Vite::asset('resources/js/categorias/BajaCategoria.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/categorias/CrearCategoria.js') }}"></script>
 
-<script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+
 
 </head>
 

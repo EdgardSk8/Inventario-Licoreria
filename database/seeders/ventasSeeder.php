@@ -7,17 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class ventasSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-         DB::table('ventas')->insert([
+        DB::table('ventas')->insert([
 
             [
-                'numero_factura' => 'F001',
+                'numero_factura' => 'VTA-20260504-00001',
                 'fecha_venta' => now(),
                 'id_cliente' => 1,
                 'id_usuario' => 1,
@@ -31,12 +26,12 @@ class ventasSeeder extends Seeder
             ],
 
             [
-                'numero_factura' => 'F002',
+                'numero_factura' => 'VTA-20260504-00002',
                 'fecha_venta' => now(),
                 'id_cliente' => 2,
                 'id_usuario' => 1,
-                'id_caja' => null, // ejemplo sin caja
-                'id_cuenta' => 1,  // pago con cuenta
+                'id_caja' => null,
+                'id_cuenta' => 1,
                 'subtotal_venta' => 60.00,
                 'impuesto_venta' => 9.00,
                 'total_venta' => 69.00,
@@ -45,7 +40,7 @@ class ventasSeeder extends Seeder
             ],
 
             [
-                'numero_factura' => 'F003',
+                'numero_factura' => 'VTA-20260504-00003',
                 'fecha_venta' => now(),
                 'id_cliente' => 3,
                 'id_usuario' => 2,
@@ -59,7 +54,7 @@ class ventasSeeder extends Seeder
             ],
 
             [
-                'numero_factura' => 'F004',
+                'numero_factura' => 'VTA-20260504-00004',
                 'fecha_venta' => now(),
                 'id_cliente' => 1,
                 'id_usuario' => 2,
@@ -73,7 +68,7 @@ class ventasSeeder extends Seeder
             ],
 
             [
-                'numero_factura' => 'F005',
+                'numero_factura' => 'VTA-20260504-00005',
                 'fecha_venta' => now(),
                 'id_cliente' => 4,
                 'id_usuario' => 1,
@@ -87,7 +82,7 @@ class ventasSeeder extends Seeder
             ],
 
             [
-                'numero_factura' => 'F006',
+                'numero_factura' => 'VTA-20260504-00006',
                 'fecha_venta' => now(),
                 'id_cliente' => 5,
                 'id_usuario' => 1,
@@ -101,7 +96,7 @@ class ventasSeeder extends Seeder
             ],
 
             [
-                'numero_factura' => 'F007',
+                'numero_factura' => 'VTA-20260504-00007',
                 'fecha_venta' => now(),
                 'id_cliente' => 2,
                 'id_usuario' => 2,
@@ -115,7 +110,7 @@ class ventasSeeder extends Seeder
             ],
 
             [
-                'numero_factura' => 'F008',
+                'numero_factura' => 'VTA-20260504-00008',
                 'fecha_venta' => now(),
                 'id_cliente' => 3,
                 'id_usuario' => 1,
@@ -129,7 +124,7 @@ class ventasSeeder extends Seeder
             ],
 
             [
-                'numero_factura' => 'F009',
+                'numero_factura' => 'VTA-20260504-00009',
                 'fecha_venta' => now(),
                 'id_cliente' => 4,
                 'id_usuario' => 2,
@@ -143,7 +138,7 @@ class ventasSeeder extends Seeder
             ],
 
             [
-                'numero_factura' => 'F010',
+                'numero_factura' => 'VTA-20260504-00010',
                 'fecha_venta' => now(),
                 'id_cliente' => 5,
                 'id_usuario' => 1,

@@ -1,8 +1,10 @@
 /* ════════════ MOSTRAR DETALLE DE VENTA EN MODAL ════════════ */
 
-    $(document).on('click', '.btn-detalle', function () {
+    $(document).on('click', '.detalle-venta', function () {
 
-        let idVenta = $(this).data('id');
+        const btn = $(this); // Solucion Temporal
+
+        let idVenta = btn.data('id');
 
         $('#tablaDetalles').html('<tr><td colspan="5" class="text-center">Cargando...</td></tr>');
 
@@ -43,10 +45,14 @@
             $('#impuestoVenta').text(`C$ ${parseFloat(venta.impuesto_venta).toFixed(2)}`);
             $('#totalVenta').text(`C$ ${parseFloat(venta.total_venta).toFixed(2)}`);
 
-            const modal = new bootstrap.Modal(document.getElementById('modalDetalleVenta'));
+            const modalEl = document.getElementById('modalDetalleVenta');
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
             modal.show();
 
+            
+
         });
+
 
     });
 

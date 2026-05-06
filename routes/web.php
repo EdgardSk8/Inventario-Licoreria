@@ -32,6 +32,7 @@ use App\Http\Controllers\TransferenciaCajaCuentaController;
 use App\Http\Controllers\MovimientoCuentaController;
 use App\Http\Controllers\GastoController;
 use App\Http\Controllers\MovimientoGastoController;
+use App\Http\Controllers\DetalleCompraController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -55,7 +56,8 @@ Route::view('/roles', 'roles.Roles')->name('roles');
 Route::view('/permisos', 'permisos.Permisos')->name('permisos'); 
 Route::view('/categorias', 'categorias.Categorias')->name('categorias'); 
 Route::view('/clientes', 'clientes.Clientes')->name('clientes'); 
-Route::view('/clientes/detalle', 'clientes.DetalleCliente')->name('detalle.clientes'); 
+Route::view('/clientes/detalle', 'clientes.DetalleCliente')->name('detalle.clientes');
+Route::view('/compras/crear', 'compras.CrearCompra')->name('crear.compras'); 
 Route::view('/compras', 'compras.Compras')->name('compras'); 
 Route::view('/compras/detalle', 'compras.DetalleCompra')->name('detalle.compras'); 
 Route::view('/ventas', 'ventas.Ventas')->name('ventas'); 
@@ -273,3 +275,13 @@ Route::get('/metodo-pago-compra/mostrar', [CompraController::class, 'MostrarMeto
 Route::get('/cuenta-compra/mostrar', [CompraController::class, 'MostrarCuentasCompras']);
 Route::get('/caja-compra/mostrar', [CompraController::class, 'mostrarCajasAbiertas']);
 Route::get('/productos-compra/mostrar', [CompraController::class, 'MostrarProductosCompras']);
+Route::get('/compras/mostrar', [CompraController::class, 'MostrarCompras']);
+Route::post('/compras/anular/{id}', [CompraController::class, 'AnularCompra']);
+
+/*  ╔═════════ Endpoint Detalle Compras ═════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+
+Route::get('/compras/{id}/detalle', [DetalleCompraController::class, 'MostrarDetalleCompra']);
+
+

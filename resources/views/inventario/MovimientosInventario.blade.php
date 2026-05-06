@@ -15,19 +15,19 @@
     <!-- Scripts -->
     <script src="{{ Vite::asset('resources/js/inventario/movimientosInventario.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+    
 
 </head>
 
 <body>
 
-    <div class="container">
 
         @include('inventario.CheckColumnas')
         
         <table id="tablaKardex" class="table table-striped table-bordered">
             <thead>
                 <tr>
+                    <th>Identificador</th>
                     <th>Usuario</th>
                     <th>Fecha</th>
                     <th>Producto</th>
@@ -42,7 +42,6 @@
             </thead>
             <tbody></tbody>
         </table>
-    </div>
 
 </body>
 </html>

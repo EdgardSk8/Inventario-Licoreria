@@ -24,7 +24,7 @@
 
     <!-- ═════════════════ Sistema de notificaciones (Toast) ═════════════════ -->
 
-    <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+    
 
 </head>
 

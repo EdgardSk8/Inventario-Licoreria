@@ -15,7 +15,7 @@
 
 <script src="{{ Vite::asset('resources/js/usuarios/MostrarUsuarios.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/usuarios/BajaUsuario.js') }}"></script>
-<script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+
 <script src="{{ Vite::asset('resources/js/usuarios/CrearUsuario.js') }}"></script>
 
 
@@ -28,7 +28,7 @@
 
 <body>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center">
     <!-- Botón Agregar Usuario -->
     <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario">
         + Agregar Usuario

@@ -9,7 +9,7 @@
 
     <script src="{{ Vite::asset('resources/js/credenciales/Credenciales.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/credenciales/EditarCredenciales.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
+    
     
 </head>
 <body>

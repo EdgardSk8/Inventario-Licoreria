@@ -15,7 +15,7 @@ $(document).ready(function () {
                             Rol: <strong id="usuarioRol"></strong>
                         </p>
                         <label>Monto de apertura</label>
-                        <input type="number" id="montoInicialCaja" placeholder="5000" class="form-control">
+                        <input type="number" id="montoInicialCaja" placeholder="5000" min="0" class="form-control">
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -30,70 +30,96 @@ $(document).ready(function () {
 
 });
 
+/* ══════════════════════════════════════════════════════════════════════════════════════════  */
+
 /*  ═════════ Función para habilitar/deshabilitar botones según estado de caja ══════════  */
 
-function verificarCajaEstado() {
-    $.get('/caja/verificar', function(res) {
+    function verificarCajaEstado() {
+        $.get('/caja/verificar', function(res) {
 
-        if (res.abierta && res.id_caja) { $('#NumeroCaja').html(`<strong class="text-success">Caja N.º ${res.id_caja} Abierta</strong>`); } 
-        else { $('#NumeroCaja').html(`<strong class="text-danger">Caja no activa</strong>`); }
+            if (res.abierta && res.id_caja) { $('#NumeroCaja').html(`<strong class="text-success">Caja N.º ${res.id_caja} Abierta</strong>`); } 
+            else { $('#NumeroCaja').html(`<strong class="text-danger">Caja no activa</strong>`); }
 
-        if (res.usuario) { $('#usuarioNombre').text(res.usuario.nombre); $('#usuarioRol').text(res.usuario.rol); }
+            if (res.usuario) { $('#usuarioNombre').text(res.usuario.nombre); $('#usuarioRol').text(res.usuario.rol); }
 
-        // Abrir/Cerrar botones
-        if (res.abierta) { $('#btnAbrirCaja').prop('disabled', true); $('#btnCerrarCaja').prop('disabled', false); } 
-        else { $('#btnAbrirCaja').prop('disabled', false); $('#btnCerrarCaja').prop('disabled', true); }
+            // Abrir/Cerrar botones
+            if (res.abierta) { $('#btnAbrirCaja').prop('disabled', true); $('#btnCerrarCaja').prop('disabled', false); } 
+            else { $('#btnAbrirCaja').prop('disabled', false); $('#btnCerrarCaja').prop('disabled', true); }
 
-        setFacturacionEstado(res.abierta); // Funcion de habilitar o deshabilitar 
-    });
-}
+            setFacturacionEstado(res.abierta); // Funcion de habilitar o deshabilitar 
+        });
+    }
+
+/* ══════════════════════════════════════════════════════════════════════════════════════════  */
 
 /*  ═════════ Habilitar/deshabilitar inputs y botones de facturación ══════════  */
 
-function setFacturacionEstado(habilitado = true) {
-    $('#pagoCordobas, #vueltoCordobas, #vueltoDolares, #pagoDolares, #clientes, #metodo_pago, #btnFacturar').prop('disabled', !habilitado);
-    $('#tablaProductos tbody button, #carrito button').prop('disabled', !habilitado);
-    $('#carrito input').prop('readonly', !habilitado);
-}
+    function setFacturacionEstado(habilitado = true) {
+        $('#pagoCordobas, #vueltoCordobas, #vueltoDolares, #pagoDolares, #clientes, #metodo_pago, #btnFacturar').prop('disabled', !habilitado);
+        $('#tablaProductos tbody button, #carrito button').prop('disabled', !habilitado);
+        $('#carrito input').prop('readonly', !habilitado);
+    }
 
+/* ══════════════════════════════════════════════════════════════════════════════════════════  */
 
 /*  ═════════ Abrir Caja ══════════  */
 
-$(document).on('click', '#btnAbrirCaja', function () {
-    const modal = new bootstrap.Modal(document.getElementById('modalAbrirCaja'));
-    modal.show();
-});
+    $(document).on('click', '#btnAbrirCaja', function () {
 
-$(document).on('click', '#confirmarAbrirCaja', function () {
+        const modalEl = document.getElementById('modalAbrirCaja');
+        const modal = new bootstrap.Modal(modalEl);
 
-    let monto = $('#montoInicialCaja').val();
+        modal.show();
 
-    if (!monto || monto <= 0) { mostrarToast('Ingrese un monto válido', 'danger'); return; }
-
-    $.post('/caja/abrir', {
-        monto_inicial: monto,
-        _token: $('meta[name="csrf-token"]').attr('content')
-    })
-    .done(function(res) {
-        bootstrap.Modal.getInstance(document.getElementById('modalAbrirCaja')).hide();
-        verificarCajaEstado();
-        mostrarToast(res.mensaje || 'Caja abierta correctamente', 'success');
-    })
-    .fail(function(xhr) {
-
-        let mensaje = 'Error al abrir caja';
-
-        if (xhr.responseJSON) {
-
-            if (xhr.responseJSON.mensaje) mensaje = xhr.responseJSON.mensaje;
-            if (xhr.responseJSON.errors) mensaje = Object.values(xhr.responseJSON.errors).flat().join('<br>');
-
-        }
-
-        mostrarToast(mensaje, 'danger');
+        modalEl.addEventListener('shown.bs.modal', function () {
+            $('#montoInicialCaja').trigger('focus').select();
+        }, { once: true });
 
     });
-});
+
+/* ══════════════════════════════════════════════════════════════════════════════════════════  */
+
+    $(document).on('keydown', '#montoInicialCaja', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            $('#confirmarAbrirCaja').trigger('click');
+        }
+    });
+
+/* ══════════════════════════════════════════════════════════════════════════════════════════  */
+
+    $(document).on('click', '#confirmarAbrirCaja', function () {
+
+        let monto = $('#montoInicialCaja').val();
+
+        if (!monto || monto <= 0) { mostrarToast('Ingrese un monto válido', 'danger'); return; }
+
+        $.post('/caja/abrir', {
+            monto_inicial: monto,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        })
+        .done(function(res) {
+            bootstrap.Modal.getInstance(document.getElementById('modalAbrirCaja')).hide();
+            verificarCajaEstado();
+            mostrarToast(res.mensaje || 'Caja abierta correctamente', 'success');
+        })
+        .fail(function(xhr) {
+
+            let mensaje = 'Error al abrir caja';
+
+            if (xhr.responseJSON) {
+
+                if (xhr.responseJSON.mensaje) mensaje = xhr.responseJSON.mensaje;
+                if (xhr.responseJSON.errors) mensaje = Object.values(xhr.responseJSON.errors).flat().join('<br>');
+
+            }
+
+            mostrarToast(mensaje, 'danger');
+
+        });
+    });
+
+/* ══════════════════════════════════════════════════════════════════════════════════════════  */
 
 /*  ═════════ Cerrar Caja ══════════  */
 

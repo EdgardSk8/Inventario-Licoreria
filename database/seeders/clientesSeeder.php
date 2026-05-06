@@ -7,36 +7,108 @@ use Illuminate\Support\Facades\DB;
 
 class clientesSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         DB::table('clientes')->insert([
-            
-        ['nombre_cliente'=>'Cliente Generico','telefono_cliente'=>''],
-        ['nombre_cliente'=>'Maria Lopez','telefono_cliente'=>'88880002'],
-        ['nombre_cliente'=>'Carlos Martinez','telefono_cliente'=>'88880003'],
-        ['nombre_cliente'=>'Ana Rodriguez','telefono_cliente'=>'88880004'],
-        ['nombre_cliente'=>'Luis Garcia','telefono_cliente'=>'88880005'],
-        ['nombre_cliente'=>'Pedro Sanchez','telefono_cliente'=>'88880006'],
-        ['nombre_cliente'=>'Daniel Torres','telefono_cliente'=>'88880007'],
-        ['nombre_cliente'=>'Jorge Mendoza','telefono_cliente'=>'88880008'],
-        ['nombre_cliente'=>'Jose Castillo','telefono_cliente'=>'88880009'],
-        ['nombre_cliente'=>'Miguel Vargas','telefono_cliente'=>'88880010'],
-        ['nombre_cliente'=>'Andrea Ruiz','telefono_cliente'=>'88880011'],
-        ['nombre_cliente'=>'Claudia Flores','telefono_cliente'=>'88880012'],
-        ['nombre_cliente'=>'Mario Chavez','telefono_cliente'=>'88880013'],
-        ['nombre_cliente'=>'Rosa Herrera','telefono_cliente'=>'88880014'],
-        ['nombre_cliente'=>'Elena Morales','telefono_cliente'=>'88880015'],
-        ['nombre_cliente'=>'Oscar Duarte','telefono_cliente'=>'88880016'],
-        ['nombre_cliente'=>'Ricardo Vega','telefono_cliente'=>'88880017'],
-        ['nombre_cliente'=>'Patricia Diaz','telefono_cliente'=>'88880018'],
-        ['nombre_cliente'=>'Eduardo Rivas','telefono_cliente'=>'88880019'],
-        ['nombre_cliente'=>'Fernando Ramos','telefono_cliente'=>'88880020']
-        
+
+            [
+                'nombre_cliente' => 'Cliente Generico',
+                'cedula_cliente' => '',
+                'ruc_cliente' => null,
+                'telefono_cliente' => '',
+                'direccion_cliente' => 'León',
+                'correo_cliente' => '',
+                'estado_cliente' => 1,
+                'fecha_creacion_cliente' => now(),
+            ],
+
+            [
+                'nombre_cliente' => 'Carlos Martínez',
+                'cedula_cliente' => '001-030304-1002B',
+                'ruc_cliente' => null,
+                'telefono_cliente' => '88880003',
+                'direccion_cliente' => 'Managua',
+                'correo_cliente' => 'carlos.m@gmail.com',
+                'estado_cliente' => 1,
+                'fecha_creacion_cliente' => now(),
+            ],
+
+            [
+                'nombre_cliente' => 'Ana Rodríguez',
+                'cedula_cliente' => '001-040405-1003C',
+                'ruc_cliente' => null,
+                'telefono_cliente' => '88880004',
+                'direccion_cliente' => 'Chinandega',
+                'correo_cliente' => null,
+                'estado_cliente' => 1,
+                'fecha_creacion_cliente' => now(),
+            ],
+
+            [
+                'nombre_cliente' => 'Luis García',
+                'cedula_cliente' => '001-050506-1004D',
+                'ruc_cliente' => null,
+                'telefono_cliente' => '88880005',
+                'direccion_cliente' => 'Estelí',
+                'correo_cliente' => null,
+                'estado_cliente' => 1,
+                'fecha_creacion_cliente' => now(),
+            ],
+
+            [
+                'nombre_cliente' => 'Pedro Sánchez',
+                'cedula_cliente' => null,
+                'ruc_cliente' => null,
+                'telefono_cliente' => '88880006',
+                'direccion_cliente' => 'Masaya',
+                'correo_cliente' => null,
+                'estado_cliente' => 1,
+                'fecha_creacion_cliente' => now(),
+            ],
+
+            [
+                'nombre_cliente' => 'Jorge Mendoza',
+                'cedula_cliente' => null,
+                'ruc_cliente' => null,
+                'telefono_cliente' => '88880007',
+                'direccion_cliente' => 'Granada',
+                'correo_cliente' => null,
+                'estado_cliente' => 1,
+                'fecha_creacion_cliente' => now(),
+            ],
+
+            [
+                'nombre_cliente' => 'José Castillo',
+                'cedula_cliente' => null,
+                'ruc_cliente' => null,
+                'telefono_cliente' => '88880008',
+                'direccion_cliente' => 'León',
+                'correo_cliente' => null,
+                'estado_cliente' => 1,
+                'fecha_creacion_cliente' => now(),
+            ],
+
+            [
+                'nombre_cliente' => 'Miguel Vargas',
+                'cedula_cliente' => null,
+                'ruc_cliente' => null,
+                'telefono_cliente' => '88880009',
+                'direccion_cliente' => 'Rivas',
+                'correo_cliente' => null,
+                'estado_cliente' => 1,
+                'fecha_creacion_cliente' => now(),
+            ],
+
+            [
+                'nombre_cliente' => 'Andrea Ruiz',
+                'cedula_cliente' => null,
+                'ruc_cliente' => null,
+                'telefono_cliente' => '88880010',
+                'direccion_cliente' => 'Managua',
+                'correo_cliente' => 'andrea.ruiz@gmail.com',
+                'estado_cliente' => 1,
+                'fecha_creacion_cliente' => now(),
+            ],
 
         ]);
     }

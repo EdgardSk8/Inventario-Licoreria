@@ -43,10 +43,8 @@ $(document).ready(function () {
         ajax: { url: '/productos-compra/mostrar', dataType: 'json',
 
             processResults: function (res) { return { results: res.data }; }
-            
 
         }
-        
 
     });
     
@@ -186,7 +184,7 @@ $(document).ready(function () {
         let descuento = parseFloat($('#descuento_item').val()) || 0;
         let impuesto = parseFloat($('#impuesto_item').val()) || 0;
 
-        if (!data) return alert('Seleccione producto');
+        if (!data) return mostrarToast('Seleccione Producto', 'danger');
         //if (cantidad <= 0) return alert('Cantidad inválida');
         //if (precio <= 0) return alert('Precio inválido');
 
@@ -353,6 +351,8 @@ $('#btnLimpiar').click(function () {
     $('#total').val('');
     $('#descuento').val(0);
     $('#impuesto').val(0);
+    $('#cajacuentaselect').val(null).trigger('change');
+
 });
 
 /*═══════════════════════════════════════════════════*/

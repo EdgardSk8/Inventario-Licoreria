@@ -2,65 +2,81 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class cuentasSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         DB::table('cuentas')->insert([
 
             [
-                'nombre_cuenta' => 'Caja General',
+                'nombre_cuenta' => 'Caja Principal',
                 'tipo_cuenta' => 'EFECTIVO',
-                'descripcion' => 'Caja principal del negocio',
-                'saldo_actual' => 2000.00,
-                'estado' => true,
+                'descripcion' => 'Caja diaria del punto de venta principal',
+                'saldo_actual' => 1500.00,
+                'estado' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
 
             [
-                'nombre_cuenta' => 'Banco BAC',
+                'nombre_cuenta' => 'Caja Secundaria',
+                'tipo_cuenta' => 'EFECTIVO',
+                'descripcion' => 'Caja de apoyo o segundo turno',
+                'saldo_actual' => 800.00,
+                'estado' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'nombre_cuenta' => 'BAC Credomatic',
                 'tipo_cuenta' => 'BANCARIA',
-                'descripcion' => 'Cuenta bancaria principal',
-                'saldo_actual' => 5000.00,
-                'estado' => true,
+                'descripcion' => 'Cuenta empresarial BAC principal',
+                'saldo_actual' => 5200.75,
+                'estado' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
 
             [
-                'nombre_cuenta' => 'Banco Lafise',
+                'nombre_cuenta' => 'Banpro',
                 'tipo_cuenta' => 'BANCARIA',
-                'descripcion' => 'Cuenta secundaria',
-                'saldo_actual' => 3200.50,
-                'estado' => true,
+                'descripcion' => 'Cuenta para pagos de proveedores',
+                'saldo_actual' => 3100.00,
+                'estado' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
 
             [
-                'nombre_cuenta' => 'Cuenta de Ahorro',
+                'nombre_cuenta' => 'Fondo de Ahorro',
                 'tipo_cuenta' => 'AHORRO',
-                'descripcion' => 'Fondo de ahorro del negocio',
+                'descripcion' => 'Reserva financiera del negocio',
                 'saldo_actual' => 10000.00,
-                'estado' => true,
+                'estado' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
 
             [
-                'nombre_cuenta' => 'Cuenta Inactiva',
-                'tipo_cuenta' => 'BANCARIA',
-                'descripcion' => 'Cuenta no utilizada',
+                'nombre_cuenta' => 'Caja Eventos / Fiestas',
+                'tipo_cuenta' => 'EFECTIVO',
+                'descripcion' => 'Caja usada para ventas de eventos o pedidos grandes',
                 'saldo_actual' => 0.00,
-                'estado' => false,
+                'estado' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'nombre_cuenta' => 'Cuenta Inactiva (Antigua)',
+                'tipo_cuenta' => 'BANCARIA',
+                'descripcion' => 'Cuenta bancaria en desuso',
+                'saldo_actual' => 0.00,
+                'estado' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
             ],

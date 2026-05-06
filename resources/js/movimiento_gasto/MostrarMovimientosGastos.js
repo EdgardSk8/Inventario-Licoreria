@@ -15,6 +15,8 @@ $(document).ready(function () {
 
         columns: [
 
+            { data: 'id', visible: false },
+
             { 
                 data: 'fecha', 
                 render: function(data){

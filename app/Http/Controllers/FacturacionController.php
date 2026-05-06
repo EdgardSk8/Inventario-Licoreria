@@ -152,7 +152,7 @@ class FacturacionController extends Controller
                 throw new \Exception('No hay caja abierta');
             }
 
-            $numero = 'FAC-' . str_pad((Venta::count() + 1), 6, '0', STR_PAD_LEFT);
+           $numero = 'VTA-' . now()->format('Ymd') . '-' . str_pad((Venta::max('id_venta') + 1), 5, '0', STR_PAD_LEFT);
 
             $subtotalGeneral = 0;
             $impuestoGeneral = 0;

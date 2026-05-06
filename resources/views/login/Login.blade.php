@@ -12,6 +12,7 @@
 <script src="{{ Vite::asset('resources/js/login/Login.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/MensajeToast.js') }}"></script>
 
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>

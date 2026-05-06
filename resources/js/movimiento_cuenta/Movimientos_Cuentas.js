@@ -13,6 +13,7 @@ $(document).ready(function () {
         },
 
         columns: [
+            { data: 'id_movimiento_cuenta', visible: false },
             { data: 'nombre_completo_usuario' },
 
             { 
@@ -64,29 +65,13 @@ $(document).ready(function () {
                     }
                 }
             },
-
-            { 
-                data: 'id_transferencia',
-                render: function(data){
-                    return data ? `#${data}` : '—';
-                }
-            }
+            
 
         ],
 
-        columnDefs: [
-            { targets: 0, visible: $('.toggle-col[data-column="0"]').is(':checked') },
-            { targets: 1, visible: $('.toggle-col[data-column="1"]').is(':checked') },
-            { targets: 2, visible: $('.toggle-col[data-column="2"]').is(':checked') },
-            { targets: 3, visible: $('.toggle-col[data-column="3"]').is(':checked') },
-            { targets: 4, visible: $('.toggle-col[data-column="4"]').is(':checked') },
-            { targets: 5, visible: $('.toggle-col[data-column="5"]').is(':checked') },
-            { targets: 6, visible: $('.toggle-col[data-column="6"]').is(':checked') },
-        ],
+        order: [[0, 'desc']],
 
-        order: [[1, 'desc']],
-
-        lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        lengthMenu: [15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
 
         ...Traduccion
 
