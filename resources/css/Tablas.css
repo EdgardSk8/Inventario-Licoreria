@@ -1,0 +1,39 @@
+
+.dataTables_wrapper { padding: 5px 0 0 0; } /* Contenedor Datatables */
+.table { width: 100% !important; margin: 0 auto; } /* Tabla */
+
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
+    
+/* Columna th (Titulo )*/ 
+.table thead th{ 
+    background:#1f2937 !important;
+    color:white !important;
+    border-color:#111827 !important;
+    text-align: center !important; /* Horizontal */
+    vertical-align: middle !important; /* Vertical */
+    font-size: 15px !important;
+    padding: 3px !important;
+}
+
+/* Columna th (Contenido)*/ 
+.table td{
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    text-align: center !important; /* Horizontal */
+    vertical-align: middle !important; /* Vertical */
+    font-size: 14px !important;
+    padding: 3px !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
+
+td:last-child{  white-space: nowrap; }/* Btn horizontales */
+.dataTables_length, .dataTables_filter, .dataTables_info{ font-size: 14px; }
+.page-link { font-size: 12px; }
+.form-select{ padding: 2px 25px 2px 10px;}
+
+/* ══════════════════════════════════════════════════════════════════════════════════════ */
+
+tbody tr:hover td{background:#f4f6f9;}/* FILA HOVER */
+tbody tr:nth-child(even) td{background:#f4f6f9;}/* FILAS ALTERNADAS */
+tbody tr:nth-child(even):hover td{background:#e5e7eb;}/* FILAS ALTERNADAS HOVER */

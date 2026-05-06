@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    document.getElementById('titulo').textContent = 'CATEGORIA DE PRODUCTOS';
+
     $.fn.dataTable.ext.search.push( // Check de categorias inactivas
         function(settings, data, dataIndex) {
             const ocultar = $('#toggleInactivosCategorias').is(':checked');
