@@ -37,7 +37,7 @@ $(document).ready(function () {
             { data: 'estado', render: renderEstado },
             { data: 'id_cuenta', render: renderAcciones }
 
-        ], lengthMenu: [10, 15, 20, 30, 50, 100], ...Traduccion
+        ],
 
     });
 

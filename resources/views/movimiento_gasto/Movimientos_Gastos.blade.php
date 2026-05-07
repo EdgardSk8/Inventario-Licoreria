@@ -14,7 +14,6 @@
 
     <!-- Scripts -->
     <script src="{{ Vite::asset('resources/js/movimiento_gasto/MostrarMovimientosGastos.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
     
 
 </head>

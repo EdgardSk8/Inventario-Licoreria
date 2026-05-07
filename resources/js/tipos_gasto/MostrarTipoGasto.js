@@ -60,8 +60,7 @@ $(document).ready(function () {
                     `;
                 }
             }
-        ], lengthMenu: [15, 20, 25, 50],
-        ...Traduccion // Constante de traduccion de datatables
+        ], 
     });
 
     // Click en botón Editar

@@ -3,11 +3,6 @@ $(document).ready(function () {
     document.getElementById('titulo').textContent = 'HISTORIAL DE COMPRAS';
 
     $('#tablaCompras').DataTable({
-
-        responsive: true,
-
-        processing: true,
-
         ajax: { url: '/compras/mostrar', type: 'GET', dataSrc: 'compras' },
 
         columns: [
@@ -72,12 +67,7 @@ $(document).ready(function () {
             { targets: 11, visible: $('.toggle-col[data-column="11"]').is(':checked')},
         ],
 
-        lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-
         order: [[0, 'desc']],
-
-        ...Traduccion
-
     });
 
     $('.toggle-col').on('change', function () {

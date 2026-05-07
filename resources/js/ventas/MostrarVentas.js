@@ -4,10 +4,6 @@ $(document).ready(function () {
 
     $('#tablaVentas').DataTable({
 
-        responsive: true,
-
-        processing: true,
-
         ajax: { url: '/ventas/mostrar', type: 'GET', dataSrc: 'ventas' },
 
         columns: [ { data: 'numero_factura' },
@@ -49,9 +45,8 @@ $(document).ready(function () {
             { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') },
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') },
             { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') }
-        ], lengthMenu: [15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        ], // Constante de traduccion de datatables
         order: [[0, 'desc']],
-        ...Traduccion // Constante de traduccion de datatables
     }); // Fin de datatables
 
     $('.toggle-col').on('change', function () {

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Solo tabla con scroll</title>
+
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* clave: evita scroll global */
+}
+
+/* contenedor principal SIN scroll */
+.padre {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* header fijo */
+.header {
+    padding: 10px;
+    background: #eee;
+    flex-shrink: 0;
+}
+
+/* SOLO aquí hay scroll */
+.hijo {
+    flex: 1;              /* ocupa lo restante */
+    overflow-y: auto;     /* único scroll */
+}
+
+/* tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid #ccc;
+    padding: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="padre" style="border: 5px solid rgb(17, 0, 255);">
+
+    <div class="header" style="border: 5px solid rgb(255, 0, 221);">
+        Encabezado fijo
+    </div>
+
+    <div class="hijo">
+        <table style="border: 5px solid red;">
+            <tbody>
+                <script>
+                    for (let i = 1; i <= 100; i++) {
+                        document.write(`<tr><td>Registro ${i}</td></tr>`);
+                    }
+                </script>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

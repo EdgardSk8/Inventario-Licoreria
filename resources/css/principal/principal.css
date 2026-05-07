@@ -16,14 +16,33 @@ COLORES UTILIZADOS
 
 /* ═════════════════════════════════════════════════════════════════════════════════════════════ */ 
 
-body{ height:100vh; overflow:hidden; background:#f4f6f9 !important; }
+body{  height: 100%;
+    margin: 0;
+    overflow: hidden;  background:#f4f6f9 !important; }
 
 /*  ╔═══════ Contenido (Vistas Hijo) ═══════╗ 
     ╚═══════════════════════════════════════╝ */
+.content{
+    height:100vh;
 
-.content{ height:100vh; overflow-y: auto; overflow-x: hidden; flex-grow:1; }
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    overflow:hidden;
+    flex-grow:1;
+}
 
-#contenido-dinamico{ }
+#contenido-dinamico{
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+
+    min-height:0;
+
+    overflow:hidden;
+}
+
 /* ═════════════════════════════════════════════════════════════════════════════════════════════ */
 
 /*  ╔═══════ SIDEBAR (Menu Lateral) ═══════╗ 

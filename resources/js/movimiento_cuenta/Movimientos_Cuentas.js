@@ -4,8 +4,6 @@ $(document).ready(function () {
 
     let tabla = $('#tablaMovimientosCuenta').DataTable({
 
-        processing: true,
-
         ajax: { 
             url: '/movimientos-cuenta/mostrar', 
             type: 'GET', 
@@ -71,17 +69,6 @@ $(document).ready(function () {
 
         order: [[0, 'desc']],
 
-        lengthMenu: [15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-
-        ...Traduccion
-
-    });
-
-
-    /* ╔═════ Toggle columnas ═════╗ */
-    $('.toggle-col').on('change', function () {
-        const column = tabla.column($(this).attr('data-column'));
-        column.visible(this.checked);
     });
 
 });

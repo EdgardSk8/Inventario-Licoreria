@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     $('#tablaKardex').DataTable({
 
-        processing: true,
+        processing: true, scrollY: true,
 
         ajax: { 
             url: '/movimiento-inventario/mostrar', 
@@ -50,9 +50,7 @@ $(document).ready(function () {
             { targets: 10, visible: $('.toggle-col[data-column="0"]').is(':checked') },
         ],
 
-        order: [[0, 'desc']], lengthMenu: [10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-
-        ...Traduccion // Tu constante de traducción de DataTables
+        order: [[0, 'desc']],
 
     }); // Fin de DataTables
 

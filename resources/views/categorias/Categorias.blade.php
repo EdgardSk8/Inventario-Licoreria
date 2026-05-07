@@ -9,8 +9,6 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}">
-
 <script src="{{ Vite::asset('resources/js/categorias/MostrarCategoria.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/categorias/BajaCategoria.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/categorias/CrearCategoria.js') }}"></script>

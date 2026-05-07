@@ -14,32 +14,27 @@
 
     <!-- Scripts -->
     <script src="{{ Vite::asset('resources/js/movimiento_caja/Movimientos_Caja.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
     
 
 </head>
 
 <body>
-
-    <div >
         
-        <table id="tablaMovimientosCaja" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Identificador</th>
-                    <th>Usuario</th>
-                    <th>Fecha</th>
-                    <th>Caja</th>
-                    <th>Tipo</th>
-                    <th>Monto</th>
-                    <th>Concepto</th>
-                    <th>Cuenta Destino</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-    </div>
+    <table id="tablaMovimientosCaja" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Identificador</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Caja</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Concepto</th>
+                <th>Cuenta Destino</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
 </body>
 </html>

@@ -18,7 +18,6 @@
     <!-- ═══════════════════════════ SCRIPTS (JS) ═══════════════════════════ -->
 
      <script src="{{ Vite::asset('resources/js/gastos/MostrarGastos.js') }}"></script>
-     <script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script>
    <!-- <script src="{{ Vite::asset('resources/js/impuestos/BajaImpuesto.js') }}"></script> -->
     <script src="{{ Vite::asset('resources/js/gastos/CrearGasto.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/gastos/PagarGasto.js') }}"></script>

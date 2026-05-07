@@ -57,6 +57,16 @@ window.Traduccion = {
     }
 };
 
+$.extend(true, $.fn.dataTable.defaults, {
+    scrollY: true,
+    paging: true,
+    responsive: true,
+    processing: true,
+    lengthMenu: [20, 30, 40, 50, 60, 70, 80, 90, 100],   pageLength:20,
+    ...Traduccion,
+    dom: '<"top"lf>rt<"bottom"ip><"clear">',
+});
+
 
 /* -------------------------------------------------------------------------------- */
 

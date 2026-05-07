@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 
 <title>Sistema</title>
-<script src="{{ Vite::asset('resources/js/EspaniolTabla.js') }}"></script>
 
 <!-- @vite(['resources/js/app.js']) -->
  @include('principal.links')
@@ -427,9 +426,8 @@
 
     <div id="contenido-dinamico" class="p-2">@yield('contenido')</div>
 
-    <!-- 
-    @include('principal.footer')
-    -->
+    <!-- @include('principal.footer') -->
+    
 
 </div>
 

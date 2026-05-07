@@ -10,11 +10,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- <link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}"> -->
-
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/facturacion/Facturacion.css') }}">
 
-    
     <script src="{{ Vite::asset('resources/js/facturacion/VerificarCaja.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/Select.js') }}"></script>
     

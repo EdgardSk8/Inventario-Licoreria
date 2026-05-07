@@ -9,13 +9,10 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}">
-
 <!-- JS -->
 <script src="{{ Vite::asset('resources/js/productos/MostrarProducto.js') }}"></script>
 <script src="{{ Vite::asset('resources/js/productos/BajaProducto.js') }}"></script>
 <!-- <script src="{{ Vite::asset('resources/js/productos/CrearProducto.js') }}"></script> -->
-<script src="{{ Vite::asset('resources/js/principal/formatofecha.js') }}"></script> 
 
 
 

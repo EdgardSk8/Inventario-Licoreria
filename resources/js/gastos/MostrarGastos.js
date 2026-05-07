@@ -123,8 +123,6 @@ $(document).ready(function () {
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') }
         ],
 
-        lengthMenu: [10, 15, 20, 30, 50, 100],
-        ...Traduccion
     });
 
     /* ═════════════ TOGGLE COLUMNAS ═════════════ */
