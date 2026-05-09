@@ -1,5 +1,4 @@
 import './bootstrap';
-import './EspaniolTabla.js';
 
 // =======================
 // jQuery (SIEMPRE PRIMERO)

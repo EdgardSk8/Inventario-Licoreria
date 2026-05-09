@@ -1,0 +1,324 @@
+/* ════════════════════════
+CONTENEDOR
+════════════════════════ */
+
+.dashboard{
+    background:#1f2937;
+    border:1px solid #374151;
+    border-radius:14px;
+
+    padding:14px;
+
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+
+    height:100%;
+
+    overflow:hidden;
+}
+
+/* ════════════════════════
+SCROLL INTERNO
+════════════════════════ */
+
+.dashboard-scroll{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+
+    overflow-y:auto;
+
+    flex:1;
+
+    padding-right:4px;
+}
+
+/* scrollbar */
+
+.dashboard-scroll::-webkit-scrollbar{
+    width:6px;
+}
+
+.dashboard-scroll::-webkit-scrollbar-thumb{
+    background:#374151;
+    border-radius:10px;
+}
+
+/* ════════════════════════
+HEADER
+════════════════════════ */
+
+.dashboard-header{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.dashboard-title{
+    color:#f4f6f9;
+
+    font-size:17px;
+    font-weight:700;
+
+    margin:0;
+}
+
+/* ════════════════════════
+FILTROS
+════════════════════════ */
+
+.dashboard-filtros{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:6px;
+
+    width:100%;
+}
+
+/* ════════════════════════
+SELECTS + INPUTS
+════════════════════════ */
+
+.dashboard-select,
+.dashboard-input,
+.dashboard-btn{
+
+    flex:1;
+    min-width:0;
+    width:100%;
+    background:#111827;
+    border:1px solid #374151;
+    color:#f4f6f9;
+    height:32px;
+    padding:0 8px;
+    border-radius:8px;
+    font-size:11px;
+    outline:none;
+    transition:.2s;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    max-width: 200px;
+    overflow: hidden;
+}
+
+
+.dashboard-empty{
+    width:100%;
+    height:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#cbd5e1;
+
+    font-size:14px;
+    font-weight:600;
+
+    background:#111827;
+
+    border-radius:12px;
+}
+
+/* 🔥 límite visual del dropdown */
+
+.contenedor-option-select{ height: 10px; overflow-y: auto;
+    border: 2px solid red;
+
+}
+
+/* hover/focus */
+
+.dashboard-select:hover,
+.dashboard-input:hover{
+    border-color:#6199f5;
+}
+
+.dashboard-select:focus,
+.dashboard-input:focus{
+    border-color:#6199f5;
+    box-shadow:0 0 0 2px rgba(97,153,245,.15);
+}
+
+/* option */
+
+.dashboard-select option{
+    background:#111827;
+    color:#f4f6f9;
+
+    font-size:12px;
+}
+
+/* placeholder */
+
+.dashboard-input::placeholder{
+    color:#cbd5e1;
+}
+
+/* ════════════════════════
+BOTÓN
+════════════════════════ */
+
+.dashboard-btn{
+    height:34px;
+
+    border:none;
+    border-radius:8px;
+
+    background:#6199f5;
+    color:white;
+
+    padding:0 12px;
+
+    font-size:12px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:
+        transform .12s ease,
+        opacity .2s ease,
+        box-shadow .2s ease;
+
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+}
+
+.dashboard-btn:hover{
+    opacity:.9;
+}
+
+.dashboard-btn:active{
+    transform:scale(.90);
+    box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+/* ════════════════════════
+CHART
+════════════════════════ */
+
+/* ------------------------------------------------------------------- */
+
+.flatpickr-calendar {
+    background: #111827;
+    border: 1px solid #374151;
+    color: #f4f6f9;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* días normales */
+.flatpickr-day {
+    color: #f4f6f9;
+}
+
+/* hover */
+.flatpickr-day:hover {
+    background: #374151;
+    border-color: #6199f5;
+}
+
+/* día seleccionado */
+.flatpickr-day.selected {
+    background: #6199f5;
+    border-color: #6199f5;
+    color: white;
+}
+
+/* hoy */
+.flatpickr-day.today {
+    border-color: #22c55e;
+    color: white;
+}
+
+/* encabezado (mes y navegación) */
+.flatpickr-months {
+    background: #111827;
+    color: #f4f6f9;
+}
+
+.flatpickr-current-month {
+    color: #f4f6f9;
+}
+
+/* flechas */
+.flatpickr-prev-month,
+.flatpickr-next-month {
+    fill: #f4f6f9;
+}
+
+
+.dashboard-chart{
+    background:#111827;
+
+
+    border-radius:12px;
+
+    padding:12px;
+
+    height:280px;
+
+    position:relative;
+
+    flex-shrink:0;
+}
+
+
+/* días del mes anterior y siguiente */
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay {
+    color: #686868 !important; /* blanco */
+    opacity: 1; /* evita el efecto apagado */
+}
+
+/* opcional: hover también consistente */
+.flatpickr-day.prevMonthDay:hover,
+.flatpickr-day.nextMonthDay:hover {
+    background: #374151;
+    border-color: #6199f5;
+    color: #f4f6f9;
+}
+
+/* días de la semana (Lun, Mar, etc.) */
+.flatpickr-weekday {
+    color: #f4f6f9 !important;
+}
+
+/* ------------------------------------------------------------------- */
+
+/* canvas */
+
+#chartVentas{
+    width:100% !important;
+    height:100% !important;
+}
+
+/* ════════════════════════
+FLATPICKR
+════════════════════════ */
+
+.flatpickr-calendar{
+    background:#111827;
+    border:1px solid #374151;
+    box-shadow:none;
+}
+
+.flatpickr-day{
+    color:#f4f6f9;
+}
+
+.flatpickr-day:hover{
+    background:#374151;
+    border-color:#374151;
+}
+
+.flatpickr-day.selected{
+    background:#6199f5;
+    border-color:#6199f5;
+}
+
+.flatpickr-weekday{
+    color:#cbd5e1;
+}

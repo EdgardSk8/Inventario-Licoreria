@@ -33,6 +33,7 @@ use App\Http\Controllers\MovimientoCuentaController;
 use App\Http\Controllers\GastoController;
 use App\Http\Controllers\MovimientoGastoController;
 use App\Http\Controllers\DetalleCompraController;
+use App\Http\Controllers\DashboardController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -45,7 +46,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 /*  ╔════════════ Cargar de Vistas Dinamicas ════════════╗ 
     ╚════════════════════════════════════════════════════╝ */
 
-Route::view('/dashboard', 'dashboard')->name('dashboard'); 
+Route::view('/dashboard', 'dashboard.Dashboard')->name('dashboard'); 
 Route::view('/usuarios', 'usuarios.Usuario')->name('usuarios'); 
 Route::view('/usuarios/detalle', 'usuarios.DetalleUsuario')->name('detalle.usuarios'); 
 Route::view('/proveedores', 'proveedores.Proveedores')->name('proveedores'); 
@@ -76,6 +77,17 @@ Route::view('/transferencia', 'transferenciacajacuenta.Transferencia')->name('tr
 Route::view('/cuentas', 'cuentas.Cuentas')->name('cuentas'); 
 Route::view('/cuentas/movimientos', 'movimiento_cuenta.Movimientos_Cuentas')->name('movimientos.cuentas');
 Route::view('/gastos/movimientos', 'movimiento_gasto.Movimientos_Gastos')->name('movimientos.gastos'); 
+
+
+/*  ╔═══════════ Endpoint DASHBOARD ═════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+
+Route::get('/dashboard/ventas', [DashboardController::class, 'ventas']);
+
+Route::get('/dashboard/finanzas', [DashboardController::class, 'Finanzas']);
+Route::get('/dashboard/productos', [DashboardController::class, 'ProductosVentas']);
+Route::get('/dashboard/analitica', [DashboardController::class, 'Analitica']);
+
 
 /* CONTROLADORES */
 

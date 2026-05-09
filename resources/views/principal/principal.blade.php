@@ -7,7 +7,7 @@
 <title>Sistema</title>
 
 <!-- @vite(['resources/js/app.js']) -->
- @include('principal.links')
+@include('principal.links')
 @vite(['resources/css/principal/principal.css'])
 @vite(['resources/css/principal/footer.css'])
 @vite(['resources/css/app.css'])
