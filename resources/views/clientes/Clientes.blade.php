@@ -21,23 +21,7 @@
 
 <body>
 
-<div class="d-flex justify-content-between align-items-center">
-
-    <!-- Botón Agregar Cliente -->
-
-    <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
-        + Agregar Cliente
-    </button>
-
-    <!-- Checkbox ocultar inactivos -->
-
-    <div class="form-check form-switch mb-0">
-        <input class="form-check-input" type="checkbox" id="toggleInactivosClientes" checked>
-        <label class="form-check-label" for="toggleInactivosClientes">Ocultar inactivos</label>
-    </div>
-
-</div>
-
+@include('clientes.CheckColumnasClientes') 
 @include('clientes.CrearCliente') {{-- MODAL CREAR CLIENTE --}}
 @include('clientes.EditarCliente') {{-- MODAL EDITAR CLIENTE --}}
 

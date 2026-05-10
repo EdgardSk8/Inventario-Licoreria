@@ -2,12 +2,12 @@
 
     <div class="dashboard-header">
 
-        <h2 class="dashboard-title">📊 Ventas</h2>
+        <h2 class="dashboard-title">Ventas</h2>
 
         <div class="dashboard-filtros">
 
             <!-- 🔹 filtro principal -->
-            <select class="dashboard-select" id="filtro">
+            <select class="select" id="Filtro-Ventas">
 
                 <option value="dia">Ventas por día</option>
                 <option value="mes">Ventas por mes</option>
@@ -23,7 +23,7 @@
             </select>
 
             <!-- 🔹 tipo de gráfica -->
-            <select class="dashboard-select" id="tipoGrafica">
+            <select class="select" id="Tipo-Grafica-Ventas">
                 <option value="bar">Barras</option>
                 <option value="line">Línea</option>
                 <option value="pie">Pastel</option>
@@ -33,13 +33,13 @@
             </select>
 
             <!-- 🔥 SELECTOR JERÁRQUICO -->
-            <select class="dashboard-select" id="selectAnio"></select>
+            <select class="select" id="Select-Anio-Ventas"></select>
 
-            <select title="Seleccione un año para desglosar el mes" class="dashboard-select" id="selectMes" disabled>
+            <select title="Seleccione un año para desglosar el mes" class="select" id="Select-Mes-Ventas" disabled>
                 
             </select>
 
-            <select title="Seleccione un año para desglosar el dia" class="dashboard-select" id="selectDia" disabled>
+            <select title="Seleccione un año para desglosar el dia" class="select" id="Select-Dia-Ventas" disabled>
                 
             </select>
 
@@ -47,7 +47,7 @@
             <input 
                 type="date" 
                 class="dashboard-input" 
-                id="fechaInicio"
+                id="Fecha-Inicio-Ventas"
                 placeholder="Fecha inicio"
                 autocomplete="off"
             >
@@ -55,12 +55,12 @@
             <input 
                 type="date" 
                 class="dashboard-input" 
-                id="fechaFin"
+                id="Fecha-Fin-Ventas"
                 placeholder="Fecha fin"
                 autocomplete="off"
             >
 
-            <button type="button" class="dashboard-btn" id="btnLimpiar">
+            <button type="button" class="dashboard-btn" id="BTN-Limpiar-Ventas">
                 Limpiar filtros
             </button>
 

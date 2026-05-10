@@ -424,7 +424,7 @@
 
     </div>
 
-    <div id="contenido-dinamico" class="p-2">@yield('contenido')</div>
+    <div id="contenido-dinamico" class="ds">@yield('contenido')</div>
 
     <!-- @include('principal.footer') -->
     

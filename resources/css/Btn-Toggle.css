@@ -1,0 +1,140 @@
+
+.dropdown-columns{
+    min-width:120px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background:#1e293b;
+    border: 1px solid #334155;
+    border-radius:12px;
+   
+}
+
+.dropdown-toggle, .btn-agregar, .toggle-btn{
+    height:30px;
+    min-width:180px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 14px;
+    background:#1e293b;
+    color:#f8fafc;
+    border:1px solid #334155;
+    border-radius: 12px;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    transition:.8s ease;
+     margin-bottom: 10px;
+}
+
+.dropdown-toggle:hover{
+    background:#334155;
+    border-color:#475569;
+}
+
+.dropdown-toggle:focus{
+    outline:none;
+    box-shadow:0 0 0 3px rgba(59,130,246,.25);
+}
+
+.dropdown-toggle::after{
+    margin-left:12px;
+    color:#94a3b8;
+
+    transition:.8s ease;
+}
+
+.dropdown.show .dropdown-toggle::after{
+    transform:rotate(180deg);
+}
+
+.dropdown-menu{
+    display:block;
+
+    opacity:0;
+
+    max-height:0;
+
+    overflow:hidden;
+
+    visibility:hidden;
+
+    transform:translateY(-10px);
+
+    transition:
+        max-height .8s ease,
+        opacity .25s ease,
+        transform .5s ease;
+
+    pointer-events:none;
+
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:14px;
+
+    padding:0 12px;
+
+    min-width:180px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.25);
+}
+
+.dropdown-menu.show{
+    opacity:1;
+
+    max-height:400px;
+
+    visibility:visible;
+
+    transform:translateY(0);
+
+    pointer-events:auto;
+
+    padding:12px;
+}
+
+.dropdown-columns{
+    max-height:300px;
+    overflow-y:auto;
+}
+
+.dropdown-columns .form-check{
+    margin-bottom:10px;
+}
+
+.dropdown-columns .form-check:last-child{
+    margin-bottom:0;
+}
+
+.dropdown-columns .form-check-label{
+    color:#f8fafc;
+    cursor:pointer;
+}
+
+.dropdown-columns::-webkit-scrollbar{
+    width:8px;
+}
+
+.dropdown-columns::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+.dropdown-columns::-webkit-scrollbar-thumb{
+    background:#475569;
+    border-radius:10px;
+}
+
+.dropdown-columns::-webkit-scrollbar-thumb:hover{
+    background:#64748b;
+}
+
+.togglecheck:not(:checked) + .toggle-btn {
+    background: #22c55e;
+    border-color: #01b342;
+}
+
+.toggle-btn:hover{
+    background:#334155;
+    border-color:#475569;
+}

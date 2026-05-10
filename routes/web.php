@@ -83,10 +83,8 @@ Route::view('/gastos/movimientos', 'movimiento_gasto.Movimientos_Gastos')->name(
     ╚════════════════════════════════════════════╝ */
 
 Route::get('/dashboard/ventas', [DashboardController::class, 'ventas']);
+Route::get('/dashboard/movimiento-inventario', [DashboardController::class, 'movimientoinventario']);
 
-Route::get('/dashboard/finanzas', [DashboardController::class, 'Finanzas']);
-Route::get('/dashboard/productos', [DashboardController::class, 'ProductosVentas']);
-Route::get('/dashboard/analitica', [DashboardController::class, 'Analitica']);
 
 
 /* CONTROLADORES */

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Dashboard Ventas</title>
 
-
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/dashboard/Dashboard.css') }}">
-    <script src="{{ Vite::asset('resources/js/dashboard/Dashboard.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/dashboard/VentaGrafica.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/dashboard/Movimiento_InventarioGrafica.js') }}"></script>
 
 </head>
 
@@ -17,6 +17,7 @@
         <div class="scrolling">
 
             @include('dashboard.VentasGrafica')
+            @include('dashboard.Movimiento_InventarioGrafica')
                         
         </div>
 

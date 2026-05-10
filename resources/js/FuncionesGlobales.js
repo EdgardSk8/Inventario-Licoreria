@@ -62,7 +62,7 @@ $.extend(true, $.fn.dataTable.defaults, {
     paging: true,
     responsive: true,
     processing: true,
-    lengthMenu: [20, 30, 40, 50, 60, 70, 80, 90, 100],   pageLength:20,
+    lengthMenu: [50, 60, 70, 80, 90, 100, 500, 1000], pageLength: 50,
     ...Traduccion,
     dom: '<"top"lf>rt<"bottom"ip><"clear">',
 });
@@ -170,10 +170,80 @@ window.FechaSimple = function(fechaSQL) {
     return `${dia} de ${mesCapitalizado} del ${año}`;
 }
 
+/* -------------------------------------------------------------------------------- */
 
+/* FUNCION UTILITARIA*/
+window.FlatPickr = function (elemento) {
 
+    return flatpickr(elemento, {
+        locale: 'es',
+        dateFormat: 'Y-m-d',
+        allowInput: true
+    });
+};
 
+window.ResetearInputs = function (...elementos) {
 
+    elementos.forEach(elemento => {
 
+        if (elemento) {
 
+            elemento.value = '';
+
+        }
+    });
+};
+
+window.Colores = {
+
+    colores_1: ['#6199f5','#3b82f6','#0ea5e9','#06b6d4','#2dd4bf','#22c55e','#10b981','#84cc16','#f59e0b','#eab308'],
+    bordes_1: ['#2563eb','#1d4ed8','#0284c7','#0891b2','#0f766e','#16a34a','#059669','#65a30d','#d97706','#ca8a04'],
+    colores_2: ['#fde047','#f97316','#ef4444','#f43f5e','#ec4899','#fb7185','#c084fc','#a855f7','#8b5cf6'],
+    bordes_2: ['#a16207','#ea580c','#dc2626','#e11d48','#be185d','#fb7185','#9333ea','#7c3aed','#6d28d9']
+
+};
+
+window.Meses = [
+    'Enero', 'Febrero', 'Marzo',
+    'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre',
+    'Octubre', 'Noviembre', 'Diciembre'
+];
+
+window.PluginSinDatos = {
+
+    id: 'PluginSinDatos',
+
+    afterDraw(chart) {
+
+        const datos = chart.data.datasets;
+
+        const tieneDatos = datos.some(dataset =>
+            dataset.data.some(valor => Number(valor) > 0)
+        );
+
+        if (tieneDatos) return;
+
+        const { ctx, width, height } = chart;
+
+        ctx.save();
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        ctx.font = '16px Arial';
+
+        ctx.fillStyle = '#999';
+
+        ctx.fillText(
+            'Sin registros',
+            width / 2,
+            height / 2
+        );
+
+        ctx.restore();
+    }
+};
+
+/* -------------------------------------------------------------------------------- */
 

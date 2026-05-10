@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Venta;
+use App\Models\MovimientoInventario;
 use App\Models\Producto;
 use App\Models\DetalleVenta;
 
@@ -273,6 +274,129 @@ class DashboardController extends Controller
                     ->get()
 
                         ]);
+    }
+
+    public function Movimientoinventario(Request $request)
+    {
+        $tipo = $request->get('tipo', 'dia');
+
+        $inicio = $request->inicio;
+        $fin    = $request->fin;
+
+        $anio = $request->anio;
+        $mes  = $request->mes;
+        $dia  = $request->dia;
+
+        $query = MovimientoInventario::query();
+
+        /* ════════════════
+        FILTROS FECHA
+        ════════════════ */
+
+        if ($inicio && $fin) {
+            $query->whereBetween('fecha_movimiento', [
+                $inicio . ' 00:00:00',
+                $fin . ' 23:59:59'
+            ]);
+        }
+
+        if ($anio) {
+            $query->whereYear('fecha_movimiento', $anio);
+        }
+
+        if ($mes) {
+            $query->whereMonth('fecha_movimiento', $mes);
+        }
+
+        if ($dia) {
+            $query->whereDay('fecha_movimiento', $dia);
+        }
+
+        /* ════════════════
+        GRÁFICA PRINCIPAL
+        ════════════════ */
+
+        switch ($tipo) {
+
+            case 'dia':
+                $grafica = (clone $query)
+                    ->selectRaw("DATE_FORMAT(fecha_movimiento, '%d-%m-%Y') as label")
+                    ->selectRaw("tipo_movimiento")
+                    ->selectRaw("tipo_referencia")
+                    ->selectRaw("COUNT(*) as cantidad")
+                    ->selectRaw("SUM(cantidad_movimiento) as total")
+                    ->groupBy('label', 'tipo_movimiento', 'tipo_referencia')
+                    ->orderBy('label')
+                    ->get();
+                break;
+
+            case 'mes':
+                $grafica = (clone $query)
+                    ->selectRaw("DATE_FORMAT(fecha_movimiento, '%m-%Y') as label")
+                    ->selectRaw("tipo_movimiento")
+                    ->selectRaw("tipo_referencia")
+                    ->selectRaw("COUNT(*) as cantidad")
+                    ->selectRaw("SUM(cantidad_movimiento) as total")
+                    ->groupBy('label', 'tipo_movimiento', 'tipo_referencia')
+                    ->orderBy('label')
+                    ->get();
+                break;
+
+            case 'anio':
+                $grafica = (clone $query)
+                    ->selectRaw("YEAR(fecha_movimiento) as label")
+                    ->selectRaw("tipo_movimiento")
+                    ->selectRaw("tipo_referencia")
+                    ->selectRaw("COUNT(*) as cantidad")
+                    ->selectRaw("SUM(cantidad_movimiento) as total")
+                    ->groupBy('label', 'tipo_movimiento', 'tipo_referencia')
+                    ->orderBy('label')
+                    ->get();
+                break;
+
+            default:
+                $grafica = collect();
+                break;
+        }
+
+        /* ════════════════
+        RESPUESTA
+        ════════════════ */
+
+        return response()->json([
+
+            'grafica' => $grafica,
+
+            /* opcional: resumen */
+            'resumen' => [
+
+                'total_movimientos' => (clone $query)->count(),
+
+                'entradas' => (clone $query)
+                    ->where('tipo_movimiento', 'ENTRADA')
+                    ->sum('cantidad_movimiento'),
+
+                'salidas' => (clone $query)
+                    ->where('tipo_movimiento', 'SALIDA')
+                    ->sum('cantidad_movimiento'),
+            ],
+
+            /* desglose tipo movimiento */
+            'por_tipo_movimiento' => (clone $query)
+                ->selectRaw("tipo_movimiento as label")
+                ->selectRaw("COUNT(*) as cantidad")
+                ->selectRaw("SUM(cantidad_movimiento) as total")
+                ->groupBy('tipo_movimiento')
+                ->get(),
+
+            /* desglose tipo referencia */
+            'por_tipo_referencia' => (clone $query)
+                ->selectRaw("tipo_referencia as label")
+                ->selectRaw("COUNT(*) as cantidad")
+                ->selectRaw("SUM(cantidad_movimiento) as total")
+                ->groupBy('tipo_referencia')
+                ->get(),
+        ]);
     }
 
 }

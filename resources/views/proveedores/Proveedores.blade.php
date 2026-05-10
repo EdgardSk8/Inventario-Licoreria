@@ -21,25 +21,7 @@
 
 <body>
 
-<div class="d-flex justify-content-between align-items-center">
-
-    <!-- Botón Agregar Proveedor -->
-
-    <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#modalCrearProveedor">
-        + Agregar Proveedor
-    </button>
-
-    <!-- Checkbox para ocultar inactivos -->
-
-    <div class="form-check form-switch mb-0">
-        <input class="form-check-input" type="checkbox" id="toggleInactivosProveedores" checked>
-        <label class="form-check-label" for="toggleInactivosProveedores">
-            Ocultar inactivos
-        </label>
-    </div>
-
-</div>
-
+@include('proveedores.CheckColumnasProveedor')
 @include('proveedores.CrearProveedor') {{-- MODAL CREAR --}}
 @include('proveedores.EditarProveedor') {{-- MODAL EDITAR --}}
 
