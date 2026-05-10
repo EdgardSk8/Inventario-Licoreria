@@ -21,6 +21,7 @@
 
 <body>
 
+    @include("transferenciacajacuenta.CheckColumnasTransferirCuentas")
     @include('transferenciacajacuenta.TransferirCuenta')
 
     <table id="tablaCajaCuenta" class="table table-striped">

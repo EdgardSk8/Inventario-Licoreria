@@ -20,8 +20,7 @@
 
 <body>
 
-    {{-- (Opcional) si luego querés controlar columnas como en ventas --}}
- 
+ @include('movimiento_gasto.CheckColumnasMovimientosGastos')
 
     <table id="tablaMovimientosGastos" class="table table-striped table-bordered" style="width:100%">
 

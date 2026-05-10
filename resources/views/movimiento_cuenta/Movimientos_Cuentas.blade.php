@@ -17,6 +17,8 @@
 
 <body>
 
+@include('movimiento_cuenta.CheckColumnasMovimientoCuentas')
+
     <table id="tablaMovimientosCuenta" class="table table-striped table-bordered">
         <thead>
             <tr>

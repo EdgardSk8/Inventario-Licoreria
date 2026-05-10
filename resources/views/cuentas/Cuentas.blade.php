@@ -32,36 +32,9 @@
 
 <body>
 
-    <!-- ════════════ ACCIONES PRINCIPALES ════════════ -->
-
-    <div class="d-flex justify-content-between align-items-center">
-
-        <div>
-
-            <!-- Crear nueva cuenta -->
-            <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#modalCrearCuenta">
-                <i class="bi bi-plus-circle me-1"></i> Agregar Cuenta
-            </button>
-
-            <!-- Transferir saldo entre cuentas -->
-            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#ModalTransferirCuenta">
-                <i class="bi bi-arrow-left-right me-1"></i> Transferir entre cuentas
-            </button>
-
-        </div>
-
-        <!-- Filtro visual: ocultar cuentas inactivas -->
-        <div class="form-check form-switch mb-0">
-            <input class="form-check-input" type="checkbox" id="toggleInactivosCuentas" checked>
-            <label class="form-check-label" for="toggleInactivosCuentas">
-                Ocultar inactivos
-            </label>
-        </div>
-
-    </div>
-
     <!-- ════════════ MODALES ════════════ -->
-
+     
+    @include('cuentas.CheckColumnasCuentas')
     @include('cuentas.CrearCuenta')
     @include('cuentas.EditarCuenta')
     @include('cuentas.TransferirCuenta')

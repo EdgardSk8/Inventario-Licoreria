@@ -32,45 +32,27 @@
 
 <body>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-
-        <!-- Botón Agregar Impuesto -->
-
-        <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#modalCrearImpuesto">
-            + Agregar Impuesto
-        </button>
-
-        <!-- Checkbox para ocultar inactivos -->
-
-        <div class="form-check form-switch mb-0">
-            <input class="form-check-input" type="checkbox" id="toggleInactivosImpuestos" checked>
-            <label class="form-check-label" for="toggleInactivosImpuestos">Ocultar inactivos</label>
-        </div>
-
-    </div>
-
-{{-- ══════════════════════════════════ MODALES ══════════════════════════════════ --}}
-
-@include('impuestos.CrearImpuesto')
-@include('impuestos.EditarImpuesto')
+    @include('impuestos.CheckColumnasImpuestos')
+    @include('impuestos.CrearImpuesto')
+    @include('impuestos.EditarImpuesto')
 
 <!-- ═════════════════════════════ Tabla (Datatables) ════════════════════════════ -->
 
-<table id="tablaImpuestos" class="table table-striped table-bordered">
+    <table id="tablaImpuestos" class="table table-striped table-bordered">
 
-    <thead>
-        <tr>
-            <th>Nombre del Impuesto</th>
-            <th>Porcentaje (%)</th>
-            <th>Fecha de Creación</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+        <thead>
+            <tr>
+                <th>Nombre del Impuesto</th>
+                <th>Porcentaje (%)</th>
+                <th>Fecha de Creación</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
 
-    <tbody></tbody>
+        <tbody></tbody>
 
-</table>
+    </table>
 
 <!-- ═════════════════════════════════════════════════════════════════════════════ -->
 

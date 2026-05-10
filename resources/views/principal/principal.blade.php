@@ -413,9 +413,9 @@
         <div id="titulo"></div>
 
         <!-- 👤 Usuario -->
-        <div>
+        <div id="perfil">
             <strong>{{ session('usuario.nombre') ?? 'Invitado' }}</strong>
-            <small class="text-muted">({{ session('usuario.rol') ?? 'Sin rol' }}) </small>
+            <small>({{ session('usuario.rol') ?? 'Sin rol' }}) </small>
 
                 <button id="btnLogout" class="btn btn-sm">Cerrar sesion
                     <i class="bi bi-box-arrow-right"> </i>

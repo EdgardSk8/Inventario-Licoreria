@@ -19,7 +19,9 @@
 </head>
 
 <body>
-        
+
+    @include("movimiento_caja.CheckColumnasMovimiento_Caja")
+
     <table id="tablaMovimientosCaja" class="table table-striped table-bordered">
         <thead>
             <tr>

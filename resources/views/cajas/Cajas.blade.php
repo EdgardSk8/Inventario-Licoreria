@@ -14,7 +14,11 @@
 
 </head>
 
+
+
 <body>
+
+@include('cajas.CheckColumnasCajas')
 
     <table id="tablaCajas" class="table table-striped table-bordered">
 
