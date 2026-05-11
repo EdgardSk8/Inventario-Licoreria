@@ -13,7 +13,7 @@ $(document).ready(function () {
         },
 
         columns: [
-            { data: 'id_movimiento_inventario', visible: false },
+            { data: 'id_movimiento_inventario' },
             { data: 'nombre_completo_usuario' },
             { data: 'fecha_movimiento', render: function(data){ return formatearFecha(data); } },
             { data: 'nombre_producto' },
@@ -31,13 +31,15 @@ $(document).ready(function () {
             { data: 'stock_resultante' },
 
             
-            { data: 'precio_unitario', render: $.fn.dataTable.render.number(',', '.', 2, 'C$') },
+            { data: 'precio_unitario', render: $.fn.dataTable.render.number(',', '.', 2, 'C$ ') },
+
             { data: null, render: function(data){
                 return (data.precio_unitario * data.cantidad_movimiento).toFixed(2);
             }}
         ],
         columnDefs: [
             // Configurar visibilidad inicial según checkboxes
+            { targets: 0, visible: $('.toggle-col[data-column="0"]').is(':checked') },
             { targets: 1, visible: $('.toggle-col[data-column="1"]').is(':checked') },
             { targets: 2, visible: $('.toggle-col[data-column="2"]').is(':checked') },
             { targets: 3, visible: $('.toggle-col[data-column="3"]').is(':checked') },
@@ -47,7 +49,7 @@ $(document).ready(function () {
             { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') },
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') },
             { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') },
-            { targets: 10, visible: $('.toggle-col[data-column="0"]').is(':checked') },
+            { targets: 10, visible: $('.toggle-col[data-column="10"]').is(':checked') },
         ],
 
         order: [[0, 'desc']],

@@ -29,7 +29,7 @@
 
     <thead>
         <tr>
-
+            <th>ID</th>
             <th>Nombre</th>
             <th>Cédula</th>
             <th>RUC</th>

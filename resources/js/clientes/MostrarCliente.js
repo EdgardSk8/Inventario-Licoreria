@@ -8,7 +8,7 @@ $(document).ready(function () {
         function(settings, data, dataIndex) {
             const ocultar = $('#toggleInactivosClientes').is(':checked');
             if (!ocultar) return true;
-            const estado = data[5]; // columna estado_cliente
+            const estado = data[6]; // columna estado_cliente
             return estado.includes('Activo');
         }
         
@@ -24,7 +24,7 @@ $(document).ready(function () {
         ajax: {url: '/clientes/mostrar', type: 'GET', dataSrc: 'clientes'},
 
         columns: [
-
+            { data: 'id_cliente' },
             { data: 'nombre_cliente' },
             { data: 'cedula_cliente' },
             { data: 'ruc_cliente' },
@@ -62,7 +62,23 @@ $(document).ready(function () {
             }
 
         ],
-        ...Traduccion // Constante de traduccion de datatables
+        columnDefs: [
+            // Configurar visibilidad inicial según checkboxes
+            { targets: 0, visible: $('.toggle-col[data-column="0"]').is(':checked') },
+            { targets: 1, visible: $('.toggle-col[data-column="1"]').is(':checked') },
+            { targets: 2, visible: $('.toggle-col[data-column="2"]').is(':checked') },
+            { targets: 3, visible: $('.toggle-col[data-column="3"]').is(':checked') },
+            { targets: 4, visible: $('.toggle-col[data-column="4"]').is(':checked') },
+            { targets: 5, visible: $('.toggle-col[data-column="5"]').is(':checked') },
+            { targets: 6, visible: $('.toggle-col[data-column="6"]').is(':checked') },
+            { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') },
+        ], // Constante de traduccion de datatables
+    });
+
+
+    $('.toggle-col').on('change', function () {
+        let column = $('#tablaClientes').DataTable().column($(this).data('column'));
+        column.visible(this.checked);
     });
 
     // Click botón editar

@@ -15,7 +15,7 @@
 
         <form id="formCrearCuenta" class="row g-3">
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label class="form-label">Nombre de la Cuenta</label>
                 <input type="text" 
                     id="crear_nombre_cuenta"
@@ -25,7 +25,7 @@
                     required>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
               <label class="form-label">Tipo de Cuenta</label>
               <select id="crear_tipo_cuenta"
                   class="form-select form-select-sm"
@@ -59,7 +59,7 @@
                     maxlength="150">
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label class="form-label">Saldo Inicial</label>
                 <input type="number"
                     id="crear_saldo_cuenta"

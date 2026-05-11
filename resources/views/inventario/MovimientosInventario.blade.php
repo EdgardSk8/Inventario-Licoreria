@@ -26,7 +26,7 @@
         <table id="tablaKardex" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Identificador</th>
+                    <th>ID</th>
                     <th>Usuario</th>
                     <th>Fecha</th>
                     <th>Producto</th>

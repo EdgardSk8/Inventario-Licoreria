@@ -7,7 +7,7 @@ $(document).ready(function () {
 
         columns: [
 
-            { data: 'id_compra', visible: false },
+            { data: 'id_compra'},
             { data: 'numero_factura_compra' },
 
             { data: 'proveedor.nombre_proveedor' },
@@ -53,7 +53,7 @@ $(document).ready(function () {
         ],
 
         columnDefs: [
-            
+            { targets: 0, visible: $('.toggle-col[data-column="0"]').is(':checked') },
             { targets: 1, visible: $('.toggle-col[data-column="1"]').is(':checked') },
             { targets: 2, visible: $('.toggle-col[data-column="2"]').is(':checked') },
             { targets: 3, visible: $('.toggle-col[data-column="3"]').is(':checked') },

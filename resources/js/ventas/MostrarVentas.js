@@ -6,7 +6,9 @@ $(document).ready(function () {
 
         ajax: { url: '/ventas/mostrar', type: 'GET', dataSrc: 'ventas' },
 
-        columns: [ { data: 'numero_factura' },
+        columns: [
+            { data: 'id_venta' },
+            { data: 'numero_factura' },
             { data: 'cliente.nombre_cliente'},
             { data: 'usuario.nombre_usuario' },
             { data: 'fecha_venta', render: function(data){ return formatearFecha(data); } },
@@ -44,7 +46,8 @@ $(document).ready(function () {
             { targets: 6, visible: $('.toggle-col[data-column="6"]').is(':checked') },
             { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') },
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') },
-            { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') }
+            { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') },
+            { targets: 10, visible: $('.toggle-col[data-column="10"]').is(':checked') }
         ], // Constante de traduccion de datatables
         order: [[0, 'desc']],
     }); // Fin de datatables

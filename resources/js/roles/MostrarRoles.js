@@ -70,9 +70,20 @@ $(document).ready(function () {
                 }
             }
         ],
+        columnDefs: [
+            // Configurar visibilidad inicial según checkboxes
+            { targets: 0, visible: $('.toggle-col[data-column="0"]').is(':checked') },
+            { targets: 1, visible: $('.toggle-col[data-column="1"]').is(':checked') },
+            { targets: 2, visible: $('.toggle-col[data-column="2"]').is(':checked') },
+            { targets: 3, visible: $('.toggle-col[data-column="3"]').is(':checked') },
+            { targets: 4, visible: $('.toggle-col[data-column="4"]').is(':checked') },
+        ],
 
-        ...Traduccion // Constante de traduccion de datatables
+    });
 
+    $('.toggle-col').on('change', function(e) {
+        const column = $('#tablaRoles').DataTable().column($(this).attr('data-column'));
+        column.visible(this.checked);
     });
 
     // Click en botón Editar

@@ -12,37 +12,42 @@
             <div class="dropdown-menu p-3 dropdown-columns">
 
                 <div class="form-check">
-                    <input class="form-check-input toggle-col" type="checkbox" data-column="0" id="colNombre" checked>
+                    <input class="form-check-input toggle-col" type="checkbox" data-column="0" id="colIdentificador">
+                    <label class="form-check-label" for="colIdentificador">Identificador</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input toggle-col" type="checkbox" data-column="1" id="colNombre" checked>
                     <label class="form-check-label" for="colNombre">Nombre</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input toggle-col" type="checkbox" data-column="1" id="colRuc" checked>
+                    <input class="form-check-input toggle-col" type="checkbox" data-column="2" id="colRuc" checked>
                     <label class="form-check-label" for="colRuc">RUC</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input toggle-col" type="checkbox" data-column="2" id="colTelefono" checked>
+                    <input class="form-check-input toggle-col" type="checkbox" data-column="3" id="colTelefono" checked>
                     <label class="form-check-label" for="colTelefono">Teléfono</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input toggle-col" type="checkbox" data-column="3" id="colCorreo" checked>
+                    <input class="form-check-input toggle-col" type="checkbox" data-column="4" id="colCorreo" checked>
                     <label class="form-check-label" for="colCorreo">Correo</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input toggle-col" type="checkbox" data-column="4" id="colDireccion" checked>
+                    <input class="form-check-input toggle-col" type="checkbox" data-column="5" id="colDireccion" checked>
                     <label class="form-check-label" for="colDireccion">Dirección</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input toggle-col" type="checkbox" data-column="5" id="colEstado" checked>
+                    <input class="form-check-input toggle-col" type="checkbox" data-column="6" id="colEstado" checked>
                     <label class="form-check-label" for="colEstado">Estado</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input toggle-col" type="checkbox" data-column="6" id="colAcciones" checked>
+                    <input class="form-check-input toggle-col" type="checkbox" data-column="7" id="colAcciones" checked>
                     <label class="form-check-label" for="colAcciones">Acciones</label>
                 </div>
 
@@ -57,6 +62,7 @@
 
         <!-- Toggle inactivos -->
         <input type="checkbox" id="toggleInactivosProveedores" class="togglecheck" hidden checked>
+
         <label for="toggleInactivosProveedores" class="toggle-btn">
             Ocultar inactivos
         </label>

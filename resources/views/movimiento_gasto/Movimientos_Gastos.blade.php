@@ -26,7 +26,7 @@
 
         <thead>
             <tr>
-                <th>Identificador</th>
+                <th>ID</th>
                 <th>Fecha</th>
                 <th>Gasto</th>
                 <th>Monto</th>

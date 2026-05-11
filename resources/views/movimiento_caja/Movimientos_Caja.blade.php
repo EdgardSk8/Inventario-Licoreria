@@ -25,7 +25,7 @@
     <table id="tablaMovimientosCaja" class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>Identificador</th>
+                <th>ID</th>
                 <th>Usuario</th>
                 <th>Fecha</th>
                 <th>Caja</th>

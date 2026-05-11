@@ -24,6 +24,7 @@
 
             <thead>
                 <tr>
+                    <th>ID</th>                    
                     <th>Factura</th>
                     <th>Cliente</th>
                     <th>Usuario</th>

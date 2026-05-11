@@ -7,6 +7,11 @@
     <div class="dropdown-menu p-3 dropdown-columns">
 
         <div class="form-check">
+            <input class="form-check-input toggle-col" type="checkbox" data-column="0" id="colIdentificador">
+            <label class="form-check-label" for="colIdentificador">Identificador</label>
+        </div>
+
+        <div class="form-check">
             <input class="form-check-input toggle-col" type="checkbox" data-column="1" id="colFactura" checked>
             <label class="form-check-label" for="colFactura">Factura</label>
         </div>

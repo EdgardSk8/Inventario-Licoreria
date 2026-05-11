@@ -30,6 +30,7 @@
 
     <thead>
         <tr>
+            <th>ID</th>
             <th>Nombre</th>
             <th>RUC</th>
             <th>Teléfono</th>
