@@ -414,22 +414,29 @@
 
         <!-- 👤 Usuario -->
         <div id="perfil">
-            <strong>{{ session('usuario.nombre') ?? 'Invitado' }}</strong>
-            <small>({{ session('usuario.rol') ?? 'Sin rol' }}) </small>
 
-                <button id="btnLogout" class="btn btn-sm">Cerrar sesion
-                    <i class="bi bi-box-arrow-right"> </i>
-                </button>
+            <strong>
+                {{ session('usuario')['nombre'] ?? 'Invitado' }}
+            </strong>
+
+            <small>
+                ({{ session('usuario')['rol'] ?? 'Sin rol' }})
+            </small>
+
+            <button id="btnLogout" class="btn btn-sm">
+                Cerrar sesion
+                <i class="bi bi-box-arrow-right"></i>
+            </button>
+
         </div>
 
     </div>
 
-    <div id="contenido-dinamico" class="ds">@yield('contenido')</div>
+    <div id="contenido-dinamico" class="ds">
+        @yield('contenido')
+    </div>
 
-    <!-- @include('principal.footer') -->
-    
 
-</div>
 
 
 </body>

@@ -8,11 +8,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para cargar la vista
     async function cargarVista(url) {
-        if (url === urlActual) return; // Si ya está cargada, no hacer nada
+
+        if (url === urlActual) return;
+
         urlActual = url;
 
         try {
-            const response = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+
+            const response = await fetch(url, {
+
+                credentials: 'same-origin',
+
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+
+            });
+
+            // Validar errores HTTP
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+
             const html = await response.text();
 
             // Insertar contenido
@@ -20,31 +37,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Ejecutar scripts dentro del contenido
             const scripts = contenido.querySelectorAll('script');
+
             scripts.forEach(oldScript => {
+
                 const newScript = document.createElement('script');
+
                 if (oldScript.src) {
+
                     newScript.src = oldScript.src;
+
                 } else {
+
                     newScript.textContent = oldScript.textContent;
+
                 }
+
                 document.body.appendChild(newScript);
                 document.body.removeChild(newScript);
+
             });
+
         } catch (err) {
+
             console.error('Error al cargar la vista:', err);
+
         }
     }
 
     // Click en los enlaces
     links.forEach(link => {
+
         link.addEventListener('click', e => {
+
             e.preventDefault();
+
             const url = link.dataset.url;
+
             cargarVista(url);
+
         });
+
     });
 
     // Cargar la vista por defecto al abrir la página
-    const vistaPorDefecto = "/gastos"; // Cambia aquí al endpoint que quieras cargar
+    const vistaPorDefecto = "/permisos";
+
     cargarVista(vistaPorDefecto);
+
 });

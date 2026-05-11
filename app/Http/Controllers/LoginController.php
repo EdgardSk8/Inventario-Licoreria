@@ -67,23 +67,23 @@ class LoginController extends Controller
                     'mensaje' => 'Credenciales incorrectas'
                 ], 401);
             }
-
-            // ✅ Guardar sesión
-            Session::put('usuario', [
-                'id' => $usuario->id_usuario,
-                'nombre' => $usuario->nombre_usuario,
-                'id_rol' => $usuario->id_rol_usuario,
-                'rol' => $usuario->nombre_rol
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'mensaje' => 'Inicio de sesión exitoso',
-                'usuario' => [
+                Session::put('usuario', [
+                    'id' => $usuario->id_usuario,
                     'nombre' => $usuario->nombre_usuario,
+                    'id_rol' => $usuario->id_rol_usuario,
                     'rol' => $usuario->nombre_rol
-                ]
-            ], 200);
+                ]);
+
+                $request->session()->regenerate();
+
+                return response()->json([
+                    'success' => true,
+                    'mensaje' => 'Inicio de sesión exitoso',
+                    'usuario' => [
+                        'nombre' => $usuario->nombre_usuario,
+                        'rol' => $usuario->nombre_rol
+                    ]
+                ], 200);
 
         } catch (\Exception $e) {
 
@@ -107,5 +107,5 @@ class LoginController extends Controller
             'success' => true,
             'mensaje' => 'Sesión cerrada correctamente'
         ]);
-}
+    }
 }
