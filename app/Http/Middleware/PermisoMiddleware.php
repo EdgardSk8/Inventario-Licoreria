@@ -14,7 +14,7 @@ class PermisoMiddleware
         $usuario = session('usuario');
 
         if (!$usuario) {
-            abort(401, 'Usuario no autenticado');
+            return response()->view('errors.sin_permiso', [], 401);
         }
 
         $tienePermiso = DB::table('rol_permiso')
@@ -25,7 +25,7 @@ class PermisoMiddleware
             ->exists();
 
         if (!$tienePermiso) {
-            abort(403, 'No tienes permiso');
+            return redirect()->route('error');
         }
 
         return $next($request);

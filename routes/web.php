@@ -49,6 +49,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 /*  ╔════════════ Cargar de Vistas Dinamicas ════════════╗ 
     ╚════════════════════════════════════════════════════╝ */
 
+
 Route::view('/dashboard', 'dashboard.Dashboard') ->middleware('permiso:vista_dashboard')->name('dashboard');
 Route::view('/usuarios', 'usuarios.Usuario')->middleware('permiso:vista_usuarios')->name('usuarios');
 Route::view('/proveedores', 'proveedores.Proveedores')->middleware('permiso:vista_proveedores')->name('proveedores');
@@ -73,7 +74,7 @@ Route::view('/transferencia', 'transferenciacajacuenta.Transferencia')->middlewa
 Route::view('/cuentas', 'cuentas.Cuentas')->middleware('permiso:vista_cuentas')->name('cuentas');
 Route::view('/cuentas/movimientos', 'movimientos_cuenta.Movimientos_Cuentas')->middleware('permiso:vista_movimientos_cuentas')->name('movimientos.cuentas');
 Route::view('/gastos/movimientos', 'movimientos_gasto.Movimientos_Gastos')->middleware('permiso:vista_movimientos_gastos')->name('movimientos.gastos');
-
+Route::view('/error', 'errors.sin_permiso')->name('error');
 /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
     
 /*  ╔═══════════ Endpoint DASHBOARD ═════════════╗ 

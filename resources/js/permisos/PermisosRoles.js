@@ -4,6 +4,7 @@ $(document).ready(function () {
 
     const selectRol = document.getElementById('selectRol');
     const contenedor = document.getElementById('contenedorPermisos');
+    const estadoSinRol = document.getElementById('estadoSinRol');
 
     let dataGlobal = null;
     let rolSeleccionado = null;
@@ -19,13 +20,15 @@ $(document).ready(function () {
         dataGlobal = await res.json();
 
         llenarRoles(dataGlobal.roles);
+
+        // estado inicial
+        mostrarEstadoSinRol();
     }
 
     // ═══════════════════════════════════════
     // 2. LLENAR SELECT ROLES
     // ═══════════════════════════════════════
     function llenarRoles(roles) {
-
 
         roles.forEach(rol => {
 
@@ -38,7 +41,7 @@ $(document).ready(function () {
     }
 
     // ═══════════════════════════════════════
-    // 3. EVENTO CAMBIO DE ROL
+    // 3. CAMBIO DE ROL
     // ═══════════════════════════════════════
     selectRol.addEventListener('change', (e) => {
 
@@ -46,14 +49,29 @@ $(document).ready(function () {
 
         if (!rolSeleccionado) {
             contenedor.innerHTML = '';
+            mostrarEstadoSinRol();
             return;
         }
 
+        mostrarPermisos();
         renderPermisos(rolSeleccionado);
     });
 
     // ═══════════════════════════════════════
-    // 4. RENDER PERMISOS AGRUPADOS POR MÓDULO
+    // 4. UI STATES (ESTADO VACÍO / CONTENIDO)
+    // ═══════════════════════════════════════
+    function mostrarEstadoSinRol() {
+        estadoSinRol.style.display = 'flex';
+        contenedor.style.display = 'none';
+    }
+
+    function mostrarPermisos() {
+        estadoSinRol.style.display = 'none';
+        contenedor.style.display = 'block';
+    }
+
+    // ═══════════════════════════════════════
+    // 5. RENDER PERMISOS AGRUPADOS POR MÓDULO
     // ═══════════════════════════════════════
     function renderPermisos(idRol) {
 
@@ -62,7 +80,6 @@ $(document).ready(function () {
 
         contenedor.innerHTML = '';
 
-        // agrupar por módulo
         const modulos = {};
 
         permisos.forEach(p => {
@@ -77,44 +94,41 @@ $(document).ready(function () {
         for (const modulo in modulos) {
 
             const collapseId = `modulo_${index}`;
-
             let itemsHTML = '';
 
             modulos[modulo].forEach(permiso => {
 
                 const checked = rol.permisos.some(rp => rp.id_permiso === permiso.id_permiso);
 
-itemsHTML += `
-<label class="permiso-card">
+                itemsHTML += `
+                <label class="permiso-card">
 
-    <span class="permiso-label">
-        ${permiso.nombre_permiso}
-    </span>
+                    <span class="permiso-label">
+                        ${permiso.nombre_permiso}
+                    </span>
 
-    <input type="checkbox"
-           class="permiso-check"
-           data-id="${permiso.id_permiso}"
-           ${checked ? 'checked' : ''}>
+                    <input type="checkbox"
+                        class="permiso-check"
+                        data-id="${permiso.id_permiso}"
+                        ${checked ? 'checked' : ''}>
 
-</label>
-`;
+                </label>
+                `;
             });
 
-contenedor.innerHTML += `
-<div class="modulo-permisos">
+            contenedor.innerHTML += `
+                <div class="modulo-permisos">
 
-    <div class="modulo-titulo">
-        ${modulo}
-    </div>
+                    <div class="modulo-titulo">
+                        ${modulo}
+                    </div>
 
-    <div class="permisos-grid">
+                    <div class="permisos-grid">
+                        ${itemsHTML}
+                    </div>
 
-        ${itemsHTML}
-
-    </div>
-
-</div>
-`;
+                </div>
+            `;
 
             index++;
         }
@@ -123,7 +137,7 @@ contenedor.innerHTML += `
     }
 
     // ═══════════════════════════════════════
-    // 5. EVENTOS CHECKBOX
+    // 6. CHECKBOX EVENTS
     // ═══════════════════════════════════════
     function activarEventosCheckbox() {
 
@@ -162,7 +176,7 @@ contenedor.innerHTML += `
     }
 
     // ═══════════════════════════════════════
-    // 6. TOAST
+    // 7. TOAST
     // ═══════════════════════════════════════
     function mostrarToast(mensaje, tipo = 'success') {
 
