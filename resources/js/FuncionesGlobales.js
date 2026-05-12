@@ -172,6 +172,112 @@ window.FechaSimple = function(fechaSQL) {
 
 /* -------------------------------------------------------------------------------- */
 
+
+window.ConfigurarFiltrosDataTable = function(tabla, config = {}) {
+
+    let columnasSelect = config.columnasSelect || [];
+
+    let columnasIgnorar = config.columnasIgnorar || [];
+
+    tabla.api().columns().every(function () {
+
+        let column = this;
+
+        let index = column.index();
+
+        let footer = $(column.footer());
+
+        footer.empty();
+
+        // Ignorar columnas
+        if(columnasIgnorar.includes(index)){
+            return;
+        }
+
+        // =========================
+        // SELECT
+        // =========================
+
+        if(columnasSelect.includes(index)){
+
+            let select = $(`
+                <select class="form-select form-select-sm filtro-columna">
+                    <option value="">Todos</option>
+                </select>
+            `)
+            .appendTo(footer)
+            .on('change', function () {
+
+                let val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                column
+                    .search(val ? '^' + val + '$' : '', true, false)
+                    .draw();
+
+            });
+
+            let valores = [];
+
+            column.data().each(function (d) {
+
+                // Limpiar HTML
+                d = $('<div>').html(d).text().trim();
+
+                if(d && !valores.includes(d)){
+                    valores.push(d);
+                }
+
+            });
+
+            valores.sort();
+
+            valores.forEach(function (d) {
+
+                select.append(
+                    `<option value="${d}">${d}</option>`
+                );
+
+            });
+
+        }
+
+        // =========================
+        // INPUT
+        // =========================
+
+        else{
+
+            $(`
+                <input 
+                    type="text" 
+                    class="form-control form-control-sm filtro-columna" 
+                    placeholder="Buscar"
+                >
+            `)
+            .appendTo(footer)
+            .on('keyup change clear', function () {
+
+                if(column.search() !== this.value){
+
+                    column
+                        .search(this.value)
+                        .draw();
+
+                }
+
+            });
+
+        }
+
+    });
+
+};
+
+
+/* -------------------------------------------------------------------------------- */
+
+
+
 /* FUNCION UTILITARIA*/
 window.FlatPickr = function (elemento) {
 

@@ -27,8 +27,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Fecha</th>
                 <th>Gasto</th>
+                <th>Fecha</th>
                 <th>Monto</th>
                 <th>Origen</th>
                 <th>Caja</th>

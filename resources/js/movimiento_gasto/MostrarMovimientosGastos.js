@@ -16,6 +16,7 @@ $(document).ready(function () {
         columns: [
 
             { data: 'id' },
+             { data: 'gasto.nombre' },
 
             { 
                 data: 'fecha', 
@@ -24,7 +25,7 @@ $(document).ready(function () {
                 } 
             },
 
-            { data: 'gasto.nombre' },
+           
 
             { 
                 data: 'monto',

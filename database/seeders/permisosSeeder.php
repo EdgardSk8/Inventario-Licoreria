@@ -34,11 +34,11 @@ class permisosSeeder extends Seeder
             ['nombre_permiso'=>'editar_roles','descripcion_permiso'=>'Editar roles','modulo_permiso'=>'roles'],
             ['nombre_permiso'=>'actualizar_roles','descripcion_permiso'=>'Actualizar roles','modulo_permiso'=>'roles'],
             ['nombre_permiso'=>'cambiar_estado_roles','descripcion_permiso'=>'Cambiar estado roles','modulo_permiso'=>'roles'],
-            ['nombre_permiso'=>'mostrar_roles_permisos','descripcion_permiso'=>'Ver roles permisos','modulo_permiso'=>'roles'],
-            ['nombre_permiso'=>'asignar_roles_permisos','descripcion_permiso'=>'Asignar permisos a roles','modulo_permiso'=>'roles'],
-
+            
             /* ═════════════ PERMISOS ═════════════ */
             ['nombre_permiso'=>'vista_permisos','descripcion_permiso'=>'Ver vista permisos','modulo_permiso'=>'permisos'],
+            ['nombre_permiso'=>'asignar_roles_permisos','descripcion_permiso'=>'Asignar permisos a roles','modulo_permiso'=>'permisos'],
+            ['nombre_permiso'=>'mostrar_roles_permisos','descripcion_permiso'=>'Ver roles permisos','modulo_permiso'=>'permisos'],
 
             /* ═════════════ CATEGORIAS ═════════════ */
             ['nombre_permiso'=>'vista_categorias','descripcion_permiso'=>'Ver vista categorias','modulo_permiso'=>'categorias'],

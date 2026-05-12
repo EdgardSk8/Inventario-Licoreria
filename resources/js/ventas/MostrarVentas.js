@@ -50,6 +50,9 @@ $(document).ready(function () {
             { targets: 10, visible: $('.toggle-col[data-column="10"]').is(':checked') }
         ], // Constante de traduccion de datatables
         order: [[0, 'desc']],
+        initComplete: function () {
+            ConfigurarFiltrosDataTable(this, { columnasSelect: [2,3, 8], columnasIgnorar: [10] });
+        }
     }); // Fin de datatables
 
     $('.toggle-col').on('change', function () {

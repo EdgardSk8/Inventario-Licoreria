@@ -103,6 +103,9 @@ $(document).ready(function () {
             { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') }
         ],
         order: [[1, 'asc']],
+        initComplete: function () {
+            ConfigurarFiltrosDataTable(this, { columnasSelect: [2], columnasIgnorar: [0,8] });
+        }
 
     }); // Fin de Funcion de inicializacion de tabla
 

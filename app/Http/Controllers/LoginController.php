@@ -6,26 +6,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Usuario;
 
 class LoginController extends Controller
 {
-    
-/*  ╔════════════ LOGIN ═════════════╗ 
-    ╚════════════════════════════════╝ */
-
     public function login(Request $request)
     {
         try {
 
-            // ✅ Validación
+            // VALIDACIÓN
             $validator = Validator::make($request->all(), [
                 'nombre_usuario' => 'required',
                 'password' => 'required'
-            ], [
-                'nombre_usuario.required' => 'El usuario es obligatorio.',
-                'password.required' => 'La contraseña es obligatoria.'
             ]);
 
             if ($validator->fails()) {
@@ -35,7 +29,7 @@ class LoginController extends Controller
                 ], 422);
             }
 
-            // 🔎 Buscar usuario + rol
+            // BUSCAR USUARIO
             $usuario = Usuario::select(
                     'usuarios.*',
                     'roles.nombre_rol'
@@ -44,15 +38,13 @@ class LoginController extends Controller
                 ->where('nombre_usuario', $request->nombre_usuario)
                 ->first();
 
-            // ❌ Usuario no existe
             if (!$usuario) {
                 return response()->json([
                     'success' => false,
-                    'mensaje' => 'Usuario no existe en el sistema'
+                    'mensaje' => 'Usuario no existe'
                 ], 401);
             }
 
-            // ❌ Usuario inactivo
             if (!$usuario->estado_usuario) {
                 return response()->json([
                     'success' => false,
@@ -60,68 +52,54 @@ class LoginController extends Controller
                 ], 403);
             }
 
-            // 🔐 Verificar contraseña
             if (!Hash::check($request->password, $usuario->password_hash_usuario)) {
                 return response()->json([
                     'success' => false,
                     'mensaje' => 'Credenciales incorrectas'
                 ], 401);
             }
-            // ✅ Guardar sesión
+
+            // SESIÓN USUARIO
             Session::put('usuario', [
-                'id_usuario' => $usuario->id_usuario,
-                'nombre_usuario' => $usuario->nombre_usuario,
+                'id' => $usuario->id_usuario,
+                'nombre' => $usuario->nombre_usuario,
                 'id_rol' => $usuario->id_rol_usuario,
-                'nombre_rol' => $usuario->nombre_rol
+                'rol' => $usuario->nombre_rol
             ]);
+
+            // 🔥 PERMISOS (IMPORTANTE)
+            $permisos = DB::table('rol_permiso')
+                ->join('permisos', 'rol_permiso.id_permiso', '=', 'permisos.id_permiso')
+                ->where('rol_permiso.id_rol', $usuario->id_rol_usuario)
+                ->where('permisos.estado_permiso', 1)
+                ->pluck('permisos.nombre_permiso')
+                ->toArray();
+
+            Session::put('permisos', $permisos);
 
             return response()->json([
                 'success' => true,
-                'mensaje' => 'Inicio de sesión exitoso',
-                'usuario' => [
-                    'nombre' => $usuario->nombre_usuario,
-                    'rol' => $usuario->nombre_rol
-                ]
-                            ], 200);// ✅ Guardar sesión
-                Session::put('usuario', [
-                    'id' => $usuario->id_usuario,
-                    'nombre' => $usuario->nombre_usuario,
-                    'id_rol' => $usuario->id_rol_usuario,
-                    'rol' => $usuario->nombre_rol
-                ]);
-
-                $request->session()->regenerate();
-
-                return response()->json([
-                    'success' => true,
-                    'mensaje' => 'Inicio de sesión exitoso',
-                    'usuario' => [
-                        'nombre' => $usuario->nombre_usuario,
-                        'rol' => $usuario->nombre_rol
-                    ]
-                ], 200);
+                'mensaje' => 'Login correcto'
+            ]);
 
         } catch (\Exception $e) {
 
             return response()->json([
-                'error' => true,
-                'mensaje' => 'Error en el login',
-                'detalle' => $e->getMessage()
+                'success' => false,
+                'mensaje' => 'Error en login'
             ], 500);
         }
     }
 
-/*  ╔════════════ LOGOUT ═════════════╗ 
-    ╚═════════════════════════════════╝ */
-
     public function logout()
     {
-        session()->forget('usuario');
-        session()->flush(); // limpia toda la sesión
+        Session::forget('usuario');
+        Session::forget('permisos');
+        Session::flush();
 
         return response()->json([
             'success' => true,
-            'mensaje' => 'Sesión cerrada correctamente'
+            'mensaje' => 'Sesión cerrada'
         ]);
     }
 }

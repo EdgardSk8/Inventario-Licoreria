@@ -26,13 +26,13 @@
 
         <thead>
             <tr>
-                <th>Identificador</th>
+                <th>ID</th>
                 <th>Factura</th>
                 <th>Proveedor</th>
                 <th>Usuario</th>
                 <th>Fecha</th>
                 <th>Subtotal</th>
-                <th>Descuento</th>
+                <th>Desc</th>
                 <th>Impuesto</th>
                 <th>Total</th>
                 <th>Método Pago</th>
@@ -42,6 +42,23 @@
         </thead>
 
         <tbody></tbody>
+
+        <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
 
     </table>
 

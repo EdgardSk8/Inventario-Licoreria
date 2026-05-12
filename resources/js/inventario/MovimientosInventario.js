@@ -54,6 +54,10 @@ $(document).ready(function () {
 
         order: [[0, 'desc']],
 
+        initComplete: function () {
+            ConfigurarFiltrosDataTable(this, { columnasSelect: [0, 1, 4, 5]});
+        }
+
     }); // Fin de DataTables
 
     $('.toggle-col').on('change', function(e) {

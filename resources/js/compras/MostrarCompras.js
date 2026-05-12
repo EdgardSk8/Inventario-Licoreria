@@ -68,6 +68,9 @@ $(document).ready(function () {
         ],
 
         order: [[0, 'desc']],
+        initComplete: function () {
+            ConfigurarFiltrosDataTable(this, { columnasSelect: [2,3,9], columnasIgnorar: [11] });
+        }
     });
 
     $('.toggle-col').on('change', function () {
