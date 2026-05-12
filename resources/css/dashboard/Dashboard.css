@@ -123,10 +123,6 @@ SELECTS + INPUTS
     cursor: pointer;
 }
 
-.dropdown-menu {
-    max-width: 200px;
-    overflow: hidden;
-}
 
 
 .dashboard-empty{

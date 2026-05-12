@@ -14,7 +14,7 @@
 
     /*  ╔════════ Obtener Tipo de Cambio ═════════╗ */
     function cargarTipoCambio() {
-        $.get('/tipo-cambio', function (res) {
+        $.get('/tipo-cambio/pos', function (res) {
 
             if (res.success) {
                 TASA = parseFloat(res.tasa) || 0;

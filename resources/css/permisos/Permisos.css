@@ -1,0 +1,165 @@
+
+        #selectRol {
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            padding: 2px;
+            font-size: 14px;
+            transition: 0.2s ease;
+            margin: 10px 10px 0px 10px;
+        }
+
+        #selectRol:focus {
+            border-color: #6199f5;
+            box-shadow: 0 0 0 3px rgba(97, 153, 245, 0.2);
+            outline: none;
+        }
+
+        /* ════════════════════════
+           CONTENEDOR PRINCIPAL
+        ════════════════════════ */
+
+        .dropdown{
+            padding-bottom: 10px;
+            background-color: #374151;
+        }
+
+        .padre-permisos {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            height: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 0; 
+            overflow: hidden;
+        }
+
+        .hijo-permisos {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* scroll elegante */
+        .hijo-permisos::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .hijo-permisos::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        /* ════════════════════════
+           MÓDULOS
+        ════════════════════════ */
+
+        .modulo-permisos {
+            padding: 8px;
+            margin: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: #f4f6f9;
+        }
+
+        .modulo-titulo {
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: black;
+
+            text-transform: uppercase;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modulo-titulo::before {
+            content: "";
+            width: 6px;
+            height: 18px;
+            background: black;
+            border-radius: 4px;
+        }
+
+        /* ════════════════════════
+           GRID PERMISOS
+        ════════════════════════ */
+
+        .permisos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        /* ════════════════════════
+           CARD PERMISO
+        ════════════════════════ */
+
+        .card{
+            background-color: #111827;
+        }
+
+        .permiso-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 3px 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+
+            background: #ffffff;
+            transition: all 0.2s ease;
+
+            cursor: pointer;
+
+            min-width: max-content;
+
+            /* 🔥 importante para evitar desbordes horizontales */
+            gap: 10px;
+        }
+
+        .permiso-card:hover {
+            border-color: #6199f5;
+            box-shadow: 0 4px 12px rgba(97, 153, 245, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .permiso-label {
+            font-size: 0.85rem;
+            margin: 0;
+            color: #1f2937;
+            user-select: none;
+
+            flex: 1;
+            min-width: 0;
+
+            white-space: normal;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .permiso-card input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #22c55e;
+
+            flex-shrink: 0; /* evita que se aplaste */
+        }
+
+
+        /* estado activo */
+        .permiso-card input[type="checkbox"]:checked + .permiso-label {
+            font-weight: 600;
+            color: #6199f5;
+        }
+
+        /* ════════════════════════
+           TOAST
+        ════════════════════════ */
+
+        .toast-container {
+            z-index: 9999;
+        }

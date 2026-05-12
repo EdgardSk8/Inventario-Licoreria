@@ -1,7 +1,6 @@
 $(document).ready(function () {
 
-
-    console.log('pepe')
+    document.getElementById('titulo').textContent = 'GESTION DE PERMISOS POR ROL';
 
     const selectRol = document.getElementById('selectRol');
     const contenedor = document.getElementById('contenedorPermisos');
@@ -27,7 +26,6 @@ $(document).ready(function () {
     // ═══════════════════════════════════════
     function llenarRoles(roles) {
 
-        selectRol.innerHTML = `<option value="">Seleccione un rol</option>`;
 
         roles.forEach(rol => {
 
@@ -86,49 +84,37 @@ $(document).ready(function () {
 
                 const checked = rol.permisos.some(rp => rp.id_permiso === permiso.id_permiso);
 
-                itemsHTML += `
-                    <div class="form-check d-flex justify-content-between align-items-center border-bottom py-1">
+itemsHTML += `
+<label class="permiso-card">
 
-                        <label class="form-check-label">
-                            ${permiso.nombre_permiso}
-                        </label>
+    <span class="permiso-label">
+        ${permiso.nombre_permiso}
+    </span>
 
-                        <input 
-                            type="checkbox"
-                            class="form-check-input permiso-check"
-                            data-id="${permiso.id_permiso}"
-                            ${checked ? 'checked' : ''}
-                        >
+    <input type="checkbox"
+           class="permiso-check"
+           data-id="${permiso.id_permiso}"
+           ${checked ? 'checked' : ''}>
 
-                    </div>
-                `;
+</label>
+`;
             });
 
-            contenedor.innerHTML += `
-                <div class="accordion-item">
+contenedor.innerHTML += `
+<div class="modulo-permisos">
 
-                    <h2 class="accordion-header">
+    <div class="modulo-titulo">
+        ${modulo}
+    </div>
 
-                        <button class="accordion-button collapsed" 
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#${collapseId}">
-                            ${modulo}
-                        </button>
+    <div class="permisos-grid">
 
-                    </h2>
+        ${itemsHTML}
 
-                    <div id="${collapseId}" 
-                         class="accordion-collapse collapse">
+    </div>
 
-                        <div class="accordion-body">
-                            ${itemsHTML}
-                        </div>
-
-                    </div>
-
-                </div>
-            `;
+</div>
+`;
 
             index++;
         }

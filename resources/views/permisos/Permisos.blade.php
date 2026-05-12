@@ -9,67 +9,45 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    
+    <link rel="stylesheet" href="{{ Vite::asset('resources/css/permisos/Permisos.css') }}">
     <script src="{{ Vite::asset('resources/js/permisos/PermisosRoles.js') }}"></script>
 
+    
 
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container-fluid py-3">
+<div class="card shadow-sm border-0 padre-permisos">
 
-    <!-- HEADER -->
-    <div class="card shadow-sm border-0 mb-3">
-
-        <div class="card-body d-flex justify-content-between align-items-center">
-
-            <h5 class="mb-0 fw-bold">Gestión de Permisos por Rol</h5>
-
-            <select id="selectRol" class="form-select w-auto">
-                <option value="">Seleccione un rol</option>
-            </select>
-
-        </div>
-
+    <div class="dropdown">
+        
+        <select id="selectRol" class="Selector-Rol">
+            <option value="">Seleccione un rol</option>
+        </select>
+            
     </div>
 
-    <!-- PERMISOS -->
-    <div class="card shadow-sm border-0">
+    <div class="hijo-permisos">
 
-        <div class="card-body p-2">
-
-            <div id="contenedorPermisos" class="accordion"
-                 style="max-height: 75vh; overflow-y: auto;">
-
-                <!-- JS genera acordeones por módulo -->
-
-            </div>
-
+        <div id="contenedorPermisos">
+            <!-- JS genera acordeones por módulo -->
         </div>
 
     </div>
 
 </div>
 
-<!-- ╔════════ Toast ═════════╗ -->
+<!-- Toast -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
-
     <div id="toastMensaje" class="toast text-bg-success border-0">
-
         <div class="d-flex">
-
             <div class="toast-body" id="toastTexto"></div>
-
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-
         </div>
-
     </div>
-
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

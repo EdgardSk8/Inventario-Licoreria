@@ -5,7 +5,7 @@ $(document).ready(function () {
     function cargarCredenciales() {
 
         $.ajax({
-            url: '/empresa/mostrar',
+            url: '/credenciales/mostrar',
             type: 'GET',
             dataType: 'json',
 

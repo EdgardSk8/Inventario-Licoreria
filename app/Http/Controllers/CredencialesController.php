@@ -134,26 +134,6 @@ class CredencialesController extends Controller
         }
     }
 
-/*  ╔═══════════ Mostrar Tipo de cambio ════════════╗ 
-    ╚═══════════════════════════════════════════════╝ */
 
-    public function MostrarTipoCambio()
-    {
-        try {
-            $config = Credenciales::first();
-
-            return response()->json([
-                'success' => true,
-                'tasa' => $config ? (float) $config->tipo_cambio : 0
-            ], 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'mensaje' => 'Error al obtener tipo de cambio',
-                'detalle' => $e->getMessage()
-            ], 500);
-        }
-    }
 
 }
