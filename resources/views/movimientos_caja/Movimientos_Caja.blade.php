@@ -20,7 +20,7 @@
 
 <body>
 
-    @include("movimiento_caja.CheckColumnasMovimiento_Caja")
+    @include("movimientos_caja.CheckColumnasMovimiento_Caja")
 
     <table id="tablaMovimientosCaja" class="table table-striped table-bordered">
         <thead>

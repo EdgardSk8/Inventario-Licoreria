@@ -147,7 +147,7 @@ Route::get('/gastos-cajas/mostrar', [GastoController::class, 'MostrarCajasGastos
 /*  ╔════════ Endpoint Movimiento Gasto ═════════╗ 
     ╚════════════════════════════════════════════╝ */
 
-Route::get('/movimientos-gastos/mostrar', [MovimientoGastoController::class, 'MostrarMovimientosGastos'])->middleware('permiso:mostrar_movimiento_gastos');
+Route::get('/movimientos-gastos/mostrar', [MovimientoGastoController::class, 'MostrarMovimientosGastos'])->middleware('permiso:mostrar_movimientos_gastos');
 
 
 /*  ╔══════════ Endpoint Tipo de Gasto ══════════╗ 
