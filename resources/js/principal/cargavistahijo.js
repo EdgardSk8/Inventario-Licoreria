@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Cargar la vista por defecto al abrir la página
-    const vistaPorDefecto = "/dashboard";
+    const vistaPorDefecto = "/usuarios";
 
     cargarVista(vistaPorDefecto);
 

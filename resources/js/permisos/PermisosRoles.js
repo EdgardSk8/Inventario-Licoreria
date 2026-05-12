@@ -143,10 +143,14 @@ $(document).ready(function () {
 
         document.querySelectorAll('.permiso-check').forEach(check => {
 
+            // 🔥 guardar estado inicial
+            check.dataset.previous = check.checked ? "1" : "0";
+
             check.addEventListener('change', async (e) => {
 
-                const idPermiso = e.target.getAttribute('data-id');
-                const asignar = e.target.checked;
+                const checkbox = e.target;
+                const idPermiso = checkbox.getAttribute('data-id');
+                const asignar = checkbox.checked;
 
                 try {
 
@@ -165,9 +169,20 @@ $(document).ready(function () {
 
                     const data = await res.json();
 
+                    // 🔥 SI FALLA → revertir checkbox
+                    if (!data.success) {
+                        checkbox.checked = checkbox.dataset.previous === "1";
+                    } else {
+                        // actualizar estado guardado
+                        checkbox.dataset.previous = checkbox.checked ? "1" : "0";
+                    }
+
                     mostrarToast(data.mensaje, data.success ? 'success' : 'danger');
 
                 } catch (error) {
+
+                    // 🔥 rollback en error de red
+                    checkbox.checked = checkbox.dataset.previous === "1";
 
                     mostrarToast('Error al actualizar permiso', 'danger');
                 }

@@ -67,6 +67,22 @@ class LoginController extends Controller
                     'mensaje' => 'Credenciales incorrectas'
                 ], 401);
             }
+            // ✅ Guardar sesión
+            Session::put('usuario', [
+                'id_usuario' => $usuario->id_usuario,
+                'nombre_usuario' => $usuario->nombre_usuario,
+                'id_rol' => $usuario->id_rol_usuario,
+                'nombre_rol' => $usuario->nombre_rol
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'mensaje' => 'Inicio de sesión exitoso',
+                'usuario' => [
+                    'nombre' => $usuario->nombre_usuario,
+                    'rol' => $usuario->nombre_rol
+                ]
+                            ], 200);// ✅ Guardar sesión
                 Session::put('usuario', [
                     'id' => $usuario->id_usuario,
                     'nombre' => $usuario->nombre_usuario,

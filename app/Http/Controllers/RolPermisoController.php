@@ -36,6 +36,14 @@ class RolPermisoController extends Controller
 
         $rol = Rol::findOrFail($request->id_rol);
 
+        // 🔥 PROTECCIÓN ADMINISTRADOR
+        if ($rol->id_rol == 1 && !$request->asignar) {
+            return response()->json([
+                'success' => false,
+                'mensaje' => 'No se pueden quitar permisos al rol Administrador'
+            ], 403);
+        }
+
         if ($request->asignar) {
             $rol->permisos()->syncWithoutDetaching([$request->id_permiso]);
         } else {
