@@ -28,7 +28,7 @@ CONTENEDOR
     flex-direction:column;
     gap:14px;
     overflow:hidden;
-    margin: 10px;
+    margin-bottom: 10px;
 }
 
 /* ════════════════════════

@@ -35,6 +35,7 @@ use App\Http\Controllers\MovimientoGastoController;
 use App\Http\Controllers\DetalleCompraController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RolPermisoController;
+use App\Http\Controllers\BackupController;
 
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
@@ -74,6 +75,7 @@ Route::view('/transferencia', 'transferenciacajacuenta.Transferencia')->middlewa
 Route::view('/cuentas', 'cuentas.Cuentas')->middleware('permiso:vista_cuentas')->name('cuentas');
 Route::view('/cuentas/movimientos', 'movimientos_cuenta.Movimientos_Cuentas')->middleware('permiso:vista_movimientos_cuentas')->name('movimientos.cuentas');
 Route::view('/gastos/movimientos', 'movimientos_gasto.Movimientos_Gastos')->middleware('permiso:vista_movimientos_gastos')->name('movimientos.gastos');
+Route::view('/respaldo', 'respaldo.Respaldo')->middleware('permiso:vista_respaldo')->name('respaldo');
 Route::view('/error', 'errors.sin_permiso')->name('error');
 /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
     
@@ -286,4 +288,8 @@ Route::get('/compras/{id}/detalle', [CompraController::class, 'MostrarDetalleCom
 Route::get('/roles/permisos', [RolPermisoController::class, 'obtenerRolesPermisos'])->middleware('permiso:mostrar_roles_permisos');
 Route::post('/roles/permisos/asignar', [RolPermisoController::class, 'asignar'])->middleware('permiso:asignar_roles_permisos');
 
+/*  ╔════════════ Endpoint Respaldo ═════════════╗ 
+    ╚════════════════════════════════════════════╝ */
 
+Route::post('/backup/exportar', [BackupController::class, 'exportar'])->middleware('permiso:exportar_respaldo');
+Route::post('/backup/importar', [BackupController::class, 'importarSQL'])->middleware('permiso:importar_respaldo');

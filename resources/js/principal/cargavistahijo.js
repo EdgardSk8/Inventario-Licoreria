@@ -80,8 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Cargar la vista por defecto al abrir la página
-    const vistaPorDefecto = "/ventas";
-
+    const vistaPorDefecto = "/respaldo";
     cargarVista(vistaPorDefecto);
+
+// const primeraVista = document.querySelector('.cargar-vista[data-url]');
+// if (primeraVista) { cargarVista(primeraVista.dataset.url);}
+
+   
 
 });

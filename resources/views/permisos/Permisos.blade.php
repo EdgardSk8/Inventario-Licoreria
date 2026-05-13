@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/permisos/Permisos.css') }}">
     <script src="{{ Vite::asset('resources/js/permisos/PermisosRoles.js') }}"></script>
 
-    
-
 </head>
 
 <body>

@@ -104,7 +104,7 @@
         const btn = $(this);
         let idVenta = parseInt(btn.data('id'));
 
-        if (!idVenta) { mostrarToast('No se encontró el ID de la venta', 'error'); return; }
+        if (!idVenta) { mostrarToast('No se encontró el ID de la venta', 'danger'); return; }
 
         if (btn.data('loading')) return;
         btn.data('loading', true);
@@ -136,7 +136,7 @@ $(document)
     const idVenta = $('#modalAnularVenta').attr('data-id-venta');
 
     if (!idVenta) {
-        mostrarToast('ID de venta no válido', 'error');
+        mostrarToast('ID de venta no válido', 'danger');
         return;
     }
 
@@ -157,12 +157,12 @@ $(document)
                 bootstrap.Modal.getInstance( document.getElementById('modalDetalleVenta') )?.hide();
                 $('#tablaVentas').DataTable().ajax.reload(null, false);
 
-            } else { mostrarToast(res.mensaje, 'error'); }
+            } else { mostrarToast("Error al anular Factura", 'danger'); }
         },
         error: function (xhr) {
 
             let msg = xhr.responseJSON?.mensaje ?? 'Error al anular la venta';
-            mostrarToast(msg, 'error');
+            mostrarToast(msg, 'danger');
         },
         complete: function () {
 

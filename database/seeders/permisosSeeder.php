@@ -16,9 +16,6 @@ class permisosSeeder extends Seeder
             ['nombre_permiso' => 'mostrar_dashboard_ventas','descripcion_permiso' => 'Ver datos ventas dashboard','modulo_permiso' => 'dashboard'],
             ['nombre_permiso' => 'mostrar_dashboard_movimiento_inventario','descripcion_permiso' => 'Ver movimientos inventario dashboard','modulo_permiso' => 'dashboard'],
 
-            /* ═════════════ LOGIN / SISTEMA ═════════════ */
-            ['nombre_permiso' => 'backup_base_datos','descripcion_permiso' => 'Realizar backup','modulo_permiso' => 'sistema'],
-
             /* ═════════════ USUARIOS ═════════════ */
             ['nombre_permiso'=>'vista_usuarios','descripcion_permiso'=>'Ver vista usuarios','modulo_permiso'=>'usuarios'],
             ['nombre_permiso'=>'mostrar_usuarios','descripcion_permiso'=>'Listar usuarios','modulo_permiso'=>'usuarios'],
@@ -98,8 +95,6 @@ class permisosSeeder extends Seeder
             ['nombre_permiso'=>'vista_movimientos_cajas','descripcion_permiso'=>'Ver Movimientos caja','modulo_permiso'=>'movimiento_cajas'],
             ['nombre_permiso'=>'mostrar_movimiento_cajas','descripcion_permiso'=>'Listar Movimientos caja','modulo_permiso'=>'movimiento_cajas'],
 
-
-
             /* ═════════════ FACTURACIÓN (POS) ═════════════ */
             ['nombre_permiso'=>'vista_facturacion','descripcion_permiso'=>'Ver POS','modulo_permiso'=>'facturacion'],
             ['nombre_permiso'=>'usar_facturacion','descripcion_permiso'=>'Usar facturacion POS','modulo_permiso'=>'facturacion'],
@@ -168,6 +163,12 @@ class permisosSeeder extends Seeder
             ['nombre_permiso'=>'mostrar_credenciales','descripcion_permiso'=>'Mostrar credenciales','modulo_permiso'=>'credenciales'],
             ['nombre_permiso'=>'editar_credenciales','descripcion_permiso'=>'Editar credenciales','modulo_permiso'=>'credenciales'],
             ['nombre_permiso'=>'actualizar_credenciales','descripcion_permiso'=>'Actualizar credenciales','modulo_permiso'=>'credenciales'],
+
+            /* ═════════════ LOGIN / SISTEMA ═════════════ */
+            ['nombre_permiso' => 'vista_respaldo','descripcion_permiso' => 'Ver Respaldo','modulo_permiso' => 'sistema'],
+            ['nombre_permiso' => 'exportar_respaldo','descripcion_permiso' => 'Realizar backup','modulo_permiso' => 'sistema'],
+            ['nombre_permiso' => 'importar_respaldo','descripcion_permiso' => 'Importar backup','modulo_permiso' => 'sistema'],
+
         ]);
     }
 }
