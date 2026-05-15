@@ -1,22 +1,28 @@
 $(document).ready(function () {
 
+    /* EVENTO DE NOMBRAMIENTO DE TITULO */
+
     $('#titulo').text('REPORTES PARAMETRIZADOS');
+
+    /* INICIALIZACION DE FLATPICKR */
 
     FlatPickr(FechaInicio);
     flatpickr(FechaFin);
 
+    /* VARIABLES DE ESTADO */
 
     let cargando = false;
     let tablaReportes = null;
-    let requestActual = null; // 🔥 evita respuestas viejas
+    let requestActual = null;
+
+    /* ESTADO DE MODULO */
 
     const $fechaInicio = $('#FechaInicio');
     const $fechaFin = $('#FechaFin');
     const $limite = $('#LimiteDatos');
+    const Primer_Reporte = $('input[name="reporte"]').first();
 
-    $('#limpiafiltroreporte').on('click', function () {
-        $fechaInicio.val(''); $fechaFin.val(''); $limite.val(''); recargarReporte();
-    });
+    /* MAPEO DE RUTAS */
 
     const rutasReportes = {
         ventas: '/reportes/ventas',
@@ -27,64 +33,23 @@ $(document).ready(function () {
         cajas: '/reportes/cajas'
     };
 
-    // =====================================
-    // EVENTOS
-    // =====================================
+    /* FUNCION CONTROL DE FLUJO */
 
-    $(document).on('change', 'input[name="reporte"]', function () {
-        cargarReporte($(this).val());
-    });
-
-    $fechaInicio.add($fechaFin).on('change', recargarReporte);
-    $limite.on('input', recargarReporte);
-
-    const primer = $('input[name="reporte"]').first();
-    if (primer.length) {
-        primer.prop('checked', true);
-        cargarReporte(primer.val());
+    function recargarReporte() { 
+        const reporte = $('input[name="reporte"]:checked').val(); 
+        if (reporte) cargarReporte(reporte); 
     }
-
-    function recargarReporte() {
-        const reporte = $('input[name="reporte"]:checked').val();
-        if (reporte) cargarReporte(reporte);
-    }
-
-    // =====================================
-    // DESTRUIR TABLA REAL
-    // =====================================
-
-    function destruirTabla() {
-
-        if (tablaReportes) {
-            tablaReportes.clear();
-            tablaReportes.destroy();
-            tablaReportes = null;
-            
-        }
-
-        // 🔥 CLAVE: limpiar DOM completamente
-        $('#Reportes').empty();
-        $('#Reportes thead').empty();
-        $('#Reportes tbody').empty();
-    }
-
-    // =====================================
-    // CARGAR REPORTE
-    // =====================================
 
     function cargarReporte(reporte) {
 
         if (cargando) return;
         cargando = true;
 
-        // 🔥 CANCELAR REQUEST ANTERIOR
-        if (requestActual) {
-            requestActual.abort();
-        }
+        if (requestActual) { requestActual.abort(); }
 
         requestActual = $.ajax({
-            url: rutasReportes[reporte],
-            type: 'GET',
+
+            url: rutasReportes[reporte], type: 'GET',
             data: {
                 fecha_inicio: $fechaInicio.val(),
                 fecha_fin: $fechaFin.val(),
@@ -94,80 +59,62 @@ $(document).ready(function () {
             success: function (respuesta) {
 
                 cargando = false;
-
                 if (!respuesta.success) return;
 
-                // =====================================
-                // VALIDACIÓN DEFENSIVA
-                // =====================================
-
-                if (!respuesta.datos || !respuesta.columnas) {
-                    console.error("RESPUESTA INVÁLIDA:", respuesta);
-                    return;
-                }
-
-                // =====================================
-                // RESET TOTAL
-                // =====================================
-
+                if (!respuesta.datos || !respuesta.columnas) { console.error("RESPUESTA INVÁLIDA:", respuesta); return; }
                 destruirTabla();
 
-                // =====================================
-                // INIT DATATABLE
-                // =====================================
+                $('#Orden-Datos').on('change', function () {
+                    let orden = $(this).val();
+                    tablaReportes.order([0, orden]).draw(); 
+                });
 
-        tablaReportes = $('#Reportes').DataTable({
+                tablaReportes = $('#Reportes').DataTable({
 
-            ajax: function (data, callback) {
+                    ajax: function (data, callback) {
 
-                if (requestActual) requestActual.abort();
+                        if (requestActual) requestActual.abort();
 
-                requestActual = $.ajax({
-                    url: rutasReportes[reporte],
-                    type: 'GET',
-                    data: {
-                        fecha_inicio: $fechaInicio.val(),
-                        fecha_fin: $fechaFin.val(),
-                        limite: $limite.val() || null
+                        requestActual = $.ajax({
+                            url: rutasReportes[reporte], type: 'GET',
+
+                            data: {
+                                fecha_inicio: $fechaInicio.val(),
+                                fecha_fin: $fechaFin.val(),
+                                limite: $limite.val() || null
+                            },
+
+                            success: function (respuesta) { callback({ data: respuesta.datos }); }
+                        });
                     },
 
-                    success: function (respuesta) {
-                        callback({ data: respuesta.datos });
-                    }
+                    columns: respuesta.columnas.map(c => ({ data: c.data, title: c.title, defaultContent: "" })),
+                    pageLength: 10, dom: 'Bt', buttons: generarBotones(reporte), order:[0, "desc"],
+                    columnDefs: [ { targets: "_all", defaultContent: "" } ]
+
                 });
-            },
 
-            columns: respuesta.columnas.map(c => ({
-                data: c.data,
-                title: c.title,
-                defaultContent: ""
-            })),
-
-            pageLength: 10,
-            order: [[0, 'desc']],
-            dom: 'Bt',
-            buttons: generarBotones(reporte),
-
-            columnDefs: [
-                { targets: "_all", defaultContent: "" }
-            ]
-        });
             },
 
             error: function (xhr, status) {
 
                 cargando = false;
-
-                if (status !== 'abort') {
-                    console.error("ERROR AJAX:", xhr.responseText);
-                }
+                if (status !== 'abort') { console.error("ERROR AJAX:", xhr.responseText); }
             }
+
         });
     }
 
-    // =====================================
-    // BOTONES
-    // =====================================
+    /* GESTION DE ESTADO UI */
+
+    function destruirTabla() {
+
+        if (tablaReportes) { tablaReportes.clear(); tablaReportes.destroy(); tablaReportes = null; }
+        $('#Reportes').empty(); $('#Reportes thead').empty(); $('#Reportes tbody').empty();
+
+    }
+
+    /* FUNCION UTILITARIA */
 
     function generarNombreArchivo(reporte) {
 
@@ -186,13 +133,44 @@ $(document).ready(function () {
         const nombre = generarNombreArchivo(reporte);
 
         return [
+
             PlantillaExcel({ filename: nombre, title: nombre }),
             PlantillaPDF({ filename: nombre, title: nombre }),
             PlantillaCSV({ filename: nombre, title: nombre }),
 
             { extend: 'copyHtml5', text: '📋 Copiar', className: 'btn btn-secondary' },
             { extend: 'print', text: '🖨️ Imprimir', className: 'btn btn-dark' }
+
         ];
     }
 
+    /* MANEJO DE EVENTOS */
+
+    $(document).on('change', 'input[name="reporte"]', function () { cargarReporte($(this).val()); });
+    $('#limpiafiltroreporte').on('click', function () { $fechaInicio.val(''); $fechaFin.val(''); $limite.val(''); recargarReporte(); });
+
+    $fechaInicio.add($fechaFin).on('change', function () {
+
+        const inicio = $fechaInicio.val();
+        const fin = $fechaFin.val();
+
+        if ( (inicio && !fin) || (!inicio && fin) ) {
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Fechas incompletas',
+                text: 'Debes seleccionar fecha de inicio y fecha fin.'
+            });
+
+            return;
+        }
+
+        recargarReporte();
+
+    });
+
+    $limite.on('input', recargarReporte);
+
+    if (Primer_Reporte.length) { Primer_Reporte.prop('checked', true); cargarReporte(Primer_Reporte.val()); }
+    
 });

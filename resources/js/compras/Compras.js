@@ -356,7 +356,6 @@ $('#btnLimpiar').click(function () {
 });
 
 /*═══════════════════════════════════════════════════*/
-/* 💾 REGISTRAR COMPRA */
 
     $('#btnRegistrar').click(function () {
 

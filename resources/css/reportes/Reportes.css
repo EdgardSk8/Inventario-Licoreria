@@ -177,7 +177,7 @@ input[name="reporte"]:checked + .detalle{
     align-items: center;
     min-width: 190px;
     flex-wrap: nowrap;         /* ← evita que bajen */
-    gap: 10px;                 /* mejor que space-between aquí */
+    gap: 10px;          
 }
 
 .label-filtro{
@@ -225,16 +225,7 @@ input[name="reporte"]:checked + .detalle{
         box-shadow .25s ease;
 }
 
-/* HOVER GENERAL */
-
-.radio-exportacion:hover,
-.btn-reporte:hover{
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(0,0,0,.25);
-}
-
 /* PDF */
-
 .radio-exportacion.pdf:hover{
     background: linear-gradient(135deg,#dc2626,#ef4444);
     border-color: #f87171;
@@ -242,7 +233,6 @@ input[name="reporte"]:checked + .detalle{
 }
 
 /* EXCEL */
-
 .radio-exportacion.excel:hover{
     background: linear-gradient(135deg,#15803d,#22c55e);
     border-color: #4ade80;
@@ -250,7 +240,6 @@ input[name="reporte"]:checked + .detalle{
 }
 
 /* SELECCIONADO PDF */
-
 #exportPDF:checked + .radio-exportacion.pdf{
     background: linear-gradient(135deg,#dc2626,#ef4444);
     border-color: #f87171;
@@ -272,14 +261,13 @@ input[name="reporte"]:checked + .detalle{
 /* BOTON GENERAR */
 
 .btn-reporte{
-    background: linear-gradient(135deg,#2563eb,#3b82f6);
+    background: #297afc !important;
     border-color: #60a5fa;
-    color: white;
 }
 
 .btn-reporte:hover{
-    background: linear-gradient(135deg,#1d4ed8,#2563eb);
-    border-color: #93c5fd;
+    background: #0057e2 !important;
+    border-color: #4583ca;
 }
 
 .btn-reporte:active{
@@ -473,4 +461,45 @@ tfoot strong, span{
 .btn-reporte:active{
     transform:scale(.90);
     box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+
+select{
+    flex:1;
+    min-width:0;
+    width:100%;
+    background:#111827;
+    border:1px solid #374151;
+    color:#f4f6f9;
+    height: 32px;
+    padding:0 8px;
+    border-radius:8px;
+    font-size:14px;
+    outline:none;
+    transition:.2s;
+    cursor: pointer;
+}
+
+
+/* focus (importante para UX) */
+select:focus{
+    border-color:#60a5fa;
+    box-shadow:0 0 0 3px rgba(59,130,246,0.35);
+}
+
+select::-webkit-scrollbar{
+    width:10px;
+}
+
+select::-webkit-scrollbar-track{
+    background:#1e293b;
+    border-radius:10px;
+}
+
+select::-webkit-scrollbar-thumb{
+    background:#111722;
+    border-radius:10px;
+}
+
+select::-webkit-scrollbar-thumb:hover{
+    background:#061025;
 }

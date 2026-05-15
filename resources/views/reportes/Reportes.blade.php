@@ -109,21 +109,29 @@
             <label class="label-filtro"> Cantidad Datos </label>
             <input type="number" id="LimiteDatos" class="form-control form-control-sm" min="1" value="">
 
+        </div>
+
+
+        <div class="grupo-filtro">
+
+            <select class="select" name="Orden-Datos" id="Orden-Datos">
+
+                <option value="desc">Descendente</option>
+                <option value="asc">Ascendente</option>
+
+            </select>
+
             <button id="limpiafiltroreporte" class="btn-reporte">Limpiar Filtros</button>
 
         </div>
 
     </div>
 
+    <table id="Reportes" class="table table-striped table-bordered">
 
-        <table id="Reportes" class="table table-striped table-bordered">
+        <thead></thead>
+        <tbody></tbody>
 
-            <thead></thead>
-            <tbody></tbody>
-
-        </table>
-
-    
-    
+    </table>
 
 </div>
