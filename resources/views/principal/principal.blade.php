@@ -264,8 +264,8 @@
 
                 <a href="" class="sidebar-link cargar-vista"
                     data-url="{{ route('reportes') }}">
-                        <i class="bi bi-percent text-warning"></i>
-                        Reportes
+                        <i class="bi bi-file-earmark-bar-graph-fill text-warning"></i>
+                    Reportes
                 </a>
 
             <!-- ╔════════════ CONFIG ════════════╗ -->

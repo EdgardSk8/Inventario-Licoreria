@@ -169,6 +169,10 @@ class permisosSeeder extends Seeder
             ['nombre_permiso' => 'exportar_respaldo','descripcion_permiso' => 'Realizar backup','modulo_permiso' => 'sistema'],
             ['nombre_permiso' => 'importar_respaldo','descripcion_permiso' => 'Importar backup','modulo_permiso' => 'sistema'],
 
+            /* ═════════════ LOGIN / SISTEMA ═════════════ */
+            ['nombre_permiso' => 'vista_reportes','descripcion_permiso' => 'Ver Reportes','modulo_permiso' => 'reportes'],
+            ['nombre_permiso' => 'mostrar_reportes','descripcion_permiso' => 'Mostrar Reportes','modulo_permiso' => 'reportes'],
+
         ]);
     }
 }
