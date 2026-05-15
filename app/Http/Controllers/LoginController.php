@@ -102,4 +102,27 @@ class LoginController extends Controller
             'mensaje' => 'Sesión cerrada'
         ]);
     }
+
+    public function me()
+    {
+        $usuario = session('usuario');
+
+        if (!$usuario) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No autenticado'
+            ], 401);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $usuario['id'] ?? null,
+                'nombre' => $usuario['nombre'] ?? null,
+                'id_rol' => $usuario['id_rol'] ?? null,
+                'rol' => $usuario['rol'] ?? null,
+            ]
+        ]);
+    }
+
 }

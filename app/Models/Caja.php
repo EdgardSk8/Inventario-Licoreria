@@ -41,6 +41,16 @@ class Caja extends Model
     {
         return $this->hasMany(Compra::class, 'id_caja', 'id_caja');
     }
+
+    public function movimientos()
+    {
+        return $this->hasMany(
+            MovimientoCaja::class,
+            'id_caja',
+            'id_caja'
+        );
+    }
+    
 }
 
 /* ══════════════════════════════════════════════════════════════════════════

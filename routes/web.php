@@ -36,7 +36,7 @@ use App\Http\Controllers\DetalleCompraController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RolPermisoController;
 use App\Http\Controllers\BackupController;
-
+use App\Http\Controllers\ReporteController;
 /*  ╔════════════ LOGIN ═════════════╗ 
     ╚════════════════════════════════╝ */
 
@@ -44,6 +44,8 @@ Route::view('/login', 'login.Login')->name('login');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/me', [LoginController::class, 'me']);
 
 /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
 
@@ -76,6 +78,7 @@ Route::view('/cuentas', 'cuentas.Cuentas')->middleware('permiso:vista_cuentas')-
 Route::view('/cuentas/movimientos', 'movimientos_cuenta.Movimientos_Cuentas')->middleware('permiso:vista_movimientos_cuentas')->name('movimientos.cuentas');
 Route::view('/gastos/movimientos', 'movimientos_gasto.Movimientos_Gastos')->middleware('permiso:vista_movimientos_gastos')->name('movimientos.gastos');
 Route::view('/respaldo', 'respaldo.Respaldo')->middleware('permiso:vista_respaldo')->name('respaldo');
+Route::view('/reportes', 'reportes.Reportes')->name('reportes');
 Route::view('/error', 'errors.sin_permiso')->name('error');
 /* ════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
     
@@ -293,3 +296,12 @@ Route::post('/roles/permisos/asignar', [RolPermisoController::class, 'asignar'])
 
 Route::post('/backup/exportar', [BackupController::class, 'exportar'])->middleware('permiso:exportar_respaldo');
 Route::post('/backup/importar', [BackupController::class, 'importarSQL'])->middleware('permiso:importar_respaldo');
+
+/*  ╔════════════ Endpoint Reportes ═════════════╗ 
+    ╚════════════════════════════════════════════╝ */
+Route::get('/reportes/ventas', [ReporteController::class, 'ReporteVentas']);
+Route::get('/reportes/inventario', [ReporteController::class, 'ReporteInventario']);
+Route::get('/reportes/movimiento-inventario', [ReporteController::class, 'ReporteMovimientoInventario']);
+Route::get('/reportes/clientes', [ReporteController::class, 'ReporteClientes']);
+Route::get('/reportes/usuarios', [ReporteController::class, 'ReporteUsuarios']);
+Route::get('/reportes/cajas', [ReporteController::class, 'ReporteCajas']);

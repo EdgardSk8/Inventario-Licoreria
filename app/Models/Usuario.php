@@ -24,6 +24,15 @@ class Usuario extends Model
         return $this->belongsTo(Rol::class,'id_rol_usuario');
     }
 
+    public function ventas()
+    {
+        return $this->hasMany(
+            Venta::class,
+            'id_usuario',
+            'id_usuario'
+        );
+    }
+
 }
 
 /* ══════════════════════════════════════════════════════════════════════════

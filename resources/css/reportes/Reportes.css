@@ -1,0 +1,476 @@
+.contenedor-principal{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.contenedor-reportes{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    /* border: 2px solid green; */
+}
+
+/* ╔════════════════════════════════════╗
+   ║          CARD REPORTE             ║
+   ╚════════════════════════════════════╝ */
+
+
+/* CARDS */
+.card-reporte{
+    flex: 1;              
+    min-width: 0;
+    height: 60%;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: .3s ease;
+    user-select: none;
+    font-weight: 600;
+    white-space: nowrap;  /* evita salto de texto */
+}
+
+.contenedor-radio-exportar{
+    display: flex;
+    flex-direction: row;    
+    flex-wrap: nowrap;
+    gap: 10px;
+    border-radius: 8px;
+    color: white;
+}
+
+.card-reporte span{
+    font-size: 18px;
+    /* border: 1px solid blue; */
+}
+
+.card-reporte small{
+    font-size:12px;
+    font-weight:700;
+    /* border: 1px solid red; */
+}
+
+.card-reporte:hover{
+    transform:translateY(-3px);
+}
+
+/* ╔════════════════════════════════════╗
+   ║             COLORES               ║
+   ╚════════════════════════════════════╝ */
+
+.ventas{
+    background:#2563eb;
+    color:#fff;
+}
+
+.inventario{
+    background:#16a34a;
+    color:#fff;
+}
+
+.clientes{
+    background:#9333ea;
+    color:#fff;
+}
+
+.usuarios{
+    background:#db2777;
+    color:#fff;
+}
+
+.cajas{
+    background:#d97706;
+    color:#fff;
+}
+
+.movimientos{
+    background:#0891b2;
+    color:#fff;
+}
+
+.gastos{
+    background:#dc2626;
+    color:#fff;
+}
+
+.detalle{
+    background:#374151;
+    color:#fff;
+}
+
+/* ╔════════════════════════════════════╗
+   ║        CARD SELECCIONADA          ║
+   ╚════════════════════════════════════╝ */
+
+input[name="reporte"]:checked + .ventas{
+    background:#1d4ed8;
+    border-color:#93c5fd;
+    box-shadow:0 0 14px rgba(37,99,235,.5);
+}
+
+input[name="reporte"]:checked + .inventario{
+    background:#15803d;
+    border-color:#86efac;
+    box-shadow:0 0 14px rgba(22,163,74,.5);
+}
+
+input[name="reporte"]:checked + .clientes{
+    background:#7e22ce;
+    border-color:#d8b4fe;
+    box-shadow:0 0 14px rgba(147,51,234,.5);
+}
+
+input[name="reporte"]:checked + .usuarios{
+    background:#be185d;
+    border-color:#f9a8d4;
+    box-shadow:0 0 14px rgba(219,39,119,.5);
+}
+
+input[name="reporte"]:checked + .cajas{
+    background:#b45309;
+    border-color:#fde68a;
+    box-shadow:0 0 14px rgba(217,119,6,.5);
+}
+
+input[name="reporte"]:checked + .movimientos{
+    background:#0e7490;
+    border-color:#67e8f9;
+    box-shadow:0 0 14px rgba(8,145,178,.5);
+}
+
+input[name="reporte"]:checked + .gastos{
+    background:#b91c1c;
+    border-color:#fca5a5;
+    box-shadow:0 0 14px rgba(220,38,38,.5);
+}
+
+input[name="reporte"]:checked + .detalle{
+    background:#111827;
+    border-color:#d1d5db;
+    box-shadow:0 0 14px rgba(17,24,39,.5);
+}
+
+/* ╔════════════════════════════════════╗
+   ║             FILTROS               ║
+   ╚════════════════════════════════════╝ */
+
+.contenedor-filtros{
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap:15px;
+    
+}
+
+.grupo-filtro{
+    display: flex;              /* ← obligatorio */
+    flex-direction: row;       /* horizontal */
+    align-items: center;
+    min-width: 190px;
+    flex-wrap: nowrap;         /* ← evita que bajen */
+    gap: 10px;                 /* mejor que space-between aquí */
+}
+
+.label-filtro{
+    display: block;        /* o inline-block, pero NO flex */
+    font-size: 12px;
+    font-weight: 700;
+    color: #374151;
+    white-space: nowrap;   /* ← clave: evita salto de línea */
+}
+
+/* --------------------------------------- */
+
+/* ╔════════════════════════════════════╗
+   ║      CONTROLES EXPORTACION        ║
+   ╚════════════════════════════════════╝ */
+
+.radio-exportacion,
+.btn-reporte{
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 6px 14px;
+
+    border: 1px solid #374151;
+    border-radius: 10px;
+
+    background: #1f2937;
+    color: #e5e7eb;
+
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .2px;
+
+    cursor: pointer;
+    user-select: none;
+
+    transition:
+        border-color .25s ease,
+        transform .18s ease,
+        box-shadow .25s ease;
+}
+
+/* HOVER GENERAL */
+
+.radio-exportacion:hover,
+.btn-reporte:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,.25);
+}
+
+/* PDF */
+
+.radio-exportacion.pdf:hover{
+    background: linear-gradient(135deg,#dc2626,#ef4444);
+    border-color: #f87171;
+    color: white;
+}
+
+/* EXCEL */
+
+.radio-exportacion.excel:hover{
+    background: linear-gradient(135deg,#15803d,#22c55e);
+    border-color: #4ade80;
+    color: white;
+}
+
+/* SELECCIONADO PDF */
+
+#exportPDF:checked + .radio-exportacion.pdf{
+    background: linear-gradient(135deg,#dc2626,#ef4444);
+    border-color: #f87171;
+    color: white;
+
+    box-shadow: 0 0 0 3px rgba(239,68,68,.18);
+}
+
+/* SELECCIONADO EXCEL */
+
+#exportExcel:checked + .radio-exportacion.excel{
+    background: linear-gradient(135deg,#15803d,#22c55e);
+    border-color: #4ade80;
+    color: white;
+
+    box-shadow: 0 0 0 3px rgba(34,197,94,.18);
+}
+
+/* BOTON GENERAR */
+
+.btn-reporte{
+    background: linear-gradient(135deg,#2563eb,#3b82f6);
+    border-color: #60a5fa;
+    color: white;
+}
+
+.btn-reporte:hover{
+    background: linear-gradient(135deg,#1d4ed8,#2563eb);
+    border-color: #93c5fd;
+}
+
+.btn-reporte:active{
+     transform: scale(0.96);
+}
+
+/* DESHABILITADO */
+
+.btn-reporte:disabled{
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* MISMO EFECTO QUE TU CSS */
+
+#exportPDF:checked + .radio-exportacion,
+#exportExcel:checked + .radio-exportacion{
+    transform:scale(.90);
+}
+
+
+/* ------------------------------------------------------------ */
+/* 
+.top { flex-shrink: 0; display: flex; justify-content: space-between; }
+
+
+
+.contenedor-reporte{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;     
+    overflow: hidden; 
+    border: 3px solid orange;
+}
+
+.dataTables_scrollBody { margin-top: -1px; }
+
+.dataTables_scroll, .row{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; 
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.dataTables_scrollBody, .row{
+    flex: 1;
+    min-height: 0;
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+.table { margin: 0 auto;  white-space: nowrap; flex-wrap: nowrap; } 
+
+.row{
+    border: 2px solid black;
+}
+
+
+.dt-scroll-foot{
+    bottom: 1px;
+}
+
+.dt-scroll-footInner{
+    border: 2px solid black;
+    width: 100vh;
+}
+ */
+
+tfoot strong, span{
+    font-size: 12px !important;
+}
+
+.footer-reportes{
+    display: flex;
+    flex-direction: row; 
+
+    align-items: flex-start;
+    gap: 7px;
+    width: 100%;
+    margin-top: auto;
+}
+
+/* .bottom { flex-shrink: 0; display: flex; justify-content: space-between;} */
+
+.Fecha-Input-Reporte{ 
+    
+    border:1px solid #bfc3ca;
+    border-radius:8px;
+    color: black;
+    outline:none;
+    transition:.2s;
+    cursor: pointer;
+    padding:0 8px;
+    text-align: center;
+
+}
+
+
+/* CONTENEDOR */
+
+.dt-buttons{
+    margin-top: 5px;
+    display:flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+/* BOTONES */
+
+.dt-button{
+    border:2px solid #374151 !important;
+    background:#1f2937 !important;
+    color:white !important;
+    border-radius:10px !important;
+    padding: 0 15px !important;
+    font-size:13px !important;
+    font-weight:600 !important;
+    transition:.2s ease !important;
+    box-shadow:none !important;
+}
+
+.dt-button:hover{
+    filter:brightness(1.08);
+}
+
+.buttons-excel:hover{
+    background:#15803d !important;
+    border-color:transparent !important;
+}
+
+/* PRINT */
+
+.buttons-print:hover{
+    background:#1d4ed8 !important;
+    border-color:transparent !important;
+}
+
+/* COPY */
+
+.buttons-copy:hover{
+    background:#7c3aed !important;
+    border-color:transparent !important;
+}
+
+/* CSV */
+
+.buttons-csv:hover{
+    background:#0f766e !important;
+    border-color:transparent !important;
+}
+
+.buttons-pdf:hover{
+    background:#b91c1c !important;
+    border-color:transparent !important;
+}
+
+
+
+
+
+
+
+.btn-reporte{
+    height:34px;
+    border:none;
+    border-radius:8px;
+    background:#1f2937;
+    color:white;
+    padding:0 12px;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:
+        transform .12s ease,
+        opacity .2s ease,
+        box-shadow .2s ease;
+
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+     white-space: nowrap;
+}
+
+.btn-reporte:hover{
+    opacity:.9;
+}
+
+.btn-reporte:active{
+    transform:scale(.90);
+    box-shadow:0 1px 3px rgba(0,0,0,.2);
+}

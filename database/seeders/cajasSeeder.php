@@ -46,20 +46,6 @@ class cajasSeeder extends Seeder
                 'estado_caja'    => 0,
                 'id_usuario'     => 2,
             ],
-
-            // 🔥 CAJA ABIERTA (IMPORTANTE PARA POS)
-            [
-                'fecha_apertura' => now()->subDays(1)->format('Y-m-d 08:00:00'),
-                'fecha_cierre'   => null,
-                'monto_inicial'  => 300.00,
-                'monto_teorico'  => 1200.00,
-                'monto_real'     => null,
-                'diferencia'     => null,
-                'monto_final'    => null,
-                'estado_caja'    => 1,
-                'id_usuario'     => 1,
-            ],
-
             [
                 'fecha_apertura' => now()->subDays(2)->format('Y-m-d 08:00:00'),
                 'fecha_cierre'   => now()->subDays(2)->format('Y-m-d 18:00:00'),

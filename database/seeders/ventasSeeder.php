@@ -5,152 +5,51 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ventasSeeder extends Seeder
+class VentasSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('ventas')->insert([
+        $ventas = [];
 
-            [
-                'numero_factura' => 'VTA-20260504-00001',
-                'fecha_venta' => now(),
-                'id_cliente' => 1,
-                'id_usuario' => 1,
-                'id_caja' => 1,
-                'id_cuenta' => null,
-                'subtotal_venta' => 45.00,
-                'impuesto_venta' => 6.75,
-                'total_venta' => 51.75,
+        $clientes = range(1, 9);
+        $usuarios = range(1, 3);
+        $cajas = range(1, 6);
+        $cuentas = range(1, 7);
+        $metodos = range(1, 4);
+
+        $fechaBase = strtotime("2026-05-01 08:00:00");
+
+        for ($i = 1; $i <= 500; $i++) {
+
+            $subtotal = rand(280, 520);
+            $impuesto = round($subtotal * 0.15, 2);
+            $total = $subtotal + $impuesto;
+
+            $ventas[] = [
+                'numero_factura' => 'VTA-20260515-' . str_pad($i, 5, '0', STR_PAD_LEFT),
+
+                'fecha_venta' => date(
+                    'Y-m-d H:i:s',
+                    $fechaBase + ($i * rand(8000, 20000))
+                ),
+
+                'id_cliente' => $clientes[array_rand($clientes)],
+                'id_usuario' => $usuarios[array_rand($usuarios)],
+
+                'id_caja' => (rand(0, 1) ? $cajas[array_rand($cajas)] : null),
+
+                'id_cuenta' => (rand(0, 1) ? $cuentas[array_rand($cuentas)] : null),
+
+                'subtotal_venta' => $subtotal,
+                'impuesto_venta' => $impuesto,
+                'total_venta' => $total,
+
                 'estado_venta' => true,
-                'id_metodo_pago' => 1
-            ],
 
-            [
-                'numero_factura' => 'VTA-20260504-00002',
-                'fecha_venta' => now(),
-                'id_cliente' => 2,
-                'id_usuario' => 1,
-                'id_caja' => null,
-                'id_cuenta' => 1,
-                'subtotal_venta' => 60.00,
-                'impuesto_venta' => 9.00,
-                'total_venta' => 69.00,
-                'estado_venta' => true,
-                'id_metodo_pago' => 2
-            ],
+                'id_metodo_pago' => $metodos[array_rand($metodos)]
+            ];
+        }
 
-            [
-                'numero_factura' => 'VTA-20260504-00003',
-                'fecha_venta' => now(),
-                'id_cliente' => 3,
-                'id_usuario' => 2,
-                'id_caja' => 1,
-                'id_cuenta' => null,
-                'subtotal_venta' => 51.00,
-                'impuesto_venta' => 7.65,
-                'total_venta' => 58.65,
-                'estado_venta' => true,
-                'id_metodo_pago' => 1
-            ],
-
-            [
-                'numero_factura' => 'VTA-20260504-00004',
-                'fecha_venta' => now(),
-                'id_cliente' => 1,
-                'id_usuario' => 2,
-                'id_caja' => 1,
-                'id_cuenta' => null,
-                'subtotal_venta' => 70.00,
-                'impuesto_venta' => 10.50,
-                'total_venta' => 80.50,
-                'estado_venta' => true,
-                'id_metodo_pago' => 1
-            ],
-
-            [
-                'numero_factura' => 'VTA-20260504-00005',
-                'fecha_venta' => now(),
-                'id_cliente' => 4,
-                'id_usuario' => 1,
-                'id_caja' => null,
-                'id_cuenta' => 2,
-                'subtotal_venta' => 38.00,
-                'impuesto_venta' => 5.70,
-                'total_venta' => 43.70,
-                'estado_venta' => true,
-                'id_metodo_pago' => 3
-            ],
-
-            [
-                'numero_factura' => 'VTA-20260504-00006',
-                'fecha_venta' => now(),
-                'id_cliente' => 5,
-                'id_usuario' => 1,
-                'id_caja' => 1,
-                'id_cuenta' => null,
-                'subtotal_venta' => 20.00,
-                'impuesto_venta' => 3.00,
-                'total_venta' => 23.00,
-                'estado_venta' => true,
-                'id_metodo_pago' => 1
-            ],
-
-            [
-                'numero_factura' => 'VTA-20260504-00007',
-                'fecha_venta' => now(),
-                'id_cliente' => 2,
-                'id_usuario' => 2,
-                'id_caja' => null,
-                'id_cuenta' => 1,
-                'subtotal_venta' => 46.00,
-                'impuesto_venta' => 6.90,
-                'total_venta' => 52.90,
-                'estado_venta' => true,
-                'id_metodo_pago' => 2
-            ],
-
-            [
-                'numero_factura' => 'VTA-20260504-00008',
-                'fecha_venta' => now(),
-                'id_cliente' => 3,
-                'id_usuario' => 1,
-                'id_caja' => 1,
-                'id_cuenta' => null,
-                'subtotal_venta' => 75.00,
-                'impuesto_venta' => 11.25,
-                'total_venta' => 86.25,
-                'estado_venta' => true,
-                'id_metodo_pago' => 1
-            ],
-
-            [
-                'numero_factura' => 'VTA-20260504-00009',
-                'fecha_venta' => now(),
-                'id_cliente' => 4,
-                'id_usuario' => 2,
-                'id_caja' => 1,
-                'id_cuenta' => null,
-                'subtotal_venta' => 36.00,
-                'impuesto_venta' => 5.40,
-                'total_venta' => 41.40,
-                'estado_venta' => true,
-                'id_metodo_pago' => 1
-            ],
-
-            [
-                'numero_factura' => 'VTA-20260504-00010',
-                'fecha_venta' => now(),
-                'id_cliente' => 5,
-                'id_usuario' => 1,
-                'id_caja' => null,
-                'id_cuenta' => 2,
-                'subtotal_venta' => 75.00,
-                'impuesto_venta' => 11.25,
-                'total_venta' => 86.25,
-                'estado_venta' => true,
-                'id_metodo_pago' => 2
-            ]
-
-        ]);
+        DB::table('ventas')->insert($ventas);
     }
 }

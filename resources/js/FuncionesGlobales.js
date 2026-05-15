@@ -96,7 +96,7 @@ window.formatearFechaDia = function(fechaSQL) {
     return `${diaSemana} ${dia} de ${mes} ${año}`;
 }
 
-window.formatearFecha = function(fechaSQL) {
+window.formatearFecha = function(fechaSQL) { 
     if (!fechaSQL) return '';
 
     const fecha = new Date(fechaSQL);
@@ -116,7 +116,7 @@ window.formatearFecha = function(fechaSQL) {
     return `${dia}/${mes}/${año} ${horasFormateadas}:${minutos} ${ampm}`;
 }
 
-window.formatearFechaDiaHora = function(fechaSQL) {
+window.formatearFechaDiaHora = function(fechaSQL) { 
 
     if (!fechaSQL) return '';
 
@@ -277,7 +277,6 @@ window.ConfigurarFiltrosDataTable = function(tabla, config = {}) {
 /* -------------------------------------------------------------------------------- */
 
 
-
 /* FUNCION UTILITARIA*/
 window.FlatPickr = function (elemento) {
 
@@ -287,6 +286,8 @@ window.FlatPickr = function (elemento) {
         allowInput: true
     });
 };
+
+/* -------------------------------------------------------------------------------- */
 
 window.ResetearInputs = function (...elementos) {
 

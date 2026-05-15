@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sistema</title>
+<!-- <title>Sistema</title> -->
 
 @include('principal.links')
 
@@ -258,6 +258,16 @@
             </a>
             @endif
 
+            <div class="sidebar-section">
+                Reportes
+            </div>
+
+                <a href="" class="sidebar-link cargar-vista"
+                    data-url="{{ route('reportes') }}">
+                        <i class="bi bi-percent text-warning"></i>
+                        Reportes
+                </a>
+
             <!-- ╔════════════ CONFIG ════════════╗ -->
 
             <div class="sidebar-section">
@@ -265,11 +275,11 @@
             </div>
 
             @if(in_array('vista_impuestos', session('permisos', [])))
-            <a href="" class="sidebar-link cargar-vista"
-               data-url="{{ route('impuestos') }}">
-                <i class="bi bi-percent text-warning"></i>
-                Impuestos
-            </a>
+                <a href="" class="sidebar-link cargar-vista"
+                data-url="{{ route('impuestos') }}">
+                    <i class="bi bi-percent text-warning"></i>
+                    Impuestos
+                </a>
             @endif
 
             @if(in_array('vista_metodos_pago', session('permisos', [])))
