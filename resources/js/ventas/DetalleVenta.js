@@ -127,62 +127,100 @@
 
 /* ════════════ CONFIRMAR Y PROCESAR ANULACIÓN DE VENTA ════════════ */
 
-$(document)
-.off('click', '#btnConfirmarAnulacion')
-.on('click', '#btnConfirmarAnulacion', function () {
+    $(document)
+    .off('click', '#btnConfirmarAnulacion')
+    .on('click', '#btnConfirmarAnulacion', function () {
 
-    const btnConfirm = $(this);
+        const btnConfirm = $(this);
 
-    const idVenta = $('#modalAnularVenta').attr('data-id-venta');
+        const idVenta = $('#modalAnularVenta').attr('data-id-venta');
 
-    if (!idVenta) {
-        mostrarToast('ID de venta no válido', 'danger');
-        return;
-    }
-
-    if (btnConfirm.data('loading')) return;
-    btnConfirm.data('loading', true);
-
-    const textoOriginal = btnConfirm.text();
-    btnConfirm.prop('disabled', true).text('Anulando...');
-
-    $.ajax({ url: `/ventas/anular/${idVenta}`, method: 'POST', data: { _token: $('meta[name="csrf-token"]').attr('content') },
-
-        success: function (res) {
-
-            if (res.success) {
-
-                mostrarToast(res.mensaje, 'success');
-                bootstrap.Modal.getInstance(modalAnularVenta)?.hide();
-                bootstrap.Modal.getInstance( document.getElementById('modalDetalleVenta') )?.hide();
-                $('#tablaVentas').DataTable().ajax.reload(null, false);
-
-            } else { mostrarToast("Error al anular Factura", 'danger'); }
-        },
-        error: function (xhr) {
-
-            let msg = xhr.responseJSON?.mensaje ?? 'Error al anular la venta';
-            mostrarToast(msg, 'danger');
-        },
-        complete: function () {
-
-            btnConfirm.prop('disabled', false).text(textoOriginal);
-            btnConfirm.data('loading', false);
-
+        if (!idVenta) {
+            mostrarToast('ID de venta no válido', 'danger');
+            return;
         }
+
+        if (btnConfirm.data('loading')) return;
+        btnConfirm.data('loading', true);
+
+        const textoOriginal = btnConfirm.text();
+        btnConfirm.prop('disabled', true).text('Anulando...');
+
+        $.ajax({ url: `/ventas/anular/${idVenta}`, method: 'POST', data: { _token: $('meta[name="csrf-token"]').attr('content') },
+
+            success: function (res) {
+
+                if (res.success) {
+
+                    mostrarToast(res.mensaje, 'success');
+                    bootstrap.Modal.getInstance(modalAnularVenta)?.hide();
+                    bootstrap.Modal.getInstance( document.getElementById('modalDetalleVenta') )?.hide();
+                    $('#tablaVentas').DataTable().ajax.reload(null, false);
+
+                } else { mostrarToast("Error al anular Factura", 'danger'); }
+            },
+            error: function (xhr) {
+
+                let msg = xhr.responseJSON?.mensaje ?? 'Error al anular la venta';
+                mostrarToast(msg, 'danger');
+            },
+            complete: function () {
+
+                btnConfirm.prop('disabled', false).text(textoOriginal);
+                btnConfirm.data('loading', false);
+
+            }
+
+        });
 
     });
 
-});
-
 /* ════════════ CANCELAR ANULACIÓN Y VOLVER AL DETALLE ════════════ */
 
-$(document)
-.off('click', '#modalAnularVenta .btn-secondary')
-.on('click', '#modalAnularVenta .btn-secondary', function () {
+    $(document)
+    .off('click', '#modalAnularVenta .btn-secondary')
+    .on('click', '#modalAnularVenta .btn-secondary', function () {
 
-    const modal = bootstrap.Modal.getInstance(modalAnularVenta);
-    modal?.hide();
-    if (volverADetalle) { setTimeout(() => { new bootstrap.Modal( document.getElementById('modalDetalleVenta') ).show(); }, 200); }
+        const modal = bootstrap.Modal.getInstance(modalAnularVenta);
+        modal?.hide();
+        if (volverADetalle) { setTimeout(() => { new bootstrap.Modal( document.getElementById('modalDetalleVenta') ).show(); }, 200); }
 
+    });
+
+$(document).on('click', '#btnImprimir', function () {
+
+    // 🔥 Construimos el objeto desde el modal (REUTILIZANDO TU UI)
+    const data = {
+        cliente: {
+            nombre_cliente: $('#clienteNombre').text()
+        },
+        usuario: {
+            nombre_usuario: $('#usuarioNombre').text()
+        },
+        fecha_venta: $('#fechaVenta').text(),
+        numero_factura: $('#facturaTitulo').text().replace('Factura: ', ''),
+        subtotal_venta: $('#subtotalVenta').text().replace('C$ ', ''),
+        impuesto_venta: $('#impuestoVenta').text().replace('C$ ', ''),
+        total_venta: $('#totalVenta').text().replace('C$ ', ''),
+        productos: []
+    };
+
+    // 🔥 reconstruir productos desde tabla (esto es clave)
+    $('#tablaDetalles tr').each(function () {
+
+        const tds = $(this).find('td');
+
+        if (tds.length === 5) {
+            data.productos.push({
+                nombre: $(tds[0]).text(),
+                cantidad: $(tds[1]).text(),
+                precio: $(tds[2]).text().replace('C$ ', ''),
+                impuesto: $(tds[3]).text().replace('C$ ', ''),
+                total: $(tds[4]).text().replace('C$ ', '')
+            });
+        }
+    });
+
+    // 🔥 AQUÍ LLAMAS TU FUNCIÓN NUEVA
+    imprimirVentaDesdeRegistro(data);
 });

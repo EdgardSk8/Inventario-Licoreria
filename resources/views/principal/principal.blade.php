@@ -251,22 +251,26 @@
             @endif
 
             @if(in_array('vista_permisos', session('permisos', [])))
-            <a href="" class="sidebar-link cargar-vista"
-               data-url="{{ route('permisos') }}">
-                <i class="bi bi-shield-lock text-danger"></i>
-                Permisos
-            </a>
+                <a href="" class="sidebar-link cargar-vista"
+                data-url="{{ route('permisos') }}">
+                    <i class="bi bi-shield-lock text-danger"></i>
+                    Permisos
+                </a>
             @endif
 
             <div class="sidebar-section">
                 Reportes
             </div>
 
+            @if(in_array('vista_reportes', session('permisos', [])))
+
                 <a href="" class="sidebar-link cargar-vista"
                     data-url="{{ route('reportes') }}">
                         <i class="bi bi-file-earmark-bar-graph-fill text-warning"></i>
                     Reportes
                 </a>
+
+             @endif
 
             <!-- ╔════════════ CONFIG ════════════╗ -->
 

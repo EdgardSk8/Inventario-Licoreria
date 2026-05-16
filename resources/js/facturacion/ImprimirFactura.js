@@ -6,7 +6,8 @@ async function imprimirFactura(data) {
         empresa = await obtenerCredencialesEmpresa();
     } catch (e) {
         console.error("❌ Error cargando empresa:", e);
-        alert("No se pudieron cargar datos de la empresa");
+        mostrarToast("No fue posible obtener los datos de la empresa. No se pudo generar la impresión de la factura.", "danger");
+        //alert("No se pudieron cargar datos de la empresa");
         return;
     }
 
