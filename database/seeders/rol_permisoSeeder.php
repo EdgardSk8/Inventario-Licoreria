@@ -7,23 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class rol_permisoSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $rolesPermisos = [];
 
-        /*
-        ╔══════════════════════════════════════╗
-        ║ ADMIN (ROL 1) → TODOS LOS PERMISOS ║
-        ╚══════════════════════════════════════╝
-        */
-
         $permisos = DB::table('permisos')->get();
 
+        /* ═════════════ ADMIN (ROL 1) ═════════════ */
         foreach ($permisos as $permiso) {
-
             $rolesPermisos[] = [
                 'id_rol' => 1,
                 'id_permiso' => $permiso->id_permiso,
@@ -31,36 +22,32 @@ class rol_permisoSeeder extends Seeder
             ];
         }
 
-        /*
-        ╔══════════════════════════════════════╗
-        ║ CAJERO (ROL 2)                      ║
-        ╚══════════════════════════════════════╝
-        */
-
+        /* ═════════════ CAJERO (ROL 2) ═════════════ */
         $permisosCajero = [
 
-            'dashboard.ver',
+            'vista_dashboard',
+            'mostrar_dashboard_ventas',
 
-            'ventas.ver',
-            'ventas.detalle',
+            'vista_ventas',
+            'mostrar_ventas',
+            'mostrar_detalle_ventas',
 
-            'facturacion.ver',
-            'facturacion.facturar',
+            'vista_facturacion',
+            'usar_facturacion',
+            'verificar_caja',
 
-            'clientes.ver',
-            'clientes.crear',
+            'vista_clientes',
+            'mostrar_clientes',
+            'crear_clientes',
 
-            'productos.ver',
+            'vista_productos',
+            'mostrar_productos',
 
-            'cajas.ver',
-            'cajas.abrir',
-            'cajas.cerrar',
-            'cajas.movimientos',
+            'vista_cajas',
+            'mostrar_cajas',
 
-            'movimientos-caja.ver',
-
-            'cuentas.ver',
-            'cuentas.movimientos',
+            'vista_movimientos_cajas',
+            'mostrar_movimiento_cajas',
         ];
 
         foreach ($permisosCajero as $nombrePermiso) {
@@ -70,7 +57,6 @@ class rol_permisoSeeder extends Seeder
                 ->first();
 
             if ($permiso) {
-
                 $rolesPermisos[] = [
                     'id_rol' => 2,
                     'id_permiso' => $permiso->id_permiso,
@@ -79,31 +65,29 @@ class rol_permisoSeeder extends Seeder
             }
         }
 
-        /*
-        ╔══════════════════════════════════════╗
-        ║ BODEGUERO (ROL 3)                   ║
-        ╚══════════════════════════════════════╝
-        */
-
+        /* ═════════════ BODEGUERO (ROL 3) ═════════════ */
         $permisosBodeguero = [
 
-            'dashboard.ver',
+            'vista_productos',
+            'mostrar_productos',
+            'crear_productos',
+            'editar_productos',
 
-            'productos.ver',
-            'productos.crear',
-            'productos.editar',
+            'vista_categorias',
+            'mostrar_categorias',
 
-            'categorias.ver',
+            'vista_movimientos_inventario',
+            'mostrar_movimiento_inventario',
 
-            'inventario.movimientos',
+            'vista_compras',
+            'vista_crear_compras',
+            'mostrar_compras',
+            'crear_compras',
 
-            'compras.ver',
-            'compras.crear',
-            'compras.detalle',
-
-            'proveedores.ver',
-            'proveedores.crear',
-            'proveedores.editar',
+            'vista_proveedores',
+            'mostrar_proveedores',
+            'crear_proveedores',
+            'editar_proveedores',
         ];
 
         foreach ($permisosBodeguero as $nombrePermiso) {
@@ -113,9 +97,85 @@ class rol_permisoSeeder extends Seeder
                 ->first();
 
             if ($permiso) {
-
                 $rolesPermisos[] = [
                     'id_rol' => 3,
+                    'id_permiso' => $permiso->id_permiso,
+                    'fecha_asignacion_rol_permiso' => now()
+                ];
+            }
+        }
+
+        /* ═════════════ SUPERVISOR (ROL 4) ═════════════ */
+        $permisosSupervisor = [
+
+            'vista_dashboard',
+            'mostrar_dashboard_ventas',
+            'mostrar_dashboard_movimiento_inventario',
+
+            'vista_ventas',
+            'mostrar_ventas',
+            'mostrar_detalle_ventas',
+
+            'vista_cajas',
+            'mostrar_cajas',
+            'vista_movimientos_cajas',
+
+            'vista_movimientos_inventario',
+            'mostrar_movimiento_inventario',
+
+            'vista_reportes',
+            'mostrar_reportes',
+        ];
+
+        foreach ($permisosSupervisor as $nombrePermiso) {
+
+            $permiso = DB::table('permisos')
+                ->where('nombre_permiso', $nombrePermiso)
+                ->first();
+
+            if ($permiso) {
+                $rolesPermisos[] = [
+                    'id_rol' => 4,
+                    'id_permiso' => $permiso->id_permiso,
+                    'fecha_asignacion_rol_permiso' => now()
+                ];
+            }
+        }
+
+        /* ═════════════ CONTADOR (ROL 5) ═════════════ */
+        $permisosContador = [
+
+            'vista_dashboard',
+
+            'vista_reportes',
+            'mostrar_reportes',
+
+            'vista_gastos',
+            'mostrar_gastos',
+            'crear_gastos',
+            'pagar_gastos',
+
+            'vista_cuentas',
+            'mostrar_cuentas',
+            'crear_cuentas',
+            'transferir_cuentas',
+
+            'vista_movimientos_cuentas',
+            'mostrar_movimiento_cuentas',
+
+            'vista_transferenciacajacuenta',
+            'mostrar_transferencias_caja_cuenta',
+        ];
+
+        foreach ($permisosContador as $nombrePermiso) {
+
+            $permiso = DB::table('permisos')
+                ->where('nombre_permiso', $nombrePermiso)
+                ->first();
+
+            if ($permiso) {
+                $rolesPermisos[] = [
+                    'id_rol' => 5,
                     'id_permiso' => $permiso->id_permiso,
                     'fecha_asignacion_rol_permiso' => now()
                 ];
