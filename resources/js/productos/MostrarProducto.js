@@ -16,10 +16,16 @@ $(document).ready(function () {
 
         columns: [
 
+            { data: 'id_producto' },
+
             { data: 'imagen_producto', /* ══════ Imagen del Producto ══════ */
-                render: function(data){
-                    if(data){ return `<img src="/imagenes/productos/${data}" width="40">`; } 
-                    else { return `<img src="/img/noproducto.png" width="30">`; }
+                 render: function(data){
+                    if(data){ 
+                        return `<img class="TablaImagenProducto" src="/imagenes/productos/${data}" width="30">`; 
+                    } 
+                    else { 
+                        return `<img class="TablaImagenProducto" src="/img/noproducto.png" width="30">`; 
+                    }
                 }
             },
 
@@ -100,7 +106,8 @@ $(document).ready(function () {
             { targets: 5, visible: $('.toggle-col[data-column="5"]').is(':checked') },
             { targets: 6, visible: $('.toggle-col[data-column="6"]').is(':checked') },
             { targets: 7, visible: $('.toggle-col[data-column="7"]').is(':checked') },
-            { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') }
+            { targets: 8, visible: $('.toggle-col[data-column="8"]').is(':checked') },
+            { targets: 9, visible: $('.toggle-col[data-column="9"]').is(':checked') }
         ],
         order: [[1, 'asc']],
         initComplete: function () {
@@ -188,7 +195,7 @@ $('#tablaProductos').on('click', '.detallesProducto', function () {
                     <div class="modal-content" style="background: transparent; border: none; position: relative;">
                         
                         <!-- Imagen -->
-                        <img id="imagenModalProducto" src="" style="max-width: 100%; max-height: 100vh; display: block; margin: 0 auto; cursor: pointer;">
+                        <img id="imagenModalProducto" src="" >
                     </div>
                 </div>
             </div>`;

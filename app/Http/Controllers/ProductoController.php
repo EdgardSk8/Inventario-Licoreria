@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use App\Models\Producto;
+use Intervention\Image\Facades\Image;
 
 class ProductoController extends Controller
 {
@@ -66,16 +67,34 @@ class ProductoController extends Controller
 
         $nombreImagen = null;
 
-        // 🖼 Guardar imagen si viene
         if ($request->hasFile('imagen_producto')) {
+
+            // Crear carpeta si no existe
+            if (!file_exists($ruta)) {
+                mkdir($ruta, 0777, true);
+            }
 
             $archivo = $request->file('imagen_producto');
 
-            // Nombre único
-            $nombreImagen = time() . '_' . uniqid() . '.' . $archivo->getClientOriginalExtension();
+            // Buscar siguiente número disponible
+            $contador = 1;
 
-            // Mover imagen
-            $archivo->move($ruta, $nombreImagen);
+            do {
+
+                // SIEMPRE PNG
+                $nombreImagen = 'ImagenProducto' . $contador . '.png';
+
+                $rutaCompleta = public_path($ruta . '/' . $nombreImagen);
+
+                $contador++;
+
+            } while (file_exists($rutaCompleta));
+
+            // Convertir a PNG
+            $imagen = Image::make($archivo)->encode('png', 100);
+
+            // Guardar imagen
+            $imagen->save($rutaCompleta);
         }
 
         $producto = Producto::create([
@@ -146,9 +165,10 @@ class ProductoController extends Controller
 /*  ╔════════ Actualizar Producto ════════╗ 
     ╚═════════════════════════════════════╝ */
 
-    public function ActualizarProducto(Request $request, $id) {
-
+    public function ActualizarProducto(Request $request, $id)
+    {
         try {
+
             $producto = Producto::find($id);
 
             if (!$producto) {
@@ -162,7 +182,7 @@ class ProductoController extends Controller
                 [
                     'nombre_producto' => $request->nombre_producto,
                     'descripcion_producto' => $request->descripcion_producto,
-                    'imagen_producto' => $request->imagen_producto,
+                    'imagen_producto' => $request->file('imagen_producto'),
                     'id_categoria' => $request->id_categoria,
                     'id_impuesto' => $request->id_impuesto,
                     'id_ubicacion' => $request->id_ubicacion,
@@ -173,7 +193,7 @@ class ProductoController extends Controller
                 [
                     'nombre_producto' => 'required|max:150',
                     'descripcion_producto' => 'nullable|string',
-                    'imagen_producto' => 'nullable|string|max:255',
+                    'imagen_producto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
 
                     'id_categoria' => 'required|exists:categoria,id_categoria',
                     'id_impuesto' => 'required|exists:impuestos,id_impuesto',
@@ -192,9 +212,51 @@ class ProductoController extends Controller
                 ], 422);
             }
 
+            if ($request->hasFile('imagen_producto')) {
+
+                $ruta = public_path('Imagenes/Productos');
+
+                // Crear carpeta si no existe
+                if (!file_exists($ruta)) {
+                    mkdir($ruta, 0777, true);
+                }
+
+                // Eliminar imagen anterior si existe
+                if (
+                    $producto->imagen_producto &&
+                    file_exists($ruta . '/' . $producto->imagen_producto)
+                ) {
+                    unlink($ruta . '/' . $producto->imagen_producto);
+                }
+
+                $archivo = $request->file('imagen_producto');
+
+                // Generar nombre secuencial SIEMPRE PNG
+                $contador = 1;
+
+                do {
+
+                    $nombreImagen = 'ImagenProducto' . $contador . '.png';
+
+                    $rutaCompleta = $ruta . '/' . $nombreImagen;
+
+                    $contador++;
+
+                } while (file_exists($rutaCompleta));
+
+                // Convertir a PNG y guardar
+                $imagen = Image::make($archivo)->encode('png', 100);
+
+                $imagen->save($rutaCompleta);
+
+                // Guardar nombre en BD
+                $producto->imagen_producto = $nombreImagen;
+            }
+
+            /* ACTUALIZAR DATOS */
+
             $producto->nombre_producto = $request->nombre_producto;
             $producto->descripcion_producto = $request->descripcion_producto;
-            $producto->imagen_producto = $request->imagen_producto;
             $producto->id_categoria = $request->id_categoria;
             $producto->id_impuesto = $request->id_impuesto;
             $producto->id_ubicacion = $request->id_ubicacion;
@@ -210,6 +272,7 @@ class ProductoController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
+
             return response()->json([
                 'error' => true,
                 'mensaje' => 'Error al actualizar producto',

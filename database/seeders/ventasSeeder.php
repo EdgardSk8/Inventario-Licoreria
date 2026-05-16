@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class VentasSeeder extends Seeder
+class ventasSeeder extends Seeder
 {
     public function run()
     {

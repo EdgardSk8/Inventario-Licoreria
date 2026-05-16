@@ -13,10 +13,6 @@
 
                 <div class="d-flex align-items-center gap-2">
 
-                    <button type="button" class="btn btn-success btn-sm" id="btnImprimirCompra">
-                        <i class="bi bi-printer"></i> Imprimir Factura
-                    </button>
-
                     <button type="button" data-id="" class="btn btn-danger btn-sm" id="btnAnularCompra">
                         <i class="bi bi-x-circle"></i> Anular Factura
                     </button>

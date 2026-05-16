@@ -12,93 +12,91 @@
 
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/facturacion/Facturacion.css') }}">
 
-    <script src="{{ Vite::asset('resources/js/facturacion/ImprimirFactura.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/facturacion/vuelto.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/VerificarCaja.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/Select.js') }}"></script>
     
-    
+    <script src="{{ Vite::asset('resources/js/facturacion/vuelto.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/Facturacion.js') }}"></script>
 
 </head>
 
 <body>
 
-<div class="Contenedor-General">
+    <div class="contenedor-pos">
 
-    <div class="MC Izquierda">
+        <div class="row h-100">
+ 
+            <div class="col-md-6 panel ">
 
-        <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center">
 
-            <h3>FACTURACION</h3>
+                    <h3>FACTURACION</h3>
 
-            <div class="d-flex flex-nowrap align-items-center gap-2">
+                    <div>
+                        <button id="btnAbrirCaja" class="btn btn-sm btn-success">Abrir Caja</button> 
+                        <button id="btnCerrarCaja" class="btn btn-danger">Cerrar Caja</button>
+                    </div>
+                    
+                </div>
+
                 
-                <button id="btnAbrirCaja" class="btn btn-sm btn-success">Abrir Caja</button> 
-                <button id="btnCerrarCaja" class="btn btn-sm btn-danger">Cerrar Caja</button>
 
-                <input type="checkbox" id="toggleFactura" hidden>
+                    <div class="mini-contenedor-pos">
 
-                <label id="BTN-Imprimir-Factura" for="toggleFactura" class="btn-factura">
-                    <i class="bi bi-receipt-cutoff"> </i>
-                    Imprimir Factura
-                </label>
+                        <table id="tablaProductos" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Accion</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+
+               
+                
 
             </div>
+
+
+        <!-- ═══════════════ COLUMNA DERECHA ═══════════════════════ -->
+
+            <!-- ══════════ SELECTORES ══════════ -->
+
+            <div class="col-md-6 panel">
             
-        </div>
+                <div class="row">
+                    
+                    <div class="col-6">
+                        <h6> Seleccionar Cliente:</h6>
+                        <select class="form-select form-select-sm" name="id_cliente" id="clientes"></select>
+                    </div>
 
-       <div class="mini-contenedor-pos">
+                    <div class="col-6">
+                        <h6> Seleccionar Metodo de Pago:</h6>
+                        <select class="form-select form-select-sm" name="id_metodo_pago" id="metodo_pago"></select>
+                    </div>
 
-            <table id="tablaProductos" class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Accion</th>
-                    </tr>
-                </thead>
-            </table>
+                </div>
 
-        </div>
+                <div class="row">
 
+                    <div class="col-6 d-flex align-items-center">
+                        <strong id="tasaImpuesto"></strong>
+                    </div>
 
+                    <div class="col-6 d-flex align-items-center">
+                        <span id="NumeroCaja"></span>
+                    </div>
 
+                </div>
 
+                <!-- ══════════ INPUTS ══════════ -->
 
-
-    </div>
-
-    <div class="MC Derecha">
-
-        <div class="row">
-                        
-            <div class="col-6">
-                <h6> Seleccionar Cliente:</h6>
-                <select class="form-select form-select-sm" name="id_cliente" id="clientes"></select>
-            </div>
-
-            <div class="col-6">
-                <h6> Seleccionar Metodo de Pago:</h6>
-                <select class="form-select form-select-sm" name="id_metodo_pago" id="metodo_pago"></select>
-            </div>
-
-        </div>
-
-        <div class="row">
-
-            <div class="col-6 d-flex align-items-center">
-                <strong id="tasaImpuesto"></strong>
-            </div>
-
-            <div class="col-6 d-flex align-items-center">
-                <span id="NumeroCaja"></span>
-            </div>
-
-        </div>
-
-        <div class="card card-pago p-2 mb-2">
+                <div class="card card-pago p-2 mb-2">
 
                     <div class="d-flex justify-content-between mb-2">
                         <strong>Total:</strong>
@@ -166,37 +164,32 @@
                         Facturar
                     </button>
 
+                </div>
+
+                <h6>Carrito</h6>
+
+<!-- ════════════════════ CARRITO ═══════════════════════ -->
+
+                <div class="carrito-scroll">
+                    <table class="table table-bordered table-sm">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Sub</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="carrito"></tbody>
+                    </table>
+                </div>
+
+            </div>
+
         </div>
-
-        <div class="Facturacion-Carrito">
-
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cant</th>
-                        <th>Precio</th>
-                        <th>Sub</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="carrito"></tbody>
-            </table>
-
-        </div>
-
-            
 
     </div>
-
-</div>
-
-
-
-</body>
-
-</html>
-
 
 <!--    ╔════════ Mensaje Toast ══════════╗ 
         ╚═════════════════════════════════╝     -->
@@ -216,3 +209,7 @@
         </div>
 
     </div>
+
+</body>
+
+</html>

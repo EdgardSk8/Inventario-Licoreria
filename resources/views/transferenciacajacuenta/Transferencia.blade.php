@@ -24,7 +24,7 @@
     @include("transferenciacajacuenta.CheckColumnasTransferirCuentas")
     @include('transferenciacajacuenta.TransferirCuenta')
 
-    <table id="tablaCajaCuenta" class="table table-striped">
+    <table id="tablaCajaCuenta" class="table table-striped table-bordered">
 
         <thead class="table-dark">
             <tr>

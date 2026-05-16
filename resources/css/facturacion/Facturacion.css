@@ -2,7 +2,135 @@
 
 /* ═══════════════ [ESTILO PERSONALIZADO] ═══════════════ */
 
-.agregarProducto{ font-size: 14px; padding: 2px 5px; }
+
+.Contenedor-General{
+    display: flex;
+    gap: 10px;
+
+    height: 100vh; 
+    min-height: 0;
+    overflow: hidden;
+    animation: aparecerSuave .35s ease;
+}
+
+.MC{
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
+    overflow: hidden;
+}
+
+.Izquierda{
+    min-height: 0;
+    overflow: hidden;
+}
+
+.Derecha{
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* CONTENEDOR TABLA PRODUCTOS */
+.mini-contenedor-pos{
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+/* CONTENEDOR CARRITO */
+.Facturacion-Carrito{
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    border: 1px solid rgb(172, 167, 167);
+}
+
+/* ------------------------------------------------------------ */
+.btn-factura{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .25rem .7rem;
+    border-radius: .25rem;
+    font-size: .875rem;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    gap: 10px;
+    color: white;
+    background: #dc3545; /* ROJO */
+    border: 1px solid #dc3545;
+    transition:
+        border-color .25s ease,
+        transform .60s ease,
+        box-shadow .25s ease;
+}
+
+/* HOVER */
+.btn-factura:hover{
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+/* CLICK */
+.btn-factura:active{
+    transform: scale(.97);
+}
+
+/* ACTIVADO */
+#toggleFactura:checked + .btn-factura{
+    background: #198754; /* VERDE */
+    border-color: #198754;
+    color: white;
+
+    box-shadow: 0 0 12px rgba(25,135,84,.45);
+}
+
+
+/* ------------------------------------------------------------ */
+
+/* ---------------------------------------------------- */
+
+
+.agregarProducto{ font-size: 14px; padding: 2px 6px; background-color: #198754; color: white; border: 1px solid green; }
+
+.cantidad{
+    width: 100%;
+    text-align: center;
+}
+
+.col-cantidad{
+    width: 10%;
+}
+
+.eliminar{
+    background: #dc3545;
+    border: 1px solid #dc3545;
+
+    color: white;
+
+    border-radius: .35rem;
+
+    padding: .2rem .55rem;
+
+    transition: .2s ease;
+
+    cursor: pointer;
+}
+
+.eliminar:hover{
+    background: #bb2d3b;
+    border-color: #b02a37;
+
+    transform: scale(1.05);
+}
+
+.eliminar:active{
+    transform: scale(.96);
+}
 
 .dataTables_length, .dataTables_filter, .dataTables_info{ font-size: 14px; }
 .page-link { font-size: 12px; }

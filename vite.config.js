@@ -24,4 +24,10 @@ export default defineConfig({
             ignored: ['**/storage/framework/views/**'],
         },
     },
+    build: {
+        target: 'es2018',
+        sourcemap: false,
+        minify: 'esbuild',
+        cssCodeSplit: true,
+    }
 });

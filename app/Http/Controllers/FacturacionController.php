@@ -158,7 +158,6 @@ class FacturacionController extends Controller
             $subtotalGeneral = 0;
             $impuestoGeneral = 0;
 
-            // ⚠️ NO usar total del frontend
             $venta = Venta::create([
                 'numero_factura' => $numero,
                 'id_cliente' => $request->cliente,
@@ -264,7 +263,21 @@ class FacturacionController extends Controller
 
             return response()->json([
                 'success' => true,
-                'total' => $totalGeneral
+                'numero_factura' => $venta->numero_factura,
+                'cliente' => $venta->cliente,
+                'monto_recibido' => $venta->monto_recibido,
+                'vuelto' => $venta->vuelto,
+                'total' => $totalGeneral,
+                'productos' => $venta->detalles->map(function ($d) {
+                    return [
+                        'nombre' => $d->producto->nombre_producto,
+                        'cantidad' => $d->cantidad_venta,
+                        'precio' => $d->precio_unitario_venta,
+                        'impuesto' => $d->monto_impuesto,
+                        'subtotal' => $d->subtotal_detalle_venta,
+                        'total' => $d->subtotal_detalle_venta + $d->monto_impuesto,
+                    ];
+                }),
             ]);
 
         } catch (\Exception $e) {

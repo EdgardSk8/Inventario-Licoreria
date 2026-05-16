@@ -3,52 +3,65 @@ $(document).ready(function () {
 /*-------------------------------------------------------------------------------------------------------------------*/
 
     let carrito = [];
+    let imprimirFacturaActivo = false;
+
     const tablaProductos = inicializarTablaProductos();
     eventosProductos(tablaProductos);
+
     document.getElementById('titulo').textContent = 'SISTEMA DE FACTURACION';
     $('#metodo_pago').val(null).trigger('change');
 
 /*-------------------------------------------------------------------------------------------------------------------*/
+/* ═══════ CHECKBOX IMPRIMIR ═══════ */
 
-/* ═════════════ (INICIALIZAR TABLA) ═════════════*/
+    $('#toggleFactura').on('change', function () {
+        imprimirFacturaActivo = $(this).is(':checked');
+    });
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+/* ═══════ TABLA PRODUCTOS ═══════ */
 
     function inicializarTablaProductos() {
 
         return $('#tablaProductos').DataTable({
 
-            processing: true, deferRender: true, ajax: { url: '/productos/pos', type: 'GET', dataSrc: 'data' },
+            ajax: { url: '/productos/pos', type: 'GET', dataSrc: 'data' },
 
-            columns: [ 
-                
+            columns: [
+
                 { data: 'nombre_producto' },
-                { data: 'precio_con_iva',  render: function(data){ return moneda(data, 1); } },
-                { data: 'stock_actual' },
-                { data: 'id_producto', render: function(data, type, row) { // Acciones
 
-                    let deshabilitado = row.stock_actual <= 0 ? 'disabled' : '';
-                    let clase = row.stock_actual <= 0 ? 'btn-secondary' : 'btn-dark';
+                {
+                    data: 'precio_con_iva',
+                    render: function (data) {
+                        return moneda(data, 1);
+                    }
+                },
+
+                { data: 'stock_actual' },
+
+                {
+                    data: 'id_producto',
+                    render: function (data, type, row) {
+
+                        let deshabilitado = row.stock_actual <= 0 ? 'disabled' : '';
+                        let clase = row.stock_actual <= 0 ? 'btn-secondary' : 'btn-dark';
 
                         return `
-                            <button class="btn btn-sm ${clase} agregarProducto"
+                            <button class="${clase} agregarProducto"
                                 data-id="${row.id_producto}"
                                 data-nombre="${row.nombre_producto}"
-                                data-precio="${row.precio_con_iva}" 
+                                data-precio="${row.precio_con_iva}"
                                 data-stock="${row.stock_actual}"
                                 ${deshabilitado}>
                                 <i class="bi bi-cart-plus"></i>
                                 Agregar
                             </button>
-                            
                         `;
                     }
                 },
             ],
-            
-            ...Traduccion // Constante de traduccion de datatables
-
         });
-
-        
     }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
@@ -58,12 +71,11 @@ $(document).ready(function () {
     }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
+/* ═══════ AGREGAR PRODUCTOS ═══════ */
 
-/* ═════════════ (EVENTO AGREGAR PRODUCTOS) ═════════════*/
+    function eventosProductos() {
 
-    function eventosProductos(tabla) {
-
-        $('#tablaProductos').on('click', '.agregarProducto', function(){
+        $('#tablaProductos').on('click', '.agregarProducto', function () {
 
             const producto = {
                 id: $(this).data('id'),
@@ -78,85 +90,90 @@ $(document).ready(function () {
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
-/* ═════════════ (FUNCION AGREGAR PRODUCTOS AL CARRITO) ═════════════*/
-
     function agregarProductoCarrito(producto) {
 
         let existente = carrito.find(p => p.id === producto.id);
 
-        if (existente) { // EVITA VENDER MAS DE LO QUE EXISTE
-            if (existente.cantidad >= existente.stock) { mostrarToast(`No hay más stock de ${existente.nombre}`, 'danger'); 
-                return; }
+        if (existente) {
 
-            existente.cantidad++; } 
+            if (existente.cantidad >= existente.stock) {
+                mostrarToast(`No hay más stock de ${existente.nombre}`, 'danger');
+                return;
+            }
 
-            else { carrito.push({ ...producto, cantidad: 1 }); }
+            existente.cantidad++;
+
+        } else {
+            carrito.push({ ...producto, cantidad: 1 });
+        }
 
         renderCarrito();
-
     }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
-/* ═════════════ (RENDERIZAR TABLA DEL CARRITO) ═════════════ */
-
     function renderCarrito() {
 
-        let TABLACARRITO = ''; let total = 0;
+        let html = '';
+        let total = 0;
 
         carrito.forEach((p, i) => {
 
-            let subtotal = p.precio * p.cantidad; total += subtotal;
+            let subtotal = p.precio * p.cantidad;
+            total += subtotal;
 
-            TABLACARRITO += `
+            html += `
                 <tr>
                     <td>${p.nombre}</td>
-                    <td class="col-md-1">
+                    <td class="col-cantidad">
                         <input type="number" value="${p.cantidad}" min="1"
-                            class="form-control form-control-sm cantidad"
+                            class="cantidad"
                             data-index="${i}">
                     </td>
                     <td>C$ ${p.precio.toFixed(2)}</td>
                     <td>C$ ${subtotal.toFixed(2)}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger eliminar" data-index="${i}">
-                            X
+                        <button class="eliminar" data-index="${i}">
+                            <i class="bi bi-trash"></i>
                         </button>
                     </td>
                 </tr>
             `;
         });
 
-        $('#carrito').html(TABLACARRITO);
+        $('#carrito').html(html);
         $('#total').text('C$ ' + total.toFixed(2));
         calcularVueltos();
     }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
-    /* ═══════ EVENTO: ELIMINAR PRODUCTO DEL CARRITO ═══════ */
-
-    $('#carrito').on('click', '.eliminar', function(){
-        const i = $(this).data('index'); carrito.splice(i, 1); renderCarrito();
-    }); // Elimina el producto seleccionado del carrito actual
-
-    /* ═══════ EVENTO: CAMBIAR CANTIDAD DEL PRODUCTO ═══════ */
+    $('#carrito').on('click', '.eliminar', function () {
+        carrito.splice($(this).data('index'), 1);
+        renderCarrito();
+    });
 
     $('#carrito').on('blur', '.cantidad', function () {
-    const i = $(this).data('index'); let valor = parseInt($(this).val());
-        if (isNaN(valor) || valor < 1) valor = 1; carrito[i].cantidad = valor; renderCarrito();
-    }); // Actualiza la cantidad del producto y recalcula totales
+
+        let i = $(this).data('index');
+        let valor = parseInt($(this).val());
+
+        if (isNaN(valor) || valor < 1) valor = 1;
+
+        carrito[i].cantidad = valor;
+        renderCarrito();
+    });
 
     $('#carrito').on('keydown', '.cantidad', function (e) {
-        if (e.key === 'Enter') { e.preventDefault(); $(this).blur(); }
-    }); // Al presionar "Enter" sale del blur
+        if (e.key === 'Enter') $(this).blur();
+    });
 
-    // ═══════ EVENTO: CAMBIO MÉTODO DE PAGO ═══════
+/*-------------------------------------------------------------------------------------------------------------------*/
+
     $('#metodo_pago').on('change', function () {
 
         let metodo = parseInt($(this).val()) || 0;
 
-        // si existe función externa
         if (window.setMetodoPago) window.setMetodoPago(metodo);
 
         if (metodo === 1) {
@@ -172,14 +189,12 @@ $(document).ready(function () {
         }
     });
 
-
 /*-------------------------------------------------------------------------------------------------------------------*/
-
-    /* ═══════ VALIDAR Y FACTURAR DEL CARRITO ═══════ */
+/* ═══════ FACTURAR ═══════ */
 
     $('#btnFacturar').click(async function () {
 
-        $('#btnFacturar').prop('disabled', true); // Evita Doble Click
+        $('#btnFacturar').prop('disabled', true);
 
         let cliente = $('#clientes').val();
         let total = parseFloat($('#total').text().replace(/[^\d.-]/g, '')) || 0;
@@ -187,29 +202,46 @@ $(document).ready(function () {
 
         let recibido = (metodo === 1)
             ? parseFloat($('#pagoCordobas').val()) || 0
-            : total; // 🔥 clave
+            : total;
 
-
-            
-        // VALIDAR ANTES DE FACTURAR
-        if (!validarFactura(cliente, total, recibido, metodo)) { $('#btnFacturar').prop('disabled', false); return; }
+        if (!validarFactura(cliente, total, recibido, metodo)) {
+            $('#btnFacturar').prop('disabled', false);
+            return;
+        }
 
         let stockOk = await validarStockBD();
-        if (!stockOk) { $('#btnFacturar').prop('disabled', false); return; }
+        if (!stockOk) {
+            $('#btnFacturar').prop('disabled', false);
+            return;
+        }
 
-        let data = { cliente: cliente, carrito: carrito, total: total, recibido: recibido };
-        
+        let data = {
+            cliente: cliente,
+            carrito: carrito,
+            total: total,
+            recibido: recibido
+        };
 
         $.ajax({
 
-            url: '/facturar/pos', method: 'POST',
+            url: '/facturar/pos',
+            method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
 
-            success: function(res) {
+            success: function (res) {
 
-                if(res.success){ mostrarToast('Factura realizada', 'success');
+                if (res.success) {
+
+                    mostrarToast('Factura realizada', 'success');
+
+                    // 🔥 IMPRIMIR SOLO SI CHECKED
+                    if (imprimirFacturaActivo) {
+                        imprimirFactura(res);
+                    }
 
                     carrito = [];
                     renderCarrito();
@@ -219,34 +251,45 @@ $(document).ready(function () {
                     $('#vueltoCordobas').val('');
                     $('#vueltoDolares').val('');
 
-                    $('#metodo_pago').val('1').trigger('change'); // reset select2
+                    $('#metodo_pago').val('1').trigger('change');
 
-                    tablaProductos.ajax.reload(null, false); // RECARGA TABLA AL FACTURAR
+                    tablaProductos.ajax.reload(null, false);
                 }
 
-                $('#btnFacturar').prop('disabled', false); // HABILITA BTN FACTURAR
-            }, 
-            error: function() {
-                mostrarToast('Error al facturar', 'danger'); $('#btnFacturar').prop('disabled', false);
+                $('#btnFacturar').prop('disabled', false);
+            },
+
+            error: function () {
+                mostrarToast('Error al facturar', 'danger');
+                $('#btnFacturar').prop('disabled', false);
             }
         });
     });
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
-    /* ═══════ VALIDACIÓN: DATOS DE FACTURA ═══════ */
+    function validarFactura(cliente, total, recibido, metodo) {
 
-    function validarFactura(cliente, total, recibido, metodo){
+        if (carrito.length === 0) {
+            mostrarToast('Agregue productos', 'danger');
+            return false;
+        }
 
-        if (carrito.length === 0) { mostrarToast('Agregue productos', 'danger'); return false; }
-        if (!cliente) { mostrarToast('Seleccione cliente', 'danger'); return false; }
-if (metodo == 1 && recibido < total) {
-    mostrarToast('Pago insuficiente', 'danger');
-    return false;
-}
+        if (!cliente) {
+            mostrarToast('Seleccione cliente', 'danger');
+            return false;
+        }
+
+        if (metodo == 1 && recibido < total) {
+            mostrarToast('Pago insuficiente', 'danger');
+            return false;
+        }
 
         for (let p of carrito) {
-            if (p.cantidad > p.stock) { mostrarToast(`Stock insuficiente para ${p.nombre}`, 'danger'); return false; }
+            if (p.cantidad > p.stock) {
+                mostrarToast(`Stock insuficiente para ${p.nombre}`, 'danger');
+                return false;
+            }
         }
 
         return true;
