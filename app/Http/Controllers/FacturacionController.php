@@ -158,6 +158,7 @@ class FacturacionController extends Controller
             $subtotalGeneral = 0;
             $impuestoGeneral = 0;
 
+            // ⚠️ NO usar total del frontend
             $venta = Venta::create([
                 'numero_factura' => $numero,
                 'id_cliente' => $request->cliente,
@@ -261,24 +262,24 @@ class FacturacionController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'numero_factura' => $venta->numero_factura,
-                'cliente' => $venta->cliente,
-                'monto_recibido' => $venta->monto_recibido,
-                'vuelto' => $venta->vuelto,
-                'total' => $totalGeneral,
-                'productos' => $venta->detalles->map(function ($d) {
-                    return [
-                        'nombre' => $d->producto->nombre_producto,
-                        'cantidad' => $d->cantidad_venta,
-                        'precio' => $d->precio_unitario_venta,
-                        'impuesto' => $d->monto_impuesto,
-                        'subtotal' => $d->subtotal_detalle_venta,
-                        'total' => $d->subtotal_detalle_venta + $d->monto_impuesto,
-                    ];
-                }),
-            ]);
+                return response()->json([
+                    'success' => true,
+                    'numero_factura' => $venta->numero_factura,
+                    'cliente' => $venta->cliente,
+                    'monto_recibido' => $venta->monto_recibido,
+                    'vuelto' => $venta->vuelto,
+                    'total' => $totalGeneral,
+                    'productos' => $venta->detalles->map(function ($d) {
+                        return [
+                            'nombre' => $d->producto->nombre_producto,
+                            'cantidad' => $d->cantidad_venta,
+                            'precio' => $d->precio_unitario_venta,
+                            'impuesto' => $d->monto_impuesto,
+                            'subtotal' => $d->subtotal_detalle_venta,
+                            'total' => $d->subtotal_detalle_venta + $d->monto_impuesto,
+                        ];
+                    }),
+                ]);
 
         } catch (\Exception $e) {
 
@@ -291,6 +292,156 @@ class FacturacionController extends Controller
             ]);
         }
     }
+
+
+    // public function FacturarProductosPOS(Request $request)
+    //     {
+    //         DB::beginTransaction();
+
+    //         try {
+
+    //             // 🔥 obtener caja abierta
+    //             $caja = Caja::where('estado_caja', 1)->first();
+
+    //             if (!$caja) {
+    //                 throw new \Exception('No hay caja abierta');
+    //             }
+
+    //         $numero = 'VTA-' . now()->format('Ymd') . '-' . str_pad((Venta::max('id_venta') + 1), 5, '0', STR_PAD_LEFT);
+
+    //             $subtotalGeneral = 0;
+    //             $impuestoGeneral = 0;
+
+    //             $venta = Venta::create([
+    //                 'numero_factura' => $numero,
+    //                 'id_cliente' => $request->cliente,
+    //                 'id_usuario' => session('usuario.id'),
+    //                 'id_caja' => $caja->id_caja,
+    //                 'id_metodo_pago' => 1,
+    //                 'subtotal_venta' => 0,
+    //                 'impuesto_venta' => 0,
+    //                 'total_venta' => 0, // se actualiza después
+    //                 'monto_recibido' => $request->recibido,
+    //                 'vuelto' => 0
+    //             ]);
+
+    //             foreach ($request->carrito as $item) {
+
+    //                 $producto = Producto::with('impuesto')->find($item['id']);
+
+    //                 if (!$producto) {
+    //                     throw new \Exception('Producto no encontrado');
+    //                 }
+
+    //                 $cantidad = $item['cantidad'];
+    //                 $porcentaje = $producto->impuesto->porcentaje_impuesto;
+                    
+    //                 $precioSinImpuesto = $producto->precio_venta;
+    //                 $impuestoUnitario = $precioSinImpuesto * ($porcentaje / 100);
+
+    //                 $subtotal = $precioSinImpuesto * $cantidad;
+    //                 $impuesto = $impuestoUnitario * $cantidad;
+
+    //                 $subtotalGeneral += $subtotal;
+    //                 $impuestoGeneral += $impuesto;
+
+    //                 DetalleVenta::create([
+    //                     'id_venta' => $venta->id_venta,
+    //                     'id_producto' => $producto->id_producto,
+    //                     'cantidad_venta' => $cantidad,
+    //                     'precio_unitario_venta' => $precioSinImpuesto, // 🔥 SIN IVA
+    //                     'subtotal_detalle_venta' => $subtotal,
+    //                     'porcentaje_impuesto' => $porcentaje,
+    //                     'monto_impuesto' => $impuesto
+    //                 ]);
+
+    //                 // 📦 stock
+    //                 $stockAntes = $producto->stock_actual;
+    //                 $stockDespues = $stockAntes - $cantidad;
+
+    //                 // if ($stockDespues < 0) {
+    //                 //     throw new \Exception("Stock insuficiente para {$producto->nombre_producto}");
+    //                 // }
+
+    //                 if ($producto->stock_actual < $cantidad) {
+    //                     throw new \Exception("El producto '{$producto->nombre_producto}' ya no tiene existencias disponibles");
+    //                 }
+
+    //                 //$producto->decrement('stock_actual', $cantidad);
+
+    //                 $actualizado = Producto::where('id_producto', $item['id'])
+    //                 ->where('stock_actual', '>=', $cantidad)
+    //                 ->decrement('stock_actual', $cantidad);
+
+    //                 if (!$actualizado) {
+    //                     throw new \Exception("El producto '{$producto->nombre_producto}' ya no tiene existencias disponibles");
+    //                 }
+
+    //                 MovimientoInventario::create([
+    //                     'id_producto' => $producto->id_producto,
+    //                     'tipo_movimiento' => 'SALIDA',
+    //                     'cantidad_movimiento' => $cantidad,
+    //                     'stock_resultante' => $stockDespues,
+    //                     'motivo_movimiento' => 'Venta despacho realizada',
+    //                     'id_referencia' => $venta->id_venta,
+    //                     'tipo_referencia' => 'VENTA',
+    //                     'precio_unitario' => $precioSinImpuesto,
+    //                     'id_usuario' => session('usuario.id')
+    //                 ]);
+    //             }
+
+    //             // 🔥 TOTAL REAL calculado en backend
+    //             $totalGeneral = $subtotalGeneral + $impuestoGeneral;
+
+    //             $venta->update([
+    //                 'subtotal_venta' => $subtotalGeneral,
+    //                 'impuesto_venta' => $impuestoGeneral,
+    //                 'total_venta' => $totalGeneral,
+    //                 'vuelto' => $request->recibido - $totalGeneral
+    //             ]);
+
+    //             // 💰 movimiento caja
+    //             MovimientoCaja::create([
+    //                 'id_caja' => $caja->id_caja,
+    //                 'tipo_movimiento_caja' => 'INGRESO',
+    //                 'concepto_movimiento_caja' => 'Ingreso por ventas',
+    //                 'monto_movimiento_caja' => $totalGeneral,
+    //                 'id_usuario' => session('usuario.id'),
+    //                 'id_referencia' => $venta->id_venta
+    //             ]);
+
+    //             DB::commit();
+
+    //             return response()->json([
+    //                 'success' => true,
+    //                 'numero_factura' => $venta->numero_factura,
+    //                 'cliente' => $venta->cliente,
+    //                 'monto_recibido' => $venta->monto_recibido,
+    //                 'vuelto' => $venta->vuelto,
+    //                 'total' => $totalGeneral,
+    //                 'productos' => $venta->detalles->map(function ($d) {
+    //                     return [
+    //                         'nombre' => $d->producto->nombre_producto,
+    //                         'cantidad' => $d->cantidad_venta,
+    //                         'precio' => $d->precio_unitario_venta,
+    //                         'impuesto' => $d->monto_impuesto,
+    //                         'subtotal' => $d->subtotal_detalle_venta,
+    //                         'total' => $d->subtotal_detalle_venta + $d->monto_impuesto,
+    //                     ];
+    //                 }),
+    //             ]);
+
+    //         } catch (\Exception $e) {
+
+    //             DB::rollBack();
+
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'error' => $e->getMessage(),
+    //                 'linea' => $e->getLine()
+    //             ]);
+    //         }
+    //     }
 
 
 /*  ╔════════ Mostrar Metodo Pago POS ════════╗ 

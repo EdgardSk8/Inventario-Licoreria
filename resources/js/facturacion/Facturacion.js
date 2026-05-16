@@ -252,6 +252,8 @@ $(document).ready(function () {
                     $('#vueltoDolares').val('');
 
                     $('#metodo_pago').val('1').trigger('change');
+                    $('#clientes').val('1').trigger('change');
+
 
                     tablaProductos.ajax.reload(null, false);
                 }
