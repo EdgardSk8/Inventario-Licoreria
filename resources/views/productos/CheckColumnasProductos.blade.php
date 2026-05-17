@@ -65,6 +65,11 @@
 
         </div>
 
+        <input type="checkbox" id="toggleInactivosProductos" class="togglecheck" hidden checked>
+        <label for="toggleInactivosProductos" class="toggle-btn">
+            Ocultar inactivos
+        </label>
+
     </div>
 
 </div>

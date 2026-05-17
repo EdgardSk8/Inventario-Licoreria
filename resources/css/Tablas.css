@@ -37,7 +37,7 @@
 
 .table{
     margin: 0 auto;
-    white-space: normal;
+    white-space: nowrap;
 }
 
 /* Columna th (Titulo )*/ 

@@ -111,7 +111,7 @@ $(document).ready(function () {
         ],
         order: [[1, 'asc']],
         initComplete: function () {
-            ConfigurarFiltrosDataTable(this, { columnasSelect: [2], columnasIgnorar: [0,8] });
+            ConfigurarFiltrosDataTable(this, { columnasSelect: [3], columnasIgnorar: [1, 7] });
         }
 
     }); // Fin de Funcion de inicializacion de tabla
@@ -127,7 +127,7 @@ $(document).ready(function () {
             const ocultar = $('#toggleInactivosProductos').is(':checked');
             if (!ocultar) return true;
 
-            const estado = data[7]; // columna estado (IMPORTANTE)
+            const estado = data[8]; // columna estado (IMPORTANTE)
             return estado.includes('Activo');
         }
 

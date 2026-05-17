@@ -2,66 +2,65 @@
 <html lang="es">
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Administrador de Productos</title>
+    <title>Administrador de Productos</title>
 
-<meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<link rel="stylesheet" href="{{ Vite::asset('resources/css/productos/Productos.css') }}">
+    <link rel="stylesheet" href="{{ Vite::asset('resources/css/productos/Productos.css') }}">
 
-<!-- JS -->
-<script src="{{ Vite::asset('resources/js/productos/MostrarProducto.js') }}"></script>
-<script src="{{ Vite::asset('resources/js/productos/BajaProducto.js') }}"></script>
-<!-- <script src="{{ Vite::asset('resources/js/productos/CrearProducto.js') }}"></script> -->
-
-
+    <!-- JS -->
+    <script src="{{ Vite::asset('resources/js/productos/MostrarProducto.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/productos/BajaProducto.js') }}"></script>
+    <!-- <script src="{{ Vite::asset('resources/js/productos/CrearProducto.js') }}"></script> -->
 
 </head>
 
 <body>
 
-{{-- MODALES 
-@include('productos.CrearProducto')--}}
-@include('productos.EditarProducto')
-@include('productos.DetalleProducto')
-@include('productos.CheckColumnasProductos')
+    {{-- MODALES 
+    @include('productos.CrearProducto')--}}
+    @include('productos.EditarProducto')
+    @include('productos.DetalleProducto')
+    @include('productos.CheckColumnasProductos')
 
-<table id="tablaProductos" class="table table-striped table-bordered">
+    <table id="tablaProductos" class="table table-striped table-bordered">
 
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Imagen</th>
-            <th>Nombre</th>
-            <th>Categoría</th>
-            <th>P. Compra</th>
-            <th>P. Venta</th>
-            <th>Impuesto</th>
-            <th>Stock</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-
-    <tbody></tbody>
-
-        <tfoot>
+        <thead>
             <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+                <th>ID</th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>P. Compra</th>
+                <th>P. Venta</th>
+                <th>Impuesto</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Acciones</th>
             </tr>
-        </tfoot>
+        </thead>
 
-</table>
+        <tbody></tbody>
+
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+
+    </table>
 
 <!--    ╔════════ Mensaje Toast ══════════╗ 
         ╚═════════════════════════════════╝     -->

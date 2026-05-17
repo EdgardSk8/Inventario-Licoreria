@@ -91,7 +91,7 @@ class permisosSeeder extends Seeder
             ['nombre_permiso'=>'vista_cajas','descripcion_permiso'=>'Ver vista cajas','modulo_permiso'=>'cajas'],
             ['nombre_permiso'=>'mostrar_cajas','descripcion_permiso'=>'Listar cajas','modulo_permiso'=>'cajas'],
 
-
+            /* ═════════════ MOVIMIENTO CAJAS ═════════════ */
             ['nombre_permiso'=>'vista_movimientos_cajas','descripcion_permiso'=>'Ver Movimientos caja','modulo_permiso'=>'movimiento_cajas'],
             ['nombre_permiso'=>'mostrar_movimiento_cajas','descripcion_permiso'=>'Listar Movimientos caja','modulo_permiso'=>'movimiento_cajas'],
 
@@ -111,6 +111,7 @@ class permisosSeeder extends Seeder
             ['nombre_permiso'=>'cambiar_estado_cuentas','descripcion_permiso'=>'Cambiar estado cuentas','modulo_permiso'=>'cuentas'],
             ['nombre_permiso'=>'transferir_cuentas','descripcion_permiso'=>'Transferir entre cuentas','modulo_permiso'=>'cuentas'],
 
+            /* ═════════════ MOVIMIENTO CUENTAS ═════════════ */
             ['nombre_permiso'=>'vista_movimientos_cuentas','descripcion_permiso'=>'Ver Movimientos cuentas','modulo_permiso'=>'movimiento_cuentas'],
             ['nombre_permiso'=>'movimiento_cuentas','descripcion_permiso'=>'Listar Movimientos cuentas','modulo_permiso'=>'movimiento_cuentas'],
             ['nombre_permiso'=>'mostrar_movimiento_cuentas','descripcion_permiso'=>'Ver movimientos cuentas','modulo_permiso'=>'movimiento_cuentas'],
@@ -129,6 +130,7 @@ class permisosSeeder extends Seeder
             ['nombre_permiso'=>'actualizar_gastos','descripcion_permiso'=>'Actualizar gastos','modulo_permiso'=>'gastos'],
             ['nombre_permiso'=>'pagar_gastos','descripcion_permiso'=>'Pagar gastos','modulo_permiso'=>'gastos'],
 
+            /* ═════════════ MOVIMIENTO GASTOS ═════════════ */
             ['nombre_permiso'=>'vista_movimientos_gastos','descripcion_permiso'=>'Ver Movimiento gastos','modulo_permiso'=>'movimiento_gastos'],
             ['nombre_permiso'=>'mostrar_movimientos_gastos','descripcion_permiso'=>'Listar Movimiento gastos','modulo_permiso'=>'movimiento_gastos'],
             ['nombre_permiso'=>'mostrar_detalle_gastos','descripcion_permiso'=>'Detalle gastos','modulo_permiso'=>'movimiento_gastos'],

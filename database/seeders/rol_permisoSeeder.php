@@ -73,26 +73,24 @@ class rol_permisoSeeder extends Seeder
         /* ═════════════ BODEGUERO (ROL 3) ═════════════ */
         $permisosBodeguero = [
 
+            /* PRODUCTOS */
             'vista_productos',
             'mostrar_productos',
             'crear_productos',
             'editar_productos',
+            'actualizar_productos',
 
-            'vista_categorias',
-            'mostrar_categorias',
-
+            /* MOVIMIENTO INVENTARIO */
             'vista_movimientos_inventario',
             'mostrar_movimiento_inventario',
 
+            /* COMPRAS */
             'vista_compras',
-            'vista_crear_compras',
             'mostrar_compras',
-            'crear_compras',
 
+            /* PROVEEDORES */
             'vista_proveedores',
             'mostrar_proveedores',
-            'crear_proveedores',
-            'editar_proveedores',
         ];
 
         foreach ($permisosBodeguero as $nombrePermiso) {
@@ -150,26 +148,42 @@ class rol_permisoSeeder extends Seeder
         /* ═════════════ CONTADOR (ROL 5) ═════════════ */
         $permisosContador = [
 
+            /* DASHBOARD */
             'vista_dashboard',
+            'mostrar_dashboard_ventas',
+            'mostrar_dashboard_movimiento_inventario',
 
+            /* REPORTES */
             'vista_reportes',
             'mostrar_reportes',
 
+
+            /* GASTOS */
             'vista_gastos',
             'mostrar_gastos',
             'crear_gastos',
+            'editar_gastos',
+            'actualizar_gastos',
             'pagar_gastos',
 
+            /* CUENTAS */
             'vista_cuentas',
             'mostrar_cuentas',
             'crear_cuentas',
             'transferir_cuentas',
+            'editar_cuentas',
+            'actualizar_cuentas',
+            'cambiar_estado_cuentas',
 
+            /* MOVIMIENTO CUENTAS */
             'vista_movimientos_cuentas',
             'mostrar_movimiento_cuentas',
 
+            /* TRANSFERENCIA CAJA CUENTA */
             'vista_transferenciacajacuenta',
             'mostrar_transferencias_caja_cuenta',
+            'transferir_caja_cuentas',
+            'mostrar_detalle_transferencias_caja_cuenta'
         ];
 
         foreach ($permisosContador as $nombrePermiso) {
