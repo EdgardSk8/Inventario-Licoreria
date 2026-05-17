@@ -25,29 +25,34 @@ class rol_permisoSeeder extends Seeder
         /* ═════════════ CAJERO (ROL 2) ═════════════ */
         $permisosCajero = [
 
-            'vista_dashboard',
-            'mostrar_dashboard_ventas',
-
+            /* VENTAS */
             'vista_ventas',
             'mostrar_ventas',
             'mostrar_detalle_ventas',
+            'anular_ventas',
 
+            /* MOVIMIENTO CAJAS*/ 
+            'vista_movimiento_cajas',
+            'mostrar_movimiento_cajas',
+
+            /* FACTURACION */
             'vista_facturacion',
             'usar_facturacion',
+            'abrir_caja',
+            'cerrar_caja',
             'verificar_caja',
 
+            /* CLIENTES */
             'vista_clientes',
             'mostrar_clientes',
-            'crear_clientes',
 
+            /* PRODUCTOS */
             'vista_productos',
             'mostrar_productos',
 
+            /* CAJAS */
             'vista_cajas',
             'mostrar_cajas',
-
-            'vista_movimientos_cajas',
-            'mostrar_movimiento_cajas',
         ];
 
         foreach ($permisosCajero as $nombrePermiso) {

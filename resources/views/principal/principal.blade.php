@@ -17,6 +17,13 @@
 @vite(['resources/js/principal/logout.js'])
 @vite(['resources/js/FuncionesGlobales.js'])
 
+<meta property="og:title" content="Sistema POS Tellez">
+<meta property="og:description" content="Sistema de ventas e inventario">
+<meta property="og:image" content="{{ asset('icono.jpeg') }}">
+<meta property="og:type" content="website">
+
+<link rel="icon" href="{{ asset('Favicon.ico') }}" type="image/png">
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <style>
@@ -324,6 +331,16 @@
             <div id="titulo"></div>
 
             <div id="perfil">
+
+            @php
+                if (
+                    !session()->has('usuario') ||
+                    empty(session('usuario.nombre')) ||
+                    empty(session('usuario.rol'))
+                ) {
+                    header('Location: ' . route('login')); exit;
+                }
+            @endphp
 
                 <strong>
                     {{ session('usuario')['nombre'] ?? 'Invitado' }}

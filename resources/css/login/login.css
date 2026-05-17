@@ -1,19 +1,318 @@
-body {
-        background: #1f2937; /* similar sidebar */
+/* ═══════════════════════════════════════
+   LOGIN DARK PREMIUM - TELLEZ S.A
+═══════════════════════════════════════ */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Segoe UI', sans-serif;
+    background: #0b1120;
+    overflow: hidden;
+    position: relative;
+}
+
+/* FONDO */
+
+.background-shape{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: 1;
+}
+
+.shape-1{
+    width: 420px;
+    height: 420px;
+    background: rgba(97,153,245,0.10);
+    top: -150px;
+    left: -120px;
+}
+
+.shape-2{
+    width: 350px;
+    height: 350px;
+    background: rgba(255,255,255,0.03);
+    bottom: -120px;
+    right: -80px;
+}
+
+/* CONTENEDOR */
+
+.login-container{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+/* BOX */
+
+.login-box{
+    width: 100%;
+    max-width: 980px;
+    min-height: 560px;
+    display: flex;
+    overflow: hidden;
+    border-radius: 28px;
+    background: rgba(15,23,42,0.88);
+    border: 1px solid rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    box-shadow:
+        0 30px 60px rgba(0,0,0,0.50);
+}
+
+/* ═══════════════════════════════════════
+   LADO IZQUIERDO
+═══════════════════════════════════════ */
+
+.login-side{
+    width: 50%;
+    padding: 15px;
+    background:
+        linear-gradient(
+            160deg,
+            #020617,
+            #0f172a
+        );
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.login-side::before{
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(97,153,245,0.08);
+    border-radius: 50%;
+    top: -100px;
+    right: -120px;
+}
+
+/* LOGO */
+
+.brand-mini{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+    flex-direction: column;
+}
+
+.logo{
+    height: 100%;
+    max-height: 320px;
+    object-fit: contain;
+    background: rgba(255,255,255,0.04);
+    padding: 10px;
+    border-radius: 16px;
+}
+
+.brand-mini h1{
+    color: white;
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    letter-spacing: .5px;
+}
+
+.brand-mini span{
+    color: #94a3b8;
+    font-size: 17px;
+}
+
+/* TEXTO */
+
+.side-content{
+    position: relative;
+    z-index: 2;
+}
+
+.side-content h2{
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.side-content p{
+    color: #94a3b8;
+    font-size: 14px;
+    max-width: 360px;
+}
+
+/* ═══════════════════════════════════════
+   PANEL DERECHO
+═══════════════════════════════════════ */
+
+.login-form-panel{
+    width: 50%;
+    background: #111827;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+/* CARD */
+
+.form-card{
+    width: 100%;
+    max-width: 340px;
+}
+
+/* HEADER */
+
+.form-header{
+    margin-bottom: 40px;
+}
+
+.form-header h3{
+    color: white;
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: .5px;
+}
+
+.form-header p{
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+/* FORM */
+
+.form-group{
+    margin-bottom: 18px;
+}
+
+.form-group label{
+    display: block;
+    margin-bottom: 10px;
+    color: #cbd5e1;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .3px;
+}
+
+/* INPUTS MINIMAL */
+
+.input-modern{
+    height: 32px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #374151;
+    transition: .25s ease;
+}
+
+.input-modern:focus-within{
+    border-color: #6199f5;
+}
+
+.input-modern i{
+    width: 40px;
+    color: #6b7280;
+    font-size: 16px;
+}
+
+.input-modern input{
+    flex: 1;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 15px;
+}
+
+.input-modern input::placeholder{
+    color: #6b7280;
+}
+
+/* BOTON */
+
+.btn-login{
+    width: 100%;
+    height: 54px;
+    border: none;
+    border-radius: 14px;
+    margin-top: 18px;
+    background:
+        linear-gradient(
+            135deg,
+            #1e293b,
+            #0f172a
+        );
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .25s ease;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.btn-login i{
+    margin-right: 8px;
+}
+
+.btn-login:hover{
+    background:
+        linear-gradient(
+            135deg,
+            #6199f5,
+            #3b82f6
+        );
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 25px rgba(97,153,245,0.25);
+}
+
+/* FOOTER */
+
+.footer-login{
+    margin-top: 28px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+
+@media(max-width: 992px){
+
+    .login-side{
+        display: none;
     }
 
-    .login-container {
-        min-height: 100vh;
-    }
-
-    .login-card {
+    .login-form-panel{
         width: 100%;
-        max-width: 400px;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
-    .login-title {
-        font-weight: bold;
-        font-size: 22px;
+}
+
+@media(max-width: 576px){
+
+    .login-box{
+        min-height: auto;
+        border-radius: 22px;
     }
+
+    .login-form-panel{
+        padding: 35px 28px;
+    }
+
+    .form-header h3{
+        font-size: 34px;
+    }
+
+}
