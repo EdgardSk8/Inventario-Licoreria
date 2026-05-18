@@ -40,6 +40,82 @@ $(document).ready(function () {
         if (reporte) cargarReporte(reporte); 
     }
 
+    const configuracionFiltros = {
+
+    ventas: { columnasSelect: [3, 4, 9, 12] },
+    inventario: { columnasSelect: [2, 3, 4] },
+    movimientoinventario: { columnasSelect: [2, 5, 6, 9] },
+    clientes: { columnasSelect: [1, 4, 8] },
+    usuarios: { columnasSelect: [3] },
+    cajas: { columnasSelect: [1] }
+
+    };
+
+    const ConfigurarFiltrosDataTable = (tabla, config = {}) => {
+
+        let columnasSelect = config.columnasSelect || [];
+
+        tabla.columns().every(function () {
+
+            let column = this;
+            let index = column.index();
+            let footer = $(column.footer());
+            footer.empty();
+
+            if(columnasSelect.includes(index)){
+
+                let select = $(`<select class="form-select form-select-sm filtro-columna"> <option value="">Todos</option> </select>`)
+                .appendTo(footer)
+                .on('change', function () {
+                    let val = $.fn.dataTable.util.escapeRegex($(this).val());
+                    column.search(val ? '^' + val + '$' : '', true, false).draw();
+                });
+
+                let valores = [];
+                column.data().each(function (d) {
+                    d = $('<div>').html(d).text().trim();
+                    if(d && !valores.includes(d)){ valores.push(d); }
+                });
+
+                valores.sort();
+                valores.forEach(function (d) {
+                    select.append( `<option value="${d}">${d}</option>` );
+                });
+
+            }
+
+            // =========================
+            // INPUT
+            // =========================
+
+            else{
+
+                $(`
+                    <input 
+                        type="text" 
+                        class="form-control form-control-sm filtro-columna" 
+                        placeholder="Buscar"
+                    >
+                `)
+                .appendTo(footer)
+                .on('keyup change clear', function () {
+
+                    if(column.search() !== this.value){
+
+                        column
+                            .search(this.value)
+                            .draw();
+
+                    }
+
+                });
+
+            }
+
+        });
+
+    };
+
     function cargarReporte(reporte) {
 
         if (cargando) return;
@@ -69,6 +145,27 @@ $(document).ready(function () {
                     tablaReportes.order([0, orden]).draw(); 
                 });
 
+                /* GENERAR THEAD Y TFOOT DINAMICOS */
+                let thead = '<tr>';
+                let tfoot = '<tr>';
+
+                respuesta.columnas.forEach(col => {
+
+                    thead += `<th>${col.title}</th>`;
+                    tfoot += `<th></th>`;
+
+                });
+
+                thead += '</tr>';
+                tfoot += '</tr>';
+
+                $('#Reportes').html(`
+                    <thead>${thead}</thead>
+                    <tfoot>${tfoot}</tfoot>
+                    <tbody></tbody>
+                `);
+
+
                 tablaReportes = $('#Reportes').DataTable({
 
                     ajax: function (data, callback) {
@@ -88,9 +185,18 @@ $(document).ready(function () {
                         });
                     },
 
+                    /* CONFIGURAR FILTROS */
+                    initComplete: function () {
+
+                        ConfigurarFiltrosDataTable(
+                            tablaReportes,
+                            configuracionFiltros[reporte] || {}
+                        );
+                    },
                     columns: respuesta.columnas.map(c => ({ data: c.data, title: c.title, defaultContent: "" })),
-                    pageLength: 10, dom: 'Bt', buttons: generarBotones(reporte), order:[0, "desc"],
+                    pageLength: 20, dom: 'Bt', buttons: generarBotones(reporte), 
                     columnDefs: [ { targets: "_all", defaultContent: "" } ]
+                    
 
                 });
 

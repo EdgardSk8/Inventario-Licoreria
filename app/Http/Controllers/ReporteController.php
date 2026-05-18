@@ -120,21 +120,21 @@ class ReporteController extends Controller
 
                     'subtotal' =>
 
-                        number_format(
+                        'C$ ' . number_format(
                             $venta->subtotal_venta,
                             2
                         ),
 
                     'impuesto' =>
 
-                        number_format(
+                        'C$ ' . number_format(
                             $venta->impuesto_venta,
                             2
                         ),
 
                     'total' =>
 
-                        number_format(
+                        'C$ ' . number_format(
                             $venta->total_venta,
                             2
                         ),
@@ -148,14 +148,14 @@ class ReporteController extends Controller
 
                     'monto_recibido' =>
 
-                        number_format(
+                        'C$ ' . number_format(
                             $venta->monto_recibido,
                             2
                         ),
 
                     'vuelto' =>
 
-                        number_format(
+                        'C$ ' . number_format(
                             $venta->vuelto,
                             2
                         ),
@@ -211,7 +211,7 @@ class ReporteController extends Controller
 
                     [
                         'data'  => 'productos_vendidos',
-                        'title' => 'Productos'
+                        'title' => 'Prod'
                     ],
 
                     [
@@ -221,7 +221,7 @@ class ReporteController extends Controller
 
                     [
                         'data'  => 'impuesto',
-                        'title' => 'Impuesto'
+                        'title' => 'Imp'
                     ],
 
                     [
@@ -307,7 +307,7 @@ class ReporteController extends Controller
 
                     'total_general' =>
 
-                        number_format(
+                        'C$' . number_format(
 
                             $ventasActivas
                                 ->sum('total_venta'),
@@ -318,7 +318,7 @@ class ReporteController extends Controller
 
                     'ticket_promedio' =>
 
-                        number_format(
+                        'C$' . number_format(
 
                             $ventasActivas->count() > 0
 
@@ -489,25 +489,25 @@ class ReporteController extends Controller
 
                     'impuesto' =>
 
-                        $porcentajeImpuesto . '%',
+                        $porcentajeImpuesto . ' %',
 
                     'precio_compra' =>
 
-                        number_format(
+                        'C$ ' . number_format(
                             $precioCompra,
                             2
                         ),
 
                     'precio_venta_sin_iva' =>
 
-                        number_format(
+                        'C$ ' . number_format(
                             $precioVentaSinIVA,
                             2
                         ),
 
                     'precio_venta_con_iva' =>
 
-                        number_format(
+                        'C$ ' . number_format(
                             $precioVentaConIVA,
                             2
                         ),
@@ -524,14 +524,14 @@ class ReporteController extends Controller
 
                     'valor_inventario_compra' =>
 
-                        number_format(
+                        'C$ ' . number_format(
                             $valorInventarioCompra,
                             2
                         ),
 
                     'valor_inventario_venta' =>
 
-                        number_format(
+                        'C$ ' . number_format(
                             $valorInventarioVenta,
                             2
                         ),
@@ -602,27 +602,27 @@ class ReporteController extends Controller
 
                     [
                         'data'  => 'impuesto',
-                        'title' => 'Impuesto'
+                        'title' => 'TASA'
                     ],
 
                     [
                         'data'  => 'precio_compra',
-                        'title' => 'Precio Compra'
+                        'title' => 'P. Compra'
                     ],
 
                     [
                         'data'  => 'precio_venta_sin_iva',
-                        'title' => 'Venta SIN IVA'
+                        'title' => 'P. Venta'
                     ],
 
                     [
                         'data'  => 'precio_venta_con_iva',
-                        'title' => 'Venta CON IVA'
+                        'title' => 'V. Final'
                     ],
 
                     [
                         'data'  => 'porcentaje_ganancia',
-                        'title' => '% Ganancia'
+                        'title' => '% Gan'
                     ],
 
                     [
@@ -632,17 +632,17 @@ class ReporteController extends Controller
 
                     [
                         'data'  => 'valor_inventario_compra',
-                        'title' => 'Valor Compra'
+                        'title' => 'Inversion Total'
                     ],
 
                     [
                         'data'  => 'valor_inventario_venta',
-                        'title' => 'Valor Venta'
+                        'title' => 'Ganancia Total'
                     ],
 
                     [
                         'data'  => 'fecha_entrada',
-                        'title' => 'Fecha Entrada'
+                        'title' => 'Fecha Ent'
                     ],
 
                 ],
@@ -786,17 +786,14 @@ class ReporteController extends Controller
                     'tipo_referencia' =>
                         $movimiento->tipo_referencia ?? '-',
 
-                    'id_referencia' =>
-                        $movimiento->id_referencia ?? '-',
-
                     'precio_unitario' =>
                         $movimiento->precio_unitario !== null
-                            ? number_format($precioUnitario, 2)
+                            ? 'C$ ' . number_format($precioUnitario, 2)
                             : '-',
 
                     'total_movimiento' =>
                         $movimiento->precio_unitario !== null
-                            ? number_format(
+                            ? 'C$ ' . number_format(
                                 $precioUnitario * $movimiento->cantidad_movimiento,
                                 2
                             )
@@ -843,15 +840,14 @@ class ReporteController extends Controller
                     ['data' => 'id_movimiento', 'title' => 'ID'],
                     ['data' => 'producto', 'title' => 'Producto'],
                     ['data' => 'tipo_movimiento', 'title' => 'Movimiento'],
-                    ['data' => 'cantidad_movimiento', 'title' => 'Cantidad'],
-                    ['data' => 'stock_resultante', 'title' => 'Stock Resultante'],
+                    ['data' => 'cantidad_movimiento', 'title' => 'Cant'],
+                    ['data' => 'stock_resultante', 'title' => 'Stock Actual'],
                     ['data' => 'motivo_movimiento', 'title' => 'Motivo'],
                     ['data' => 'tipo_referencia', 'title' => 'Referencia'],
-                    ['data' => 'id_referencia', 'title' => 'ID Referencia'],
-                    ['data' => 'precio_unitario', 'title' => 'Precio Unitario'],
-                    ['data' => 'total_movimiento', 'title' => 'Total Movimiento'],
+                    ['data' => 'precio_unitario', 'title' => 'P. Unit'],
+                    ['data' => 'total_movimiento', 'title' => 'T. Movimiento'],
                     ['data' => 'usuario', 'title' => 'Usuario'],
-                    ['data' => 'fecha_movimiento', 'title' => 'Fecha'],
+                    ['data' => 'fecha_movimiento', 'title' => 'Fecha / Hora'],
 
                 ],
 
@@ -1012,10 +1008,10 @@ class ReporteController extends Controller
                         $comprasRealizadas,
 
                     'total_gastado' =>
-                        number_format($totalGastado, 2),
+                        'C$ ' . number_format($totalGastado, 2),
 
                     'ticket_promedio' =>
-                        number_format($ticketPromedio, 2),
+                        'C$ ' . number_format($ticketPromedio, 2),
 
                     'metodo_pago_favorito' =>
                         $metodoFavorito,
@@ -1060,13 +1056,13 @@ class ReporteController extends Controller
                     ['data' => 'telefono_cliente', 'title' => 'Teléfono'],
                     ['data' => 'correo_cliente', 'title' => 'Correo'],
                     ['data' => 'estado_cliente', 'title' => 'Estado'],
-                    ['data' => 'compras_realizadas', 'title' => 'Compras'],
+                    ['data' => 'compras_realizadas', 'title' => 'Com'],
                     ['data' => 'total_gastado', 'title' => 'Total Gastado'],
-                    ['data' => 'ticket_promedio', 'title' => 'Ticket Promedio'],
+                    ['data' => 'ticket_promedio', 'title' => 'Gasto Prom'],
                     ['data' => 'metodo_pago_favorito', 'title' => 'Método Favorito'],
-                    ['data' => 'primera_compra', 'title' => 'Primera Compra'],
-                    ['data' => 'ultima_compra', 'title' => 'Última Compra'],
-                    ['data' => 'fecha_registro', 'title' => 'Registro Cliente'],
+                    ['data' => 'primera_compra', 'title' => '1ra Compra'],
+                    ['data' => 'ultima_compra', 'title' => 'Ult. Compra'],
+                    ['data' => 'fecha_registro', 'title' => 'Registro'],
                 ],
 
                 'datos' => $datos,
@@ -1236,10 +1232,10 @@ class ReporteController extends Controller
                         $facturasAnuladas,
 
                     'dinero_generado' =>
-                        number_format($dineroGenerado, 2),
+                        'C$ ' . number_format($dineroGenerado, 2),
 
                     'ticket_promedio' =>
-                        number_format($ticketPromedio, 2),
+                        'C$ ' . number_format($ticketPromedio, 2),
 
                     'metodo_mas_usado' =>
                         $metodoMasUsado,
@@ -1290,12 +1286,12 @@ class ReporteController extends Controller
                     ['data' => 'rol', 'title' => 'Rol'],
                     ['data' => 'estado', 'title' => 'Estado'],
                     ['data' => 'ventas_realizadas', 'title' => 'Ventas'],
-                    ['data' => 'facturas_anuladas', 'title' => 'Anuladas'],
-                    ['data' => 'dinero_generado', 'title' => 'Dinero Generado'],
-                    ['data' => 'ticket_promedio', 'title' => 'Ticket Promedio'],
+                    ['data' => 'facturas_anuladas', 'title' => 'Anulada'],
+                    ['data' => 'dinero_generado', 'title' => 'V. Total'],
+                    ['data' => 'ticket_promedio', 'title' => 'V. Promedio'],
                     ['data' => 'metodo_mas_usado', 'title' => 'Método Más Usado'],
-                    ['data' => 'primera_venta', 'title' => 'Primera Venta'],
-                    ['data' => 'ultima_venta', 'title' => 'Última Venta'],
+                    ['data' => 'primera_venta', 'title' => '1ra. Venta'],
+                    ['data' => 'ultima_venta', 'title' => 'Ult. Venta'],
                     ['data' => 'fecha_registro', 'title' => 'Registro'],
                 ],
 
@@ -1394,7 +1390,7 @@ class ReporteController extends Controller
 
                     $diff = $inicio->diff($fin);
 
-                    $duracionSesion = "{$diff->h} horas {$diff->i} min";
+                    $duracionSesion = "{$diff->h}h {$diff->i}m";
                 }
 
                 // =====================================
@@ -1438,7 +1434,7 @@ class ReporteController extends Controller
                         $duracionSesion,
 
                     'monto_inicial' =>
-                        number_format(
+                       'C$ ' . number_format(
                             $caja->monto_inicial,
                             2
                         ),
@@ -1447,18 +1443,18 @@ class ReporteController extends Controller
 
                         $caja->monto_final !== null
 
-                            ? number_format(
+                            ? 'C$ ' . number_format(
                                 $caja->monto_final,
                                 2
                             )
 
                             : '-',
-
+                                /*
                     'monto_teorico' =>
 
                         $caja->monto_teorico !== null
 
-                            ? number_format(
+                            ? 'C$ ' . number_format(
                                 $caja->monto_teorico,
                                 2
                             )
@@ -1469,7 +1465,7 @@ class ReporteController extends Controller
 
                         $caja->monto_real !== null
 
-                            ? number_format(
+                            ? 'C$ ' . number_format(
                                 $caja->monto_real,
                                 2
                             )
@@ -1480,21 +1476,23 @@ class ReporteController extends Controller
 
                         $caja->diferencia !== null
 
-                            ? number_format(
+                            ? 'C$ ' . number_format(
                                 $caja->diferencia,
                                 2
                             )
 
                             : '-',
 
+                            */
+
                     'total_ingresos' =>
-                        number_format($ingresos, 2),
+                        'C$ ' . number_format($ingresos, 2),
 
                     'total_salidas' =>
-                        number_format($salidas, 2),
+                        'C$ ' . number_format($salidas, 2),
 
                     'balance_caja' =>
-                        number_format(
+                        'C$ ' . number_format(
                             $ingresos - $salidas,
                             2
                         ),
@@ -1515,7 +1513,7 @@ class ReporteController extends Controller
 
                     [
                         'data'  => 'id_caja',
-                        'title' => 'ID Caja'
+                        'title' => 'ID'
                     ],
 
                     [
@@ -1535,19 +1533,19 @@ class ReporteController extends Controller
 
                     [
                         'data'  => 'duracion_sesion',
-                        'title' => 'Duración Sesión'
+                        'title' => 'Duracion'
                     ],
 
                     [
                         'data'  => 'monto_inicial',
-                        'title' => 'Monto Inicial'
+                        'title' => 'Monto Ini'
                     ],
-
+                    
                     [
                         'data'  => 'monto_final',
-                        'title' => 'Monto Final'
+                        'title' => 'Monto Fin'
                     ],
-
+                    /*
                     [
                         'data'  => 'monto_teorico',
                         'title' => 'Monto Teórico'
@@ -1562,7 +1560,7 @@ class ReporteController extends Controller
                         'data'  => 'diferencia',
                         'title' => 'Diferencia'
                     ],
-
+                    */
                     [
                         'data'  => 'total_ingresos',
                         'title' => 'Ingresos'
@@ -1618,7 +1616,7 @@ class ReporteController extends Controller
 
                     'total_salidas' =>
 
-                        number_format(
+                        'C$ ' . number_format(
 
                             $cajas->sum(function ($caja) {
 

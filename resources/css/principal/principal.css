@@ -60,7 +60,7 @@ body{
 .sidebar{
     width:250px;
     min-width:130px;
-    max-width:250px;
+    max-width:230px;
     flex-shrink:0;
 
     height:100vh;

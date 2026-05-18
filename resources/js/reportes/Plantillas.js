@@ -25,7 +25,7 @@ PlantillaPDF = function (config = {}) {
         pageSize: 'A4', 
         filename: config.filename || 'REPORTE', 
         title: config.title || 'REPORTE',
-        footer: true,
+        footer: false ,exportOptions: { columns: ':visible' },
 
         customize: function (doc) {
 
@@ -164,16 +164,10 @@ PlantillaPDF = function (config = {}) {
 };
 
 
-
-
-
-
-
-
 window.PlantillaCSV = function (config = {}) {
 
     return {
-        extend: 'csvHtml5',
+        extend: 'csvHtml5',footer: false,exportOptions: { columns: ':visible' },
 
         customize: function (csv) {
 
@@ -212,9 +206,7 @@ PlantillaExcel = function (config = {}) {
         extend: 'excelHtml5',
         filename: config.filename || 'REPORTE',
 
-        exportOptions: {
-            columns: ':visible'
-        },
+        exportOptions: { columns: ':visible' },
 
         customize: function (xlsx) {
 

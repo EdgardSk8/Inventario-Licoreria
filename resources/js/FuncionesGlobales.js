@@ -84,7 +84,7 @@ window.formatearFechaDia = function(fechaSQL) {
 
     const meses = [
         "enero","febrero","marzo","abril",
-        "mayo","junio","julio","agosto",
+        "Mayo","junio","julio","agosto",
         "septiembre","octubre","noviembre","diciembre"
     ];
 
