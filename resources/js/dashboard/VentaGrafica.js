@@ -67,6 +67,8 @@ $(document).ready(function () {
 
     async function obtenerVentas() {
 
+        
+
         const params = new URLSearchParams({
 
             tipo: Filtro_Ventas.value,
@@ -81,6 +83,38 @@ $(document).ready(function () {
 
         const response = await fetch(`/dashboard/ventas?${params}`);
         const data = await response.json();
+
+        const kpis = data.kpis;
+
+        document.getElementById('kpi-total-ventas')
+            .innerText = Number(kpis.total_ventas ?? 0).toLocaleString('es-NI');
+
+        document.getElementById('kpi-ingresos-venta')
+            .innerText = `C$ ${Number(kpis.ingresos ?? 0).toLocaleString('es-NI', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+        })}`;
+
+        document.getElementById('kpi-unidades-vendidas')
+            .innerText = Number(kpis.unidades_vendidas ?? 0).toLocaleString('es-NI');
+
+        document.getElementById('kpi-promedio-venta')
+            .innerText = `C$ ${Number(kpis.promedio_venta ?? 0).toLocaleString('es-NI', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+        })}`;
+
+        document.getElementById('kpi-venta-maxima')
+            .innerText = `C$ ${Number(kpis.venta_maxima ?? 0).toLocaleString('es-NI', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+        })}`;
+
+        document.getElementById('kpi-impuestos')
+            .innerText = `C$ ${Number(kpis.impuestos ?? 0).toLocaleString('es-NI', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
 
         let datos = [];
 
@@ -134,7 +168,7 @@ $(document).ready(function () {
                                 borderWidth: 2,
                                 hidden: true,
                                 tension: 0.4,
-                                fill: false,
+                                fill: Tipo_Grafica_Ventas.value === 'line',
                                 yAxisID: 'y1',
                             }
                         ]

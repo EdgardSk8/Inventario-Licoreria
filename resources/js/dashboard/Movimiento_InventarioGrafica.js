@@ -114,6 +114,23 @@ $(document).ready(function () {
         const response = await fetch(`/dashboard/movimiento-inventario?${params}`);
         const data = await response.json();
 
+         const kpi = data.resumen;
+
+            document.getElementById('kpi-total-movimientos').textContent =
+                kpi.total_movimientos;
+
+            document.getElementById('kpi-entradas').textContent =
+                kpi.entradas;
+
+            document.getElementById('kpi-salidas').textContent =
+                kpi.salidas;
+
+            document.getElementById('kpi-balance').textContent =
+                kpi.balance;
+
+            document.getElementById('kpi-promedio').textContent =
+                kpi.promedio_movimiento;
+
         let datos = [];
 
         switch(Filtro_Inventario.value) {

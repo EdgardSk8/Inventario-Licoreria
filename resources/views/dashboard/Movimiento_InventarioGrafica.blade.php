@@ -56,6 +56,35 @@
 
         </div>
 
+        <div class="dashboard-kpis">
+
+            <div class="kpi-card">
+                <span class="kpi-title">Movimientos:</span>
+                <span id="kpi-total-movimientos" class="dato">0</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Entradas: </span>
+                <span id="kpi-entradas" class="dato">0</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Salidas: </span>
+                <span id="kpi-salidas" class="dato">0</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Balance:</span>
+                <span id="kpi-balance" class="dato">0</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Promedio:</span>
+                <span id="kpi-promedio" class="dato">0</span>
+            </div>
+
+        </div>
+
     </div>
 
     <div class="dashboard-chart">

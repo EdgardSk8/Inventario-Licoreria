@@ -66,7 +66,39 @@
 
         </div>
 
-    </div>
+        <div class="dashboard-kpis">
+
+            <div class="kpi-card">
+                <span class="kpi-title">Total ventas:</span>
+                <span class="dato" id="kpi-total-ventas">0</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Ingresos:</span>
+                <span class="dato" id="kpi-ingresos-venta">C$ 0.00</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Unidades vendidas:</span>
+                <span class="dato" id="kpi-unidades-vendidas">0</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Promedio por venta:</span>
+                <span class="dato" id="kpi-promedio-venta">C$ 0.00</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Venta más alta:</span>
+                <span class="dato" id="kpi-venta-maxima">C$ 0.00</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Impuestos</span>
+                <span class="dato" id="kpi-impuestos">C$ 0.00</span>
+            </div>
+
+        </div>
 
     <div class="dashboard-chart">
         <canvas id="chartVentas"></canvas>

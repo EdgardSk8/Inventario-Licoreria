@@ -15,6 +15,7 @@ class permisosSeeder extends Seeder
             ['nombre_permiso' => 'vista_dashboard','descripcion_permiso' => 'Ver vista dashboard','modulo_permiso' => 'dashboard'],
             ['nombre_permiso' => 'mostrar_dashboard_ventas','descripcion_permiso' => 'Ver datos ventas dashboard','modulo_permiso' => 'dashboard'],
             ['nombre_permiso' => 'mostrar_dashboard_movimiento_inventario','descripcion_permiso' => 'Ver movimientos inventario dashboard','modulo_permiso' => 'dashboard'],
+            ['nombre_permiso' => 'mostrar_dashboard_ganancias','descripcion_permiso' => 'Ver datos ganancias dashboard','modulo_permiso' => 'dashboard'],
 
             /* ═════════════ USUARIOS ═════════════ */
             ['nombre_permiso'=>'vista_usuarios','descripcion_permiso'=>'Ver vista usuarios','modulo_permiso'=>'usuarios'],
@@ -100,7 +101,7 @@ class permisosSeeder extends Seeder
             ['nombre_permiso'=>'usar_facturacion','descripcion_permiso'=>'Usar facturacion POS','modulo_permiso'=>'facturacion'],
             ['nombre_permiso'=>'abrir_caja','descripcion_permiso'=>'Abrir caja desde POS','modulo_permiso'=>'facturacion'],
             ['nombre_permiso'=>'cerrar_caja','descripcion_permiso'=>'Cerrar caja desde POS','modulo_permiso'=>'facturacion'],
-            ['nombre_permiso'=>'verificar_caja','descripcion_permiso'=>'Verificar estado caja','modulo_permiso'=>'facturacion'],
+            //['nombre_permiso'=>'verificar_caja','descripcion_permiso'=>'Verificar estado caja','modulo_permiso'=>'facturacion'],
 
             /* ═════════════ CUENTAS ═════════════ */
             ['nombre_permiso'=>'vista_cuentas','descripcion_permiso'=>'Ver cuentas','modulo_permiso'=>'cuentas'],

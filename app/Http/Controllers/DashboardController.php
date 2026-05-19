@@ -124,23 +124,38 @@ class DashboardController extends Controller
             /* 🔹 KPIs */
             'kpis' => [
 
-                'total_ventas' => (clone $query)->count(),
+            /* 🧾 total de ventas */
+            'total_ventas' => (clone $query)->count(),
 
-                'ingresos' => round(
-                    (float) ((clone $query)->sum('total_venta') ?? 0),
-                    2
-                ),
+            /* 💰 ingresos totales */
+            'ingresos' => round(
+                (float) ((clone $query)->sum('total_venta') ?? 0),
+                2
+            ),
 
-                'impuestos' => round(
-                    (float) ((clone $query)->sum('impuesto_venta') ?? 0),
-                    2
-                ),
+            /* 📦 unidades vendidas */
+            'unidades_vendidas' => (clone $query)
+                ->join('detalle_ventas', 'ventas.id_venta', '=', 'detalle_ventas.id_venta')
+                ->sum('detalle_ventas.cantidad_venta'),
 
-                'promedio_venta' => round(
-                    (float) ((clone $query)->avg('total_venta') ?? 0),
-                    2
-                ),
-            ],
+            /* 📊 promedio por venta */
+            'promedio_venta' => round(
+                (float) ((clone $query)->avg('total_venta') ?? 0),
+                2
+            ),
+
+            /* 🔥 ticket más alto */
+            'venta_maxima' => round(
+                (float) ((clone $query)->max('total_venta') ?? 0),
+                2
+            ),
+
+            /* 💸 promedio de impuesto */
+            'impuestos' => round(
+                (float) ((clone $query)->sum('impuesto_venta') ?? 0),
+                2
+            ),
+        ],
 
             /* 🔹 clientes */
             'clientes' => (clone $query)
@@ -287,69 +302,205 @@ class DashboardController extends Controller
         $mes  = $request->mes;
         $dia  = $request->dia;
 
-        $query = MovimientoInventario::query();
+        /* ═══════════════════════
+        BASE QUERY (SOLO FILTROS)
+        ═══════════════════════ */
 
-        /* ════════════════
-        FILTROS FECHA
-        ════════════════ */
+        $baseQuery = MovimientoInventario::query();
 
         if ($inicio && $fin) {
-            $query->whereBetween('fecha_movimiento', [
+            $baseQuery->whereBetween('fecha_movimiento', [
                 $inicio . ' 00:00:00',
                 $fin . ' 23:59:59'
             ]);
         }
 
-        if ($anio) {
-            $query->whereYear('fecha_movimiento', $anio);
+        if ($anio) $baseQuery->whereYear('fecha_movimiento', $anio);
+        if ($mes)  $baseQuery->whereMonth('fecha_movimiento', $mes);
+        if ($dia)  $baseQuery->whereDay('fecha_movimiento', $dia);
+
+        /* ═══════════════════════
+        GRÁFICA
+        ═══════════════════════ */
+
+        $graficaQuery = clone $baseQuery;
+
+        switch ($tipo) {
+
+            case 'dia':
+                $grafica = $graficaQuery
+                    ->selectRaw("DATE_FORMAT(fecha_movimiento, '%d-%m-%Y') as label")
+                    ->selectRaw("tipo_movimiento")
+                    ->selectRaw("SUM(cantidad_movimiento) as total")
+                    ->groupBy('label', 'tipo_movimiento')
+                    ->orderBy('label')
+                    ->get();
+                break;
+
+            case 'mes':
+                $grafica = $graficaQuery
+                    ->selectRaw("DATE_FORMAT(fecha_movimiento, '%m-%Y') as label")
+                    ->selectRaw("tipo_movimiento")
+                    ->selectRaw("SUM(cantidad_movimiento) as total")
+                    ->groupBy('label', 'tipo_movimiento')
+                    ->orderBy('label')
+                    ->get();
+                break;
+
+            case 'anio':
+                $grafica = $graficaQuery
+                    ->selectRaw("YEAR(fecha_movimiento) as label")
+                    ->selectRaw("tipo_movimiento")
+                    ->selectRaw("SUM(cantidad_movimiento) as total")
+                    ->groupBy('label', 'tipo_movimiento')
+                    ->orderBy('label')
+                    ->get();
+                break;
+
+            default:
+                $grafica = collect();
+                break;
         }
 
-        if ($mes) {
-            $query->whereMonth('fecha_movimiento', $mes);
-        }
+        /* ═══════════════════════
+        KPIs (CORREGIDOS Y LIMPIOS)
+        ═══════════════════════ */
 
-        if ($dia) {
-            $query->whereDay('fecha_movimiento', $dia);
-        }
+        $totalMovimientos = (clone $baseQuery)->count();
+
+        $entradas = (clone $baseQuery)
+            ->where('tipo_movimiento', 'ENTRADA')
+            ->sum('cantidad_movimiento');
+
+        $salidas = (clone $baseQuery)
+            ->where('tipo_movimiento', 'SALIDA')
+            ->sum('cantidad_movimiento');
+
+        $referencias = (clone $baseQuery)
+            ->selectRaw("COUNT(*) as total")
+            ->value('total');
+
+        $promedioMovimiento = $totalMovimientos > 0
+            ? round(($entradas + $salidas) / $totalMovimientos, 2)
+            : 0;
+
+        /* ═══════════════════════
+        RESPUESTA
+        ═══════════════════════ */
+
+        return response()->json([
+            'grafica' => $grafica,
+
+            'resumen' => [
+                'total_movimientos' => $totalMovimientos,
+                'entradas' => $entradas,
+                'salidas' => $salidas,
+                'balance' => $entradas - $salidas,
+                'promedio_movimiento' => $promedioMovimiento,
+            ],
+
+            'por_tipo_movimiento' => (clone $baseQuery)
+                ->selectRaw("tipo_movimiento as label")
+                ->selectRaw("COUNT(*) as cantidad")
+                ->selectRaw("SUM(cantidad_movimiento) as total")
+                ->groupBy('tipo_movimiento')
+                ->get(),
+
+            'por_tipo_referencia' => (clone $baseQuery)
+                ->selectRaw("tipo_referencia as label")
+                ->selectRaw("COUNT(*) as cantidad")
+                ->selectRaw("SUM(cantidad_movimiento) as total")
+                ->groupBy('tipo_referencia')
+                ->get(),
+        ]);
+    }
+
+    public function ganancias(Request $request)
+    {
+        $tipo = $request->get('tipo', 'dia');
+
+        $inicio = $request->inicio;
+        $fin    = $request->fin;
+
+        $anio = $request->anio;
+        $mes  = $request->mes;
+        $dia  = $request->dia;
 
         /* ════════════════
-        GRÁFICA PRINCIPAL
+        QUERY BASE (SOLO FILTROS)
+        ════════════════ */
+
+        $baseQuery = Venta::query()
+            ->where('estado_venta', 1);
+
+        if ($inicio && $fin) {
+            $baseQuery->whereBetween('fecha_venta', [
+                $inicio . ' 00:00:00',
+                $fin . ' 23:59:59'
+            ]);
+        }
+
+        if ($anio) $baseQuery->whereYear('fecha_venta', $anio);
+        if ($mes)  $baseQuery->whereMonth('fecha_venta', $mes);
+        if ($dia)  $baseQuery->whereDay('fecha_venta', $dia);
+
+        /* ════════════════
+        QUERY CON JOINS (SOLO PARA GRÁFICA)
+        ════════════════ */
+
+        $query = (clone $baseQuery)
+            ->join('detalle_ventas', 'ventas.id_venta', '=', 'detalle_ventas.id_venta')
+            ->join('productos', 'detalle_ventas.id_producto', '=', 'productos.id_producto');
+
+        /* ════════════════
+        FÓRMULA GANANCIA
+        ════════════════ */
+
+        $gananciaSQL = "
+            SUM(
+                (detalle_ventas.precio_unitario_venta - productos.precio_compra)
+                * detalle_ventas.cantidad_venta
+            )
+        ";
+
+        /* ════════════════
+        GRÁFICA
         ════════════════ */
 
         switch ($tipo) {
 
             case 'dia':
                 $grafica = (clone $query)
-                    ->selectRaw("DATE_FORMAT(fecha_movimiento, '%d-%m-%Y') as label")
-                    ->selectRaw("tipo_movimiento")
-                    ->selectRaw("tipo_referencia")
-                    ->selectRaw("COUNT(*) as cantidad")
-                    ->selectRaw("SUM(cantidad_movimiento) as total")
-                    ->groupBy('label', 'tipo_movimiento', 'tipo_referencia')
+                    ->selectRaw("DATE_FORMAT(fecha_venta, '%d-%m-%y') as label")
+                    ->selectRaw("$gananciaSQL as ganancia")
+                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%d-%m-%y')"))
                     ->orderBy('label')
                     ->get();
                 break;
 
             case 'mes':
                 $grafica = (clone $query)
-                    ->selectRaw("DATE_FORMAT(fecha_movimiento, '%m-%Y') as label")
-                    ->selectRaw("tipo_movimiento")
-                    ->selectRaw("tipo_referencia")
-                    ->selectRaw("COUNT(*) as cantidad")
-                    ->selectRaw("SUM(cantidad_movimiento) as total")
-                    ->groupBy('label', 'tipo_movimiento', 'tipo_referencia')
+                    ->selectRaw("DATE_FORMAT(fecha_venta, '%m-%Y') as label")
+                    ->selectRaw("$gananciaSQL as ganancia")
+                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%m-%Y')"))
                     ->orderBy('label')
                     ->get();
                 break;
 
             case 'anio':
                 $grafica = (clone $query)
-                    ->selectRaw("YEAR(fecha_movimiento) as label")
-                    ->selectRaw("tipo_movimiento")
-                    ->selectRaw("tipo_referencia")
-                    ->selectRaw("COUNT(*) as cantidad")
-                    ->selectRaw("SUM(cantidad_movimiento) as total")
-                    ->groupBy('label', 'tipo_movimiento', 'tipo_referencia')
+                    ->selectRaw("YEAR(fecha_venta) as label")
+                    ->selectRaw("$gananciaSQL as ganancia")
+                    ->groupBy(DB::raw("YEAR(fecha_venta)"))
+                    ->orderBy('label')
+                    ->get();
+                break;
+
+            case 'hora':
+                $grafica = (clone $query)
+                    ->selectRaw("DATE_FORMAT(fecha_venta, '%H:00') as label")
+                    ->selectRaw("$gananciaSQL as ganancia")
+                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%H:00')"))
                     ->orderBy('label')
                     ->get();
                 break;
@@ -360,6 +511,28 @@ class DashboardController extends Controller
         }
 
         /* ════════════════
+        KPIs (SIN DUPLICAR JOINS)
+        ════════════════ */
+
+        $gananciaTotal = (clone $query)
+            ->selectRaw("$gananciaSQL as ganancia")
+            ->value('ganancia');
+
+        $totalUnidades = (clone $baseQuery)
+            ->join('detalle_ventas', 'ventas.id_venta', '=', 'detalle_ventas.id_venta')
+            ->sum('detalle_ventas.cantidad_venta');
+
+        $ingresos = (clone $baseQuery)
+            ->sum('total_venta');
+
+        $ventasTotales = (clone $baseQuery)
+            ->count('ventas.id_venta');
+
+        $margenPorVenta = $ingresos > 0
+            ? round(($gananciaTotal / $ingresos) * 100, 2)
+            : 0;
+
+        /* ════════════════
         RESPUESTA
         ════════════════ */
 
@@ -367,35 +540,25 @@ class DashboardController extends Controller
 
             'grafica' => $grafica,
 
-            /* opcional: resumen */
-            'resumen' => [
+            'kpis' => [
 
-                'total_movimientos' => (clone $query)->count(),
+                // 💰 Ganancia total real
+                'ganancia_total' => round($gananciaTotal ?? 0, 2),
 
-                'entradas' => (clone $query)
-                    ->where('tipo_movimiento', 'ENTRADA')
-                    ->sum('cantidad_movimiento'),
+                // 💵 Ingresos totales
+                'ingresos' => round($ingresos ?? 0, 2),
 
-                'salidas' => (clone $query)
-                    ->where('tipo_movimiento', 'SALIDA')
-                    ->sum('cantidad_movimiento'),
+                // 📦 Ganancia promedio por unidad
+                'ganancia_por_unidad' => $totalUnidades > 0
+                    ? round($gananciaTotal / $totalUnidades, 2)
+                    : 0,
+
+                // 📊 % de ganancia por venta (MARGEN REAL)
+                'margen_por_venta' => $margenPorVenta,
+
+                // 🧾 Total de ventas realizadas
+                'ventas_totales' => $ventasTotales,
             ],
-
-            /* desglose tipo movimiento */
-            'por_tipo_movimiento' => (clone $query)
-                ->selectRaw("tipo_movimiento as label")
-                ->selectRaw("COUNT(*) as cantidad")
-                ->selectRaw("SUM(cantidad_movimiento) as total")
-                ->groupBy('tipo_movimiento')
-                ->get(),
-
-            /* desglose tipo referencia */
-            'por_tipo_referencia' => (clone $query)
-                ->selectRaw("tipo_referencia as label")
-                ->selectRaw("COUNT(*) as cantidad")
-                ->selectRaw("SUM(cantidad_movimiento) as total")
-                ->groupBy('tipo_referencia')
-                ->get(),
         ]);
     }
 

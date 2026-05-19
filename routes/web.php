@@ -87,7 +87,7 @@ Route::view('/error', 'errors.sin_permiso')->name('error');
 
 Route::get('/dashboard/ventas', [DashboardController::class, 'ventas'])->middleware('permiso:mostrar_dashboard_ventas');
 Route::get('/dashboard/movimiento-inventario', [DashboardController::class, 'movimientoinventario'])->middleware('permiso:mostrar_dashboard_movimiento_inventario');
-
+Route::get('/dashboard/ganancias', [DashboardController::class, 'Ganancias'])->middleware('permiso:mostrar_dashboard_ganancias');
 
 /*  ╔════════════ Endpoint Empresa ══════════════╗ 
     ╚════════════════════════════════════════════╝ */
@@ -262,7 +262,7 @@ Route::post('/facturar/pos', [FacturacionController::class, 'FacturarProductosPO
 
 Route::post('/caja/abrir', [CajaController::class, 'AbrirCaja'])->middleware('permiso:abrir_caja');
 Route::post('/caja/cerrar', [CajaController::class, 'CerrarCaja'])->middleware('permiso:cerrar_caja');
-Route::get('/caja/verificar', [CajaController::class, 'VerificarCaja'])->middleware('permiso:verificar_caja');
+Route::get('/caja/verificar', [CajaController::class, 'VerificarCaja']); //->middleware('permiso:verificar_caja');
 
 Route::post('/validar-stock-carrito', [FacturacionController::class, 'ValidarStockCarrito']);
 Route::get('/tipo-cambio/pos', [FacturacionController::class, 'MostrarTipoCambio']);
