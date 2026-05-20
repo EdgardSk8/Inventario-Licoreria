@@ -34,9 +34,9 @@
                     <th>Tipo</th>
                     <th>Motivo Movimiento</th>
                     <th>Cant</th>
-                    <th>Stock Actual</th>
+                    <th>Stock</th>
                     <th>Precio</th>
-                    <th>Total Vendido C$</th>
+                    <th>T. Vendido C$</th>
                 </tr>
             </thead>
             <tbody></tbody>

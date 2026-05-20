@@ -125,6 +125,10 @@ $(document).ready(function () {
             document.getElementById('kpi-salidas').textContent =
                 kpi.salidas;
 
+            document.getElementById('kpi-ajustes').textContent =
+                kpi.ajustes;
+
+
             document.getElementById('kpi-balance').textContent =
                 kpi.balance;
 
@@ -157,34 +161,112 @@ $(document).ready(function () {
 
         if(chart) chart.destroy();
 
-        const labels = datos.map(item => item.label);
+        /* ═══════════════════════════════
+        AGRUPAR LABELS ÚNICOS
+        ═══════════════════════════════ */
+
+        const labels = [...new Set(
+            datos.map(item => item.label)
+        )];
+
+        /* ═══════════════════════════════
+        SI VIENE TIPO_MOVIMIENTO
+        ═══════════════════════════════ */
+
+        const tieneTipoMovimiento =
+            datos.some(item => item.tipo_movimiento);
+
+        let datasets = [];
+
+        if(tieneTipoMovimiento) {
+
+            const tipos = [...new Set(
+                datos.map(item => item.tipo_movimiento)
+            )];
+
+            datasets = tipos.map(tipo => {
+
+                return {
+
+                    label: tipo,
+
+                    data: labels.map(label => {
+
+                        const encontrado = datos.find(item =>
+                            item.label === label &&
+                            item.tipo_movimiento === tipo
+                        );
+
+                        return Number(
+                            encontrado?.total ?? 0
+                        );
+                    }),
+
+                    backgroundColor:
+                        tipo === 'ENTRADA'
+                            ? 'rgba(25, 135, 84, 0.7)'
+                        : tipo === 'SALIDA'
+                            ? 'rgba(220, 53, 69, 0.7)'
+                        : 'rgba(255, 193, 7, 0.7)',
+
+                    borderColor:
+                        tipo === 'ENTRADA'
+                            ? 'rgb(25, 135, 84)'
+                        : tipo === 'SALIDA'
+                            ? 'rgb(220, 53, 69)'
+                        : 'rgb(255, 193, 7)',
+
+                    borderWidth: 1,
+
+                    tension: 0.4,
+
+                    fill:
+                        Tipo_Grafica_Inventario.value === 'line',
+                };
+            });
+
+        } else {
+
+            /* ═══════════════════════════════
+            NORMAL
+            ═══════════════════════════════ */
+
+            datasets = [
+                {
+                    label: 'Cantidad',
+
+                    data: datos.map(item =>
+                        Number(
+                            item.total ??
+                            item.cantidad ??
+                            0
+                        )
+                    ),
+
+                    backgroundColor: Colores.colores_2,
+                    borderColor: Colores.bordes_2,
+
+                    borderWidth: 1,
+
+                    tension: 0.4,
+
+                    fill:
+                        Tipo_Grafica_Inventario.value === 'line',
+                }
+            ];
+        }
+
+        /* ═══════════════════════════════
+        CHART
+        ═══════════════════════════════ */
 
         chart = new Chart(ctx_Inventario, {
 
             type: Tipo_Grafica_Inventario.value,
 
             data: {
-
                 labels,
-
-                datasets: [
-                    {
-                        label: 'Cantidad',
-
-                        data: datos.map(item =>
-                            Number(item.total ?? item.cantidad ?? 0)
-                        ),
-
-                        backgroundColor: Colores.colores_2,
-                        borderColor: Colores.bordes_2,
-
-                        borderWidth: 1,
-
-                        tension: 0.4,
-
-                        fill: Tipo_Grafica_Inventario.value === 'line',
-                    }
-                ]
+                datasets
             },
 
             options: {
@@ -200,15 +282,7 @@ $(document).ready(function () {
 
                             label: function(context) {
 
-                                const item = datos[context.dataIndex];
-
-                                const total = Number(
-                                    item.total ??
-                                    item.cantidad ??
-                                    0
-                                );
-
-                                return `Cantidad: ${total}`;
+                                return `${context.dataset.label}: ${context.raw}`;
                             }
                         }
                     }

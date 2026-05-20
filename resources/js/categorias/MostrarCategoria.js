@@ -23,7 +23,12 @@ $(document).ready(function () {
         columns: [
             { data: 'nombre_categoria' },
             { data: 'descripcion_categoria' },
-            { data: 'fecha_creacion_categoria' },
+            {
+                data: 'fecha_creacion_categoria',
+                render: function (data, type, row) {
+                    return window.formatearFecha(data);
+                }
+                },
 
             { data: 'estado_categoria',render: function(data){return data == 1 
                 ? '<span class="estado estado-activo">Activo</span>'

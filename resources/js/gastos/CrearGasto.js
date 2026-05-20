@@ -1,6 +1,8 @@
 
 function cargarTipoGasto() {
 
+    FlatPickr(crear_fecha_pago);
+
     const modal = document.getElementById("modalCrearGasto");
     const selectTipo = document.getElementById("crear_id_tipo_gasto");
 

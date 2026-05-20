@@ -74,6 +74,11 @@
             </div>
 
             <div class="kpi-card">
+                <span class="kpi-title">Ajuste: </span>
+                <span id="kpi-ajustes" class="dato">0</span>
+            </div>
+
+            <div class="kpi-card">
                 <span class="kpi-title">Balance:</span>
                 <span id="kpi-balance" class="dato">0</span>
             </div>

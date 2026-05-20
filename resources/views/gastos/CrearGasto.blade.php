@@ -47,6 +47,7 @@
             <label class="form-label">Fecha de pago</label>
             <input type="date"
                    id="crear_fecha_pago"
+                   placeholder="Fecha de pago"
                    class="form-control form-control-sm">
           </div>
 

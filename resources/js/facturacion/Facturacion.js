@@ -2,6 +2,11 @@ $(document).ready(function () {
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
+    let a=0;
+    let b=1;
+    let c = a+b;
+    console.log("contador: "+ c);
+
     let carrito = [];
     let imprimirFacturaActivo = false;
 

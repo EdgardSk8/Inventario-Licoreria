@@ -84,7 +84,7 @@
           <!-- Stock -->
           <div class="col-md-1">
             <label class="form-label">Stock</label>
-            <input type="number" id="editar_stock_actual" class="form-control form-control-sm" min="0" required>
+            <input type="number" id="editar_stock_actual" class="form-control form-control-sm" min="0" disabled>
           </div>
 
           <!-- Imagen -->

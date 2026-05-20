@@ -17,8 +17,7 @@
     <script src="{{ Vite::asset('resources/js/facturacion/VerificarCaja.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/facturacion/Select.js') }}"></script>
     
-    
-    <script src="{{ Vite::asset('resources/js/facturacion/Facturacion.js') }}"></script>
+    <script data-ejecutar="true" src="{{ Vite::asset('resources/js/facturacion/Facturacion.js') }}"></script>
 
 </head>
 

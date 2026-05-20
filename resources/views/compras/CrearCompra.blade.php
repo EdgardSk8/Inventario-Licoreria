@@ -217,8 +217,7 @@
                         <div class="col-12 mb-1">
 
                             <label class="small">Impuesto</label>
-                            <input type="number" id="impuesto" class="form-control form-control-sm text-end" placeholder="0" value="">
-
+                            <input id="impuesto" class="form-control form-control-sm text-end" placeholder="0" readonly>
                         </div>
 
                         <div class="col-12 mb-2">

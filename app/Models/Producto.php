@@ -40,6 +40,11 @@ class Producto extends Model
     {
         return $this->belongsTo(Ubicacion::class,'id_ubicacion');
     }
+
+    public function impuestoProducto()
+    {
+        return $this->belongsTo(Impuesto::class, 'id_impuesto', 'id_impuesto');
+    }
     
 }
 

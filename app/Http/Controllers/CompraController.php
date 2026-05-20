@@ -484,9 +484,10 @@ class CompraController extends Controller
 
             // FORMATO SELECT2
             $data = $productos->map(function ($p) {
-                return [
+            return [
                     'id' => $p->id_producto,
-                    'text' => $p->nombre_producto
+                    'text' => $p->nombre_producto,
+                    'impuesto' => $p->impuestoProducto->porcentaje_impuesto ?? 0
                 ];
             });
 

@@ -303,7 +303,7 @@ class DashboardController extends Controller
         $dia  = $request->dia;
 
         /* ═══════════════════════
-        BASE QUERY (SOLO FILTROS)
+        BASE QUERY
         ═══════════════════════ */
 
         $baseQuery = MovimientoInventario::query();
@@ -315,55 +315,74 @@ class DashboardController extends Controller
             ]);
         }
 
-        if ($anio) $baseQuery->whereYear('fecha_movimiento', $anio);
-        if ($mes)  $baseQuery->whereMonth('fecha_movimiento', $mes);
-        if ($dia)  $baseQuery->whereDay('fecha_movimiento', $dia);
+        if ($anio) {
+            $baseQuery->whereYear('fecha_movimiento', $anio);
+        }
+
+        if ($mes) {
+            $baseQuery->whereMonth('fecha_movimiento', $mes);
+        }
+
+        if ($dia) {
+            $baseQuery->whereDay('fecha_movimiento', $dia);
+        }
+
+        /* ═══════════════════════
+        FORMATO AGRUPACIÓN
+        ═══════════════════════ */
+
+        switch ($tipo) {
+
+            case 'dia':
+                $formato = "%d-%m-%Y";
+                break;
+
+            case 'mes':
+                $formato = "%m-%Y";
+                break;
+
+            case 'anio':
+                $formato = "%Y";
+                break;
+
+            default:
+                $formato = "%d-%m-%Y";
+                break;
+        }
 
         /* ═══════════════════════
         GRÁFICA
         ═══════════════════════ */
 
-        $graficaQuery = clone $baseQuery;
+        $grafica = (clone $baseQuery)
+            ->selectRaw("
+                DATE_FORMAT(fecha_movimiento, '{$formato}') as label,
+                tipo_movimiento,
+                SUM(cantidad_movimiento) as total
+            ")
+            ->groupByRaw("DATE_FORMAT(fecha_movimiento, '{$formato}'), tipo_movimiento")
+            ->orderByRaw("MIN(fecha_movimiento)")
+            ->get();
 
-        switch ($tipo) {
+        /*
+            RESULTADO:
 
-            case 'dia':
-                $grafica = $graficaQuery
-                    ->selectRaw("DATE_FORMAT(fecha_movimiento, '%d-%m-%Y') as label")
-                    ->selectRaw("tipo_movimiento")
-                    ->selectRaw("SUM(cantidad_movimiento) as total")
-                    ->groupBy('label', 'tipo_movimiento')
-                    ->orderBy('label')
-                    ->get();
-                break;
-
-            case 'mes':
-                $grafica = $graficaQuery
-                    ->selectRaw("DATE_FORMAT(fecha_movimiento, '%m-%Y') as label")
-                    ->selectRaw("tipo_movimiento")
-                    ->selectRaw("SUM(cantidad_movimiento) as total")
-                    ->groupBy('label', 'tipo_movimiento')
-                    ->orderBy('label')
-                    ->get();
-                break;
-
-            case 'anio':
-                $grafica = $graficaQuery
-                    ->selectRaw("YEAR(fecha_movimiento) as label")
-                    ->selectRaw("tipo_movimiento")
-                    ->selectRaw("SUM(cantidad_movimiento) as total")
-                    ->groupBy('label', 'tipo_movimiento')
-                    ->orderBy('label')
-                    ->get();
-                break;
-
-            default:
-                $grafica = collect();
-                break;
-        }
+            [
+                {
+                    label: '01-2026',
+                    tipo_movimiento: 'ENTRADA',
+                    total: 120
+                },
+                {
+                    label: '01-2026',
+                    tipo_movimiento: 'SALIDA',
+                    total: 80
+                }
+            ]
+        */
 
         /* ═══════════════════════
-        KPIs (CORREGIDOS Y LIMPIOS)
+        KPIs
         ═══════════════════════ */
 
         $totalMovimientos = (clone $baseQuery)->count();
@@ -376,12 +395,12 @@ class DashboardController extends Controller
             ->where('tipo_movimiento', 'SALIDA')
             ->sum('cantidad_movimiento');
 
-        $referencias = (clone $baseQuery)
-            ->selectRaw("COUNT(*) as total")
-            ->value('total');
+        $ajustes = (clone $baseQuery)
+            ->where('tipo_movimiento', 'AJUSTE')
+            ->sum('cantidad_movimiento');
 
         $promedioMovimiento = $totalMovimientos > 0
-            ? round(($entradas + $salidas) / $totalMovimientos, 2)
+            ? round(($entradas + $salidas + $ajustes) / $totalMovimientos, 2)
             : 0;
 
         /* ═══════════════════════
@@ -389,27 +408,39 @@ class DashboardController extends Controller
         ═══════════════════════ */
 
         return response()->json([
+
             'grafica' => $grafica,
 
             'resumen' => [
+
                 'total_movimientos' => $totalMovimientos,
+
                 'entradas' => $entradas,
+
                 'salidas' => $salidas,
+
+                'ajustes' => $ajustes,
+
                 'balance' => $entradas - $salidas,
+
                 'promedio_movimiento' => $promedioMovimiento,
             ],
 
             'por_tipo_movimiento' => (clone $baseQuery)
-                ->selectRaw("tipo_movimiento as label")
-                ->selectRaw("COUNT(*) as cantidad")
-                ->selectRaw("SUM(cantidad_movimiento) as total")
+                ->selectRaw("
+                    tipo_movimiento as label,
+                    COUNT(*) as cantidad,
+                    SUM(cantidad_movimiento) as total
+                ")
                 ->groupBy('tipo_movimiento')
                 ->get(),
 
             'por_tipo_referencia' => (clone $baseQuery)
-                ->selectRaw("tipo_referencia as label")
-                ->selectRaw("COUNT(*) as cantidad")
-                ->selectRaw("SUM(cantidad_movimiento) as total")
+                ->selectRaw("
+                    tipo_referencia as label,
+                    COUNT(*) as cantidad,
+                    SUM(cantidad_movimiento) as total
+                ")
                 ->groupBy('tipo_referencia')
                 ->get(),
         ]);
@@ -449,19 +480,22 @@ class DashboardController extends Controller
         ════════════════ */
 
         $query = (clone $baseQuery)
-            ->join('detalle_ventas', 'ventas.id_venta', '=', 'detalle_ventas.id_venta')
-            ->join('productos', 'detalle_ventas.id_producto', '=', 'productos.id_producto');
+            ->leftJoin('detalle_ventas', 'ventas.id_venta', '=', 'detalle_ventas.id_venta')
+            ->leftJoin('productos', 'detalle_ventas.id_producto', '=', 'productos.id_producto');
 
         /* ════════════════
         FÓRMULA GANANCIA
         ════════════════ */
 
-        $gananciaSQL = "
-            SUM(
-                (detalle_ventas.precio_unitario_venta - productos.precio_compra)
-                * detalle_ventas.cantidad_venta
-            )
-        ";
+$gananciaSQL = "
+    SUM(
+        (
+            detalle_ventas.precio_unitario_venta
+            - IFNULL(productos.precio_compra, 0)
+        )
+        * detalle_ventas.cantidad_venta
+    )
+";
 
         /* ════════════════
         GRÁFICA

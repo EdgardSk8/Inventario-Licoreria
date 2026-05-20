@@ -64,18 +64,34 @@ $(document).ready(function () {
 
 /*  ═════════ Abrir Caja ══════════  */
 
-    $(document).on('click', '#btnAbrirCaja', function () {
+// 🔥 Elimina el listener anterior
+$(document).off('click.abrirCaja', '#btnAbrirCaja');
 
-        const modalEl = document.getElementById('modalAbrirCaja');
-        const modal = new bootstrap.Modal(modalEl);
+// 🔥 Registrar SOLO UNA VEZ
+$(document).on('click.abrirCaja', '#btnAbrirCaja', function () {
 
-        modal.show();
+    const btn = $(this);
 
-        modalEl.addEventListener('shown.bs.modal', function () {
-            $('#montoInicialCaja').trigger('focus').select();
-        }, { once: true });
+    // 🚫 Evitar doble ejecución
+    if (btn.data('ejecutando')) return;
 
-    });
+    btn.data('ejecutando', true);
+
+    const modalEl = document.getElementById('modalAbrirCaja');
+    const modal = new bootstrap.Modal(modalEl);
+
+    modal.show();
+
+    modalEl.addEventListener('shown.bs.modal', function () {
+
+        $('#montoInicialCaja').trigger('focus').select();
+
+        // 🔓 Liberar cuando termine de abrir
+        btn.data('ejecutando', false);
+
+    }, { once: true });
+
+});
 
 /* ══════════════════════════════════════════════════════════════════════════════════════════  */
 
@@ -102,6 +118,7 @@ $(document).ready(function () {
             bootstrap.Modal.getInstance(document.getElementById('modalAbrirCaja')).hide();
             verificarCajaEstado();
             mostrarToast(res.mensaje || 'Caja abierta correctamente', 'success');
+            document.getElementById('montoInicialCaja').value = '';
         })
         .fail(function(xhr) {
 
@@ -131,6 +148,7 @@ $(document).on('click', '#btnCerrarCaja', function () {
     .done(function(res) {
         verificarCajaEstado();
         mostrarToast('Caja cerrada: C$ ' + res.total, 'success');
+
     })
     .fail(function(xhr) {
 

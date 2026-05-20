@@ -166,7 +166,7 @@ $(document).ready(function () {
                                 backgroundColor: Colores.colores_1,
                                 // borderColor: Colores.bordes_1,
                                 borderWidth: 2,
-                                hidden: true,
+                                //hidden: true,
                                 tension: 0.4,
                                 fill: Tipo_Grafica_Ventas.value === 'line',
                                 yAxisID: 'y1',

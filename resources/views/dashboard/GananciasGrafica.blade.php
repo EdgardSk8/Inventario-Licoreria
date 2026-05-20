@@ -13,11 +13,11 @@
                 <option value="mes">Ganancias por mes</option>
                 <option value="anio">Ganancias por año</option>
                 <option value="hora">Ganancias por hora</option>
-
+<!-- 
                 <option value="top_productos">Top productos rentables</option>
                 <option value="categorias">Ganancia por categoría</option>
                 <option value="usuarios">Ganancia por usuario</option>
-                <option value="clientes">Ganancia por cliente</option>
+                <option value="clientes">Ganancia por cliente</option> -->
 
             </select>
 

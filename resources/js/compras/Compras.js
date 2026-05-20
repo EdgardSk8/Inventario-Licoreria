@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
 /* ------------------------------------------------------------------------------------------------------------------- */
-
 /* 🔹 VARIABLES */
+/* ------------------------------------------------------------------------------------------------------------------- */
 
     let carrito = [];
 
@@ -11,86 +11,69 @@ $(document).ready(function () {
         searching: false,
         info: false,
         ordering: false,
-        ...Traduccion
     });
 
     document.getElementById('titulo').textContent = 'REGISTRO DE COMPRAS';
 
 /* ------------------------------------------------------------------------------------------------------------------- */
-
-/*  ╔════════════════════ Selectores Select2 ═══════════════════╗ 
-    ╚═══════════════════════════════════════════════════════════╝ */
-
-/* ═════════════ (SELECT2 PROVEEDOR) ═══════════════ */
-
-    $('#proveedor').select2({
-
-        ajax: { url: '/proveedores-compra/mostrar', dataType: 'json',
-
-            processResults: function (res) { return {  results: res.data }; }
-
-        }
-
-
-    });
-
-/* ----------------------------------------------------- */
-
-/* ═════════════ (SELECT2 PRODUCTOS) ═══════════════ */
-
-    $('#producto_select').select2({ 
-        
-        ajax: { url: '/productos-compra/mostrar', dataType: 'json',
-
-            processResults: function (res) { return { results: res.data }; }
-
-        }
-
-    });
-    
-
+/* 🔹 SELECT2 PRODUCTO (SOLO IMPUESTO + NOMBRE) */
 /* ------------------------------------------------------------------------------------------------------------------- */
 
-/*  ╔════════════════════ Selectores Comunes ═══════════════════╗ 
-    ╚═══════════════════════════════════════════════════════════╝ */
+    $('#producto_select').select2({
+        ajax: {
+            url: '/productos-compra/mostrar',
+            dataType: 'json',
+            processResults: function (res) {
+                return {
+                    results: res.data.map(p => ({
+                        id: p.id,
+                        text: p.text,
+                        impuesto: parseFloat(p.impuesto) || 0
+                    }))
+                };
+            }
+        }
+    });
 
-/* ═════════════ ( SELECTOR TIPOS DE FACTURA ) ═══════════════ */
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* 🔹 SELECT2 PROVEEDOR */
+/* ------------------------------------------------------------------------------------------------------------------- */
+
+    $('#proveedor').select2({
+        ajax: {
+            url: '/proveedores-compra/mostrar',
+            dataType: 'json',
+            processResults: function (res) {
+                return { results: res.data };
+            }
+        }
+    });
+
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* 🔹 SELECTORES AUXILIARES */
+/* ------------------------------------------------------------------------------------------------------------------- */
 
     function cargarTiposFactura() {
-
-        $.get('/tipo-factura-compra/mostrar', function(res){
-
-            let html = '<option value="" disabled selected>Seleccione tipo factura</option>';
-            res.data.forEach(t => { html += `<option value="${t.id_tipo_factura}">${t.nombre_tipo_factura}</option>`; } );
+        $.get('/tipo-factura-compra/mostrar', function (res) {
+            let html = '<option disabled selected>Seleccione tipo factura</option>';
+            res.data.forEach(t => {
+                html += `<option value="${t.id_tipo_factura}">${t.nombre_tipo_factura}</option>`;
+            });
             $('#tipo_factura').html(html);
-
         });
     }
-
-    cargarTiposFactura();
-
-/* ----------------------------------------------------- */
-
-/* ═════════════ ( SELECTOR METODO DE PAGO ) ═══════════════ */
 
     function cargarMetodosPago() {
-
-        $.get('/metodo-pago-compra/mostrar', function(res){
-
-            let html = '<option value="" disabled selected>Seleccione método</option>';
-            res.data.forEach(m => { html += `<option value="${m.id_metodo_pago}">${m.nombre_metodo_pago}</option>`; } );
+        $.get('/metodo-pago-compra/mostrar', function (res) {
+            let html = '<option disabled selected>Seleccione método</option>';
+            res.data.forEach(m => {
+                html += `<option value="${m.id_metodo_pago}">${m.nombre_metodo_pago}</option>`;
+            });
             $('#metodo_pago').html(html);
-
         });
     }
 
-    cargarMetodosPago();
-
-/* ----------------------------------------------------- */
-
-/* ═════════════ ( HABILITA/DESHABILITA SELECTORES ) ═══════════════ */
-
-    $('#cajacuentaselect').on('change', function() {
+        $('#cajacuentaselect').on('change', function() {
 
         const tipoPago = $(this).val();
 
@@ -107,28 +90,25 @@ $(document).ready(function () {
         } else { $('#caja_select, #cuenta').prop('disabled', true).val(''); }
 
     });
-
-/* ----------------------------------------------------- */
-
-/* ═════════════ ( SELECTOR CUENTAS ) ═══════════════ */
     function cargarCuentas() {
-        $.get('/cuenta-compra/mostrar', function(res) {
+        $.get('/cuenta-compra/mostrar', function (res) {
             let select = $('#cuenta');
             select.html('<option value="" disabled selected>Seleccione cuenta</option>');
 
-            // Usar res.cuentas según tu JSON
-            if(res.success && Array.isArray(res.cuentas)) {
-                res.cuentas.forEach(function(c) {
-                    select.append('<option value="' + c.id + '">' + c.display + '</option>');
+            if (res.success && Array.isArray(res.cuentas)) {
+                res.cuentas.forEach(c => {
+                    select.append(`<option value="${c.id}">${c.display}</option>`);
                 });
-                
             }
         });
     }
 
+    cargarTiposFactura();
+    cargarMetodosPago();
     cargarCuentas();
 
-/* ----------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------- */
+
 
 /* ═════════════ ( SELECTOR CAJAS ABIERTAS ) ═══════════════ */
 
@@ -165,90 +145,83 @@ $(document).ready(function () {
 
     actualizarCajas();
 
-/* --------------------------------------------------------------------------------------------- */
-
-/* ═════════════ ( RECALCULADOR DE PRECIOS ) ═══════════════ */
-
-    $('#total, #descuento, #impuesto').on('input', actualizarCajas); 
-
-/* --------------------------------------------------------------------------------------------- */
-
-
-
-/* ═══════════════════════════════════════════════════ */
+/* 🔥 AGREGAR PRODUCTO (PRECIO SOLO USUARIO) */
+/* ------------------------------------------------------------------------------------------------------------------- */
 
     $('#btnAgregar').click(function () {
-        let data = $('#producto_select').select2('data')[0];
-        let cantidad = parseInt($('#cantidad').val()) || 0;
-        let precio = parseFloat($('#crear_precio_compra').val()) || 0;
-        let descuento = parseFloat($('#descuento_item').val()) || 0;
-        let impuesto = parseFloat($('#impuesto_item').val()) || 0;
 
-        if (!data) return mostrarToast('Seleccione Producto', 'danger');
-        //if (cantidad <= 0) return alert('Cantidad inválida');
-        //if (precio <= 0) return alert('Precio inválido');
+        let data = $('#producto_select').select2('data')[0];
+
+        if (!data) return mostrarToast('Seleccione producto', 'danger');
+
+        let cantidad = parseFloat($('#cantidad').val()) || 0;
+        let precio = parseFloat($('#precio_usuario').val()) || 0; // 🔥 USER INPUT
+
+        if (cantidad <= 0) return mostrarToast('Cantidad inválida', 'danger');
+        //if (precio <= 0) return mostrarToast('Precio inválido', 'danger');
 
         let existente = carrito.find(p => p.id === data.id);
 
         if (existente) {
+
             existente.cantidad += cantidad;
-            existente.precio = precio; // actualizar precio manual
-            existente.descuento = descuento;
-            existente.impuesto = impuesto;
+            existente.precio = precio;
+            existente.impuesto = data.impuesto;
+
         } else {
+
             carrito.push({
                 id: data.id,
                 nombre: data.text,
-                precio: precio,
-                cantidad: cantidad,
-                descuento: descuento,
-                impuesto: impuesto
+                cantidad,
+                precio,
+                impuesto: data.impuesto,
+                descuento: 0
             });
         }
 
         renderCarrito();
+        recalcularTodo();
 
-        // limpiar inputs
         $('#producto_select').val(null).trigger('change');
-        // limpiar inputs con placeholder
-        $('#cantidad').val('').attr('placeholder', '0');
-        $('#precio').val('').attr('placeholder', '0');
-        $('#descuento_item').val('').attr('placeholder', '0'); // aunque ya no uses descuento, si quieres mantener
-        $('#impuesto_item').val('').attr('placeholder', '0');  // idem
+        $('#cantidad').val('');
+        $('#precio_usuario').val('');
     });
 
-/* ═══════════════════════════════════════════════════ */
-/* 🎨 RENDER CARRITO */
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* 🔥 RENDER CARRITO */
+/* ------------------------------------------------------------------------------------------------------------------- */
 
     function renderCarrito() {
+
         tabla.clear();
-        let subtotalGeneral = 0;
 
         carrito.forEach((p, i) => {
 
-            let precio = parseFloat(p.precio) || 0;
-            let cantidad = parseFloat(p.cantidad) || 0;
-            let descuento = parseFloat(p.descuento) || 0;
-            let impuesto = parseFloat(p.impuesto) || 0;
-
-            let subtotal = precio * cantidad;
-            let totalItem = subtotal - descuento + impuesto;
-
-            subtotalGeneral += subtotal;
+            let subtotal = (p.precio || '') * (p.cantidad || 0);
+            let impuestoValor = subtotal * ((p.impuesto || 0) / 100);
+            let totalItem = subtotal + impuestoValor;
 
             tabla.row.add([
                 i + 1,
                 p.nombre,
-                `<input type="number" value="${cantidad}" min="0" placeholder="0"
-                    class="form-control form-control-sm cantidad"
-                    data-index="${i}">`,
+
                 `<input type="number"
-                    value="${p.precio != null && p.precio !== 0 ? p.precio : ''}"
-                    min="0"
-                    placeholder="0"
+                    class="form-control form-control-sm cantidad"
+                    data-index="${i}"
+                    value="${p.cantidad}">`,
+
+                `<input type="number"
                     class="form-control form-control-sm precio"
-                    data-index="${i}">`,
+                    data-index="${i}"
+                    value="${p.precio}">`,
+
+                subtotal.toFixed(2),
+
+                impuestoValor.toFixed(2),
+
                 totalItem.toFixed(2),
+
                 `<button class="btn btn-danger btn-sm eliminar" data-index="${i}">
                     <i class="bi bi-trash"></i>
                 </button>`
@@ -256,144 +229,132 @@ $(document).ready(function () {
         });
 
         tabla.draw();
-        calcularTotales(subtotalGeneral);
     }
 
-/*═══════════════════════════════════════════════════*/
-/* 🔄 EVENTOS DINÁMICOS */
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* 🔥 EVENTOS DINÁMICOS */
+/* ------------------------------------------------------------------------------------------------------------------- */
 
-    $('#tabla_carrito').on('blur', '.cantidad, .precio, .descuento, .impuesto', function () {
+    $('#tabla_carrito').on('blur', '.cantidad, .precio', function () {
 
         let i = $(this).data('index');
         let valor = parseFloat($(this).val()) || 0;
 
-        if (carrito[i] === undefined) return;
+        if (!carrito[i]) return;
 
-        if ($(this).hasClass('cantidad')) {
-            carrito[i].cantidad = valor;
-        } 
-        else if ($(this).hasClass('precio')) {
-            carrito[i].precio = valor;
-        } 
-        else if ($(this).hasClass('descuento')) {
-            carrito[i].descuento = valor;
-        } 
-        else if ($(this).hasClass('impuesto')) {
-            carrito[i].impuesto = valor;
-        }
+        if ($(this).hasClass('cantidad')) carrito[i].cantidad = valor;
+        if ($(this).hasClass('precio')) carrito[i].precio = valor;
 
-        // 🔥 recalcular subtotal correctamente
-        let subtotalGeneral = carrito.reduce((acc, p) => {
-            return acc + ((p.precio || 0) * (p.cantidad || 0));
-        }, 0);
-
-        calcularTotales(subtotalGeneral);
-
-        actualizarCajas();
-
-        // 🔁 re-render para reflejar cambios
-        renderCarrito();
+        recalcularTodo();
     });
 
     $('#tabla_carrito').on('click', '.eliminar', function () {
-        let i = $(this).data('index');
-        carrito.splice(i, 1);
+        carrito.splice($(this).data('index'), 1);
+        recalcularTodo();
+    });
+
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* 🔥 CÁLCULO GLOBAL REAL */
+/* ------------------------------------------------------------------------------------------------------------------- */
+
+    function recalcularTodo() {
+
+        let subtotalGeneral = 0;
+        let impuestoGeneral = 0;
+
+        carrito.forEach(p => {
+
+            let subtotal = (p.precio || 0) * (p.cantidad || 0);
+            let impuesto = subtotal * ((p.impuesto || 0) / 100);
+
+            subtotalGeneral += subtotal;
+            impuestoGeneral += impuesto;
+        });
+
+        let descuento = parseFloat($('#descuento').val()) || 0;
+
+        let total = subtotalGeneral + impuestoGeneral - descuento;
+
+        $('#subtotal').val(subtotalGeneral.toFixed(2));
+        $('#impuesto').val(impuestoGeneral.toFixed(2));
+        $('#total').val(total.toFixed(2));
+
+        //actualizarCajas();
+    }
+
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* 🔥 CAJAS */
+/* ------------------------------------------------------------------------------------------------------------------- */
+
+    // function cargarCajasAbiertas(total = 0) {
+
+    //     $.get('/caja-compra/mostrar', function (res) {
+
+    //         let html = '<option disabled selected>Seleccione caja</option>';
+
+    //         if (!res.data?.length) {
+    //             $('#caja_select').html('<option>No hay cajas</option>');
+    //             return;
+    //         }
+
+    //         html += res.data.map(c => {
+
+    //             let ok = c.saldo_actual >= total;
+
+    //             return `<option value="${c.id}" ${ok ? '' : 'disabled'}>
+    //                 ${c.text} ${ok ? '' : '(Saldo insuficiente)'}
+    //             </option>`;
+    //         }).join('');
+
+    //         $('#caja_select').html(html);
+    //     });
+    // }
+
+    // function actualizarCajas() {
+    //     cargarCajasAbiertas(parseFloat($('#total').val()) || 0);
+    // }
+
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* 🔥 LIMPIAR */
+/* ------------------------------------------------------------------------------------------------------------------- */
+
+    $('#btnLimpiar').click(function () {
+
+        carrito = [];
         renderCarrito();
+
+        $('#proveedor, #tipo_factura, #metodo_pago, #cuenta').val(null).trigger('change');
+
+        $('#numero_factura, #subtotal, #total, #impuesto').val('');
+        $('#descuento').val(0);
     });
 
-    $('#tabla_carrito').on('keydown', '.precio', function (e) {
-        if (e.key === 'Enter') { e.preventDefault(); $(this).blur(); }
-    }); // Al presionar "Enter" sale del blur
-
-    $(document).on('keydown', function (e) {
-
-        if (e.key === 'Enter') {
-
-            // Evita que se dispare submit o comportamientos raros
-            e.preventDefault();
-
-            // Simula el click del botón
-            $('#btnAgregar').trigger('click');
-        }
-    });
-
-/*═══════════════════════════════════════════════════*/
-/* 💰 TOTALES */
-
-function calcularTotales(subtotalGeneral) {
-    let descuento = parseFloat($('#descuento').val()) || 0;
-    let impuesto = parseFloat($('#impuesto').val()) || 0;
-    let total = subtotalGeneral - descuento + impuesto;
-
-    $('#subtotal').val(subtotalGeneral.toFixed(2));
-    $('#total').val(total.toFixed(2));
-}
-
-$('#descuento, #impuesto').on('input', function () {
-    let subtotal = parseFloat($('#subtotal').val()) || 0;
-    calcularTotales(subtotal);
-});
-
-/*═══════════════════════════════════════════════════*/
-/* 🧹 LIMPIAR */
-
-$('#btnLimpiar').click(function () {
-    carrito = [];
-    renderCarrito();
-
-    $('#proveedor').val(null).trigger('change');
-    $('#tipo_factura').val(null).trigger('change');
-    $('#metodo_pago').val(null).trigger('change');
-    $('#cuenta').val(null).trigger('change');
-
-    $('#numero_factura').val('');
-    $('#subtotal').val('');
-    $('#total').val('');
-    $('#descuento').val(0);
-    $('#impuesto').val(0);
-    $('#cajacuentaselect').val(null).trigger('change');
-
-});
-
-/*═══════════════════════════════════════════════════*/
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* 🔥 REGISTRAR */
+/* ------------------------------------------------------------------------------------------------------------------- */
 
     $('#btnRegistrar').click(function () {
 
-        let tipoPago = $('#cajacuentaselect').val();
-
         let data = {
-            numero_factura: $('#numero_factura').val(),
             proveedor: $('#proveedor').val(),
             tipo_factura: $('#tipo_factura').val(),
             metodo_pago: $('#metodo_pago').val(),
-            caja: tipoPago === 'caja' ? $('#caja_select').val() : null,
-            cuenta: tipoPago === 'cuenta'? $('#cuenta').val() : null,
+            caja: $('#caja_select').val(),
+            cuenta: $('#cuenta').val(),
             descuento: parseFloat($('#descuento').val()) || 0,
             impuesto: parseFloat($('#impuesto').val()) || 0,
-            carrito: carrito
+            carrito
         };
 
-        // ✅ VALIDACIONES CON TOAST
         if (!data.proveedor) return mostrarToast('Seleccione proveedor', 'danger');
-        if (!data.tipo_factura) return mostrarToast('Seleccione tipo factura', 'danger');
-        if (!data.metodo_pago) return mostrarToast('Seleccione método de pago', 'danger');
         if (carrito.length === 0) return mostrarToast('Agregue productos', 'danger');
 
-        if (!data.caja && !data.cuenta) {
+                if (!data.caja && !data.cuenta) {
             return mostrarToast('Seleccione caja o cuenta', 'danger');
         }
 
-        // Verificar carrito: cantidad y precio
-        for (let item of carrito) {
-            if (item.cantidad <= 0) return mostrarToast(`Cantidad inválida para ${item.nombre}`, 'danger');
-            if (item.precio <= 0) return mostrarToast(`Precio inválido para ${item.nombre}`, 'danger');
-        }
-
-
-
-
         $.ajax({
-            url: '/compra/crear', // ✅ CORREGIDO
+            url: '/compra/crear',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
@@ -402,37 +363,21 @@ $('#btnLimpiar').click(function () {
             },
 
             success: function (res) {
-
                 if (res.success) {
-
-                    mostrarToast(res.mensaje || 'Compra registrada correctamente', 'success');
-
+                    mostrarToast('Compra registrada correctamente', 'success');
                     $('#btnLimpiar').click();
-
                 } else {
-                    mostrarToast(res.error || 'Error desconocido', 'danger');
+                    mostrarToast('Error desconocido', 'danger');
                 }
             },
 
-            error: function (xhr) {
-
-                // 🔥 VALIDACIONES LARAVEL (422)
-                if (xhr.status === 422) {
-
-                    let errores = xhr.responseJSON.errors;
-                    let primerError = Object.values(errores)[0][0];
-
-                    mostrarToast(primerError, 'danger');
-                    return;
-                }
-
-                // 🔥 ERROR GENERAL
-                let msg = xhr.responseJSON?.error || 'Error al registrar';
-                mostrarToast(msg, 'danger');
+            error: function () {
+                mostrarToast('Error al registrar compra', 'danger');
             }
         });
 
     });
 
+/* ------------------------------------------------------------------------------------------------------------------- */
 
 });

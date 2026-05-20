@@ -151,10 +151,10 @@ $(document).ready(function () {
             return;
         }
 
-        if(datos.ruc_proveedor.length < 14){
-            mostrarToast('El RUC debe tener al menos 14 caracteres', 'danger');
-            return false;
-        }
+        // if(datos.ruc_proveedor.length < 14){
+        //     mostrarToast('El RUC debe tener al menos 14 caracteres', 'danger');
+        //     return false;
+        // }
 
         if(!/^[0-9+()]+$/.test(datos.telefono_proveedor)){
             mostrarToast('El teléfono solo puede contener números y los símbolos + ( )', 'danger');
