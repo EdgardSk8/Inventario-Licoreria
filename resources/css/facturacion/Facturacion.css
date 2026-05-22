@@ -49,7 +49,17 @@
 }
 
 /* ------------------------------------------------------------ */
-.btn-factura{
+
+.contenedor-botones{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content:space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-factura, .btn-proforma{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,32 +71,58 @@
     user-select: none;
     gap: 10px;
     color: white;
-    background: #dc3545; /* ROJO */
-    border: 1px solid #dc3545;
     transition:
         border-color .25s ease,
         transform .60s ease,
         box-shadow .25s ease;
+        background-color: #1f2937;
+    transition: all 0.15s ease;
 }
 
-/* HOVER */
-.btn-factura:hover{
-    filter: brightness(1.08);
-    transform: translateY(-1px);
-}
+/* ------------------------------------------------- */
 
-/* CLICK */
-.btn-factura:active{
-    transform: scale(.97);
-}
-
-/* ACTIVADO */
-#toggleFactura:checked + .btn-factura{
-    background: #198754; /* VERDE */
+.btn-factura:hover {
+    background: #21a366; /* más claro */
     border-color: #198754;
     color: white;
+    box-shadow: 0 0 10px rgba(25,135,84,.25);
+}
 
-    box-shadow: 0 0 12px rgba(25,135,84,.45);
+/* CLICK / ACTIVE (presionado) */
+.btn-factura:active {
+    background: #157347;
+    border-color: #145c3a;
+    transform: scale(0.98);
+}
+
+#toggleFactura:checked + .btn-factura {
+    background: #198754;
+    border-color: #145c3a;
+    color: white;
+    box-shadow: 0 0 16px rgba(25,135,84,.55);
+}
+
+/* ------------------------------------------------- */
+
+.btn-proforma:hover {
+    background: #3d8bfd; /* más claro */
+    border-color: #0d6efd;
+    color: white;
+    box-shadow: 0 0 10px rgba(13,110,253,.25);
+}
+
+/* CLICK / ACTIVE (presionado) */
+.btn-proforma:active {
+    background: #0b5ed7;
+    border-color: #0a58ca;
+    transform: scale(0.98);
+}
+
+#toggleProformaFactura:checked + .btn-proforma {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+    box-shadow: 0 0 12px rgba(13,110,253,.45);
 }
 
 

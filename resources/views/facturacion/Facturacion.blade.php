@@ -29,9 +29,7 @@
 
         <div class="d-flex justify-content-between align-items-center">
 
-            <h3>FACTURACION</h3>
-
-            <div class="d-flex flex-nowrap align-items-center gap-2">
+            <div class="contenedor-botones">
                 
                 <button id="btnAbrirCaja" class="btn btn-sm btn-success">Abrir Caja</button> 
                 <button id="btnCerrarCaja" class="btn btn-sm btn-danger">Cerrar Caja</button>
@@ -42,6 +40,17 @@
                     <i class="bi bi-receipt-cutoff"> </i>
                     Imprimir Factura
                 </label>
+
+                <input type="checkbox" id="toggleProformaFactura" hidden>
+
+                <label id="BTN-Imprimir-Proforma" for="toggleProformaFactura" class="btn-proforma">
+                    <i class="bi-file-earmark-text-fill"> </i>
+                    Imprimir Proforma
+                </label>
+
+                <button id="btnLimpiarCaja" class="btn btn-sm btn-warning">
+                    <i class="bi bi-trash"></i> 
+                </button>
 
             </div>
             

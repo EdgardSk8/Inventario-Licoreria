@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     let carrito = [];
     let imprimirFacturaActivo = false;
+    let imprimirProformaActivo = false;
     document.getElementById('titulo').textContent = 'SISTEMA DE FACTURACION';
 
     const tablaProductos = inicializarTablaProductos();
@@ -19,7 +20,8 @@ $(document).ready(function () {
                 id: $(this).data('id'),
                 nombre: $(this).data('nombre'),
                 precio: parseFloat($(this).data('precio')),
-                stock: parseInt($(this).data('stock'))
+                stock: parseInt($(this).data('stock')),
+                 porcentaje_impuesto: parseFloat($(this).data('porcentaje')) || 0
             }; agregarProductoCarrito(producto);
 
         });
@@ -86,7 +88,7 @@ $(document).ready(function () {
 
         if (carrito.length === 0) { mostrarToast('Agregue productos', 'danger'); return false; }
         if (!cliente) { mostrarToast('Seleccione cliente', 'danger'); return false; }
-        if (metodo == 1 && recibido < total) { mostrarToast('Pago insuficiente', 'danger'); return false; }
+        if ( !imprimirProformaActivo && metodo == 1 && recibido < total) { mostrarToast('Pago insuficiente', 'danger'); return false; }
         for (let p of carrito) { if (p.cantidad > p.stock) { mostrarToast(`Stock insuficiente para ${p.nombre}`, 'danger'); return false; } }
         return true;
 
@@ -108,6 +110,7 @@ $(document).ready(function () {
         }
         return true;
     }
+
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
@@ -136,6 +139,7 @@ $(document).ready(function () {
                                 data-nombre="${row.nombre_producto}"
                                 data-precio="${row.precio_con_iva}"
                                 data-stock="${row.stock_actual}"
+                                data-porcentaje="${row.iva}"
                                 ${deshabilitado}>
                                 <i class="bi bi-cart-plus"></i>
                                 Agregar
@@ -151,7 +155,64 @@ $(document).ready(function () {
 
 /* ════════════════════ EVENTOS ══════════════════════ */
 
-    $('#toggleFactura').on('change', function () { imprimirFacturaActivo = $(this).is(':checked'); });
+    $('#toggleFactura').on('change', function () {
+
+        imprimirFacturaActivo = $(this).is(':checked');
+
+        if ($(this).is(':checked')) {
+            $('#toggleProformaFactura').prop('checked', false);
+            imprimirProformaActivo = false;
+            let metodo = parseInt($('#metodo_pago').val()) || 0;
+            if (metodo === 1) {
+                $('#pagoCordobas').prop('disabled', false);
+                $('#pagoDolares').prop('disabled', false);
+                $('#vueltoCordobas').prop('disabled', false);
+                $('#vueltoDolares').prop('disabled', false);
+            }
+            calcularVueltos();
+        }
+
+    });
+
+    $('#toggleProformaFactura').on('change', function () {
+
+        imprimirProformaActivo = $(this).is(':checked');
+        if ($(this).is(':checked')) {
+            $('#toggleFactura').prop('checked', false);
+            imprimirFacturaActivo = false;
+            $('#pagoCordobas').prop('disabled', true).val('');
+            $('#pagoDolares').prop('disabled', true).val('');
+            $('#vueltoCordobas').prop('disabled', true).val('');
+            $('#vueltoDolares').prop('disabled', true).val('');
+        } else {
+            let metodo = parseInt($('#metodo_pago').val()) || 0;
+            if (metodo === 1) { $('#pagoCordobas').prop('disabled', false); $('#pagoDolares').prop('disabled', false); }
+        }
+
+    });
+
+    $('#btnLimpiarCaja').on('click', function () {
+
+        carrito = [];
+        RenderizarCarrito();
+
+        $('#pagoCordobas').val('');
+        $('#pagoDolares').val('');
+        $('#vueltoCordobas').val('');
+        $('#vueltoDolares').val('');
+
+        $('#clientes').val('1').trigger('change');
+        $('#metodo_pago').val('1').trigger('change');
+
+        imprimirFacturaActivo = false;
+        imprimirProformaActivo = false;
+
+        $('#toggleFactura').prop('checked', false);
+        $('#toggleProformaFactura').prop('checked', false);
+
+        mostrarToast('Limpieza realizada con éxito', 'success');
+    });
+
 
     $('#metodo_pago').val(null).trigger('change');
 
@@ -196,6 +257,18 @@ $(document).ready(function () {
         let recibido = (metodo === 1) ? parseFloat($('#pagoCordobas').val()) || 0 : total;
 
         if (!validarFactura(cliente, total, recibido, metodo)) { $('#btnFacturar').prop('disabled', false); return; }
+
+        if (imprimirProformaActivo) {
+
+            imprimirProforma({
+                cliente: $('#clientes option:selected').text(),
+                carrito: carrito,
+                total: total
+            });
+
+            $('#btnFacturar').prop('disabled', false);
+            return;
+        }
 
         let stockOk = await validarStockBD();
 

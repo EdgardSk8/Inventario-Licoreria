@@ -13,10 +13,6 @@
 
                 <div class="d-flex align-items-center gap-2">
 
-                    <button type="button" class="btn btn-success btn-sm" id="btnImprimirTransferencias">
-                        <i class="bi bi-printer"></i> Imprimir
-                    </button>
-
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
 
                 </div>

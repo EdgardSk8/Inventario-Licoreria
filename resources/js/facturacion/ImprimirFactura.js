@@ -195,6 +195,344 @@ async function imprimirFactura(data) {
     };
 }
 
+async function imprimirProforma(data) {
+
+    let empresa;
+
+    try {
+
+        empresa = await obtenerCredencialesEmpresa();
+
+    } catch (e) {
+
+        console.error("❌ Error cargando empresa:", e);
+
+        mostrarToast(
+            "No fue posible obtener los datos de la empresa. No se pudo generar la impresión de la proforma.",
+            "danger"
+        );
+
+        return;
+    }
+
+    const productos = Array.isArray(data?.productos)
+        ? data.productos
+        : Array.isArray(data?.carrito)
+            ? data.carrito
+            : [];
+
+    if (productos.length === 0) {
+
+        console.warn("⚠️ No hay productos para imprimir");
+        return;
+
+    }
+
+    // ═════════════ CLIENTE ═════════════
+    const nombreCliente =
+        typeof data?.cliente === 'string'
+            ? data.cliente
+            : data?.cliente?.nombre_cliente ?? 'Consumidor final';
+
+    // ═════════════ FECHA ═════════════
+    const fecha = window.formatearFechaDiaHora(new Date());
+
+    // ═════════════ NUMERO PROFORMA ═════════════
+    const numeroProforma =
+        'PRO-' +
+        new Date().getFullYear() +
+        String(new Date().getMonth() + 1).padStart(2, '0') +
+        String(new Date().getDate()).padStart(2, '0') +
+        '-' +
+        Math.floor(Math.random() * 99999)
+            .toString()
+            .padStart(5, '0');
+
+    const tituloProforma = `Proforma ${numeroProforma}`;
+
+    let filas = "";
+
+    let subtotalGeneral = 0;
+    let impuestoTotal = 0;
+    let totalFinal = 0;
+
+    productos.forEach(p => {
+
+        const nombre = p.nombre ?? p.nombre_producto ?? '';
+
+        const cantidad = Number(p.cantidad ?? 0);
+
+        // PRECIO CON IMPUESTO
+        const precio = Number(
+            p.precio ??
+            p.precio_unitario_venta ??
+            0
+        );
+
+        // PORCENTAJE IMPUESTO
+        const porcentajeImpuesto = Number(
+            p.porcentaje_impuesto ?? 0
+        );
+
+        // PRECIO SIN IMPUESTO
+        const precioSinImpuesto =
+            porcentajeImpuesto > 0
+                ? precio / (1 + (porcentajeImpuesto / 100))
+                : precio;
+
+        // IMPUESTO UNITARIO
+        const impuesto = precio - precioSinImpuesto;
+
+        // TOTAL LINEA
+        const totalLinea = precio * cantidad;
+
+        subtotalGeneral += precioSinImpuesto * cantidad;
+
+        impuestoTotal += impuesto * cantidad;
+
+        totalFinal += totalLinea;
+
+        filas += `
+            <tr>
+
+                <td>${nombre}</td>
+
+                <td style="text-align:center;">
+                    ${cantidad}
+                </td>
+
+                <td style="text-align:right;">
+                    C$ ${precioSinImpuesto.toFixed(2)}
+                </td>
+
+                <td style="text-align:right;">
+                    C$ ${impuesto.toFixed(2)}
+                </td>
+
+                <td style="text-align:right;">
+                    C$ ${totalLinea.toFixed(2)}
+                </td>
+
+            </tr>
+        `;
+    });
+
+    const ventana = window.open('', '_blank', 'width=450,height=650');
+
+    if (!ventana) {
+
+        alert("Activa ventanas emergentes para imprimir");
+        return;
+
+    }
+
+    ventana.document.write(`
+
+        <html>
+
+        <head>
+
+            <title>${tituloProforma}</title>
+
+            <style>
+
+                body {
+
+                    font-family: Arial;
+                    font-size: 12.5px;
+                    padding: 12px;
+                    color: #111;
+
+                }
+
+                .header {
+
+                    text-align: center;
+                    margin-bottom: 12px;
+
+                }
+
+                .header strong {
+
+                    font-size: 14px;
+
+                }
+
+                .empresa {
+
+                    font-size: 11px;
+                    line-height: 1.3;
+
+                }
+
+                .tipo-documento {
+
+                    margin-top: 8px;
+                    font-size: 15px;
+                    font-weight: bold;
+                    letter-spacing: 1px;
+
+                }
+
+                table {
+
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 12px;
+                    font-size: 11.8px;
+
+                }
+
+                th, td {
+
+                    border-bottom: 1px solid #ddd;
+                    padding: 8px 6px;
+
+                }
+
+                th {
+
+                    background: #f2f2f2;
+                    font-size: 11px;
+                    font-weight: bold;
+
+                }
+
+                .cliente {
+
+                    margin-top: 12px;
+                    font-size: 11px;
+                    line-height: 1.4;
+
+                }
+
+                .resumen {
+
+                    margin-top: 12px;
+                    font-size: 12px;
+                    line-height: 1.5;
+
+                }
+
+                .totales {
+
+                    margin-top: 10px;
+                    font-size: 13px;
+                    text-align: right;
+                    font-weight: bold;
+
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            <div class="header">
+
+                <strong>
+                    ${empresa?.nombre_empresa ?? ''}
+                </strong>
+
+                <br>
+
+                <div class="empresa">
+
+                    RUC: ${empresa?.ruc_empresa ?? ''}<br>
+
+                    ${empresa?.direccion_empresa ?? ''}<br>
+
+                    Tel: ${empresa?.telefono_empresa ?? ''}
+
+                </div>
+
+                <div class="tipo-documento">
+
+                    PROFORMA
+
+                </div>
+
+                <div style="font-size:11px; margin-top:4px;">
+
+                    ${numeroProforma}
+
+                </div>
+
+            </div>
+
+            <div class="cliente">
+
+                Cliente: ${nombreCliente}<br>
+
+                Fecha: ${fecha}
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Impuesto</th>
+                        <th>Total</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${filas}
+
+                </tbody>
+
+            </table>
+
+            <div class="resumen">
+
+                Subtotal: C$ ${subtotalGeneral.toFixed(2)}<br>
+
+                Impuesto: C$ ${impuestoTotal.toFixed(2)}<br>
+
+                <strong>
+                    Total: C$ ${totalFinal.toFixed(2)}
+                </strong>
+
+            </div>
+
+        </body>
+
+        </html>
+
+    `);
+
+    ventana.document.close();
+
+    ventana.onload = () => {
+
+        ventana.focus();
+
+        ventana.print();
+
+        ventana.onafterprint = () => ventana.close();
+
+        setTimeout(() => {
+
+            if (!ventana.closed) {
+                ventana.close();
+            }
+
+        }, 3000);
+
+    };
+
+}
+
 async function obtenerCredencialesEmpresa() {
 
     return new Promise((resolve, reject) => {
