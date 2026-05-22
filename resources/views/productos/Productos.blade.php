@@ -37,6 +37,7 @@
                 <th>P. Compra</th>
                 <th>P. Venta</th>
                 <th>Impuesto</th>
+                <th>Ganancia</th>
                 <th>Stock</th>
                 <th>Estado</th>
                 <th>Acciones</th>
@@ -47,6 +48,7 @@
 
             <tfoot>
                 <tr>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>

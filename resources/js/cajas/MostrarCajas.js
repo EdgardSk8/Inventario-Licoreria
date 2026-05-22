@@ -17,9 +17,15 @@ $(document).ready(function () {
             { data: 'fecha_apertura', render: function(data){ return formatearFechaDiaHora(data); } },
             { data: 'fecha_cierre', render: function(data){
                 return data ? formatearFechaDiaHora(data) : '<span class="estado estado-activo">Caja abierta</span>'; } },
-            { data: 'monto_inicial', render: function(data){ return '<strong>' + ' C$ ' + parseFloat(data).toFixed(2); } },
-            { data: 'monto_final',render: function(data){ return data 
-                    ? '<strong class="text-success">' + 'C$ ' + parseFloat(data).toFixed(2) : '<span class="estado estado-activo">En proceso</span>'; } },
+            { data: 'monto_inicial', render: data => moneda(data) },
+            { 
+                data: 'monto_final', 
+                render: function(data) { 
+                    return data 
+                        ? `<strong class="text-success">${moneda(data)}</strong>` 
+                        : '<span class="estado estado-activo">En proceso</span>'; 
+                }
+            },
             { data: 'estado_caja',render: function(data){return data == 1
                     ? '<span class="estado estado-activo">Abierta</span>' : '<span class="estado estado-inactivo">Cerrada</span>';} }
         ],

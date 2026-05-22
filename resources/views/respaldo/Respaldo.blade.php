@@ -46,7 +46,7 @@
                             <div class="row g-2">
 
                                 <div class="col-6 col-md-3">
-                                    <input class="btn-check" type="radio" name="formato" id="excel" value="excel" checked>
+                                    <input class="btn-check" type="radio" name="formato" id="excel" value="excel">
 
                                     <label class="btn btn-outline-success w-100 py-3" for="excel">
                                         <i class="bi bi-file-earmark-excel d-block fs-4"></i>
@@ -73,7 +73,7 @@
                                 </div>
 
                                 <div class="col-6 col-md-3">
-                                    <input class="btn-check" type="radio" name="formato" id="sql" value="sql">
+                                    <input class="btn-check" type="radio" name="formato" id="sql" value="sql" checked>
 
                                     <label class="btn btn-outline-info w-100 py-3" for="sql">
                                         <i class="bi bi-database d-block fs-4"></i>
@@ -88,10 +88,10 @@
                         <!-- INFO -->
                         <div class="alert alert-primary mb-0 small">
 
-                            <div><strong>Excel:</strong> cada tabla se exporta en una hoja.</div>
-                            <div><strong>PDF:</strong> genera un documento con los registros del sistema.</div>
-                            <div><strong>CSV:</strong> exporta los datos en formato separado por comas.</div>
-                            <div><strong>SQL:</strong> incluye estructura y datos completos.</div>
+                            <div><strong>Excel:</strong> Cada tabla se exporta en una hoja</div>
+                            <div><strong>PDF:</strong> Genera un documento con los registros del sistema</div>
+                            <div><strong>CSV:</strong> Exporta los datos en formato separado por comas</div>
+                            <div><strong>SQL:</strong> Incluye estructura y datos completos</div>
 
                         </div>
 

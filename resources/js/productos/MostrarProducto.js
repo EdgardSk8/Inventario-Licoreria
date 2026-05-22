@@ -33,9 +33,9 @@ $(document).ready(function () {
 
             { data: 'categoria.nombre_categoria', defaultContent: 'Sin categoría' }, /*  ══════ Categoria  ══════*/
 
-            { data: 'precio_compra', render: function(data){ return `C$ ${parseFloat(data).toFixed(2)}`; } }, /*  ══════ P.Compra ══════ */
+            { data: 'precio_compra', render: data => moneda(data) }, /*  ══════ P.Compra ══════ */
 
-            { data: 'precio_venta', render: function(data){ return `C$ ${parseFloat(data).toFixed(2)}`; } }, /*  ══════ P.Venta ══════ */
+            { data: 'precio_venta', render: data => moneda(data) }, /*  ══════ P.Venta ══════ */
             
             { data: 'impuesto', /*  ══════ Impuesto  ══════ */
                 render: function(data){
@@ -44,6 +44,8 @@ $(document).ready(function () {
                     return `${data.nombre_impuesto} (${porcentaje}%)`;
                 }
             },
+
+            {data: 'ganancia', render: data => moneda(data) },
 
             { data: 'stock_actual', /*  ══════ Cantidad  ══════ */
                 render: function(data) { 
@@ -111,7 +113,7 @@ $(document).ready(function () {
         ],
         order: [[1, 'asc']],
         initComplete: function () {
-            ConfigurarFiltrosDataTable(this, { columnasSelect: [3], columnasIgnorar: [1, 7] });
+            ConfigurarFiltrosDataTable(this, { columnasSelect: [3], columnasIgnorar: [1, 10] });
         }
 
     }); // Fin de Funcion de inicializacion de tabla
@@ -127,7 +129,7 @@ $(document).ready(function () {
             const ocultar = $('#toggleInactivosProductos').is(':checked');
             if (!ocultar) return true;
 
-            const estado = data[8]; // columna estado (IMPORTANTE)
+            const estado = data[9]; // columna estado (IMPORTANTE)
             return estado.includes('Activo');
         }
 

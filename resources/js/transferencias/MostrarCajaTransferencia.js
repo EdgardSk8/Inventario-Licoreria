@@ -15,55 +15,39 @@ $(document).ready(function () {
         columns: [
 
             // Nº Caja
-            {
-                data: 'numero_caja',
-                render: function (data, type) {
-
-                    if (type === 'sort' || type === 'type') { return data; }
-
-                    return `<span class="fw-bold">Caja #${data}</span>`; 
-                }
-            },
+            { data: 'numero_caja' },
 
             // Fecha cierre
             {
                 data: 'fecha_cierre',
                 render: function(data){
                     return data 
-                        ? `<span class="text-secondary">${formatearFechaDia(data)}</span>`
+                        ? `<span>${formatearFechaDia(data)}</span>`
                         : '<span class="estado estado-activo">Abierta</span>';
                 }
             },
 
             // Monto Inicial
-            { 
-                data: 'monto_inicial',
-                render: function(data){
-                    return '<span class="text-secondary">C$ ' + parseFloat(data).toFixed(2) + '</span>';
-                }
-            },
+            { data: 'monto_inicial', render: data => moneda(data) },
 
             // Monto Final (BD)
             {
                 data: 'monto_final',
-                render: function(data, type, row){
-
-                    if (!data) {
-                        return '<span class="estado estado-activo">En proceso</span>';
-                    }
-
-                    let montoFinal = parseFloat(data);
-
-                    return '<span class="text-secondary">C$ ' + montoFinal.toFixed(2) + '</span>';
-}
+                render: function(data, type, row) {
+                    if (!data) { return '<span class="estado estado-activo">En proceso</span>'; }
+                    return moneda(data);
+                }
             },
             // Saldo Caja
             { 
                 data: 'saldo_caja',
                 render: function(data){
-                    return data > 0
-                        ? '<span class="text-success fw-bold">C$ ' + parseFloat(data).toFixed(2) + '</span>'
-                        : '<span class="text-danger fw-bold">C$ ' + parseFloat(data).toFixed(2) + '</span>';
+
+                    const valor = parseFloat(data || 0);
+
+                    return valor > 0
+                        ? '<span class="text-success fw-bold">' + moneda(valor) + '</span>'
+                        : '<span class="text-danger fw-bold">' + moneda(valor) + '</span>';
                 }
             },
             { 
@@ -73,10 +57,10 @@ $(document).ready(function () {
                     let monto = parseFloat(data) || 0;
 
                     if (monto === 0) {
-                        return '<span>C$ 0.00</span>';
+                        return '<span>' + moneda(0) + '</span>';
                     }
 
-                    return '<span class="fw-bold">C$ ' + monto.toFixed(2) + '</span>';
+                    return '<span class="fw-bold">' + moneda(monto) + '</span>';
                 }
             },
 

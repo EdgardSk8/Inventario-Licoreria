@@ -66,16 +66,11 @@ $(document).ready(function () {
             {
                 data: 'ultimo_pago_fecha',
                 render: function (data) {
-                    return data ? formatearFecha(data) : '-';
+                    return data ? FechaSimple(data) : '-';
                 }
             },
             // 🔹 ÚLTIMO MONTO
-            {
-                data: 'ultimo_pago_monto',
-                render: function (data) {
-                    return data ? '<strong> C$ ' + parseFloat(data).toFixed(2) : '-';
-                }
-            },
+            { data: 'ultimo_pago_monto', render: data => moneda(data) },
 
             // 🔹 ESTADO ACTIVO / INACTIVO
             {

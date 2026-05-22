@@ -9,26 +9,13 @@ $(document).ready(function () {
 
             { data: 'id_compra'},
             { data: 'numero_factura_compra' },
-
             { data: 'proveedor.nombre_proveedor' },
-
             { data: 'usuario.nombre_usuario' },
-
             { data: 'fecha_compra', render: function (data) { return formatearFecha(data); } },
-
-            { data: 'subtotal_compra' },
-
-            {
-                data: 'descuento_compra',
-                render: function (data) {
-                    return (data == null || data == 0 || data === '') ? '-' : data;
-                }
-            },
-
-            { data: 'impuesto_compra' },
-
-            { data: 'total_compra' },
-
+            { data: 'subtotal_compra', render: data => moneda(data) },
+            { data: 'descuento_compra', render: data => moneda(data) },
+            { data: 'impuesto_compra', render: data => moneda(data) },
+            { data: 'total_compra', render: data => moneda(data) },
             { data: 'metodo_pago.nombre_metodo_pago' },
 
             {

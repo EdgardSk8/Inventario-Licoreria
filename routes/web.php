@@ -268,6 +268,7 @@ Route::post('/validar-stock-carrito', [FacturacionController::class, 'ValidarSto
 Route::get('/tipo-cambio/pos', [FacturacionController::class, 'MostrarTipoCambio']);
 Route::get('/clientes/pos', [FacturacionController::class, 'MostrarClientesPOS']);
 Route::get('/metodo-pago/pos', [FacturacionController::class, 'MostrarMetodoPagoPOS']);
+Route::get('/credenciales/pos', [FacturacionController::class, 'MostrarCredencialesPOS']);
 
 /*  ╔═════════════ Endpoint Compras ═════════════╗ 
     ╚════════════════════════════════════════════╝ */

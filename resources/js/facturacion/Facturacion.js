@@ -1,83 +1,16 @@
 $(document).ready(function () {
 
-/*-------------------------------------------------------------------------------------------------------------------*/
-
-    let a=0;
-    let b=1;
-    let c = a+b;
-    console.log("contador: "+ c);
-
     let carrito = [];
     let imprimirFacturaActivo = false;
+    document.getElementById('titulo').textContent = 'SISTEMA DE FACTURACION';
 
     const tablaProductos = inicializarTablaProductos();
     eventosProductos(tablaProductos);
 
-    document.getElementById('titulo').textContent = 'SISTEMA DE FACTURACION';
-    $('#metodo_pago').val(null).trigger('change');
-
-/*-------------------------------------------------------------------------------------------------------------------*/
-/* ═══════ CHECKBOX IMPRIMIR ═══════ */
-
-    $('#toggleFactura').on('change', function () {
-        imprimirFacturaActivo = $(this).is(':checked');
-    });
-
-/*-------------------------------------------------------------------------------------------------------------------*/
-/* ═══════ TABLA PRODUCTOS ═══════ */
-
-    function inicializarTablaProductos() {
-
-        return $('#tablaProductos').DataTable({
-
-            ajax: { url: '/productos/pos', type: 'GET', dataSrc: 'data' },
-
-            columns: [
-
-                { data: 'nombre_producto' },
-
-                {
-                    data: 'precio_con_iva',
-                    render: function (data) {
-                        return moneda(data, 1);
-                    }
-                },
-
-                { data: 'stock_actual' },
-
-                {
-                    data: 'id_producto',
-                    render: function (data, type, row) {
-
-                        let deshabilitado = row.stock_actual <= 0 ? 'disabled' : '';
-                        let clase = row.stock_actual <= 0 ? 'btn-secondary' : 'btn-dark';
-
-                        return `
-                            <button class="${clase} agregarProducto"
-                                data-id="${row.id_producto}"
-                                data-nombre="${row.nombre_producto}"
-                                data-precio="${row.precio_con_iva}"
-                                data-stock="${row.stock_actual}"
-                                ${deshabilitado}>
-                                <i class="bi bi-cart-plus"></i>
-                                Agregar
-                            </button>
-                        `;
-                    }
-                },
-            ],
-        });
-    }
-
 /*-------------------------------------------------------------------------------------------------------------------*/
 
-    function moneda(valor, decimales = 2) {
-        return 'C$ ' + parseFloat(valor || 0).toFixed(decimales);
-    }
-
-/*-------------------------------------------------------------------------------------------------------------------*/
-/* ═══════ AGREGAR PRODUCTOS ═══════ */
-
+/* ════════════════════════════ FUNCIONES ════════════════════════════ */
+    
     function eventosProductos() {
 
         $('#tablaProductos').on('click', '.agregarProducto', function () {
@@ -87,37 +20,25 @@ $(document).ready(function () {
                 nombre: $(this).data('nombre'),
                 precio: parseFloat($(this).data('precio')),
                 stock: parseInt($(this).data('stock'))
-            };
+            }; agregarProductoCarrito(producto);
 
-            agregarProductoCarrito(producto);
         });
     }
 
-/*-------------------------------------------------------------------------------------------------------------------*/
-
+    /* --- AGREGAR PRODUCTOS AL CARRITO --- */
     function agregarProductoCarrito(producto) {
 
         let existente = carrito.find(p => p.id === producto.id);
-
         if (existente) {
-
-            if (existente.cantidad >= existente.stock) {
-                mostrarToast(`No hay más stock de ${existente.nombre}`, 'danger');
-                return;
-            }
-
+            if (existente.cantidad >= existente.stock) { mostrarToast(`No hay más stock de ${existente.nombre}`, 'danger'); return; }
             existente.cantidad++;
+        } else { carrito.push({ ...producto, cantidad: 1 }); }
+        RenderizarCarrito();
 
-        } else {
-            carrito.push({ ...producto, cantidad: 1 });
-        }
-
-        renderCarrito();
     }
 
-/*-------------------------------------------------------------------------------------------------------------------*/
-
-    function renderCarrito() {
+    /* --- RENDERIZAR TABLA CARRITO --- */
+    function RenderizarCarrito() {
 
         let html = '';
         let total = 0;
@@ -151,12 +72,92 @@ $(document).ready(function () {
         calcularVueltos();
     }
 
+    /* --- FORMATO DE MONEDA --- */
+    function moneda(valor, decimales = 2) {
+        const numero = parseFloat(valor || 0);
+        const numeroFormateado = numero.toLocaleString('en-US', {
+            minimumFractionDigits: decimales, maximumFractionDigits: decimales
+        });
+        return 'C$ ' + numeroFormateado;
+    }
+
+    /* --- VALIDAR FACTURACION --- */
+    function validarFactura(cliente, total, recibido, metodo) {
+
+        if (carrito.length === 0) { mostrarToast('Agregue productos', 'danger'); return false; }
+        if (!cliente) { mostrarToast('Seleccione cliente', 'danger'); return false; }
+        if (metodo == 1 && recibido < total) { mostrarToast('Pago insuficiente', 'danger'); return false; }
+        for (let p of carrito) { if (p.cantidad > p.stock) { mostrarToast(`Stock insuficiente para ${p.nombre}`, 'danger'); return false; } }
+        return true;
+
+    }
+
+    /* --- VALIDACION DE STOCK --- */
+    async function validarStockBD() {
+
+        let res = await fetch('/validar-stock-carrito', { method: 'POST', 
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            body: JSON.stringify({ carrito })
+        });
+
+        let data = await res.json();
+
+        if (!data.ok) { mostrarToast(data.mensaje, 'danger');
+            let p = carrito.find(x => x.id == data.id);
+            if (p) p.stock = data.stock; return false;
+        }
+        return true;
+    }
+
 /*-------------------------------------------------------------------------------------------------------------------*/
 
-    $('#carrito').on('click', '.eliminar', function () {
-        carrito.splice($(this).data('index'), 1);
-        renderCarrito();
-    });
+/* ════════════════════ INICIALIZACION ══════════════════════ */
+
+    function inicializarTablaProductos() {
+
+        return $('#tablaProductos').DataTable({
+
+            ajax: { url: '/productos/pos', type: 'GET', dataSrc: 'data' },
+
+            columns: [
+
+                { data: 'nombre_producto' },
+                { data: 'precio_con_iva', render: function (data) { return moneda(data, 1); } },
+                { data: 'stock_actual' },
+                { data: 'id_producto',
+                    render: function (data, type, row) {
+
+                        let deshabilitado = row.stock_actual <= 0 ? 'disabled' : '';
+                        let clase = row.stock_actual <= 0 ? 'btn-secondary' : 'btn-dark';
+
+                        return `
+                            <button class="${clase} agregarProducto"
+                                data-id="${row.id_producto}"
+                                data-nombre="${row.nombre_producto}"
+                                data-precio="${row.precio_con_iva}"
+                                data-stock="${row.stock_actual}"
+                                ${deshabilitado}>
+                                <i class="bi bi-cart-plus"></i>
+                                Agregar
+                            </button>
+                        `;
+                    }
+                },
+            ],
+        });
+    }
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* ════════════════════ EVENTOS ══════════════════════ */
+
+    $('#toggleFactura').on('change', function () { imprimirFacturaActivo = $(this).is(':checked'); });
+
+    $('#metodo_pago').val(null).trigger('change');
+
+    $('#carrito').on('click', '.eliminar', function () { carrito.splice($(this).data('index'), 1); RenderizarCarrito(); });
+
+    $('#carrito').on('keydown', '.cantidad', function (e) { if (e.key === 'Enter') $(this).blur(); });
 
     $('#carrito').on('blur', '.cantidad', function () {
 
@@ -166,36 +167,23 @@ $(document).ready(function () {
         if (isNaN(valor) || valor < 1) valor = 1;
 
         carrito[i].cantidad = valor;
-        renderCarrito();
-    });
+        RenderizarCarrito();
 
-    $('#carrito').on('keydown', '.cantidad', function (e) {
-        if (e.key === 'Enter') $(this).blur();
     });
-
-/*-------------------------------------------------------------------------------------------------------------------*/
 
     $('#metodo_pago').on('change', function () {
 
         let metodo = parseInt($(this).val()) || 0;
-
         if (window.setMetodoPago) window.setMetodoPago(metodo);
+        if (metodo === 1) {$('#pagoCordobas, #pagoDolares, #vueltoCordobas, #vueltoDolares').prop('disabled', false);
+        } else {$('#pagoCordobas, #pagoDolares, #vueltoCordobas, #vueltoDolares').prop('disabled', true).val(''); }
 
-        if (metodo === 1) {
-
-            $('#pagoCordobas, #pagoDolares, #vueltoCordobas, #vueltoDolares')
-                .prop('disabled', false);
-
-        } else {
-
-            $('#pagoCordobas, #pagoDolares, #vueltoCordobas, #vueltoDolares')
-                .prop('disabled', true)
-                .val('');
-        }
     });
 
-/*-------------------------------------------------------------------------------------------------------------------*/
-/* ═══════ FACTURAR ═══════ */
+    $(document).on('keydown', '#pagoCordobas, #pagoDolares', function (e) {
+        if (document.activeElement !== this) return;
+        if (e.key === 'Enter') { e.preventDefault(); $('#btnFacturar').trigger('click'); }
+    });
 
     $('#btnFacturar').click(async function () {
 
@@ -205,51 +193,29 @@ $(document).ready(function () {
         let total = parseFloat($('#total').text().replace(/[^\d.-]/g, '')) || 0;
         let metodo = parseInt($('#metodo_pago').val());
 
-        let recibido = (metodo === 1)
-            ? parseFloat($('#pagoCordobas').val()) || 0
-            : total;
+        let recibido = (metodo === 1) ? parseFloat($('#pagoCordobas').val()) || 0 : total;
 
-        if (!validarFactura(cliente, total, recibido, metodo)) {
-            $('#btnFacturar').prop('disabled', false);
-            return;
-        }
+        if (!validarFactura(cliente, total, recibido, metodo)) { $('#btnFacturar').prop('disabled', false); return; }
 
         let stockOk = await validarStockBD();
-        if (!stockOk) {
-            $('#btnFacturar').prop('disabled', false);
-            return;
-        }
 
-        let data = {
-            cliente: cliente,
-            carrito: carrito,
-            total: total,
-            recibido: recibido
-        };
+        if (!stockOk) { $('#btnFacturar').prop('disabled', false); return; }
+
+        let data = { cliente: cliente, carrito: carrito, total: total, recibido: recibido };
 
         $.ajax({
 
-            url: '/facturar/pos',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+            url: '/facturar/pos', method: 'POST', contentType: 'application/json', data: JSON.stringify(data),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 
             success: function (res) {
 
                 if (res.success) {
-
                     mostrarToast('Factura realizada', 'success');
-
-                    // 🔥 IMPRIMIR SOLO SI CHECKED
-                    if (imprimirFacturaActivo) {
-                        imprimirFactura(res);
-                    }
+                    if (imprimirFacturaActivo) { imprimirFactura(res); }
 
                     carrito = [];
-                    renderCarrito();
+                    RenderizarCarrito();
 
                     $('#pagoCordobas').val('');
                     $('#pagoDolares').val('');
@@ -258,75 +224,16 @@ $(document).ready(function () {
 
                     $('#metodo_pago').val('1').trigger('change');
                     $('#clientes').val('1').trigger('change');
-
-
                     tablaProductos.ajax.reload(null, false);
                 }
-
                 $('#btnFacturar').prop('disabled', false);
-            },
 
-            error: function () {
-                mostrarToast('Error al facturar', 'danger');
-                $('#btnFacturar').prop('disabled', false);
-            }
+            }, error: function () { mostrarToast('Error al facturar', 'danger'); $('#btnFacturar').prop('disabled', false); }
+
         });
+
     });
 
 /*-------------------------------------------------------------------------------------------------------------------*/
-
-    function validarFactura(cliente, total, recibido, metodo) {
-
-        if (carrito.length === 0) {
-            mostrarToast('Agregue productos', 'danger');
-            return false;
-        }
-
-        if (!cliente) {
-            mostrarToast('Seleccione cliente', 'danger');
-            return false;
-        }
-
-        if (metodo == 1 && recibido < total) {
-            mostrarToast('Pago insuficiente', 'danger');
-            return false;
-        }
-
-        for (let p of carrito) {
-            if (p.cantidad > p.stock) {
-                mostrarToast(`Stock insuficiente para ${p.nombre}`, 'danger');
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-/*-------------------------------------------------------------------------------------------------------------------*/
-
-    async function validarStockBD() {
-
-        let res = await fetch('/validar-stock-carrito', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            body: JSON.stringify({ carrito })
-        });
-
-        let data = await res.json();
-
-        if (!data.ok) {
-            mostrarToast(data.mensaje, 'danger');
-
-            let p = carrito.find(x => x.id == data.id);
-            if (p) p.stock = data.stock;
-
-            return false;
-        }
-
-        return true;
-    }
 
 });

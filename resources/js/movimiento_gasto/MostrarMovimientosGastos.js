@@ -24,14 +24,8 @@ $(document).ready(function () {
                     return formatearFecha(data);
                 } 
             },
-
-           
-
-            { 
-                data: 'monto',
-                render: function(data){
-                    return '<strong class="text-danger">C$ ' + parseFloat(data).toFixed(2);
-                }
+            { data: 'monto',
+                render: function(data){ return '<strong class="text-danger">' + moneda(data) + '</strong>'; }
             },
 
             { 

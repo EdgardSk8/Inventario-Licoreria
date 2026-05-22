@@ -26,6 +26,12 @@ class Producto extends Model
 
     // 🔗 Relaciones
 
+    protected $appends = ['ganancia'];
+    public function getgananciaAttribute()
+    {
+        return $this->precio_venta - $this->precio_compra;
+    }
+
     public function categoria()
     {
         return $this->belongsTo(Categoria::class,'id_categoria');

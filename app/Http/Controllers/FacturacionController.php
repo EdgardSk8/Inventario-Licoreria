@@ -546,5 +546,23 @@ class FacturacionController extends Controller
         }
     }
 
+    public function MostrarCredencialesPOS()
+    {
+        try {
+            $config = Credenciales::first();
+
+            return response()->json([
+                'success' => true,
+                'data' => $config
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener configuración',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 
 }

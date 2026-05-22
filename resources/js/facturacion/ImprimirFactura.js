@@ -200,25 +200,14 @@ async function obtenerCredencialesEmpresa() {
     return new Promise((resolve, reject) => {
 
         $.ajax({
-            url: '/credenciales/mostrar',
-            method: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+
+            url: '/credenciales/pos', method: 'GET',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 
             success: function (res) {
+                if (res.success && res.data) { resolve(res.data); } else { reject('No data'); }
+            }, error: function (xhr) { console.error('Error AJAX credenciales:', xhr.responseText); reject('Error servidor'); }
 
-                if (res.success && res.data) {
-                    resolve(res.data);
-                } else {
-                    reject('No data');
-                }
-            },
-
-            error: function (xhr) {
-                console.error('Error AJAX credenciales:', xhr.responseText);
-                reject('Error servidor');
-            }
         });
 
     });

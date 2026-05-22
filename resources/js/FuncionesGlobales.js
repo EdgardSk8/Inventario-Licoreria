@@ -27,6 +27,13 @@ $(document).on('click', '.btn', function (e) {
 
 });
 
+window.moneda = function(valor, decimales = 2) {
+    return 'C$ ' + parseFloat(valor || 0).toLocaleString('es-NI', {
+        minimumFractionDigits: decimales,
+        maximumFractionDigits: decimales
+    });
+}
+
 // MOSTRAR TOAST
 window.mostrarToast = function (mensaje, tipo = "success") {
     const toastElemento = document.getElementById("toastMensaje");

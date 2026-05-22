@@ -25,17 +25,12 @@ $(document).ready(function () {
                     return data;
                 }
             },
-            { data: 'tipo_referencia' },        // Columna separada: Tipo de referencia         // Columna separada: ID de referencia
+            { data: 'tipo_referencia' },
             { data: 'motivo_movimiento' }, 
             { data: 'cantidad_movimiento' },
             { data: 'stock_resultante' },
-
-            
             { data: 'precio_unitario', render: $.fn.dataTable.render.number(',', '.', 2, 'C$ ') },
-
-            { data: null, render: function(data){
-                return (data.precio_unitario * data.cantidad_movimiento).toFixed(2);
-            }}
+            { data: null, render: function(data){ return moneda(data.precio_unitario * data.cantidad_movimiento); } }
         ],
         columnDefs: [
             // Configurar visibilidad inicial según checkboxes

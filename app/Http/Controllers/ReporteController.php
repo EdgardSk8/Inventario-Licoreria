@@ -454,6 +454,14 @@ class ReporteController extends Controller
                     : 0;
 
                 // =====================================
+                // GANANCIA DINERO
+                // =====================================
+
+                $gananciaPorUnidad =
+                    $precioVentaSinIVA -
+                    $precioCompra;
+
+                // =====================================
                 // VALORES INVENTARIO
                 // =====================================
 
@@ -518,6 +526,13 @@ class ReporteController extends Controller
                             $porcentajeGanancia,
                             2
                         ) . '%',
+
+                    'ganancia_unidad' =>
+
+                        'C$ ' . number_format(
+                            $gananciaPorUnidad,
+                            2
+                        ),
 
                     'stock_actual' =>
                         $producto->stock_actual,
@@ -624,7 +639,10 @@ class ReporteController extends Controller
                         'data'  => 'porcentaje_ganancia',
                         'title' => '% Gan'
                     ],
-
+                    [
+                        'data'  => 'ganancia_unidad',
+                        'title' => 'Gan/U'
+                    ],
                     [
                         'data'  => 'stock_actual',
                         'title' => 'Stock'

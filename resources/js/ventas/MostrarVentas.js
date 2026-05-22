@@ -12,9 +12,9 @@ $(document).ready(function () {
             { data: 'cliente.nombre_cliente'},
             { data: 'usuario.nombre_usuario' },
             { data: 'fecha_venta', render: function(data){ return formatearFecha(data); } },
-            { data: 'subtotal_venta' },
-            { data: 'impuesto_venta' },
-            { data: 'total_venta' },
+            { data: 'subtotal_venta', render: data => moneda(data) },
+            { data: 'impuesto_venta', render: data => moneda(data) },
+            { data: 'total_venta', render: data => moneda(data) },
             { data: 'metodo_pago.nombre_metodo_pago' },
             { data: 'estado_venta',
                 render: function(data){
