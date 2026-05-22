@@ -61,7 +61,7 @@ async function imprimirFactura(data) {
     const recibido = Number(data?.monto_recibido ?? totalFinal);
     const vuelto = Number(data?.vuelto ?? (recibido - totalFinal));
 
-    const ventana = window.open('', '_blank', 'width=450,height=650');
+    const ventana = window.open('', '_blank', 'width=900,height=700');
 
     if (!ventana) {
         alert("Activa ventanas emergentes para imprimir");
@@ -295,21 +295,21 @@ async function imprimirProforma(data) {
         filas += `
             <tr>
 
-                <td>${nombre}</td>
+                <td style="text-align:left;">${nombre}</td>
 
                 <td style="text-align:center;">
                     ${cantidad}
                 </td>
 
-                <td style="text-align:right;">
+                <td style="text-align:center;">
                     C$ ${precioSinImpuesto.toFixed(2)}
                 </td>
 
-                <td style="text-align:right;">
+                <td style="text-align:center;">
                     C$ ${impuesto.toFixed(2)}
                 </td>
 
-                <td style="text-align:right;">
+                <td style="text-align:center;">
                     C$ ${totalLinea.toFixed(2)}
                 </td>
 
@@ -317,7 +317,7 @@ async function imprimirProforma(data) {
         `;
     });
 
-    const ventana = window.open('', '_blank', 'width=450,height=650');
+    const ventana = window.open('', '_blank', 'width=900,height=700');
 
     if (!ventana) {
 

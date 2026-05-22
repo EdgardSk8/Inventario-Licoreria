@@ -168,6 +168,8 @@ $(document).ready(function () {
                 $('#pagoDolares').prop('disabled', false);
                 $('#vueltoCordobas').prop('disabled', false);
                 $('#vueltoDolares').prop('disabled', false);
+                $('#btnFacturar').css('background', '#198754');
+                $('#btnFacturar').text('Facturar');
             }
             calcularVueltos();
         }
@@ -176,18 +178,24 @@ $(document).ready(function () {
 
     $('#toggleProformaFactura').on('change', function () {
 
-        imprimirProformaActivo = $(this).is(':checked');
-        if ($(this).is(':checked')) {
-            $('#toggleFactura').prop('checked', false);
-            imprimirFacturaActivo = false;
-            $('#pagoCordobas').prop('disabled', true).val('');
-            $('#pagoDolares').prop('disabled', true).val('');
-            $('#vueltoCordobas').prop('disabled', true).val('');
-            $('#vueltoDolares').prop('disabled', true).val('');
-        } else {
-            let metodo = parseInt($('#metodo_pago').val()) || 0;
-            if (metodo === 1) { $('#pagoCordobas').prop('disabled', false); $('#pagoDolares').prop('disabled', false); }
-        }
+    imprimirProformaActivo = $(this).is(':checked');
+
+    if (imprimirProformaActivo) {
+
+        $('#toggleFactura').prop('checked', false);
+        imprimirFacturaActivo = false;
+        $('#pagoCordobas, #pagoDolares, #vueltoCordobas, #vueltoDolares').prop('disabled', true);
+        $('#btnFacturar').css({ background: '#0d6efd', border: '1px solid #0d6efd' }).text('Imprimir Proforma');
+
+    } else {
+
+        let metodo = parseInt($('#metodo_pago').val()) || 0;
+
+        $('#btnFacturar').css({ background: '#198754', border: '1px solid #198754' }).text('Facturar');
+        $('#vueltoCordobas, #vueltoDolares').prop('disabled', false);
+        if (metodo === 1) { $('#pagoCordobas, #pagoDolares').prop('disabled', false); }
+
+    }
 
     });
 

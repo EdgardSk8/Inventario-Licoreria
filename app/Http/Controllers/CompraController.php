@@ -487,6 +487,7 @@ class CompraController extends Controller
             return [
                     'id' => $p->id_producto,
                     'text' => $p->nombre_producto,
+                    'precio' => $p->precio_compra ?? 0,
                     'impuesto' => $p->impuestoProducto->porcentaje_impuesto ?? 0
                 ];
             });

@@ -28,7 +28,8 @@ $(document).ready(function () {
                     results: res.data.map(p => ({
                         id: p.id,
                         text: p.text,
-                        impuesto: parseFloat(p.impuesto) || 0
+                        impuesto: parseFloat(p.impuesto) || 0,
+                        precio: parseFloat(p.precio) || 0
                     }))
                 };
             }
@@ -175,6 +176,7 @@ $(document).ready(function () {
                 nombre: data.text,
                 cantidad,
                 precio,
+                precio_original: data.precio,
                 impuesto: data.impuesto,
                 descuento: 0
             });
@@ -184,9 +186,15 @@ $(document).ready(function () {
         recalcularTodo();
 
         $('#producto_select').val(null).trigger('change');
-        $('#cantidad').val('');
+        $('#cantidad').val(1);
         $('#precio_usuario').val('');
     });
+
+    $('#cantidad').val(1);
+    $('#descuento').val(0);
+     $('#impuesto').val(0);
+      $('#subtotal').val(0);
+       $('#total').val(0);
 
 /* ------------------------------------------------------------------------------------------------------------------- */
 /* 🔥 RENDER CARRITO */
@@ -197,6 +205,7 @@ $(document).ready(function () {
         tabla.clear();
 
         carrito.forEach((p, i) => {
+            
 
             let subtotal = (p.precio || '') * (p.cantidad || 0);
             let impuestoValor = subtotal * ((p.impuesto || 0) / 100);
@@ -207,20 +216,22 @@ $(document).ready(function () {
                 p.nombre,
 
                 `<input type="number"
-                    class="form-control form-control-sm cantidad"
+                    class="cantidad"
                     data-index="${i}"
+                    placeholder="0"
                     value="${p.cantidad}">`,
 
+                p.precio_original.toFixed(2),
+
                 `<input type="number"
-                    class="form-control form-control-sm precio"
+                    class="precio"
                     data-index="${i}"
-                    value="${p.precio}">`,
+                    placeholder="0"
+                    value="${p.precio > 0 ? p.precio : ''}">`,
 
-                subtotal.toFixed(2),
-
-                impuestoValor.toFixed(2),
-
-                totalItem.toFixed(2),
+                moneda(subtotal),
+                moneda(impuestoValor),
+                moneda(totalItem),
 
                 `<button class="btn btn-danger btn-sm eliminar" data-index="${i}">
                     <i class="bi bi-trash"></i>
@@ -246,6 +257,7 @@ $(document).ready(function () {
         if ($(this).hasClass('precio')) carrito[i].precio = valor;
 
         recalcularTodo();
+        renderCarrito();
     });
 
     $('#tabla_carrito').on('click', '.eliminar', function () {

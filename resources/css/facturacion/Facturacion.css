@@ -82,7 +82,7 @@
 /* ------------------------------------------------- */
 
 .btn-factura:hover {
-    background: #21a366; /* más claro */
+    background: #41a174; /* más claro */
     border-color: #198754;
     color: white;
     box-shadow: 0 0 10px rgba(25,135,84,.25);
@@ -105,7 +105,7 @@
 /* ------------------------------------------------- */
 
 .btn-proforma:hover {
-    background: #3d8bfd; /* más claro */
+    background: #63a1fd; /* más claro */
     border-color: #0d6efd;
     color: white;
     box-shadow: 0 0 10px rgba(13,110,253,.25);
