@@ -105,7 +105,7 @@
       <div class="modal-footer d-flex align-items-center justify-content-between">
 
         <div class="text-start">
-          <div><strong>Nombre solo puede contener letras:</strong></div>
+          <div><strong>El nombre solo puede contener letras</strong></div>
           <div><strong>Número de Cédula :</strong> 16 caracteres</div>
           <div><strong>RUC máximo:</strong> 20 caracteres</div>
         </div>

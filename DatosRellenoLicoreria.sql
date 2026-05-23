@@ -1,3 +1,24 @@
+
+-- =========================================
+-- CLIENTES
+-- =========================================
+
+INSERT INTO clientes
+(nombre_cliente, cedula_cliente, ruc_cliente, telefono_cliente, direccion_cliente, correo_cliente, estado_cliente, fecha_creacion_cliente)
+VALUES
+
+('Cliente Generico','','','','','',1,'2026-01-05'),
+('Carlos Martínez','001-050126-913C','J0310501268845K','88880003','Managua','carlos.martinez@gmail.com',1,'2026-01-05'),
+('Ana Rodríguez','211-050126-204D','J0310501263321M','88880004','Chinandega','ana.rodriguez@gmail.com',1,'2026-01-05'),
+('Luis García','131-050126-775E','J0310501265590P','88880005','Estelí','luis.garcia@gmail.com',1,'2026-01-05'),
+('Pedro Sánchez','241-050126-118F','J0310501267712R','88880006','Masaya','pedro.sanchez@gmail.com',1,'2026-01-05'),
+
+('Jorge Mendoza','151-050226-663G','J0310502264451T','88880007','Granada','jorge.mendoza@gmail.com',1,'2026-02-05'),
+('José Castillo','281-050226-902H','J0310502269988V','88880008','León','jose.castillo@gmail.com',1,'2026-02-05'),
+('Miguel Vargas','271-050226-314J','J0310502262233X','88880009','Rivas','miguel.vargas@gmail.com',1,'2026-02-05'),
+('Andrea Ruiz','001-050226-587K','J0310502266677Z','88880010','Managua','andrea.ruiz@gmail.com',1,'2026-02-05'),
+('Daniel López','211-050226-439L','J0310502261209Q','88880011','Chinandega','daniel.lopez@gmail.com',1,'2026-02-05');
+
 -- =========================================
 -- CATEGORIAS
 -- =========================================
