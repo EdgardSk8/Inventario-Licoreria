@@ -176,6 +176,22 @@ $(document).ready(function () {
 
             options: {
 
+                scales: {
+
+                    x: {
+
+                        ticks: {
+
+                            callback: function(value) {
+
+                                const label = this.getLabelForValue(value);
+
+                                return EjeXDashboard(label);
+                            }
+                        }
+                    }
+                },
+
                 responsive: true,
                 maintainAspectRatio: false,
 
@@ -184,6 +200,13 @@ $(document).ready(function () {
                     tooltip: {
 
                         callbacks: {
+
+                            title: function(context) {
+
+                                const item = datos[context[0].dataIndex];
+
+                                return formatearFechaDashboard(item.label);
+                            },
 
                             label: function (context) {
 

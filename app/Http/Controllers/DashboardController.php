@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Venta;
 use App\Models\MovimientoInventario;
+use Carbon\Carbon;
 use App\Models\Producto;
 use App\Models\DetalleVenta;
 
@@ -59,11 +60,12 @@ class DashboardController extends Controller
 
             case 'dia':
 
-                $grafica = (clone $query)
-                    ->selectRaw("DATE_FORMAT(fecha_venta, '%d-%m-%y') as label")
+                $grafica = (clone $query)    
+                    ->whereDate( 'fecha_venta', '>=', Carbon::now()->subDays(30))
+                    ->selectRaw("DATE_FORMAT(fecha_venta, '%Y-%m-%d') as label")
                     ->selectRaw('COUNT(*) as cantidad')
                     ->selectRaw('SUM(total_venta) as total')
-                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%d-%m-%y')"))
+                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%Y-%m-%d')"))
                     ->orderBy('label')
                     ->get();
 
@@ -72,10 +74,10 @@ class DashboardController extends Controller
             case 'mes':
 
                 $grafica = (clone $query)
-                    ->selectRaw("DATE_FORMAT(fecha_venta, '%m-%Y') as label")
+                    ->selectRaw("DATE_FORMAT(fecha_venta, '%Y-%m') as label")
                     ->selectRaw('COUNT(*) as cantidad')
                     ->selectRaw('SUM(total_venta) as total')
-                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%m-%Y')"))
+                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%Y-%m')"))
                     ->orderBy('label')
                     ->get();
 
@@ -291,161 +293,6 @@ class DashboardController extends Controller
                         ]);
     }
 
-    public function Movimientoinventario(Request $request)
-    {
-        $tipo = $request->get('tipo', 'dia');
-
-        $inicio = $request->inicio;
-        $fin    = $request->fin;
-
-        $anio = $request->anio;
-        $mes  = $request->mes;
-        $dia  = $request->dia;
-
-        /* ═══════════════════════
-        BASE QUERY
-        ═══════════════════════ */
-
-        $baseQuery = MovimientoInventario::query();
-
-        if ($inicio && $fin) {
-            $baseQuery->whereBetween('fecha_movimiento', [
-                $inicio . ' 00:00:00',
-                $fin . ' 23:59:59'
-            ]);
-        }
-
-        if ($anio) {
-            $baseQuery->whereYear('fecha_movimiento', $anio);
-        }
-
-        if ($mes) {
-            $baseQuery->whereMonth('fecha_movimiento', $mes);
-        }
-
-        if ($dia) {
-            $baseQuery->whereDay('fecha_movimiento', $dia);
-        }
-
-        /* ═══════════════════════
-        FORMATO AGRUPACIÓN
-        ═══════════════════════ */
-
-        switch ($tipo) {
-
-            case 'dia':
-                $formato = "%d-%m-%Y";
-                break;
-
-            case 'mes':
-                $formato = "%m-%Y";
-                break;
-
-            case 'anio':
-                $formato = "%Y";
-                break;
-
-            default:
-                $formato = "%d-%m-%Y";
-                break;
-        }
-
-        /* ═══════════════════════
-        GRÁFICA
-        ═══════════════════════ */
-
-        $grafica = (clone $baseQuery)
-            ->selectRaw("
-                DATE_FORMAT(fecha_movimiento, '{$formato}') as label,
-                tipo_movimiento,
-                SUM(cantidad_movimiento) as total
-            ")
-            ->groupByRaw("DATE_FORMAT(fecha_movimiento, '{$formato}'), tipo_movimiento")
-            ->orderByRaw("MIN(fecha_movimiento)")
-            ->get();
-
-        /*
-            RESULTADO:
-
-            [
-                {
-                    label: '01-2026',
-                    tipo_movimiento: 'ENTRADA',
-                    total: 120
-                },
-                {
-                    label: '01-2026',
-                    tipo_movimiento: 'SALIDA',
-                    total: 80
-                }
-            ]
-        */
-
-        /* ═══════════════════════
-        KPIs
-        ═══════════════════════ */
-
-        $totalMovimientos = (clone $baseQuery)->count();
-
-        $entradas = (clone $baseQuery)
-            ->where('tipo_movimiento', 'ENTRADA')
-            ->sum('cantidad_movimiento');
-
-        $salidas = (clone $baseQuery)
-            ->where('tipo_movimiento', 'SALIDA')
-            ->sum('cantidad_movimiento');
-
-        $ajustes = (clone $baseQuery)
-            ->where('tipo_movimiento', 'AJUSTE')
-            ->sum('cantidad_movimiento');
-
-        $promedioMovimiento = $totalMovimientos > 0
-            ? round(($entradas + $salidas + $ajustes) / $totalMovimientos, 2)
-            : 0;
-
-        /* ═══════════════════════
-        RESPUESTA
-        ═══════════════════════ */
-
-        return response()->json([
-
-            'grafica' => $grafica,
-
-            'resumen' => [
-
-                'total_movimientos' => $totalMovimientos,
-
-                'entradas' => $entradas,
-
-                'salidas' => $salidas,
-
-                'ajustes' => $ajustes,
-
-                'balance' => $entradas - $salidas,
-
-                'promedio_movimiento' => $promedioMovimiento,
-            ],
-
-            'por_tipo_movimiento' => (clone $baseQuery)
-                ->selectRaw("
-                    tipo_movimiento as label,
-                    COUNT(*) as cantidad,
-                    SUM(cantidad_movimiento) as total
-                ")
-                ->groupBy('tipo_movimiento')
-                ->get(),
-
-            'por_tipo_referencia' => (clone $baseQuery)
-                ->selectRaw("
-                    tipo_referencia as label,
-                    COUNT(*) as cantidad,
-                    SUM(cantidad_movimiento) as total
-                ")
-                ->groupBy('tipo_referencia')
-                ->get(),
-        ]);
-    }
-
     public function ganancias(Request $request)
     {
         $tipo = $request->get('tipo', 'dia');
@@ -487,15 +334,7 @@ class DashboardController extends Controller
         FÓRMULA GANANCIA
         ════════════════ */
 
-$gananciaSQL = "
-    SUM(
-        (
-            detalle_ventas.precio_unitario_venta
-            - IFNULL(productos.precio_compra, 0)
-        )
-        * detalle_ventas.cantidad_venta
-    )
-";
+        $gananciaSQL = " SUM( ( detalle_ventas.precio_unitario_venta - IFNULL(productos.precio_compra, 0) ) * detalle_ventas.cantidad_venta)";
 
         /* ════════════════
         GRÁFICA
@@ -505,18 +344,19 @@ $gananciaSQL = "
 
             case 'dia':
                 $grafica = (clone $query)
-                    ->selectRaw("DATE_FORMAT(fecha_venta, '%d-%m-%y') as label")
+                    ->whereDate( 'fecha_venta', '>=', Carbon::now()->subDays(30))
+                    ->selectRaw("DATE_FORMAT(fecha_venta, '%Y-%m-%d') as label")
                     ->selectRaw("$gananciaSQL as ganancia")
-                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%d-%m-%y')"))
+                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%Y-%m-%d')"))
                     ->orderBy('label')
                     ->get();
                 break;
 
             case 'mes':
                 $grafica = (clone $query)
-                    ->selectRaw("DATE_FORMAT(fecha_venta, '%m-%Y') as label")
+                    ->selectRaw("DATE_FORMAT(fecha_venta, '%Y-%m') as label")
                     ->selectRaw("$gananciaSQL as ganancia")
-                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%m-%Y')"))
+                    ->groupBy(DB::raw("DATE_FORMAT(fecha_venta, '%Y-%m')"))
                     ->orderBy('label')
                     ->get();
                 break;
@@ -595,5 +435,130 @@ $gananciaSQL = "
             ],
         ]);
     }
+
+    public function Movimientoinventario(Request $request)
+    {
+        $tipo = $request->get('tipo', 'dia');
+
+        $inicio = $request->inicio;
+        $fin    = $request->fin;
+
+        $anio = $request->anio;
+        $mes  = $request->mes;
+        $dia  = $request->dia;
+
+        /* ═══════════════ BASE QUERY ═══════════════ */
+
+        $baseQuery = MovimientoInventario::query();
+
+        if ($inicio && $fin) {
+            $baseQuery->whereBetween('fecha_movimiento', [
+                $inicio . ' 00:00:00',
+                $fin . ' 23:59:59'
+            ]);
+        }
+
+        if ($anio) $baseQuery->whereYear('fecha_movimiento', $anio);
+        if ($mes)  $baseQuery->whereMonth('fecha_movimiento', $mes);
+        if ($dia)  $baseQuery->whereDay('fecha_movimiento', $dia);
+
+        // if (!$inicio && !$fin && !$anio && !$mes && !$dia) {
+        //     $baseQuery->where('fecha_movimiento', '>=', now()->subDays(30));
+        // }
+
+        /* ═══════════════ GRÁFICA PRINCIPAL ═══════════════ */
+
+        switch ($tipo) {
+
+            case 'dia':
+
+                $grafica = (clone $baseQuery)
+                    ->whereDate('fecha_movimiento', '>=', now()->subDays(99))
+                    ->selectRaw("DATE_FORMAT(fecha_movimiento, '%Y-%m-%d') as label")
+                    ->selectRaw("
+                        SUM(CASE WHEN tipo_movimiento = 'ENTRADA' THEN cantidad_movimiento ELSE 0 END) as entradas,
+                        SUM(CASE WHEN tipo_movimiento = 'SALIDA' THEN cantidad_movimiento ELSE 0 END) as salidas,
+                        SUM(CASE WHEN tipo_movimiento = 'AJUSTE' THEN cantidad_movimiento ELSE 0 END) as ajustes
+                    ")
+                    ->groupBy(DB::raw("DATE_FORMAT(fecha_movimiento, '%Y-%m-%d')"))
+                    ->orderBy('label')
+                    ->get();
+
+                break;
+
+            case 'mes':
+
+                $grafica = (clone $baseQuery)
+                    ->selectRaw("DATE_FORMAT(fecha_movimiento, '%Y-%m') as label")
+                    ->selectRaw("
+                        SUM(CASE WHEN tipo_movimiento = 'ENTRADA' THEN cantidad_movimiento ELSE 0 END) as entradas,
+                        SUM(CASE WHEN tipo_movimiento = 'SALIDA' THEN cantidad_movimiento ELSE 0 END) as salidas,
+                        SUM(CASE WHEN tipo_movimiento = 'AJUSTE' THEN cantidad_movimiento ELSE 0 END) as ajustes
+                    ")
+                    ->groupBy(DB::raw("DATE_FORMAT(fecha_movimiento, '%Y-%m')"))
+                    ->orderBy('label')
+                    ->get();
+
+                break;
+
+            case 'anio':
+
+                $grafica = (clone $baseQuery)
+                    ->selectRaw('YEAR(fecha_movimiento) as label')
+                    ->selectRaw("
+                        SUM(CASE WHEN tipo_movimiento = 'ENTRADA' THEN cantidad_movimiento ELSE 0 END) as entradas,
+                        SUM(CASE WHEN tipo_movimiento = 'SALIDA' THEN cantidad_movimiento ELSE 0 END) as salidas,
+                        SUM(CASE WHEN tipo_movimiento = 'AJUSTE' THEN cantidad_movimiento ELSE 0 END) as ajustes
+                    ")
+                    ->groupBy(DB::raw('YEAR(fecha_movimiento)'))
+                    ->orderBy('label')
+                    ->get();
+
+                break;
+
+            default:
+
+                $grafica = collect();
+                break;
+        }
+
+        /* ═══════════════ KPIS (SIN CAMBIOS) ═══════════════ */
+
+        $totalMovimientos = (clone $baseQuery)->count();
+
+        $entradas = (clone $baseQuery)
+            ->where('tipo_movimiento', 'ENTRADA')
+            ->sum('cantidad_movimiento');
+
+        $salidas = (clone $baseQuery)
+            ->where('tipo_movimiento', 'SALIDA')
+            ->sum('cantidad_movimiento');
+
+        $ajustes = (clone $baseQuery)
+            ->where('tipo_movimiento', 'AJUSTE')
+            ->sum('cantidad_movimiento');
+
+        $balance = ($entradas + $ajustes) - $salidas;
+
+        $promedioMovimiento = $totalMovimientos > 0
+            ? round(($entradas + $salidas + $ajustes) / $totalMovimientos, 2)
+            : 0;
+
+        /* ═══════════════ RESPUESTA ═══════════════ */
+
+        return response()->json([
+            'grafica' => $grafica,
+            'kpis' => [
+                'total_movimientos' => $totalMovimientos,
+                'entradas' => $entradas,
+                'salidas' => $salidas,
+                'ajustes' => $ajustes,
+                'balance' => $balance,
+                'promedio_movimiento' => $promedioMovimiento,
+            ],
+        ]);
+    }
+
+
 
 }

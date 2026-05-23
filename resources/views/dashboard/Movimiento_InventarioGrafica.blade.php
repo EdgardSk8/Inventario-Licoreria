@@ -13,9 +13,6 @@
                 <option value="mes">Movimientos por mes</option>
                 <option value="anio">Movimientos por año</option>
 
-                <option value="tipo_movimiento">Entrada / Salida</option>
-                <option value="tipo_referencia">Tipo de operación</option>
-
             </select>
 
             <!-- 🔹 tipo de gráfica -->

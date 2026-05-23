@@ -179,6 +179,147 @@ window.FechaSimple = function(fechaSQL) {
 
 /* -------------------------------------------------------------------------------- */
 
+window.EjeXDashboard = function(fechaSQL) {
+
+    if (!fechaSQL) return '';
+
+    const valor = String(fechaSQL).trim();
+
+    // FORMATO: YYYY-MM
+    if (/^\d{4}-\d{2}$/.test(valor)) {
+
+        const [anio, mes] = valor.split('-');
+
+        return `${mes}/${anio}`;
+    }
+
+    /* ════════════════
+    FORMATO: HH:00
+    Resultado: 08:00 AM
+    ════════════════ */
+    if (/^\d{2}:\d{2}$/.test(valor)) {
+
+        let [horas, minutos] = valor.split(':');
+
+        horas = Number(horas);
+
+        const periodo = horas >= 12 ? 'PM' : 'AM';
+
+        horas = horas % 12;
+        horas = horas ? horas : 12;
+
+        horas = horas < 10 ? '0' + horas : horas;
+
+        return `${horas}:${minutos} ${periodo}`;
+    }
+
+    // FORMATO: YYYY-MM-DD
+    if (/^\d{4}-\d{2}-\d{2}$/.test(valor)) {
+
+        const fecha = new Date(valor + 'T00:00:00');
+
+        return fecha.toLocaleDateString('es-NI', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    }
+
+    return valor;
+}
+
+window.formatearFechaDashboard = function(fechaSQL) {
+
+    if (!fechaSQL) return '';
+
+    const valor = String(fechaSQL).trim();
+
+    const meses = [
+        "Enero","Febrero","Marzo","Abril",
+        "Mayo","Junio","Julio","Agosto",
+        "Septiembre","Octubre","Noviembre","Diciembre"
+    ];
+
+    /* ════════════════
+       FORMATO: YYYY
+       Resultado: 2026
+    ════════════════ */
+    if (/^\d{4}$/.test(valor)) {
+
+        return valor;
+    }
+
+    /* ════════════════
+       FORMATO: YYYY-MM
+       Resultado: Mayo del 2026
+    ════════════════ */
+    if (/^\d{4}-\d{2}$/.test(valor)) {
+
+        const [anio, mes] = valor.split('-');
+
+        return `${meses[Number(mes) - 1]} del ${anio}`;
+    }
+
+    if (/^\d{2}:\d{2}$/.test(valor)) {
+
+        let [horas, minutos] = valor.split(':');
+
+        horas = Number(horas);
+
+        const periodo = horas >= 12 ? 'PM' : 'AM';
+
+        horas = horas % 12;
+        horas = horas ? horas : 12;
+
+        horas = horas < 10 ? '0' + horas : horas;
+
+        return `${horas}:${minutos} ${periodo}`;
+    }
+
+    /* ════════════════
+       FORMATO: YYYY-MM-DD
+       Resultado: 22 de mayo del 2026
+    ════════════════ */
+    if (/^\d{4}-\d{2}-\d{2}$/.test(valor)) {
+
+        const fecha = new Date(valor + 'T00:00:00');
+
+        const dia = fecha.getDate();
+        const mes = meses[fecha.getMonth()];
+        const anio = fecha.getFullYear();
+
+        return `${dia} de ${mes} del ${anio}`;
+    }
+
+    /* ════════════════
+       FORMATO DATETIME
+       Resultado:
+       22 de mayo del 2026 08:30 PM
+    ════════════════ */
+    const fecha = new Date(valor);
+
+    if (isNaN(fecha)) return valor;
+
+    const dia = fecha.getDate();
+    const mes = meses[fecha.getMonth()];
+    const anio = fecha.getFullYear();
+
+    let horas = fecha.getHours();
+    let minutos = fecha.getMinutes();
+
+    const periodo = horas >= 12 ? 'PM' : 'AM';
+
+    horas = horas % 12;
+    horas = horas ? horas : 12;
+
+    minutos = minutos < 10 ? '0' + minutos : minutos;
+    horas = horas < 10 ? '0' + horas : horas;
+
+    return `${dia} de ${mes} del ${anio} ${horas}:${minutos} ${periodo}`;
+}
+
+/* -------------------------------------------------------------------------------- */
+
 
 window.ConfigurarFiltrosDataTable = function(tabla, config = {}) {
 

@@ -466,13 +466,13 @@ VALUES
 (7,'SALIDA',2,26,'Venta premium',22,'VENTA',2200,'2026-05-06 19:25:00',2),
 
 (13,'ENTRADA',8,20,'Ingreso Grey Goose',23,'COMPRA',1500,'2026-05-03 15:00:00',1),
-(13,'SALIDA',1,19,'Venta premium',23,'VENTA',2300,'2026-05-04 16:00:00',2),
+(13,'SALIDA',10,19,'Venta premium',23,'VENTA',2300,'2026-05-04 16:00:00',2),
 
 (17,'ENTRADA',4,11,'Ingreso Patron',24,'COMPRA',2400,'2026-05-03 15:00:00',1),
 (17,'SALIDA',1,10,'Venta Patron',24,'VENTA',3600,'2026-05-05 18:30:00',2),
 
 (21,'ENTRADA',15,43,'Ingreso vino',25,'COMPRA',240,'2026-05-04 09:20:00',1),
-(21,'SALIDA',4,39,'Venta vino',25,'VENTA',390,'2026-05-04 20:00:00',2),
+(21,'SALIDA',14,39,'Venta vino',25,'VENTA',390,'2026-05-04 20:00:00',2),
 
 (23,'ENTRADA',10,29,'Ingreso vino blanco',26,'COMPRA',260,'2026-05-05 14:10:00',1),
 (23,'SALIDA',2,27,'Venta vino blanco',26,'VENTA',420,'2026-05-05 21:30:00',2),
@@ -483,11 +483,8 @@ VALUES
 (29,'ENTRADA',6,21,'Ingreso Baileys',28,'COMPRA',780,'2026-05-05 14:10:00',1),
 (29,'SALIDA',1,20,'Venta Baileys',28,'VENTA',1250,'2026-05-06 19:25:00',2),
 
-(30,'ENTRADA',50,250,'Compra Red Bull',29,'COMPRA',55,'2026-05-04 09:20:00',1),
-(30,'SALIDA',8,242,'Venta energéticas',29,'VENTA',85,'2026-05-02 18:20:00',2),
-
-(1,'AJUSTE',2,58,'Ajuste inventario positivo',NULL,'AJUSTE',950,'2026-05-07 09:00:00',1),
-(25,'AJUSTE',-5,375,'Producto dañado',NULL,'AJUSTE',28,'2026-05-07 09:10:00',1);
+(30,'ENTRADA',20,250,'Compra Red Bull',29,'COMPRA',55,'2026-05-04 09:20:00',1),
+(30,'SALIDA',8,242,'Venta energéticas',29,'VENTA',85,'2026-05-02 18:20:00',2);
 
 -- =========================================
 -- GASTOS
