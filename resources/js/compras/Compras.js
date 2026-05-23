@@ -108,6 +108,25 @@ $(document).ready(function () {
     cargarMetodosPago();
     cargarCuentas();
 
+
+
+    $(document).on('producto-creado', function(e, p) {
+
+        carrito.push({
+            id: p.id,
+            nombre: p.nombre,
+            cantidad: p.cantidad || 1,
+            precio: p.precio || 0,
+            precio_original: p.precio,
+            precio_compra: p.precio_compra || 0,
+            impuesto: p.impuesto || 0,
+            descuento: 0
+        });
+
+        renderCarrito();
+        recalcularTodo();
+    });
+
 /* ------------------------------------------------------------------------------------------------------------------- */
 
 
@@ -192,9 +211,9 @@ $(document).ready(function () {
 
     $('#cantidad').val(1);
     $('#descuento').val(0);
-     $('#impuesto').val(0);
-      $('#subtotal').val(0);
-       $('#total').val(0);
+    $('#impuesto').val(0);
+    $('#subtotal').val(0);
+    $('#total').val(0);
 
 /* ------------------------------------------------------------------------------------------------------------------- */
 /* 🔥 RENDER CARRITO */
@@ -207,7 +226,7 @@ $(document).ready(function () {
         carrito.forEach((p, i) => {
             
 
-            let subtotal = (p.precio || '') * (p.cantidad || 0);
+            let subtotal = (Number(p.precio) || 0) * (Number(p.cantidad) || 0);
             let impuestoValor = subtotal * ((p.impuesto || 0) / 100);
             let totalItem = subtotal + impuestoValor;
 

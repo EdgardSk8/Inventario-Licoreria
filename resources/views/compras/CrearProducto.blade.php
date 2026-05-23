@@ -16,33 +16,33 @@
         <form id="formCrearProducto" class="row g-3">
 
           <!-- Nombre -->
-          <div class="col-md-3">
+          <div class="col-md-3 mt-0">
             <label class="form-label">Nombre del Producto</label>
             <input type="text" id="crear_nombre_producto" class="form-control form-control-sm" placeholder="Nombre del producto" maxlength="100" required>
           </div>
 
           <!-- Descripción -->
-          <div class="col-md-3">
+          <div class="col-md-3 mt-0">
             <label class="form-label">Descripción</label>
             <input type="text" id="crear_descripcion_producto" placeholder="Descripcion del producto" class="form-control form-control-sm" maxlength="150">
           </div>
 
           <!-- Categoría -->
-          <div class="col-md-2">
+          <div class="col-md-2 mt-0">
             <label class="form-label">Categoría</label>
             <select id="crear_id_categoria" class="form-select form-select-sm" required>
             </select>
           </div>
 
           <!-- Ubicación -->
-          <div class="col-md-2">
+          <div class="col-md-2 mt-0">
             <label class="form-label">Ubicación</label>
             <select id="crear_id_ubicacion" class="form-select form-select-sm" required>
             </select>
           </div>
 
           <!-- Impuesto -->
-          <div class="col-md-2">
+          <div class="col-md-2 mt-0">
             <label class="form-label">Impuesto</label>
             <select id="crear_id_impuesto" class="form-select form-select-sm" required>
             </select>

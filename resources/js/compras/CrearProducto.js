@@ -285,42 +285,43 @@ inicializarCrearVenta();
             processData: false,
             contentType: false,
 
-        success: function(res){
+        success: function(res) {
 
             mostrarToast('Producto creado correctamente', 'success');
 
             let producto = res.producto;
 
-            // 🧠 Insertar en Select2 y seleccionarlo
-            let newOption = new Option(producto.text, producto.id, true, true);
-            $('#producto_select').append(newOption).trigger('change'); // selecciona automáticamente
+            if (!producto) {
+                console.log("No vino producto");
+                return;
+            }
 
-            // 🔹 Tomar la cantidad y precio que puso el usuario en el modal
-            let cantidad = parseFloat($('#crear_stock_actual').val()) || 0;
+            let cantidad = parseFloat($('#crear_stock_actual').val()) || 1;
             let precio = parseFloat($('#crear_precio_compra').val()) || 0;
 
-            $('#cantidad').val(cantidad);
-            $('#precio').val(precio);
+            // 🔥 EVENTO DIRECTO AL CARRITO
+            $(document).trigger('producto-creado', {
+                id: producto.id,
+                nombre: producto.text,
+                cantidad: cantidad, // ✔️ FIX
+                precio: precio,
+                precio_compra: precio,
+                impuesto: impuesto
+            });
 
-            $('#producto_select').trigger('select2:select'); // asegura que select2 registre el cambio
-            $('#btnAgregar').click();
+            // 🔥 Agregar al select2 (solo UI)
+            let newOption = new Option(producto.text, producto.id, true, true);
+            $('#producto_select').append(newOption).trigger('change');
 
-            // 🧹 Limpiar
+            // 🔥 limpiar modal
             $('#formCrearProducto')[0].reset();
+            $('#preview_imagen_producto').attr('src','').addClass('d-none');
 
-            $('#preview_imagen_producto')
-                .attr('src', '')
-                .addClass('d-none');
-
-            // ❌ Cerrar modal
             const modalElement = document.getElementById("modalCrearProducto");
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             if(modalInstance) modalInstance.hide();
 
-            // 🔄 Recargar tabla
-            if($.fn.DataTable.isDataTable('#tablaProductos')){
-                $('#tablaProductos').DataTable().ajax.reload();
-            }
+            console.log(producto);
         },
 
             error: function(err){
