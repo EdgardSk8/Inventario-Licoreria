@@ -23,6 +23,7 @@
             <input type="text"
               id="editar_nombre_cuenta"
               class="form-control form-control-sm"
+              placeholder="Ej: Caja General, Banco BAC"
               maxlength="100"
               required>
           </div>
@@ -59,6 +60,7 @@
             <input type="text"
               id="editar_descripcion_cuenta"
               class="form-control form-control-sm"
+              placeholder="Descripción opcional"
               maxlength="150">
           </div>
 

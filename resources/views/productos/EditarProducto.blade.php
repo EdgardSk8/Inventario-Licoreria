@@ -21,13 +21,13 @@
           <!-- Nombre -->
           <div class="col-md-3">
             <label class="form-label">Nombre del Producto</label>
-            <input type="text" id="editar_nombre_producto" class="form-control form-control-sm" maxlength="100" required>
+            <input type="text" id="editar_nombre_producto" class="form-control form-control-sm" placeholder="Nombre del producto" maxlength="100" required>
           </div>
 
           <!-- Descripción -->
           <div class="col-md-3">
             <label class="form-label">Descripción</label>
-            <input type="text" id="editar_descripcion_producto" class="form-control form-control-sm" maxlength="150">
+            <input type="text" id="editar_descripcion_producto" placeholder="Descripcion del producto" class="form-control form-control-sm" maxlength="150">
           </div>
 
           <!-- Categoría -->
@@ -54,7 +54,7 @@
           <!-- Precio compra -->
           <div class="col-md-2">
             <label class="form-label">Precio Compra</label>
-            <input type="number" id="editar_precio_compra" class="form-control form-control-sm" step="0.01" required>
+            <input type="number" id="editar_precio_compra" placeholder="100.65" class="form-control form-control-sm" step="0.01" required>
           </div>
 
           <div class="col-md-1 d-flex align-items-center justify-content-between">
@@ -66,25 +66,25 @@
           <!-- % venta -->
           <div class="col-md-1">
             <label class="form-label">% Venta</label>
-            <input type="number" id="editar_porcentaje_venta" class="form-control form-control-sm" step="0.1" >
+            <input type="number" id="editar_porcentaje_venta" placeholder="25" class="form-control form-control-sm" step="0.1" >
           </div>
 
           <!-- Precio venta -->
           <div class="col-md-2">
-            <label class="form-label">P. Venta</label>
-            <input type="number" id="editar_precio_venta" class="form-control form-control-sm" step="0.01" required>
+            <label class="form-label">Precio de Venta</label>
+            <input type="number" id="editar_precio_venta" placeholder="100.65" class="form-control form-control-sm" step="0.01" required>
           </div>
 
           <!-- Precio incluye IVA -->
           <div class="col-md-2">
             <label class="form-label">Precio Total (+IVA)</label>
-            <input type="number" id="editar_precio_venta_TOTAL" class="form-control form-control-sm">
+            <input type="number" id="editar_precio_venta_TOTAL" placeholder="126" class="form-control form-control-sm">
           </div>
 
           <!-- Stock -->
           <div class="col-md-1">
             <label class="form-label">Stock</label>
-            <input type="number" id="editar_stock_actual" class="form-control form-control-sm" min="0" disabled>
+            <input type="number" id="editar_stock_actual" placeholder="50" class="form-control form-control-sm" min="0" disabled>
           </div>
 
           <!-- Imagen -->

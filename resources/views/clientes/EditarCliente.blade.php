@@ -24,6 +24,7 @@
               type="text"
               id="editar_nombre_cliente"
               class="form-control form-control-sm"
+              placeholder="Nombre del Cliente"
               maxlength="150"
               required>
           </div>
@@ -34,6 +35,7 @@
               type="text"
               id="editar_cedula_cliente"
               class="form-control form-control-sm"
+               placeholder="Cédula del Cliente"
               maxlength="16">
           </div>
 
@@ -43,6 +45,7 @@
               type="text"
               id="editar_ruc_cliente"
               class="form-control form-control-sm"
+              placeholder="RUC del Cliente"
               maxlength="20">
           </div>
 
@@ -52,6 +55,7 @@
               type="text"
               id="editar_telefono_cliente"
               class="form-control form-control-sm"
+              placeholder="Teléfono del Cliente"
               maxlength="20">
           </div>
 
@@ -61,6 +65,7 @@
               type="email"
               id="editar_correo_cliente"
               class="form-control form-control-sm"
+              placeholder="Correo del Cliente"
               maxlength="100">
           </div>
 
@@ -70,6 +75,7 @@
               type="text"
               id="editar_direccion_cliente"
               class="form-control form-control-sm"
+              placeholder="Dirección del Cliente"
               maxlength="200">
           </div>
 
@@ -99,10 +105,9 @@
       <div class="modal-footer d-flex align-items-center justify-content-between">
 
         <div class="text-start">
-          <div><strong>Nombre máximo:</strong> 150 caracteres</div>
-          <div><strong>Cédula máxima:</strong> 16 caracteres</div>
+          <div><strong>Nombre solo puede contener letras:</strong></div>
+          <div><strong>Número de Cédula :</strong> 16 caracteres</div>
           <div><strong>RUC máximo:</strong> 20 caracteres</div>
-          <div><strong>Correo máximo:</strong> 100 caracteres</div>
         </div>
 
         <div>

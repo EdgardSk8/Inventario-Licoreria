@@ -23,6 +23,7 @@
             <input type="text"
               id="editar_nombre_empresa"
               class="form-control form-control-sm"
+              placeholder="Nombre de la Empresa"
               maxlength="150"
               required>
           </div>
@@ -32,6 +33,7 @@
             <input type="text"
               id="editar_ruc_empresa"
               class="form-control form-control-sm"
+              placeholder="Numero RUC"
               maxlength="20">
           </div>
 
@@ -40,6 +42,7 @@
             <input type="text"
               id="editar_direccion_empresa"
               class="form-control form-control-sm"
+              placeholder="Direccion de la empresa"
               maxlength="200">
           </div>
 
@@ -48,6 +51,7 @@
             <input type="text"
               id="editar_telefono_empresa"
               class="form-control form-control-sm"
+               placeholder="Télefono de la empresa"
               maxlength="20">
           </div>
 
@@ -56,6 +60,7 @@
             <input type="email"
               id="editar_correo_empresa"
               class="form-control form-control-sm"
+               placeholder="Correo Ej: Empresa@gmail.com"
               maxlength="100">
           </div>
 
@@ -64,6 +69,7 @@
             <input type="number"
               id="editar_tipo_cambio"
               class="form-control form-control-sm"
+              placeholder="36.5"
               step="0.50"
               min="0"
               maxlength="100">

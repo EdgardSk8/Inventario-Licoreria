@@ -23,6 +23,7 @@
             <input type="text"
               id="editar_nombre_tipo_gasto"
               class="form-control form-control-sm"
+              placeholder="Nombre del Tipo de Gasto"
               maxlength="100"
               required>
           </div>
@@ -31,6 +32,7 @@
             <label class="form-label">Descripción</label>
             <input type="text"
               id="editar_descripcion_tipo_gasto"
+              placeholder="Descripción del Tipo de Gasto"
               class="form-control form-control-sm"
               maxlength="150">
           </div>

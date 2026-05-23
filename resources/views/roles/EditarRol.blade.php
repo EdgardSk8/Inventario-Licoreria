@@ -23,6 +23,7 @@
             <input type="text"
               id="editar_nombre_rol"
               class="form-control form-control-sm"
+              placeholder="Nombre del Rol"
               maxlength="50"
               required>
           </div>
@@ -32,6 +33,7 @@
             <input type="text"
               id="editar_descripcion_rol"
               class="form-control form-control-sm"
+              placeholder="Descripción del Rol"
               maxlength="150">
           </div>
 

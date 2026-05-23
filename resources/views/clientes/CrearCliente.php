@@ -60,7 +60,6 @@
         <div class="text-start">
           <div><strong>Cédula máxima:</strong> 16 caracteres</div>
           <div><strong>RUC máximo:</strong> 20 caracteres</div>
-          <div><strong>Correo máximo:</strong> 100 caracteres</div>
         </div>
 
         <div>

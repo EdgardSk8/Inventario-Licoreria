@@ -23,6 +23,7 @@
             <input type="text"
               id="editar_nombre_gasto"
               class="form-control form-control-sm"
+               placeholder="Ej: Pago de luz"
               maxlength="150"
               required>
           </div>

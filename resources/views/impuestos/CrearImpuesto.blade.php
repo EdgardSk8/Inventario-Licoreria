@@ -32,7 +32,7 @@
             <input 
               type="number"
               id="crear_porcentaje_impuesto"
-              placeholder="Ejempol: 15"
+              placeholder="Ejemplo: 15"
               class="form-control form-control-sm"
               min="0"
               max="100"

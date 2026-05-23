@@ -24,6 +24,7 @@
               type="text"
               id="editar_nombre_impuesto"
               class="form-control form-control-sm"
+              placeholder="Nombre del impuesto"
               maxlength="100"
               required>
           </div>
@@ -34,6 +35,7 @@
               type="number"
               id="editar_porcentaje_impuesto"
               class="form-control form-control-sm"
+              placeholder="Ejemplo: 15"
               min="0"
               max="100"
               step="0.01"

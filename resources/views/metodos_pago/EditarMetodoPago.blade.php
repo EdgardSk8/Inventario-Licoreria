@@ -23,6 +23,7 @@
             <input type="text"
               id="editar_nombre_metodo_pago"
               class="form-control form-control-sm"
+              placeholder="Nombre del método de pago"
               maxlength="100"
               required>
           </div>
@@ -32,6 +33,7 @@
             <input type="text"
               id="editar_descripcion_metodo_pago"
               class="form-control form-control-sm"
+              placeholder="Descripción del método de pago"
               maxlength="150">
           </div>
 

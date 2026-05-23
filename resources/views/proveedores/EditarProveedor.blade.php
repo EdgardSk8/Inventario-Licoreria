@@ -23,6 +23,7 @@
             <input type="text"
               id="editar_nombre_proveedor"
               class="form-control form-control-sm"
+              placeholder="Nombre del proveedor"
               maxlength="150"
               required>
           </div>
@@ -32,6 +33,7 @@
             <input type="text"
               id="editar_ruc_proveedor"
               class="form-control form-control-sm"
+              placeholder="Ingrese RUC"
               maxlength="14">
           </div>
 
@@ -40,6 +42,7 @@
             <input type="text"
               id="editar_telefono_proveedor"
               class="form-control form-control-sm"
+              placeholder="Teléfono"
               maxlength="15">
           </div>
 
@@ -48,6 +51,7 @@
             <input type="email"
               id="editar_correo_proveedor"
               class="form-control form-control-sm"
+              placeholder="Correo electrónico"
               maxlength="100">
           </div>
 
@@ -56,6 +60,7 @@
             <input type="text"
               id="editar_direccion_proveedor"
               class="form-control form-control-sm"
+              placeholder="Dirección del proveedor"
               maxlength="200">
           </div>
 

@@ -24,6 +24,7 @@
               type="text"
               id="editar_nombre_categoria"
               class="form-control form-control-sm"
+              placeholder="Nombre de la Categoría"
               maxlength="100"
               required>
           </div>

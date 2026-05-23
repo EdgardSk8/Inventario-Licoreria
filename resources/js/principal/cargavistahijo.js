@@ -80,11 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Cargar la vista por defecto al abrir la página
-    const vistaPorDefecto = "reportes";
-    cargarVista(vistaPorDefecto);
+    // const vistaPorDefecto = "reportes";
+    // cargarVista(vistaPorDefecto);
 
-// const primeraVista = document.querySelector('.cargar-vista[data-url]');
-// if (primeraVista) { cargarVista(primeraVista.dataset.url);}
+const primeraVista = document.querySelector('.cargar-vista[data-url]');
+if (primeraVista) { cargarVista(primeraVista.dataset.url);}
 
    
 

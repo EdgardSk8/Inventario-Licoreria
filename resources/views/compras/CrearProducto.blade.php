@@ -18,13 +18,13 @@
           <!-- Nombre -->
           <div class="col-md-3">
             <label class="form-label">Nombre del Producto</label>
-            <input type="text" id="crear_nombre_producto" class="form-control form-control-sm" maxlength="100" required>
+            <input type="text" id="crear_nombre_producto" class="form-control form-control-sm" placeholder="Nombre del producto" maxlength="100" required>
           </div>
 
           <!-- Descripción -->
           <div class="col-md-3">
             <label class="form-label">Descripción</label>
-            <input type="text" id="crear_descripcion_producto" class="form-control form-control-sm" maxlength="150">
+            <input type="text" id="crear_descripcion_producto" placeholder="Descripcion del producto" class="form-control form-control-sm" maxlength="150">
           </div>
 
           <!-- Categoría -->
@@ -51,38 +51,38 @@
           <!-- Precio compra -->
           <div class="col-md-2">
             <label class="form-label">Precio Compra</label>
-            <input type="number" id="crear_precio_compra" class="form-control form-control-sm" min="0" step="0.01" required>
+            <input type="number" id="crear_precio_compra" placeholder="100.65" class="form-control form-control-sm" min="0" step="0.01" required>
           </div>
 
           <!-- CHECKS -->
           <div class="col-md-1 d-flex align-items-center justify-content-between">
             <small class="mb-0">V/ R</small>
-            <input type="checkbox" id="crear_check_venta" title="% de ganancia de venta">
-            <input type="checkbox" id="crear_redondeo_venta" title="Redondeo total al impuesto">
+            <input type="checkbox" id="crear_check_venta" placeholder="100.65" title="% de ganancia de venta">
+            <input type="checkbox" id="crear_redondeo_venta" placeholder="100.65" title="Redondeo total al impuesto">
           </div>
 
           <!-- % venta -->
           <div class="col-md-1">
             <label class="form-label">% Venta</label>
-            <input type="number" id="crear_porcentaje_venta" class="form-control form-control-sm" step="0.1">
+            <input type="number" id="crear_porcentaje_venta" placeholder="25" class="form-control form-control-sm" step="0.1">
           </div>
 
           <!-- Precio venta -->
           <div class="col-md-1">
             <label class="form-label">P. Venta</label>
-            <input type="number" id="crear_precio_venta" class="form-control form-control-sm" step="0.01" required>
+            <input type="number" id="crear_precio_venta" placeholder="126" class="form-control form-control-sm" step="0.01" required>
           </div>
 
           <!-- Precio total -->
           <div class="col-md-2">
             <label class="form-label">Precio Total (+IVA)</label>
-            <input type="number" id="crear_precio_venta_TOTAL" min="0" class="form-control form-control-sm">
+            <input type="number" id="crear_precio_venta_TOTAL" placeholder="0.00" min="0" class="form-control form-control-sm">
           </div>
 
           <!-- Stock -->
           <div class="col-md-2">
-            <label class="form-label">Cant. inicial</label>
-            <input type="number" id="crear_stock_actual" class="form-control form-control-sm" min="0" required>
+            <label class="form-label">Cantidad inicial</label>
+            <input type="number" id="crear_stock_actual" placeholder="50" class="form-control form-control-sm" min="0" required>
           </div>
 
           <!-- Imagen -->
