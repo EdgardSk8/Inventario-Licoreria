@@ -116,6 +116,10 @@ $(document).ready(function () {
 
     };
 
+    if (!document.getElementById('Reportes')) {
+        return;
+    }
+
     function cargarReporte(reporte) {
 
         if (cargando) return;
@@ -140,10 +144,15 @@ $(document).ready(function () {
                 if (!respuesta.datos || !respuesta.columnas) { console.error("RESPUESTA INVÁLIDA:", respuesta); return; }
                 destruirTabla();
 
-                $('#Orden-Datos').on('change', function () {
-                    let orden = $(this).val();
-                    tablaReportes.order([0, orden]).draw(); 
-                });
+                $('#Orden-Datos')
+                    .off('change.reporte')
+                    .on('change.reporte', function () {
+
+                        if (tablaReportes) {
+                            tablaReportes.order([0, $(this).val()]).draw();
+                        }
+
+                    });
 
                 /* GENERAR THEAD Y TFOOT DINAMICOS */
                 let thead = '<tr>';
@@ -166,39 +175,43 @@ $(document).ready(function () {
                 `);
 
 
-                tablaReportes = $('#Reportes').DataTable({
+                setTimeout(() => {
 
-                    ajax: function (data, callback) {
+                    tablaReportes = $('#Reportes').DataTable({
 
-                        if (requestActual) requestActual.abort();
+                        ajax: function (data, callback) {
 
-                        requestActual = $.ajax({
-                            url: rutasReportes[reporte], type: 'GET',
+                            //if (requestActual) requestActual.abort();
 
-                            data: {
-                                fecha_inicio: $fechaInicio.val(),
-                                fecha_fin: $fechaFin.val(),
-                                limite: $limite.val() || null
-                            },
+                            requestActual = $.ajax({
+                                url: rutasReportes[reporte], type: 'GET',
 
-                            success: function (respuesta) { callback({ data: respuesta.datos }); }
-                        });
-                    },
+                                data: {
+                                    fecha_inicio: $fechaInicio.val(),
+                                    fecha_fin: $fechaFin.val(),
+                                    limite: $limite.val() || null
+                                },
 
-                    /* CONFIGURAR FILTROS */
-                    initComplete: function () {
+                                success: function (respuesta) { callback({ data: respuesta.datos }); }
+                            });
+                        },
 
-                        ConfigurarFiltrosDataTable(
-                            tablaReportes,
-                            configuracionFiltros[reporte] || {}
-                        );
-                    },
-                    columns: respuesta.columnas.map(c => ({ data: c.data, title: c.title, defaultContent: "" })),
-                    pageLength: 20, dom: 'Bt', buttons: generarBotones(reporte), 
-                    columnDefs: [ { targets: "_all", defaultContent: "" } ]
-                    
+                        /* CONFIGURAR FILTROS */
+                        initComplete: function () {
 
-                });
+                            ConfigurarFiltrosDataTable(
+                                tablaReportes,
+                                configuracionFiltros[reporte] || {}
+                            );
+                        },
+                        columns: respuesta.columnas.map(c => ({ data: c.data, title: c.title, defaultContent: "" })),
+                        pageLength: 20, dom: 'Bt', buttons: generarBotones(reporte), 
+                        columnDefs: [ { targets: "_all", defaultContent: "" } ]
+                        
+
+                    });
+
+                }, 0);
 
             },
 
@@ -215,9 +228,12 @@ $(document).ready(function () {
 
     function destruirTabla() {
 
-        if (tablaReportes) { tablaReportes.clear(); tablaReportes.destroy(); tablaReportes = null; }
-        $('#Reportes').empty(); $('#Reportes thead').empty(); $('#Reportes tbody').empty();
+        if ($.fn.DataTable.isDataTable('#Reportes')) {
+            $('#Reportes').DataTable().clear().destroy();
+        }
 
+        $('#Reportes').off(); // 🔥 elimina eventos colgados
+        $('#Reportes').empty();
     }
 
     /* FUNCION UTILITARIA */
