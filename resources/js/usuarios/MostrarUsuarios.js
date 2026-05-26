@@ -163,7 +163,7 @@ $(document).ready(function () {
         const password = $('#editar_password_usuario').val().trim();
         const id = $('#editar_id_usuario').val();
 
-        if(nombre === '' || cedula === '' || usuario === '' || !rol){
+        if(nombre === '' || usuario === '' || !rol){
             mostrarToast('Todos los campos son obligatorios (excepto contraseña)', 'danger');
             return;
         }

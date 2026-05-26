@@ -40,45 +40,13 @@ $(document).ready(function () {
             return;
         }
 
-        // Validar que seleccionó tipo
-        if(tipo === "" || tipo === null){
-            mostrarToast('Seleccione el tipo de proveedor', 'danger');
-            return;
-        }
-
-        if(!/^[0-9+()]+$/.test(telefono)){
-            mostrarToast('El teléfono solo puede contener números y los símbolos + ( )', 'danger');
-            return false;
-        }
-
-        // evitar doble +
-        if((telefono.match(/\+/g) || []).length > 1){
-            mostrarToast('El signo + solo puede aparecer una vez', 'danger');
-            return false;
-        }
-
-        // evitar más de un (
-        if((telefono.match(/\(/g) || []).length > 1){
-            mostrarToast('Solo se permite un paréntesis de apertura', 'danger');
-            return false;
-        }
-
-        // evitar más de un )
-        if((telefono.match(/\)/g) || []).length > 1){
-            mostrarToast('Solo se permite un paréntesis de cierre', 'danger');
-            return false;
-        }
-
-        // evitar parentesis mal ordenados
-        if(telefono.indexOf(')') < telefono.indexOf('(')){
-            mostrarToast('Los paréntesis están en orden incorrecto', 'danger');
-            return false;
-        }
+        if(tipo === "" || tipo === null){ mostrarToast('Seleccione el tipo de proveedor', 'danger'); return; }
+        if (!validarTelefono(telefono)) { return; }
 
         // Validación del RUC
         if(ruc !== ''){
 
-            if(ruc.length < 14){
+            if(ruc.length !== 14){
                 mostrarToast('El RUC debe tener al menos 14 caracteres', 'danger');
                 return false;
             }

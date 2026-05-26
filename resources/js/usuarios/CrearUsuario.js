@@ -1,6 +1,7 @@
 
 // FORMATEAR CÉDULA
 function formatearCedula(inputId) {
+    
     const cedula = document.getElementById(inputId);
     if (!cedula) return;
 

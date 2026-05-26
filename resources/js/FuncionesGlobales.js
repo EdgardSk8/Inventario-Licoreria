@@ -74,6 +74,105 @@ $.extend(true, $.fn.dataTable.defaults, {
     dom: '<"top"lf>rt<"bottom"ip><"clear">',
 });
 
+window.validarRUC = function(ruc) {
+
+    if (!ruc || ruc.trim() === '') { return true; }
+
+    ruc = ruc.trim().toUpperCase();
+
+    const regex = /^[A-Z][0-9]{13}$/;
+
+    if (!regex.test(ruc)) {
+
+        mostrarToast(
+            'El RUC debe tener una letra inicial y 13 números',
+            'danger'
+        );
+
+        return false;
+    }
+
+    return true;
+}
+
+window.validarTelefono = function (telefono, obligatorio = false) {
+
+    telefono = (telefono || '').trim();
+
+    /* VALIDAR VACIO */
+
+    if (telefono === '') {
+
+        if (obligatorio) {
+
+            mostrarToast('El teléfono es obligatorio', 'danger');
+            return false;
+        }
+
+        return true;
+    }
+
+    /* SOLO CARACTERES VALIDOS */
+
+    if (!/^[0-9+()]+$/.test(telefono)) {
+
+        mostrarToast('El teléfono solo puede contener números y los símbolos + ( )', 'danger');
+        return false;
+    }
+
+    /* SOLO UN + */
+
+    if ((telefono.match(/\+/g) || []).length > 1) {
+
+        mostrarToast('El signo + solo puede aparecer una vez', 'danger');
+        return false;
+    }
+
+    /* + SOLO AL INICIO */
+
+    if (telefono.includes('+') && !telefono.startsWith('+')) {
+
+        mostrarToast('El signo + solo puede ir al inicio', 'danger');
+        return false;
+    }
+
+    /* SOLO UN ( */
+
+    if ((telefono.match(/\(/g) || []).length > 1) {
+
+        mostrarToast('Solo se permite un paréntesis de apertura', 'danger');
+        return false;
+    }
+
+    /* SOLO UN ) */
+
+    if ((telefono.match(/\)/g) || []).length > 1) {
+
+        mostrarToast('Solo se permite un paréntesis de cierre', 'danger');
+        return false;
+    }
+
+    const tieneApertura = telefono.includes('(');
+    const tieneCierre = telefono.includes(')');
+
+    /* PARENTESIS INCOMPLETOS */
+
+    if (tieneApertura !== tieneCierre) {
+
+        mostrarToast('Los paréntesis deben abrirse y cerrarse correctamente', 'danger');
+        return false;
+    }
+
+    /* ORDEN INCORRECTO */
+
+    if (tieneCierre && telefono.indexOf(')') < telefono.indexOf('(')) {
+
+        mostrarToast('Los paréntesis están en orden incorrecto', 'danger');
+        return false;
+    }
+
+    return true;
+};
 
 /* -------------------------------------------------------------------------------- */
 

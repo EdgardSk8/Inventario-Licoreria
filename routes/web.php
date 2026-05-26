@@ -238,7 +238,7 @@ Route::get('/cuenta/{id}/editar', [CuentaController::class, 'EditarCuenta'])->mi
 Route::put('/cuenta/{id}/actualizar', [CuentaController::class, 'ActualizarCuenta'])->middleware('permiso:actualizar_cuentas');
 Route::post('/cuenta/cambiar-estado/{id}', [CuentaController::class, 'CambiarEstadoCuenta'])->middleware('permiso:cambiar_estado_cuentas');
 Route::post('/cuenta/transferir', [CuentaController::class, 'TransferirEntreCuentas'])->middleware('permiso:transferir_cuentas');
-Route::post('/cuenta/movimiento', [CuentaController::class, 'MovimientoCuenta']) ->middleware('permiso:movimiento_cuentas');
+Route::post('/cuenta/movimiento', [CuentaController::class, 'MovimientoCuenta']);// ->middleware('permiso:movimiento_cuentas');
 
 Route::get('/cuenta/mostrarselector', [CuentaController::class, 'MostrarCuentasSelector']);
 

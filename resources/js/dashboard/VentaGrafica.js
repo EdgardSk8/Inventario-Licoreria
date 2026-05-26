@@ -158,35 +158,12 @@ $(document).ready(function () {
 
         if (!kpis) return;
 
-        document.getElementById('kpi-total-ventas')
-            .innerText = Number(kpis.total_ventas ?? 0).toLocaleString('es-NI');
-
-        document.getElementById('kpi-ingresos-venta')
-            .innerText = `C$ ${Number(kpis.ingresos ?? 0).toLocaleString('es-NI', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}`;
-
-        document.getElementById('kpi-unidades-vendidas')
-            .innerText = Number(kpis.unidades_vendidas ?? 0).toLocaleString('es-NI');
-
-        document.getElementById('kpi-promedio-venta')
-            .innerText = `C$ ${Number(kpis.promedio_venta ?? 0).toLocaleString('es-NI', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}`;
-
-        document.getElementById('kpi-venta-maxima')
-            .innerText = `C$ ${Number(kpis.venta_maxima ?? 0).toLocaleString('es-NI', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}`;
-
-        document.getElementById('kpi-impuestos')
-            .innerText = `C$ ${Number(kpis.impuestos ?? 0).toLocaleString('es-NI', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}`;
+        document.getElementById('kpi-total-ventas').innerText = Number(kpis.total_ventas ?? 0).toLocaleString('es-NI');
+        document.getElementById('kpi-ingresos-venta').innerText = moneda(kpis.ingresos);
+        document.getElementById('kpi-unidades-vendidas').innerText = Number(kpis.unidades_vendidas ?? 0).toLocaleString('es-NI');
+        document.getElementById('kpi-promedio-venta').innerText = moneda(kpis.promedio_venta);
+        document.getElementById('kpi-venta-maxima').innerText = moneda(kpis.venta_maxima);
+        document.getElementById('kpi-impuestos') .innerText = moneda(kpis.impuestos);
     }
 
     /* ═════════════════ [RENDER GRAFICA] ═════════════════ */
@@ -268,29 +245,18 @@ $(document).ready(function () {
                         callbacks: {
                             
                             title: function(context) {
-
                                 const item = datos[context[0].dataIndex];
-
                                 return formatearFechaDashboard(item.label);
                             },
 
                             label: function (context) {
 
                                 const item = datos[context.dataIndex];
-
                                 const total = Number(item.total ?? 0);
+                                const cantidad = Number( item.cantidad ?? item.ventas ?? 0 );
 
-                                const cantidad = Number(
-                                    item.cantidad ??
-                                    item.ventas ??
-                                    0
-                                );
-
-                                if (context.datasetIndex === 0) {
-                                    return ` Ingresos: C$ ${total.toFixed(2)}`;
-                                }
-
-                                return ` Ventas: ${cantidad}`;
+                                if (context.datasetIndex === 0) { return `Ingresos: ${moneda(total)}`;}
+                                return `Ventas: ${cantidad.toLocaleString('es-NI')}`;
                             }
                         }
                     }

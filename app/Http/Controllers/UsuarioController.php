@@ -38,7 +38,7 @@ class UsuarioController extends Controller
                 ],
 
                 'cedula_identidad_usuario' => [
-                    'required',
+                    
                     'regex:/^[0-9]{3}-[0-9]{6}-[0-9]{4}[A-Z]{1}$/',
                     'unique:usuarios,cedula_identidad_usuario'
                 ],
@@ -169,7 +169,6 @@ class UsuarioController extends Controller
                     ],
 
                     'cedula_identidad_usuario' => [
-                        'required',
                         'regex:/^[0-9]{3}-[0-9]{6}-[0-9]{4}[A-Z]{1}$/',
                         "unique:usuarios,cedula_identidad_usuario,$id,id_usuario"
                     ],

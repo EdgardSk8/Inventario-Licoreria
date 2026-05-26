@@ -117,33 +117,12 @@ $(document).ready(function () {
 
         if (!kpis) return;
 
-        document.getElementById('kpi-ganancia-total')
-            .innerText = `C$ ${Number(kpis.ganancia_total ?? 0).toLocaleString('es-NI', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}`;
-
-        document.getElementById('kpi-ingresos')
-            .innerText = `C$ ${Number(kpis.ingresos ?? 0).toLocaleString('es-NI', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}`;
-
-        /* 💰 ganancia por unidad (NO porcentaje) */
-        document.getElementById('kpi-ganancia-unidad')
-            .innerText = `C$ ${Number(kpis.ganancia_por_unidad ?? 0).toLocaleString('es-NI', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}`;
-
-        /* 📊 margen real % */
-        document.getElementById('kpi-margen-venta')
-            .innerText = `${Number(kpis.margen_por_venta ?? 0).toFixed(2)}%`;
-
-        /* 🧾 ventas totales */
-        document.getElementById('kpi-ventas-totales')
-            .innerText = `${Number(kpis.ventas_totales ?? 0)}`;
-    }
+            document.getElementById('kpi-ganancia-total').innerText = moneda(kpis.ganancia_total ?? 0);
+            document.getElementById('kpi-ingresos').innerText = moneda(kpis.ingresos ?? 0);
+            document.getElementById('kpi-ganancia-unidad').innerText = moneda(kpis.ganancia_por_unidad ?? 0);
+            document.getElementById('kpi-margen-venta').innerText = `${Number(kpis.margen_por_venta ?? 0).toFixed(2)}%`;
+            document.getElementById('kpi-ventas-totales').innerText = Number(kpis.ventas_totales ?? 0).toLocaleString('es-NI');
+        }
 
     /* ═════════════════ [RENDER GRAFICA] ═════════════════ */
 
@@ -202,19 +181,14 @@ $(document).ready(function () {
                         callbacks: {
 
                             title: function(context) {
-
                                 const item = datos[context[0].dataIndex];
-
                                 return formatearFechaDashboard(item.label);
                             },
 
                             label: function (context) {
-
                                 const item = datos[context.dataIndex];
-
                                 const ganancia = Number(item.ganancia ?? 0);
-
-                                return ` Ganancia: C$ ${ganancia.toFixed(2)}`;
+                                return `Ganancia: ${moneda(ganancia)}`;
                             }
                         }
                     }

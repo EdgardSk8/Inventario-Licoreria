@@ -21,7 +21,7 @@ $(document).on('click', '.detalle-compra', function () {
                 .html('<i class="bi bi-x-circle me-1"></i> Anular Factura');
         }
 
-        $('#facturaTituloCompra').text(`Factura: ${compra.numero_factura_compra}`);
+        $('#facturaTituloCompra').text(`Factura: ${compra.numero_factura_compra ?? 'Sin Numero de Factura' }`);
         $('#proveedorNombre').text(compra.proveedor?.nombre_proveedor ?? '—');
         $('#usuarioNombreCompra').text(compra.usuario?.nombre_usuario ?? '—');
         $('#fechaCompra').text(compra.fecha_compra);

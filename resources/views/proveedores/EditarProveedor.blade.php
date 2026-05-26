@@ -89,8 +89,8 @@
       <div class="modal-footer d-flex align-items-center justify-content-between">
 
         <div class="text-start">
-          <div><strong>RUC máximo:</strong> 14 caracteres</div>
-          <div><strong>Teléfono máximo:</strong> 8 caracteres</div>
+          <div><strong>Formato RUC:</strong> J000000000000K</div>
+          <div><strong>Teléfono:</strong> 00000000</div>
         </div>
 
         <div>

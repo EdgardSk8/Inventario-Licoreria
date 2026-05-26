@@ -338,7 +338,7 @@ $(document).ready(function () {
 
 /* ═══════ variable global segura ═══════ */
 
-    window.procesandoMovimiento = window.procesandoMovimiento || false;
+    //window.procesandoMovimiento = window.procesandoMovimiento || false;
 
     $(document)
     .off('click', '#btnGuardarMovimiento')
@@ -346,9 +346,9 @@ $(document).ready(function () {
 
         const btn = $(this);
 
-        if (window.procesandoMovimiento || btn.prop('disabled')) return; // Evitar doble click
+        //if (window.procesandoMovimiento || btn.prop('disabled')) return; // Evitar doble click
 
-        window.procesandoMovimiento = true;
+        //window.procesandoMovimiento = true;
 
         const data = {
             id_cuenta: $('#movimiento_id_cuenta').val(),

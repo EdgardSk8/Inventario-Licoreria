@@ -211,6 +211,7 @@ $(document).ready(function () {
 
         $('#clientes').val('1').trigger('change');
         $('#metodo_pago').val('1').trigger('change');
+        $('#btnFacturar').css({ background: '#198754', border: '1px solid #198754' }).text('Facturar');
 
         imprimirFacturaActivo = false;
         imprimirProformaActivo = false;

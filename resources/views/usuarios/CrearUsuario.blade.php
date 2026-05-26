@@ -22,7 +22,7 @@
 
           <div class="col-md-2">
             <label class="form-label">Cédula</label>
-            <input type="text" id="crear_cedula_usuario" class="form-control form-control-sm" maxlength="16" placeholder="000-000000-0000A" required>
+            <input type="text" id="crear_cedula_usuario" class="form-control form-control-sm" maxlength="16" placeholder="000-000000-0000A">
           </div>
 
           <div class="col-md-2">
