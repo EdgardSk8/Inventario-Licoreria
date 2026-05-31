@@ -14,21 +14,26 @@ class rolesSeeder extends Seeder
      */
     public function run()
     {
-         DB::table('roles')->insert([
+        DB::table('roles')->insert([
             [
-                'nombre_rol' => 'Administrador'
+                'nombre_rol' => 'Administrador',
+                'descripcion_rol' => 'Acceso total al sistema, configuración, usuarios, reportes y control general.'
             ],
             [
-                'nombre_rol' => 'Cajero'
+                'nombre_rol' => 'Cajero',
+                'descripcion_rol' => 'Encargado de realizar ventas, cobros, apertura y cierre de caja.'
             ],
             [
-                'nombre_rol' => 'Bodeguero'
+                'nombre_rol' => 'Bodeguero',
+                'descripcion_rol' => 'Responsable del inventario, entradas, salidas y control de productos.'
             ],
             [
-                'nombre_rol' => 'Supervisor'
+                'nombre_rol' => 'Supervisor',
+                'descripcion_rol' => 'Supervisa operaciones, revisa movimientos y valida procesos del sistema.'
             ],
             [
-                'nombre_rol' => 'Contador'
+                'nombre_rol' => 'Contador',
+                'descripcion_rol' => 'Gestiona gastos, cuentas, reportes financieros e información contable.'
             ],
         ]);
 

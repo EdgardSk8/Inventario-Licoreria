@@ -31,7 +31,13 @@ $(document).ready(function () {
                 }
             },
 
-            { data: 'fecha_creacion_impuesto' },
+            {
+                data: 'fecha_creacion_impuesto',
+                render: function (data, type, row) {
+                    return formatearFechaDia(data);
+                }
+            },
+                
 
             { 
                 data: 'estado_impuesto',

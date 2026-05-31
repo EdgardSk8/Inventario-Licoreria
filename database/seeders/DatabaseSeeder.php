@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             //categoriaSeeder::class,
             impuestosSeeder::class,
             metodos_pagoSeeder::class,
-            tipo_gastoSeeder::class,
+            //tipo_gastoSeeder::class,
 
             // 👥 Terceros
             proveedoresSeeder::class,

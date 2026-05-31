@@ -64,13 +64,13 @@
           <!-- % venta -->
           <div class="col-md-1">
             <label class="form-label">% Venta</label>
-            <input type="number" id="crear_porcentaje_venta" placeholder="25" class="form-control form-control-sm" step="0.1">
+            <input type="number" id="crear_porcentaje_venta" placeholder="25" class="form-control form-control-sm" min="0" step="0.1">
           </div>
 
           <!-- Precio venta -->
           <div class="col-md-1">
             <label class="form-label">P. Venta</label>
-            <input type="number" id="crear_precio_venta" placeholder="126" class="form-control form-control-sm" step="0.01" required>
+            <input type="number" id="crear_precio_venta" placeholder="126" class="form-control form-control-sm" min="0" step="0.01" required>
           </div>
 
           <!-- Precio total -->

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Producto;
 use Intervention\Image\Facades\Image;
 
+
 class ProductoController extends Controller
 {
 
@@ -36,7 +37,7 @@ class ProductoController extends Controller
 
                     'id_categoria' => 'required|exists:categoria,id_categoria',
                     'id_impuesto' => 'required|exists:impuestos,id_impuesto',
-                    'id_ubicacion' => 'nullable|exists:ubicaciones,id_ubicacion', // 👈 CAMBIO
+                    'id_ubicacion' => 'nullable|exists:ubicaciones,id_ubicacion',
 
                     'precio_compra' => 'nullable|numeric|min:0',
                     'precio_venta' => 'nullable|numeric|min:0',
@@ -57,43 +58,27 @@ class ProductoController extends Controller
                 ], 422);
             }
 
-                    // 📁 Ruta donde se guardan las imágenes
         $ruta = public_path('imagenes/productos');
 
-        // 🔥 Crear carpeta si no existe
-        if (!File::exists($ruta)) {
-            File::makeDirectory($ruta, 0777, true);
-        }
+        if (!File::exists($ruta)) { File::makeDirectory($ruta, 0777, true); }
 
         $nombreImagen = null;
 
         if ($request->hasFile('imagen_producto')) {
 
-            // Crear carpeta si no existe
-            if (!file_exists($ruta)) {
-                mkdir($ruta, 0777, true);
-            }
-
+            if (!file_exists($ruta)) { mkdir($ruta, 0777, true); }
             $archivo = $request->file('imagen_producto');
-
-            // Buscar siguiente número disponible
             $contador = 1;
 
             do {
-
-                // SIEMPRE PNG
                 $nombreImagen = 'ImagenProducto' . $contador . '.png';
-
-                $rutaCompleta = public_path($ruta . '/' . $nombreImagen);
-
+                //$rutaCompleta = public_path($ruta . '/' . $nombreImagen);
+                $rutaCompleta = $ruta . '/' . $nombreImagen;
                 $contador++;
 
             } while (file_exists($rutaCompleta));
 
-            // Convertir a PNG
             $imagen = Image::make($archivo)->encode('png', 100);
-
-            // Guardar imagen
             $imagen->save($rutaCompleta);
         }
 

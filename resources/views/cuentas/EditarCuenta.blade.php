@@ -28,29 +28,35 @@
               required>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-2">
               <label class="form-label">Tipo de Cuenta</label>
               <select id="editar_tipo_cuenta"
                   class="form-select form-select-sm"
                   required>
                   
-                  <option value="CAJA">Caja</option>
-                  <option value="BANCARIA">Bancaria</option>
-                  <option value="TARJETA">Tarjeta</option>
-                  <option value="CREDITO">Crédito</option>
-                  <option value="AHORRO">Ahorro</option>
-                  <option value="DIGITAL">Digital</option>
+                  <option value="CAJA">
+                    Caja
+                </option>
 
-                  <option value="INVENTARIO">Inventario</option>
-                  <option value="INGRESOS">Ingresos</option>
-                  <option value="GASTOS">Gastos</option>
+                <option value="PAGOS">
+                    Pagos
+                </option>
 
-                  <option value="CUENTAS POR COBRAR">Cuentas por Cobrar</option>
-                  <option value="CUENTAS POR PAGAR">Cuentas por Pagar</option>
+                <option value="GASTOS">
+                    Gastos
+                </option>
 
-                  <option value="IMPUESTOS">Impuestos</option>
-                  <option value="CAPITAL">Capital</option>
-                  <option value="RETIROS">Retiros</option>
+                <option value="IMPUESTOS">
+                    Impuestos
+                </option>
+
+                <option value="AHORRO">
+                    Ahorro
+                </option>
+
+                <option value="RESERVA">
+                    Reserva
+                </option>
                   
               </select>
           </div>
@@ -91,7 +97,7 @@
 
         <div class="text-start">
           <div><strong>Nombre máximo:</strong> 100 caracteres</div>
-          <div><strong>Saldo:</strong> Solo valores positivos</div>
+          <div><strong>Saldo:</strong> Moneda Cordoba</div>
         </div>
 
         <div>

@@ -367,6 +367,7 @@ $(document).ready(function () {
     $('#btnRegistrar').click(function () {
 
         let data = {
+            numero_factura: $('#numero_factura').val(),
             proveedor: $('#proveedor').val(),
             tipo_factura: $('#tipo_factura').val(),
             metodo_pago: $('#metodo_pago').val(),
@@ -380,7 +381,7 @@ $(document).ready(function () {
         if (!data.proveedor) return mostrarToast('Seleccione proveedor', 'danger');
         if (carrito.length === 0) return mostrarToast('Agregue productos', 'danger');
 
-                if (!data.caja && !data.cuenta) {
+            if (!data.caja && !data.cuenta) {
             return mostrarToast('Seleccione caja o cuenta', 'danger');
         }
 

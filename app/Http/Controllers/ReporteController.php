@@ -1074,7 +1074,7 @@ class ReporteController extends Controller
                     ['data' => 'telefono_cliente', 'title' => 'Teléfono'],
                     ['data' => 'correo_cliente', 'title' => 'Correo'],
                     ['data' => 'estado_cliente', 'title' => 'Estado'],
-                    ['data' => 'compras_realizadas', 'title' => 'Com'],
+                    ['data' => 'compras_realizadas', 'title' => '# Compras'],
                     ['data' => 'total_gastado', 'title' => 'Total Gastado'],
                     ['data' => 'ticket_promedio', 'title' => 'Gasto Prom'],
                     ['data' => 'metodo_pago_favorito', 'title' => 'Método Favorito'],
