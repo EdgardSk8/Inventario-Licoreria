@@ -12,9 +12,7 @@ $(document).ready(function () {
         }
     );
 
-    $('#toggleInactivosProveedores').on('change', function() {
-        tabla.draw();
-    });
+    $('#toggleInactivosProveedores').on('change', function() { tabla.draw(); });
 
     // Inicializar DataTable
     const tabla = $('#tablaProveedores').DataTable({autoWidth: false,
@@ -87,15 +85,13 @@ $(document).ready(function () {
 
     });
 
-      $('.toggle-col').on('change', function () {
+    $('.toggle-col').on('change', function () {
         let column = $('#tablaProveedores').DataTable().column($(this).data('column'));
         column.visible(this.checked);
     });
 
-    // Click botón editar
     $('#tablaProveedores').on('click', '.editarProveedor', function(){
-        const id = $(this).data('id');
-        abrirModalEditar(id);
+        const id = $(this).data('id'); abrirModalEditar(id);
     });
 
     // Abrir modal editar
@@ -114,39 +110,17 @@ $(document).ready(function () {
             $('#editar_estado_proveedor').val(proveedor.estado_proveedor);
 
             if(proveedor.fecha_creacion_proveedor){
-                $('#editar_fecha_creacion_proveedor').val(
-                    proveedor.fecha_creacion_proveedor.replace(' ', 'T')
-                );
+                $('#editar_fecha_creacion_proveedor').val( proveedor.fecha_creacion_proveedor.replace(' ', 'T') );
             }
 
-            const modal = new bootstrap.Modal(
-                document.getElementById("modalEditarProveedor")
-            );
-
+            const modal = new bootstrap.Modal( document.getElementById("modalEditarProveedor") );
             modal.show();
 
         });
 
     }
 
-$('#editar_ruc_proveedor').on('input', function () {
-
-    let valor = $(this).val().toUpperCase();
-
-    valor = valor.replace(/[^A-Z0-9]/g, '');
-
-    let resultado = '';
-
-    if (/^[A-Z]/.test(valor)) {
-
-        resultado += valor.charAt(0);
-        let resto = valor.slice(1).replace(/[^0-9]/g, '');
-        resultado += resto.slice(0, 13);
-    }
-
-    $(this).val(resultado);
-
-});
+    $('#editar_ruc_proveedor').on('input', function () { validarInputRUC(this); });
 
     // Actualizar proveedor
     $('#btnActualizarProveedor').click(function(){

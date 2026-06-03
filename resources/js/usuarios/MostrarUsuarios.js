@@ -131,26 +131,7 @@ $(document).ready(function () {
             .catch(err => console.error("Error al cargar roles:", err));
     }
 
-    function formatearCedula(inputId) {
-        const cedula = document.getElementById(inputId);
-        if (!cedula) return;
-
-        cedula.addEventListener("input", function () {
-            let valor = this.value.replace(/[^0-9a-zA-Z]/g, "");
-
-            let numeros = valor.slice(0, 13).replace(/[^0-9]/g, "");
-            let letra = valor.slice(13, 14).replace(/[^a-zA-Z]/g, "").toUpperCase();
-
-            valor = numeros + letra;
-
-            if (valor.length > 3) valor = valor.slice(0, 3) + "-" + valor.slice(3);
-            if (valor.length > 10) valor = valor.slice(0, 10) + "-" + valor.slice(10);
-
-            this.value = valor;
-        });
-    }
-
-    formatearCedula("editar_cedula_usuario")
+    formatearCedula("editar_cedula_usuario");
 
     // Actualizar usuario
     $('#btnActualizarUsuario').click(function() {

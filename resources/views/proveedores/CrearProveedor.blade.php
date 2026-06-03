@@ -25,7 +25,7 @@
                 <label class="form-label">Tipo de Proveedor</label>
                 <select id="tipo_ruc" class="form-select form-select-sm">
                     <option value="" disabled selected>Seleccionar</option>
-                    <option value="natural">Natural nacional (cédula)</option>
+                    <!-- <option value="natural">Natural nacional (cédula)</option> -->
                     <option value="N">Natural sin cédula</option>
                     <option value="R">Extranjero residente</option>
                     <option value="E">Extranjero no residente</option>

@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    formatearCedula("crear_cedula_cliente");
+    $('#crear_ruc_cliente').on('input', function () { validarInputRUC(this); });
+
     // Click en botón Crear Cliente
     $('#btnGuardarCliente').click(function() {
 

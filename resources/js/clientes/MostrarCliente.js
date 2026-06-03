@@ -84,6 +84,9 @@ $(document).ready(function () {
     // Click botón editar
     $('#tablaClientes').on('click', '.editarCliente', function(){const id = $(this).data('id');abrirModalEditar(id);});
 
+    formatearCedula("editar_cedula_cliente");
+    $('#editar_ruc_cliente').on('input', function () { validarInputRUC(this); });
+    
     // Abrir modal editar cliente
     function abrirModalEditar(id) {
 

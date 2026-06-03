@@ -3,29 +3,8 @@ $(document).ready(function () {
     const inputRUC = $('#crear_ruc_proveedor');
     const selectorTipo = $('#tipo_ruc');
 
-    // Habilitar RUC al seleccionar tipo
-    selectorTipo.change(function(){
+    $('#crear_ruc_proveedor').on('input', function () { validarInputRUC(this); });
 
-        const tipo = $(this).val();
-
-        if(tipo === ""){
-            inputRUC.prop('disabled', true);
-            inputRUC.val('');
-            return;
-        }
-
-        inputRUC.prop('disabled', false);
-        inputRUC.val('');
-
-        // Prefijo automático
-        if(tipo === "N" || tipo === "R" || tipo === "E" || tipo === "J"){
-            inputRUC.val(tipo);
-        }
-
-    });
-
-
-    // Click en botón Crear Proveedor
     $('#btnGuardarProveedor').click(function() {
 
         const tipo = $('#tipo_ruc').val();
@@ -35,56 +14,23 @@ $(document).ready(function () {
         const correo = $('#crear_correo_proveedor').val().trim();
         const direccion = $('#crear_direccion_proveedor').val().trim();
 
-        if(nombre === '') {
-            mostrarToast('El nombre del proveedor es obligatorio', 'danger');
-            return;
-        }
-
+        if(nombre === '') { mostrarToast('El nombre del proveedor es obligatorio', 'danger'); return; }
         if(tipo === "" || tipo === null){ mostrarToast('Seleccione el tipo de proveedor', 'danger'); return; }
         if (!validarTelefono(telefono)) { return; }
 
-        // Validación del RUC
         if(ruc !== ''){
 
-            if(ruc.length !== 14){
-                mostrarToast('El RUC debe tener al menos 14 caracteres', 'danger');
-                return false;
-            }
+            // if(tipo === "natural"){
+            //     if(!/^[0-9]{13}[A-Z]$/.test(ruc)){
+            //         mostrarToast('El RUC natural debe tener 13 números y una letra final', 'danger'); return;
+            //     }
+            // }
 
-            if(tipo === "natural"){
-                if(!/^[0-9]{13}[A-Z]$/.test(ruc)){
-                    mostrarToast('El RUC natural debe tener 13 números y una letra final', 'danger');
-                    return;
-                }
-            }
-
-            if(tipo === "N"){
-                if(!/^N[0-9]{13}$/.test(ruc)){
-                    mostrarToast('El RUC debe iniciar con N', 'danger');
-                    return;
-                }
-            }
-
-            if(tipo === "R"){
-                if(!/^R[0-9]{13}$/.test(ruc)){
-                    mostrarToast('El RUC debe iniciar con R', 'danger');
-                    return;
-                }
-            }
-
-            if(tipo === "E"){
-                if(!/^E[0-9]{13}$/.test(ruc)){
-                    mostrarToast('El RUC debe iniciar con E', 'danger');
-                    return;
-                }
-            }
-
-            if(tipo === "J"){
-                if(!/^J[0-9]{13}$/.test(ruc)){
-                    mostrarToast('El RUC debe iniciar con J', 'danger');
-                    return;
-                }
-            }
+            if(ruc.length !== 14){ mostrarToast('El RUC debe tener al menos 14 caracteres', 'danger'); return false; }
+            if(tipo === "N"){ if(!/^N[0-9]{13}$/.test(ruc)){ mostrarToast('El RUC debe iniciar con N', 'danger'); return; } }
+            if(tipo === "R"){ if(!/^R[0-9]{13}$/.test(ruc)){ mostrarToast('El RUC debe iniciar con R', 'danger'); return; } }
+            if(tipo === "E"){ if(!/^E[0-9]{13}$/.test(ruc)){ mostrarToast('El RUC debe iniciar con E', 'danger'); return; } }
+            if(tipo === "J"){ if(!/^J[0-9]{13}$/.test(ruc)){ mostrarToast('El RUC debe iniciar con J', 'danger'); return; } }
 
         }
 
@@ -154,12 +100,17 @@ $(document).ready(function () {
 
     });
 
-
-    // Limpiar formulario al cerrar modal
     $('#modalCrearProveedor').on('hidden.bs.modal', function () {
+        $('#formCrearProveedor')[0].reset(); inputRUC.prop('disabled', true);
+    });
 
-        $('#formCrearProveedor')[0].reset();
-        inputRUC.prop('disabled', true);
+    selectorTipo.change(function(){
+
+        const tipo = $(this).val();
+        if(tipo === ""){ inputRUC.prop('disabled', true); inputRUC.val(''); return; }
+        inputRUC.prop('disabled', false);
+        inputRUC.val('');
+        if(tipo === "N" || tipo === "R" || tipo === "E" || tipo === "J"){ inputRUC.val(tipo); }
 
     });
 

@@ -35,7 +35,7 @@
               type="text"
               id="editar_cedula_cliente"
               class="form-control form-control-sm"
-               placeholder="Cédula del Cliente"
+              placeholder="000-000000-0000A"
               maxlength="16">
           </div>
 
@@ -106,7 +106,7 @@
 
         <div class="text-start">
           <div><strong>El nombre solo puede contener letras</strong></div>
-          <div><strong>Número de Cédula :</strong> 16 caracteres</div>
+          <div><strong>Formato cédula:</strong> 000-000000-0000A</div>
           <div><strong>RUC máximo:</strong> 20 caracteres</div>
         </div>
 

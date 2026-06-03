@@ -23,7 +23,7 @@
 
           <div class="col-md-3">
             <label class="form-label">Cédula</label>
-            <input type="text" id="crear_cedula_cliente" placeholder="Cédula del Cliente"
+            <input type="text" id="crear_cedula_cliente" placeholder="000-000000-0000A"
             class="form-control form-control-sm" maxlength="16">
           </div>
 
@@ -58,7 +58,7 @@
       <div class="modal-footer d-flex align-items-center justify-content-between">
 
         <div class="text-start">
-          <div><strong>Cédula máxima:</strong> 16 caracteres</div>
+          <div><strong>Formato cédula:</strong> 000-000000-0000A</div>
           <div><strong>RUC máximo:</strong> 20 caracteres</div>
         </div>
 
